@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { UserListComponent } from './user-list/user-list.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderFormComponent } from './order-form/order-form.component';
+import { HttpClientModule }    from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { OrderFormComponent } from './order-form/order-form.component';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
