@@ -7,18 +7,27 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { OrderListComponent } from './order-list/order-list.component';
+import { AppRoutingModule } from './app-routing.module';
+import { UserListComponent } from './user-list/user-list.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { OrderFormComponent } from './order-form/order-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    OrderListComponent
+    OrderListComponent,
+    UserListComponent,
+    OrderDetailComponent,
+    OrderFormComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

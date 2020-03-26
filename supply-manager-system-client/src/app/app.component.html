@@ -3,10 +3,12 @@
     <mat-icon>explore</mat-icon>
     Supply Manager System (SMS) Client
   </button>
-  <button mat-button href="/sales">Sales</button>
-  <button mat-button href="/purchases">Purchases</button>
-  <button mat-button href="/orders/add">Add Sale</button>
-  <button mat-button href="/orders/add">Add Purchase</button>
+  <button mat-button routerLink="/sales">Sales</button>
+  <button mat-button routerLink="/purchases">Purchases</button>
+  <button mat-button routerLink="/users">Users</button>
+  <button mat-stroked-button routerLink="/orders/add">Add Sale</button>
+  <button mat-stroked-button routerLink="/orders/add">Add Purchase</button>
 </mat-toolbar>
 
-<order-list></order-list>
+<router-outlet></router-outlet>
+
