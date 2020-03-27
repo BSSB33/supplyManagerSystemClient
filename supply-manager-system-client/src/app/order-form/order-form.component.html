@@ -1,23 +1,52 @@
-<h1>Edit order</h1>
-<div *ngIf="order" class="card" style="width: 40rem; margin: 20px;">
-    <div class="card-body"><h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2></div>
+<form #orderForm="ngForm">
+  <div style="margin: 20px;"><h1>Edit order</h1></div>
+  <div *ngIf="order" class="card" style="width: 40rem; margin: 20px;">
+    <div class="card-body">
+      <h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2>
+    </div>
 
     <ul class="list-group list-group-flush">
-      <li class="list-group-item"><label>Product Price: {{order.price | number}} Ft</label></li>
+      <li class="list-group-item">
+        <label>Product Price: 
+          <mat-form-field>
+            <input matInput
+            #price
+            type="text"
+            [(ngModel)]="order.price" 
+            placeholder="Enter Price" 
+            name="prive"
+            aria-describedby="titleHelp"
+            required/>
+        </mat-form-field>
+        <mat-error *ngIf="price.invalid && (price.dirty || price.touched) && price.errors.required">
+          Title is required!
+        </mat-error>
+      </label>
+      </li>
+      <!--Replace with list-->
+      <li class="list-group-item">
+        <label>Product Status: 
+          <input #price [(ngModel)]="order.status" placeholder="Enter Status" name="status"/>
+        </label>
+      </li>
 
-      <li class="list-group-item"><label>Product Status: {{order.status}}</label></li>
-          
+      <!--<li class="list-group-item"><label>Product Status: {{order.status}}</label></li>
+
       <li class="list-group-item"><label>Buyer Company: {{order.buyer.name}}</label></li>
 
       <li class="list-group-item"><label>Buyer Manager: {{order.buyerManager.username}}</label></li>
 
       <li class="list-group-item"><label>Seller Companys: {{order.seller.name}}</label></li>
 
-      <li class="list-group-item"><label>Seller Manager: {{order.sellerManager.username}}</label></li>
+      <li class="list-group-item"><label>Seller Manager: {{order.sellerManager.username}}</label></li>-->
     </ul>
     <div class="card-body">
-        <a [routerLink]="['/orders/edit', order.id]" class="card-link" (click)="save()" >Save Order</a>
+      <a [routerLink]="['/orders/edit', order.id]" class="card-link" (click)="save()">Save Order</a>
+      <button mat-raised-button [disabled]="!orderForm.valid" color="primary" (click)="save()">Save Order</button>
     </div>
   </div>
+
+  
+</form>
 
 <div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
