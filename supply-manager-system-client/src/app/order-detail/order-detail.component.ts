@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { OrderService } from '../services/order.service';
 import { Order } from '../classes/order';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-detail',
@@ -16,7 +17,8 @@ export class OrderDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private location: Location
+    private location: Location,
+    public router: Router
   ) { }
 
   ngOnInit(): void {

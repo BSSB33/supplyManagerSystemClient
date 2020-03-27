@@ -6,6 +6,8 @@ import { OrderFormComponent } from './order-form/order-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LogsComponent } from './logs/logs.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 const routes: Routes = [
   {
@@ -15,13 +17,11 @@ const routes: Routes = [
   },
   {
     path: 'sales',
-    component: OrderListComponent,
-    data: { title: 'Sales Of My Company' }
+    component: OrderListComponent
   },
   {
     path: 'purchases',
-    component: OrderListComponent,
-    data: { title: 'Purchases Of My Company' }
+    component: OrderListComponent
   },
   {
     path: 'orders/add',
@@ -31,9 +31,26 @@ const routes: Routes = [
     path: 'orders/:id',
     component: OrderDetailComponent
   },
+
+  {
+    path: 'orders/:id/edit',
+    component: OrderFormComponent
+  },
   {
     path: 'users',
     component: UserListComponent
+  },
+  {
+    path: '404',
+    component: PageNotFoundComponent
+  },
+  {
+    path: '403',
+    component: ForbiddenComponent
+  },
+  {
+    path: 'logs',
+    component: LogsComponent
   },
   { path: '**', 
     component: PageNotFoundComponent

@@ -1,4 +1,4 @@
-<div *ngIf="order; else forbidden" class="card" style="width: 40rem; margin: 20px;">
+<div *ngIf="order" class="card" style="width: 40rem; margin: 30px;">
 
     <div *ngIf="order.price; else elseBlock0" class="card-body">
         <h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2>
@@ -41,9 +41,4 @@
 
 <ng-template #unassigned>
     <li class="list-group-item"><label>Seller Manager:&nbsp;</label><label class="unassigned"> UNASSIGNED</label></li>
-</ng-template>
-
-<!--TODO: lecserélni FORBIDDEN komponensre-->
-<ng-template #forbidden>
-    <strong style="color: crimson;">FORBIDDEN! - You don't have permission for this Order!</strong>
 </ng-template>
