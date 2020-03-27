@@ -31,14 +31,8 @@ export class OrderDetailComponent implements OnInit {
       .subscribe(order => this.order = order);
   }
 
-  /*save(): void {
-    this.orderService.updateOrder(this.order)
-      .subscribe(() => this.goBack());
-  }*/
-
   goBack(): void {
     this.location.back();
   }
-
 
 }

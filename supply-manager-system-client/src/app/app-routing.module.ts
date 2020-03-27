@@ -33,7 +33,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'orders/:id/edit',
+    path: 'orders/edit/:id',
     component: OrderFormComponent
   },
   {

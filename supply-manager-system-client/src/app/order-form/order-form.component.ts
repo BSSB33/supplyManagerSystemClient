@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { OrderService } from '../services/order.service';
+import { Order } from '../classes/order';
 
 @Component({
   selector: 'app-order-form',
@@ -7,9 +11,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderFormComponent implements OnInit {
 
-  constructor() { }
+  @Input() order: Order;
 
-  ngOnInit(): void {
+  constructor(    
+    private location: Location,
+    private route: ActivatedRoute,
+    private orderService: OrderService) { }
+
+    ngOnInit(): void {
+      this.getOrderById();
+    }
+  
+    getOrderById(): void {
+      const id = +this.route.snapshot.paramMap.get('id');
+      this.orderService.getOrder(id)
+        .subscribe(order => this.order = order);
+    }
+
+    
+  save(): void {
+    this.orderService.updateOrder(this.order)
+      .subscribe(() => this.goBack());
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }

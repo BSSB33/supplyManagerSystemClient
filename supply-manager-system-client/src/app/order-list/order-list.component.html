@@ -1,41 +1,42 @@
-<h2>{{title}}</h2> <!-- add company name of logged in user (if not null)-->
-
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Product Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">Status</th>
-        <th scope="col">Buyer Company</th>
-        <th scope="col">Buyer Manager</th>
-        <th scope="col">Seller Company</th>
-        <th scope="col">Seller Manager</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let order of orders">
-        <th scope="row">{{ order.id }}</th>
-            <td *ngIf="order.buyer; else missing">
-              <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
-            <td *ngIf="order.buyer; else missing">{{order.price | number }} Ft</td>
-            <td *ngIf="order.buyer; else missing">{{order.status}}</td>
-            <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
-            <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
-            <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
-            <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
-            <td><button mat-raised-button color="primary">Edit</button> </td>
-            <td><button mat-raised-button color="primary">Delete</button> </td>
+<div style="margin: 20px;">
+  <h2>{{title}}</h2>
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Status</th>
+          <th scope="col">Buyer Company</th>
+          <th scope="col">Buyer Manager</th>
+          <th scope="col">Seller Company</th>
+          <th scope="col">Seller Manager</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
         </tr>
-    </tbody>
-</table>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <th scope="row">{{ order.id }}</th>
+              <td *ngIf="order.buyer; else missing">
+                <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
+              <td *ngIf="order.buyer; else missing">{{order.price | number }} Ft</td>
+              <td *ngIf="order.buyer; else missing">{{order.status}}</td>
+              <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
+              <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
+              <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
+              <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
+              <td><button mat-raised-button color="primary">Edit</button> </td>
+              <td><button mat-raised-button color="primary">Delete</button> </td>
+          </tr>
+      </tbody>
+  </table>
 
-<ng-template #unassigned>
-    <td><strong style="color: crimson;">UNASSIGNED</strong></td>
-</ng-template>
+  <ng-template #unassigned>
+      <td><strong style="color: crimson;">UNASSIGNED</strong></td>
+  </ng-template>
 
-<ng-template #missing>
-  <td><strong style="color: crimson;">Please Add Value</strong></td>
-</ng-template>
+  <ng-template #missing>
+    <td><strong style="color: crimson;">Please Add Value</strong></td>
+  </ng-template>
+</div>
