@@ -9,6 +9,7 @@ import { OrderService } from '../order.service';
 })
 export class OrderListComponent implements OnInit {
   title = " Of My Company";
+  public unassigned: String = "UNASSIGNED";
 
   orders = [];
 

@@ -1,4 +1,4 @@
 <h2>404 - Page not found </h2>
-<p *ngIf="path">You might want to go to the <a [routerLink]="path">"{{ path }}" page</a></p>
+<p *ngIf="path">You might want to go back to the main page: <a [routerLink]="path">"{{ path }}" page!</a></p>
 
-<button mat-raised-button color="primary">Go back to previous page! </button>
+<button mat-raised-button color="primary" (click)="goBack()">Go back to previous page!</button>
