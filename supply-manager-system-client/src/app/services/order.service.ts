@@ -17,7 +17,8 @@ export class OrderService {
   ) { }
 
   public href: string = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
-  private ordersUrl = 'http://localhost:8080/orders/' + this.href;
+  private sales_purchasesUrl = 'http://localhost:8080/orders/' + this.href;
+  private ordersUrl = 'http://localhost:8080/orders';
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -28,18 +29,41 @@ export class OrderService {
 
   setHref(){
     this.href = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
-    this.ordersUrl = 'http://localhost:8080/orders/' + this.href;
+    this.sales_purchasesUrl = 'http://localhost:8080/orders/' + this.href;
   }
 
   getOrders(): Observable<Order[]> {
     this.setHref();
     console.log(this.href)
-    return this.http.get<Order[]>(this.ordersUrl, this.httpOptions)
+    return this.http.get<Order[]>(this.sales_purchasesUrl, this.httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Orders')),
         catchError(this.handleError<Order[]>('getOrders', []))
       );
   }
+
+    /** GET hero by id. Return `undefined` when id not found */
+    getHeroNo404<Data>(id: number): Observable<Order> {
+      const url = `${this.ordersUrl}/?id=${id}`;
+      return this.http.get<Order[]>(url)
+        .pipe(
+          map(heroes => heroes[0]), // returns a {0|1} element array
+          tap(h => {
+            const outcome = h ? `Fetched` : `Did not find`;
+            this.log(`${outcome} hero id=${id}`);
+          }),
+          catchError(this.handleError<Order>(`getOrder id=${id}`))
+        );
+    }
+  
+    /** GET hero by id. Will 404 if id not found */
+    getOrder(id: number): Observable<Order> {
+      const url = `${this.ordersUrl}/${id}`;
+      return this.http.get<Order>(url, this.httpOptions).pipe(
+        tap(_ => this.log(`Fetched Order ID=${id}`)),
+        catchError(this.handleError<Order>(`getOrder ID=${id}`))
+      );
+    }
 
     /**
    * Handle Http operation that failed.

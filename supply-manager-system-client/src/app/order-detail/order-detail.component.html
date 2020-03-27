@@ -1,1 +1,49 @@
-<p>order-detail works!</p>
+<div *ngIf="order; else forbidden" class="card" style="width: 40rem; margin: 20px;">
+
+    <div *ngIf="order.price; else elseBlock0" class="card-body">
+        <h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2>
+    </div>
+        <ng-template #elseBlock0><div class="card-body"><h2 class="font-weight-bold mb-3">Order:&nbsp;<label>Please Add Product for this order</label></h2></div></ng-template>
+
+    <ul class="list-group list-group-flush">
+      <li *ngIf="order.price; else elseBlock1" class="list-group-item">
+          <label>Product Price: {{order.price | number}} Ft</label></li>
+          <ng-template #elseBlock1><li class="list-group-item"><label>Product Price:&nbsp;</label><label class="unassigned"> Please Add a Price for this order</label></li></ng-template>
+
+      <li *ngIf="order.status; else elseBlock2" class="list-group-item">
+          <label>Product Status: {{order.status}}</label></li>
+          <ng-template #elseBlock2><li class="list-group-item"><label>Product Status:&nbsp;</label><label class="unassigned"> Please Add a Status for this order</label></li></ng-template>
+          
+      <li *ngIf="order.buyer; else elseBlock3" class="list-group-item">
+          <label>Buyer Company: {{order.buyer.name}}</label></li>
+          <ng-template #elseBlock3><li class="list-group-item"><label>Buyer Company:&nbsp;</label><label class="unassigned">Please set buyer company you wish to sell this product</label></li></ng-template>
+
+      <li *ngIf="order.buyerManager; else elseBlock4" class="list-group-item">
+          <label>Buyer Manager: {{order.buyerManager.username}}</label></li>
+          <ng-template #elseBlock4><li class="list-group-item"><label>Buyer Manager:&nbsp;</label><label class="unassigned"> UNASSIGNED</label></li></ng-template>
+
+      <li *ngIf="order.seller; else elseBlock5" class="list-group-item">
+          <label>Seller Companys: {{order.seller.name}}</label></li>
+          <ng-template #elseBlock5><li class="list-group-item"><label>Seller Companys:&nbsp;</label><label class="unassigned"> ISSUE </label></li></ng-template>
+
+      <li *ngIf="order.sellerManager; else elseBlock6" class="list-group-item">
+          <label>Seller Manager: {{order.sellerManager.username}}</label></li>
+        <ng-template #elseBlock6><li class="list-group-item"><label>Seller Manager:&nbsp;</label><label class="unassigned"> UNASSIGNED</label></li></ng-template>
+
+    </ul>
+    <div class="card-body">
+      <a href="#!" class="card-link">Edit Order</a>
+      <a href="#!" class="card-link">Add History</a>
+    </div>
+  </div>
+
+  <div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
+
+<ng-template #unassigned>
+    <li class="list-group-item"><label>Seller Manager:&nbsp;</label><label class="unassigned"> UNASSIGNED</label></li>
+</ng-template>
+
+<!--TODO: lecserélni FORBIDDEN komponensre-->
+<ng-template #forbidden>
+    <strong style="color: crimson;">FORBIDDEN! - You don't have permission for this Order!</strong>
+</ng-template>

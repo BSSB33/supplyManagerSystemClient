@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { OrderService } from '../services/order.service';
+import { Order } from '../classes/order';
 
 @Component({
   selector: 'order-list',
@@ -11,7 +12,7 @@ export class OrderListComponent implements OnInit {
   title = " Of My Company";
   public unassigned: String = "UNASSIGNED";
 
-  orders = [];
+  orders: Order[] = [];
 
   constructor(
     private orderService: OrderService

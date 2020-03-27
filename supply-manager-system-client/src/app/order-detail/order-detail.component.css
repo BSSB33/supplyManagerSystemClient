@@ -1,0 +1,19 @@
+.card-body{
+    color: black;
+}
+
+.list-group-item{
+    color: darkslategray;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.unassigned{
+    color: red;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.backButton{
+    margin-left: 20px;
+}
