@@ -12,6 +12,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderFormComponent } from './order-form/order-form.component';
 import { HttpClientModule }    from '@angular/common/http';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule }    from '@angular/common/http';
     OrderListComponent,
     UserListComponent,
     OrderDetailComponent,
-    OrderFormComponent
+    OrderFormComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

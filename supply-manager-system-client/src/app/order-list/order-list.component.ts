@@ -10,17 +10,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./order-list.component.css']
 })
 export class OrderListComponent implements OnInit {
+  title = " Of My Company";
 
   orders = [];
 
   constructor(
     private userService: UserService,
-    private orderService: OrderService,
-    private http: HttpClient
+    private orderService: OrderService
   ) { }
 
   ngOnInit(): void {
     this.getOrders();
+    this.orderService.href;
+    this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
   }
 
   getOrders(): void {

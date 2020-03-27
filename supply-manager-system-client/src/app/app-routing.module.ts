@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrderListComponent } from './order-list/order-list.component';
 import { OrderFormComponent } from './order-form/order-form.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -13,20 +15,29 @@ const routes: Routes = [
   },
   {
     path: 'sales',
-    component: OrderListComponent
+    component: OrderListComponent,
+    data: { title: 'Sales Of My Company' }
   },
   {
     path: 'purchases',
-    component: OrderListComponent
+    component: OrderListComponent,
+    data: { title: 'Purchases Of My Company' }
   },
   {
     path: 'orders/add',
     component: OrderFormComponent
   },
   {
+    path: 'orders/:id',
+    component: OrderDetailComponent
+  },
+  {
     path: 'users',
     component: UserListComponent
   },
+  { path: '**', 
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({

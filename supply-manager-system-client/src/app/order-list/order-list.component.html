@@ -1,4 +1,4 @@
-<h2>Sales Of My Company</h2> <!-- add company name of logged in user (if not null)-->
+<h2>{{title}}</h2> <!-- add company name of logged in user (if not null)-->
 
 <table class="table">
     <thead>
@@ -15,10 +15,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let order of orders">
-        <th scope="row">  
-          <a [routerLink]="['/orders', order.id]" style="color: azure;">{{ order.id }}</a>
-        </th>
-            <td>{{order.productName | uppercase}}</td>
+        <th scope="row">{{ order.id }}</th>
+            <td><a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
             <td>{{order.price}}</td>
             <td>{{order.status}}</td>
             <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
@@ -31,5 +29,5 @@
 </table>
 
 <ng-template #unassigned>
-    <p>UNASSIGNED</p> <!--BUG-->
+    <p  style="color: crimson;">UNASSIGNED</p>
 </ng-template>
