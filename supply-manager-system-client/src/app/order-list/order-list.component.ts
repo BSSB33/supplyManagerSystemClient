@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
-import { Order } from '../order';
 import { OrderService } from '../order.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'order-list',
@@ -15,7 +13,6 @@ export class OrderListComponent implements OnInit {
   orders = [];
 
   constructor(
-    private userService: UserService,
     private orderService: OrderService
   ) { }
 
