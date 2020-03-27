@@ -54,8 +54,18 @@ export class OrderService {
 
   updateOrder (order: Order): Observable<any> {
     return this.http.put(this.ordersUrl, order, this.httpOptions).pipe(
-      tap(_ => this.log(`updated hero id=${order.id}`)),
+      tap(_ => this.log(`Updated Order ID=${order.id}`)),
       catchError(this.handleError<any>('updateOrder'))
+    );
+  }
+
+  deleteHero (order: Order | number): Observable<Order> {
+    const id = typeof order === 'number' ? order : order.id;
+    const url = `${this.ordersUrl}/${id}`;
+    console.log(`${this.ordersUrl}/${id}`);
+    return this.http.delete<Order>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`Deleted Order ID=${id}`)),
+      catchError(this.handleError<Order>('deleteOrder'))
     );
   }
 
