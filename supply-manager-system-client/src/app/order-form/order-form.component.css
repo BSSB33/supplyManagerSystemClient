@@ -1,11 +1,18 @@
 .card-body{
-    color: black;
+    color: white;
+    background-color: rgb(33, 37, 41);
+    border-color: darkslategray;
 }
 
 .list-group-item{
-    color: darkslategray;
+    color: white;
     font-size: medium;
     font-weight: bold;
+    background-color: rgb(33, 37, 41);
+}
+
+::ng-deep .mat-form-field-label{
+    color:white !important;
 }
 
 .unassigned{

@@ -1,52 +1,93 @@
 <form #orderForm="ngForm">
-  <div style="margin: 20px;"><h1>Edit order</h1></div>
+  <div style="margin: 20px;">
+    <h1>Edit order</h1>
+  </div>
   <div *ngIf="order" class="card" style="width: 40rem; margin: 20px;">
     <div class="card-body">
       <h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2>
     </div>
 
     <ul class="list-group list-group-flush">
+
       <li class="list-group-item">
-        <label>Product Price: 
-          <mat-form-field>
-            <input matInput
-            #price
-            type="text"
-            [(ngModel)]="order.price" 
-            placeholder="Enter Price" 
-            name="prive"
-            aria-describedby="titleHelp"
-            required/>
-        </mat-form-field>
-        <mat-error *ngIf="price.invalid && (price.dirty || price.touched) && price.errors.required">
-          Title is required!
-        </mat-error>
-      </label>
-      </li>
-      <!--Replace with list-->
-      <li class="list-group-item">
-        <label>Product Status: 
-          <input #price [(ngModel)]="order.status" placeholder="Enter Status" name="status"/>
+        <label>Order Name:&nbsp;
+          <mat-form-field style="width: 300px;">
+            <input matInput #productName type="text" [(ngModel)]="order.productName" name="productName" placeholder="Enter Product Name"
+              aria-describedby="titleHelp" required />
+          </mat-form-field>
+          <mat-error *ngIf="price.invalid && (price.dirty || price.touched) && price.errors.required">
+            Productname is required!
+          </mat-error>
         </label>
       </li>
 
-      <!--<li class="list-group-item"><label>Product Status: {{order.status}}</label></li>
+      <li class="list-group-item">
+        <label>Product Price:&nbsp;
+          <mat-form-field  style="width: 80px;">
+            <input matInput #price type="text" [(ngModel)]="order.price" name="price" placeholder="Enter Price"
+              aria-describedby="titleHelp" required />
+          </mat-form-field>
+          Ft
+        </label>
+      </li>
 
-      <li class="list-group-item"><label>Buyer Company: {{order.buyer.name}}</label></li>
+      <li class="list-group-item">
+        <label>Product Status:&nbsp;
+          <mat-form-field style="width: 200px;">
+            <mat-select #price matNativeControl [(ngModel)]="order.status" placeholder="Enter Status" name="status">
+              <mat-option value="NEW">New</mat-option>
+              <mat-option value="SUCCESSFULLY_COMPLETED">Successfully Completed</mat-option>
+              <mat-option value="UNDER_PRODUCTION">Under Production</mat-option>
+              <mat-option value="CLOSED">Closed</mat-option>
+              <mat-option value="OFFER">Offer</mat-option>
+              <mat-option value="IN_STOCK">In Stock</mat-option>
+              <mat-option value="ISSUE">Issue</mat-option>
+              <mat-option value="UNDER_ASSEMBLY">Under Assembly</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </label>
+      </li>
 
+      <!--<li class="list-group-item">
+        <label>Buyer Company:&nbsp;
+          <mat-form-field>
+            <mat-select #price matNativeControl [(ngModel)]="order.buyer.name" placeholder="Enter Buyer Company" name="buyerCompany">
+              <mat-option value="" disabled>Choose a Company</mat-option>
+              <mat-option *ngFor="let company of companies" [value]="company.name" >{{company.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </label>
+      </li>-->
+      <li class="list-group-item">
+        <label>Buyer Company:&nbsp;
+          <mat-form-field>
+            <input disabled matInput #buyerName type="text" [(ngModel)]="order.buyer.name" name="buyerName" placeholder="Enter Buyer Company"
+              aria-describedby="titleHelp" required />
+          </mat-form-field>
+        </label>
+      </li>
+      
       <li class="list-group-item"><label>Buyer Manager: {{order.buyerManager.username}}</label></li>
 
-      <li class="list-group-item"><label>Seller Companys: {{order.seller.name}}</label></li>
+      <li class="list-group-item">
+        <label>Seller Company:&nbsp;
+          <mat-form-field>
+            <input disabled matInput #sellerName type="text" [(ngModel)]="order.seller.name" name="sellerName" placeholder="Enter Seller Company"
+              aria-describedby="titleHelp" required />
+          </mat-form-field>
+        </label>
+      </li>
 
-      <li class="list-group-item"><label>Seller Manager: {{order.sellerManager.username}}</label></li>-->
+      <!--<li class="list-group-item"><label>Seller Manager: {{order.sellerManager.username}}</label></li>-->
+
     </ul>
     <div class="card-body">
-      <a [routerLink]="['/orders/edit', order.id]" class="card-link" (click)="save()">Save Order</a>
-      <button mat-raised-button [disabled]="!orderForm.valid" color="primary" (click)="save()">Save Order</button>
+      <button [routerLink]="['/orders/edit', order.id]" mat-raised-button [disabled]="!orderForm.valid" color="primary"
+        (click)="save()">Save Order</button>
     </div>
   </div>
 
-  
+
 </form>
 
 <div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
