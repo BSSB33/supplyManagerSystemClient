@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
+import { History } from '../classes/history';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,15 @@ export class OrderService {
       tap(_ => this.log(`Fetched Order ID=${id}`)),
       catchError(this.handleError<Order>(`getOrder ID=${id}`))
     );
+  }
+
+  getHistoriesOfOrder(id: number): Observable<History[]> {
+    const url = `${this.ordersUrl}/${id}/histories`;
+    return this.http.get<History[]>(url, this.httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Histories of order: ' + id)),
+        catchError(this.handleError<History[]>('getHistoriesOfOrder', []))
+      );
   }
 
   updateOrder (order: Order): Observable<any> {

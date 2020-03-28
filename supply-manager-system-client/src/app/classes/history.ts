@@ -6,5 +6,6 @@ export class History {
     creator: User;
     order: Order;
     historyType: string;
+    note: string;
     createdAt: string;
 }
