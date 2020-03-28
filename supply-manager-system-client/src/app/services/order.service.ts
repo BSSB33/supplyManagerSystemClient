@@ -36,7 +36,6 @@ export class OrderService {
 
   getOrders(): Observable<Order[]> {
     this.setHref();
-    this.log('Fetched Orders');
     return this.http.get<Order[]>(this.sales_purchasesUrl, this.httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Orders')),
@@ -60,7 +59,7 @@ export class OrderService {
     );
   }
 
-  deleteHero (order: Order | number): Observable<Order> {
+  deleteOrder (order: Order | number): Observable<Order> {
     const id = typeof order === 'number' ? order : order.id;
     const url = `${this.ordersUrl}/${id}`;
     console.log(`${this.ordersUrl}/${id}`);

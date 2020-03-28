@@ -67,7 +67,16 @@
         </label>
       </li>
       
-      <li class="list-group-item"><label>Buyer Manager: {{order.buyerManager.username}}</label></li>
+      <!--<li class="list-group-item">
+        <label>Buyer Manager:&nbsp;
+          <mat-form-field>
+            <mat-select disabled matNativeControl #buyerManager [(ngModel)]="order.buyerManager.username" placeholder="Enter Buyer Manager" name="buyerManager">
+              <mat-option value="" disabled>Choose a Manager</mat-option>
+              <mat-option *ngFor="let manager of managers" value="manager" >{{manager.username}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </label>
+      </li>-->
 
       <li class="list-group-item">
         <label>Seller Company:&nbsp;
@@ -78,7 +87,24 @@
         </label>
       </li>
 
-      <!--<li class="list-group-item"><label>Seller Manager: {{order.sellerManager.username}}</label></li>-->
+      <!--<li *nfIf="order.sellerManager; else unassigned" class="list-group-item">
+        <label>Seller Manager:&nbsp;
+          <mat-form-field>
+            <mat-select #sellerManager matNativeControl [(ngModel)]="order.sellerManager.username" placeholder="Enter Seller Manager" name="sellerManager">
+              <mat-option value="">Choose a Manager</mat-option>
+              <mat-option *ngFor="let manager of managers" [value]="manager.username" >{{manager.username}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </li>
+      <li #unassigned class="list-group-item">
+        <label>Seller Manager:&nbsp;
+          <mat-form-field>
+            <mat-select #sellerManager matNativeControl [(ngModel)]="order.sellerManager.username" placeholder="Enter Seller Manager" name="sellerManager">
+              <mat-option value="">Choose a Manager</mat-option>
+              <mat-option *ngFor="let manager of managers" [value]="manager.username" >{{manager.username}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </li>-->
 
     </ul>
     <div class="card-body">

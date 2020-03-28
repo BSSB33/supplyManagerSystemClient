@@ -28,7 +28,6 @@ export class CompanyService {
   };
 
   getCompanies(): Observable<Company[]> {
-    this.log('Fetched Companies');
     return this.http.get<Company[]>(this.companiesUrl, this.httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Companies')),
@@ -60,6 +59,6 @@ export class CompanyService {
   }
 
   private log(message: string) {
-    this.messageService.add(`OrderService: ${message}`);
+    this.messageService.add(`CompanyService: ${message}`);
   }
 }

@@ -4,8 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../services/order.service';
 import { Order } from '../classes/order';
 import { Company } from '../classes/company';
-import { NgForm } from '@angular/forms';
+import { User } from '../classes/user';
 import { CompanyService } from '../services/company.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-order-form',
@@ -20,17 +21,21 @@ export class OrderFormComponent implements OnInit {
   companyOfUser: Company;
   companiesToChooseFrom: Company[];
 
+  managers: User[];
+
   constructor(    
     private location: Location,
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private companyService: CompanyService) { 
+    private companyService: CompanyService,
+    private userService: UserService) { 
     }
 
   ngOnInit(): void {
     this.getOrderById();
     this.getCompanies();
     this.getCompenyOfUser();   
+    this.getManagersOfUser();
     //this.companiesToChooseFrom = this.companies.filter(obj => obj !== this.companyOfUser);
     //console.log(this.companiesToChooseFrom);
   }
@@ -49,6 +54,11 @@ export class OrderFormComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
       .subscribe(order => this.order = order);
+  }
+
+  getManagersOfUser(): void{
+    this.userService.getUsers()
+        .subscribe(managers => this.managers = managers);
   }
     
   save(): void {
