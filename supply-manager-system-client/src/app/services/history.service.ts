@@ -1,19 +1,61 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MessageService } from './message.service';
+import { History } from '../classes/history';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HistoryService {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private messageService: MessageService
+  ) { }
 
-  /*deleteHistoriyOfOrder (history: History | number): Observable<History> {
+  private historiesUrl = 'http://localhost:8080/histories';
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic QmFsYXpzOnBhc3N3b3Jk'
+    })
+  };
+
+  deleteHistory (history: History | number): Observable<History> {
     const id = typeof history === 'number' ? history : history.id;
-    const url = `${this.ordersUrl}/${id}/histories`;
-    console.log(`${this.ordersUrl}/${id}/histories`);
-    return this.http.delete<History>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`Deleted Order ID=${id}`)),
-      catchError(this.handleError<History>('deleteOrder'))
+    console.log(`${this.historiesUrl}/${id}`);
+    return this.http.delete<History>(`${this.historiesUrl}/${id}`, this.httpOptions).pipe(
+      tap(_ => this.log(`Deleted Historiy ID=${id}`)),
+      catchError(this.handleError<History>('deleteHistory'))
     );
-  }*/
+  }
+  
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+    
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+  private log(message: string) {
+    this.messageService.add(`HistoryService: ${message}`);
+  }
 }
