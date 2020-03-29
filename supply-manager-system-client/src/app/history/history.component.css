@@ -1,0 +1,39 @@
+.badge{
+    font-size: large;
+    margin-top: 10px;
+    margin-left: 5px;
+    width: 100%;
+}
+
+td, th {
+    width: auto;
+    overflow: hidden;
+  }
+ 
+p.block {
+    width: 300px;
+}
+
+.historyTable{
+    width: 60rem; 
+    margin: 20px; 
+    text-align: left; 
+    background-color: beige;
+}
+
+.historyLabel{
+    margin: 10px;
+}
+
+.tableRight{
+    text-align: right;
+}
+
+.tableLeft{
+    text-align: left;
+}
+
+.deleteLink{
+    margin: 10px;
+    margin-left: 20px;
+}

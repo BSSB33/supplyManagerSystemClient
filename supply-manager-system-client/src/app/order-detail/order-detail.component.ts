@@ -3,9 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { OrderService } from '../services/order.service';
 import { HistoryService } from '../services/history.service';
+import { UserService } from '../services/user.service';
 import { Order } from '../classes/order';
+import { User } from '../classes/user';
 import { Router } from '@angular/router';
 import { History } from '../classes/history';
+import { Observable } from 'rxjs';
+import { from } from 'rxjs';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-order-detail',
@@ -16,25 +21,31 @@ export class OrderDetailComponent implements OnInit {
 
   @Input() order: Order;
   histories: History[];
+  addHistory: Boolean;
 
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
     private historyService: HistoryService,
     private location: Location,
-    public router: Router
+    public router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.getOrderById();
     this.getHistoriesOfOrder(+this.route.snapshot.paramMap.get('id'));
+    this.setUpNewHistory();
+  }
+
+  toggleAddHistory(): void{
+    this.addHistory = !this.addHistory;
   }
 
   getOrderById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
       .subscribe(order => this.order = order);
-    
   }
   
   deleteHistory(history: History): void {
@@ -45,6 +56,28 @@ export class OrderDetailComponent implements OnInit {
   getHistoriesOfOrder(id: number): void {
     this.orderService.getHistoriesOfOrder(id)
         .subscribe(histories => this.histories = histories);
+  }
+
+  private _creator: User;
+  private _order: Order;
+  setUpNewHistory(): void{
+    this.userService.getUser(2)
+    .subscribe(user => this._creator = user ); //replace
+
+    this.orderService.getOrder(+this.route.snapshot.paramMap.get('id'))
+    .subscribe(order => this._order = order );
+  }
+
+  addHistoryToOrder(note: string, historyType: string): void {
+    note = note.trim();
+    historyType = historyType.trim();
+
+    var history : History = new History(this._creator, this._order, note, historyType);
+
+    this.historyService.addHistory(history)
+      .subscribe(history => {
+        this.histories.unshift(history);
+      });
   }
     
   goBack(): void {

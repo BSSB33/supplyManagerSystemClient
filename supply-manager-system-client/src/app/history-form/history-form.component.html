@@ -1,0 +1,47 @@
+<div class="card fixedContainer historyTable" style="background-color: #8D6142;">
+    <form #historyForm="ngForm">
+        <div style="margin: 20px;">
+            <table class="table table-sm ellipsis" style="background-color: #8D6142;">
+                <tbody>
+                    <tr>
+                        <label class="whiteLabel">Select type :
+                            <mat-form-field style="width: 200px;">
+                                <mat-select #historyType placeholder="Select Type" name="type">
+                                    <mat-option value="PHONE_CALL">Phone Call</mat-option>
+                                    <mat-option value="EMAIL_SENT">Email Sent</mat-option>
+                                    <mat-option value="MADE_AND_OFFER">Made An Offer</mat-option>
+                                    <mat-option value="DISCUSSION">Discussion Update</mat-option>
+                                    <mat-option value="STARTED_SHIPPING">Started Shipping</mat-option>
+                                    <mat-option value="PAID">Paid</mat-option>
+                                    <mat-option value="ORDER">Ordered</mat-option>
+                                    <mat-option value="OFFER">Offer Given</mat-option>
+                                    <mat-option value="NOTE">Simple Note</mat-option>
+                                    <mat-option value="SHIPPED">Shipped</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!--<mat-error *ngIf="price.invalid && (price.dirty || price.touched) && price.errors.required">
+                                Type must be selected
+                            </mat-error>-->
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Add note:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput #historyNote type="text" name="price" placeholder="Enter Note"
+                                    aria-describedby="titleHelp" required />
+                            </mat-form-field>
+                            <!--<mat-error *ngIf="historyNote.errors.required">
+                                Type must be selected
+                            </mat-error>-->
+                        </label>
+                    </tr>
+                    <tr>
+                        <button [routerLink]=""  mat-flat-button [disabled]="!historyForm.valid" color="secondary"
+                            (click)="add(historyType.value, historyNote.value); historyType.value=''; historyNote.value='';">Save
+                            Order</button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

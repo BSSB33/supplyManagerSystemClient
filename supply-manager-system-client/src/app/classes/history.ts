@@ -7,5 +7,12 @@ export class History {
     order: Order;
     historyType: string;
     note: string;
-    createdAt: string;
+    createdAt: Date;
+
+    constructor(creator: User, order: Order, historyType: string, note: string){
+        this.creator = creator;
+        this.order = order;
+        this.historyType = historyType;
+        this.note = note;
+    }
 }

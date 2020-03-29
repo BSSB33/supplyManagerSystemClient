@@ -55,12 +55,18 @@
     </ul>
     <div class="card-body">
         <a [routerLink]="['/orders/edit', order.id]" class="card-link">Edit Order</a>
-        <a href="#!" class="card-link">Add History</a>
+        <a *ngIf="!addHistory; else cancel" [routerLink]="" class="card-link" (click)="toggleAddHistory()">Add History</a>
+        <ng-template #cancel>
+            <a *ngIf="addHistory" #cancel [routerLink]="" class="card-link" (click)="toggleAddHistory()">Cancel New History</a>
+        </ng-template>
     </div>
 </div>
 
 <h3 style="margin: 20px;">Histories of Order:</h3>
 <table class="table table-hover" style="color: black; font-size: large;">
+    <tr *ngIf="addHistory">
+        <history-form></history-form>
+    </tr>
     <tr *ngFor="let history of histories">
         <history [history]="history"></history>
     </tr>

@@ -24,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { HistoryComponent } from './history/history.component';
+import { HistoryFormComponent } from './history-form/history-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { HistoryComponent } from './history/history.component';
     PageNotFoundComponent,
     LogsComponent,
     ForbiddenComponent,
-    HistoryComponent
+    HistoryComponent,
+    HistoryFormComponent
   ],
   imports: [
     BrowserModule,

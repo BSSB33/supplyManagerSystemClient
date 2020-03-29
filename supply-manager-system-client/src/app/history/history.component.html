@@ -1,7 +1,21 @@
-<div class="card fixedContainer" style="width: 80rem; margin: 20px; text-align: left;">
-    <label>{{history.creator.username}}</label>
-    <label>{{history.historyType}}</label>
-    <label>{{history.note}}</label>
-    <label>{{history.createdAt}}</label>
-    <label><a [routerLink]="" class="card-link href link" (click)="deleteHistory(history)">Delete History</a></label>
+<div class="card fixedContainer historyTable">
+
+    <table class="table table-sm ellipsis" style="background-color: beige;">
+        <tbody>
+            <tr>
+                <td class="tableLeft"><label class="historyLabel"><b>Type:</b> {{history.historyType}}</label>
+                </td>
+                <td class="tableRight"><label class="historyLabel"><b>Creator:</b> {{history.creator.username}}</label></td>
+            </tr>
+            <tr>
+                <td class="tableLeft"><label class="historyLabel"><b>Note:</b> {{history.note}}</label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="tableLeft"><label class="deleteLink"><a [routerLink]="" class="card-link" (click)="deleteHistory(history)">Delete History</a></label></td>
+                <td class="tableRight"><label class="historyLabel"><b>Creation:</b> {{history.createdAt}}</label></td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>

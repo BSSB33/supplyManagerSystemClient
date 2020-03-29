@@ -38,6 +38,7 @@ export class OrderFormComponent implements OnInit {
     this.getManagersOfUser();
     //this.companiesToChooseFrom = this.companies.filter(obj => obj !== this.companyOfUser);
     //console.log(this.companiesToChooseFrom);
+    //this.managers.push(new User());
   }
 
   getCompanies(): void{

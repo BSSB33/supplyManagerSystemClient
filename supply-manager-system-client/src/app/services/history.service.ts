@@ -26,6 +26,13 @@ export class HistoryService {
     })
   };
 
+  addHistory(history: History): Observable<History> {
+    return this.http.post<History>(this.historiesUrl, history, this.httpOptions).pipe(
+      tap((newHistory: History) => this.log(`added History w/ id=${newHistory.id}`)), //ID could be problem
+      catchError(this.handleError<History>('addHistory'))
+    );
+  }
+
   deleteHistory (history: History | number): Observable<History> {
     const id = typeof history === 'number' ? history : history.id;
     console.log(`${this.historiesUrl}/${id}`);
