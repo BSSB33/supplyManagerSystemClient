@@ -61,17 +61,9 @@
 
 <h3 style="margin: 20px;">Histories of Order:</h3>
 <table class="table table-hover" style="color: black; font-size: large;">
-    <tr  *ngFor="let history of histories">
-        <div class="card fixedContainer" style="width: 80rem; margin: 20px; text-align: left;">
-            <label>{{history.creator.username}}</label>
-            <label>{{history.historyType}}</label>
-            <label>{{history.note}}</label>
-            <label>{{history.createdAt}}</label>
-            <label><a [routerLink]="['/orders', order.id]" class="card-link" (click)="deleteHistory(history)">Delete History</a></label>
-        </div>
+    <tr *ngFor="let history of histories">
+        <history [history]="history"></history>
     </tr>
-
 </table>
-
 
 <div><button mat-raised-button color="primary" class="backButton" routerLink='/sales'>Back</button></div>

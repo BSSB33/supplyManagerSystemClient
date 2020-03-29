@@ -36,12 +36,12 @@ export class OrderDetailComponent implements OnInit {
       .subscribe(order => this.order = order);
     
   }
-
+  
   deleteHistory(history: History): void {
     this.histories = this.histories.filter(h => h !== history);
     this.historyService.deleteHistory(history).subscribe();
   }
-  
+
   getHistoriesOfOrder(id: number): void {
     this.orderService.getHistoriesOfOrder(id)
         .subscribe(histories => this.histories = histories);
