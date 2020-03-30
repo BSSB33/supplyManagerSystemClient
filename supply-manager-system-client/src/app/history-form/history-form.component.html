@@ -6,7 +6,7 @@
                     <tr>
                         <label class="whiteLabel">Select type :
                             <mat-form-field style="width: 200px;">
-                                <mat-select #historyType placeholder="Select Type" name="type">
+                                <mat-select #historyType placeholder="Select Type" name="type"  [formControl]="historyControl" required>
                                     <mat-option value="PHONE_CALL">Phone Call</mat-option>
                                     <mat-option value="EMAIL_SENT">Email Sent</mat-option>
                                     <mat-option value="MADE_AN_OFFER">Made An Offer</mat-option>
@@ -19,24 +19,19 @@
                                     <mat-option value="SHIPPED">Shipped</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <!--<mat-error *ngIf="price.invalid && (price.dirty || price.touched) && price.errors.required">
-                                Type must be selected
-                            </mat-error>-->
+                            <mat-error *ngIf="historyControl.hasError('required')">Please choose an animal</mat-error>
                         </label>
                     </tr>
                     <tr>
                         <label class="whiteLabel">Add note:
                             <mat-form-field style="width: 200px;">
                                 <input matInput #historyNote type="text" name="price" placeholder="Enter Note"
-                                    aria-describedby="titleHelp" required />
+                                    aria-describedby="titleHelp"/>
                             </mat-form-field>
-                            <!--<mat-error *ngIf="historyNote.errors.required">
-                                Type must be selected
-                            </mat-error>-->
                         </label>
                     </tr>
                     <tr>
-                        <button [routerLink]="" mat-flat-button [disabled]="!historyForm.valid" color="secondary"
+                        <button [routerLink]="" mat-flat-button [disabled]="historyNote.empty || historyType.empty" color="primary"
                             (click)="add(historyType.value, historyNote.value); historyType.value=''; historyNote.value='';">Save
                             Order</button>
                     </tr>

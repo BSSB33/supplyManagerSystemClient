@@ -53,7 +53,8 @@ import { HistoryFormComponent } from './history-form/history-form.component';
     MatInputModule,
     MatMenuModule,
     MatButtonToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule
     
   ],
   providers: [],

@@ -7,7 +7,7 @@
                 </td>
                 <td class="tableRight"><label class="historyLabel"><b>Creator:</b> {{history.creator.username}}</label></td>
             </tr>
-            <tr>
+            <tr *ngIf="history.note">
                 <td class="tableLeft"><label class="historyLabel"><b>Note:</b> {{history.note}}</label></td>
                 <td></td>
             </tr>
