@@ -9,7 +9,7 @@
                                 <mat-select #historyType placeholder="Select Type" name="type">
                                     <mat-option value="PHONE_CALL">Phone Call</mat-option>
                                     <mat-option value="EMAIL_SENT">Email Sent</mat-option>
-                                    <mat-option value="MADE_AND_OFFER">Made An Offer</mat-option>
+                                    <mat-option value="MADE_AN_OFFER">Made An Offer</mat-option>
                                     <mat-option value="DISCUSSION">Discussion Update</mat-option>
                                     <mat-option value="STARTED_SHIPPING">Started Shipping</mat-option>
                                     <mat-option value="PAID">Paid</mat-option>
@@ -36,7 +36,7 @@
                         </label>
                     </tr>
                     <tr>
-                        <button [routerLink]=""  mat-flat-button [disabled]="!historyForm.valid" color="secondary"
+                        <button [routerLink]="" mat-flat-button [disabled]="!historyForm.valid" color="secondary"
                             (click)="add(historyType.value, historyNote.value); historyType.value=''; historyNote.value='';">Save
                             Order</button>
                     </tr>
