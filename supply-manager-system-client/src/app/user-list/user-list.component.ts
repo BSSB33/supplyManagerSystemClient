@@ -30,7 +30,6 @@ export class UserListComponent implements OnInit {
   }
 
   disableOrEnableUser(user: User): void {
-    
     this.userService.disableOrEnableUser(user).subscribe();
     user.enabled = !user.enabled;
   }

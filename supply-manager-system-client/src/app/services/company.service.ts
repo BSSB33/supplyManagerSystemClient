@@ -44,6 +44,31 @@ export class CompanyService {
     );
   }
 
+  disableOrEnableCompany (company: Company): Observable<any> {
+    var url;
+    if(company.active){
+      url = `${this.companiesUrl}/${company.id}/disable`;
+    }
+    else if(!company.active){
+      url = `${this.companiesUrl}/${company.id}/enable`;
+    }
+    
+    return this.http.put(url, company, this.httpOptions).pipe(
+      tap(_ => this.log(`Disabled/Enabled User ID=${company.id}`)),
+      catchError(this.handleError<any>('disableOrEnableUser'))
+    );
+  }
+
+  deleteCompany (company: Company | number): Observable<Company> {
+    const id = typeof company === 'number' ? company : company.id;
+    const url = `${this.companiesUrl}/${id}`;
+    console.log(`${this.companiesUrl}/${id}`);
+    return this.http.delete<Company>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`Deleted Company ID=${id}`)),
+      catchError(this.handleError<Company>('deleteCompany'))
+    );
+  }
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
