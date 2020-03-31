@@ -7,6 +7,6 @@ export class User {
     username: string;
     company: Company;
     workplace: Company;
-    Role: string;
+    role: string;
 
 }

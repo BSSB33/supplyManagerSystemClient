@@ -22,13 +22,21 @@
                     <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.username}}</a>
                 </td>
                 <td *ngIf="user.enabled; else disabledUser"><label style="color: green;">Enabled User</label></td>
-                <ng-template #disabledUser><td><label style="color: red;">Disabled User</label></td></ng-template>
+                <ng-template #disabledUser>
+                    <td><label style="color: red;">Disabled User</label></td>
+                </ng-template>
                 <td *ngIf="user.company; else notADirector">{{user.company.name}}</td>
                 <td *ngIf="user.workplace; else missing">{{user.workplace.name}}</td>
                 <td *ngIf="user.role; else missing">{{user.role}}</td>
                 <td><button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]">Edit</button></td>
+                <!-- TODO Disable these buttons in the case of the Logged In user-->
                 <td><button mat-raised-button color="primary" (click)="deleteUser(user)" disabled>Delete</button></td>
-                <td><button mat-raised-button color="primary" (click)="disableOrEnableUser(user)">Disable</button></td>
+                <td *ngIf="user.enabled; else disabledUserButton">
+                    <button mat-raised-button color="primary" (click)="disableOrEnableUser(user)">Disable</button>
+                </td>
+                <ng-template #disabledUserButton>
+                    <td><button mat-raised-button color="primary" (click)="disableOrEnableUser(user)">Enable</button></td>
+                </ng-template>
                 
             </tr>
         </tbody>

@@ -1,1 +1,46 @@
-<p>user-detail works!</p>
+<div *ngIf="user" class="card" style="width: 40rem; margin: 20px;">
+
+    <div *ngIf="user.username; else elseBlock0" class="card-body">
+        <h2 class="font-weight-bold mb-3">User: {{user.username}}</h2>
+    </div>
+    <ng-template #elseBlock0>
+        <div class="card-body">
+            <h2 class="font-weight-bold mb-3">User:&nbsp;<label>Please Set a Username For this user</label></h2>
+        </div>
+    </ng-template>
+
+    <ul class="list-group list-group-flush">
+
+        <li *ngIf="user.enabled; else elseBlock1" class="list-group-item">
+            <label>Status:&nbsp;<label style="color: green;">Enabled</label></label></li>
+        <ng-template #elseBlock1>
+            <li class="list-group-item"><label>User Status:&nbsp;</label><label style="color: red;">Disabled</label></li>
+        </ng-template>
+
+        <li *ngIf="user.company; else elseBlock2" class="list-group-item">
+            <label>Company Of The User: {{user.company.name}}</label></li>
+        <ng-template #elseBlock2>
+            <li class="list-group-item"><label>Company Of The User:&nbsp;</label><label style="color: orange;"> Not a Director</label></li>
+        </ng-template>
+
+        <li *ngIf="user.workplace; else elseBlock3" class="list-group-item">
+            <label>Workplace Of The User: {{user.workplace.name}}</label></li>
+        <ng-template #elseBlock3>
+            <li class="list-group-item"><label>Workplace Of The User:&nbsp;</label><label style="color: orange;">Unemployed</label></li>
+        </ng-template>
+
+        <li *ngIf="user.role; else elseBlock4" class="list-group-item">
+            <label>Role Of The User: {{user.role}}</label></li>
+        <ng-template #elseBlock4>
+            <li class="list-group-item"><label>Role Of The User:&nbsp;</label><label style="color: orange;">Role Should Be added</label></li>
+        </ng-template>
+
+    </ul>
+    <div class="card-body">
+        <a [routerLink]="['/users/edit', user.id]" class="card-link">Edit User</a>
+    </div>
+</div>
+
+<ng-template #notADirector>
+    <td><strong style="color: orange;">Not a Director</strong></td>
+</ng-template>
