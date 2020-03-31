@@ -51,6 +51,21 @@ export class UserService {
     );
   }
 
+  disableOrEnableUser (user: User): Observable<any> {
+    var url;
+    if(user.enabled){
+      url = `${this.usersUrl}/${user.id}/disable`;
+    }
+    else if(!user.enabled){
+      url = `${this.usersUrl}/${user.id}/enable`;
+    }
+    
+    return this.http.put(url, user, this.httpOptions).pipe(
+      tap(_ => this.log(`Disabled/Enabled User ID=${user.id}`)),
+      catchError(this.handleError<any>('disableOrEnableUser'))
+    );
+  }
+
   deleteUser (user: User | number): Observable<User> {
     const id = typeof user === 'number' ? user : user.id;
     const url = `${this.usersUrl}/${id}`;

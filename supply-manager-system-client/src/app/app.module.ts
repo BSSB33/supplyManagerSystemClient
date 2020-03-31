@@ -25,6 +25,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { HistoryComponent } from './history/history.component';
 import { HistoryFormComponent } from './history-form/history-form.component';
+import { CompanyListComponent } from './company-list/company-list.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
+import { CompanyFormComponent } from './company-form/company-form.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,12 @@ import { HistoryFormComponent } from './history-form/history-form.component';
     LogsComponent,
     ForbiddenComponent,
     HistoryComponent,
-    HistoryFormComponent
+    HistoryFormComponent,
+    CompanyListComponent,
+    UserDetailComponent,
+    UserFormComponent,
+    CompanyDetailComponent,
+    CompanyFormComponent
   ],
   imports: [
     BrowserModule,

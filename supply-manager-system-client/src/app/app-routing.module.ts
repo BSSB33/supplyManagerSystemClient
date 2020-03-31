@@ -8,6 +8,11 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LogsComponent } from './logs/logs.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { CompanyListComponent } from './company-list/company-list.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { CompanyFormComponent } from './company-form/company-form.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
 
 const routes: Routes = [
   {
@@ -31,14 +36,41 @@ const routes: Routes = [
     path: 'orders/:id',
     component: OrderDetailComponent
   },
-
   {
     path: 'orders/edit/:id',
     component: OrderFormComponent
   },
   {
+    path: 'users/add',
+    component: UserFormComponent
+  },
+  {
+    path: 'users/:id',
+    component: UserDetailComponent
+  },
+  {
+    path: 'users/edit/:id',
+    component: UserFormComponent
+  },
+  {
     path: 'users',
     component: UserListComponent
+  },
+  {
+    path: 'companies/add',
+    component: CompanyFormComponent
+  },
+  {
+    path: 'companies/:id',
+    component: CompanyDetailComponent
+  },
+  {
+    path: 'companies/edit/:id',
+    component: CompanyFormComponent
+  },
+  {
+    path: 'companies',
+    component: CompanyListComponent
   },
   {
     path: '404',
