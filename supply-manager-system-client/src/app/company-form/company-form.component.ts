@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-company-form',
@@ -6,10 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./company-form.component.css']
 })
 export class CompanyFormComponent implements OnInit {
+  constructor(){ }
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void { }
 }
