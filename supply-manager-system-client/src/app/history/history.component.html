@@ -1,0 +1,21 @@
+<div class="card fixedContainer historyTable">
+
+    <table class="table table-sm ellipsis" style="background-color: beige;">
+        <tbody>
+            <tr>
+                <td class="tableLeft"><label class="historyLabel"><b>Type:</b> {{history.historyType}}</label>
+                </td>
+                <td class="tableRight"><label class="historyLabel"><b>Creator:</b> {{history.creator.username}}</label></td>
+            </tr>
+            <tr *ngIf="history.note">
+                <td class="tableLeft"><label class="historyLabel"><b>Note:</b> {{history.note}}</label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="tableLeft"><label class="deleteLink"><a [routerLink]="" class="card-link" (click)="deleteHistory(history)">Delete History</a></label></td>
+                <td class="tableRight"><label class="historyLabel"><b>Creation:</b> {{history.createdAt}}</label></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

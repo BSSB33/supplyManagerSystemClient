@@ -1,0 +1,6 @@
+<div class="card" style="width: 40rem; margin: 20px;">
+<h2>404 - Page not found </h2>
+
+<p *ngIf="path">You might want to go back to the main page: <a [routerLink]="path">"{{ path }}"</a></p>
+</div>
+<button mat-raised-button color="primary" class="backButton" (click)="goBack()">Go back to previous page!</button>

@@ -1,0 +1,58 @@
+.badge{
+    font-size: large;
+    margin-top: 10px;
+    margin-left: 5px;
+    width: 100%;
+}
+
+td, th {
+    width: auto;
+    overflow: hidden;
+  }
+ 
+p.block {
+    width: 300px;
+}
+
+.historyTable{
+    width: 60rem; 
+    margin: 20px; 
+    text-align: left; 
+    background-color: beige;
+}
+
+.whiteLabel{
+    color: white;
+}
+
+.historyLabel{
+    margin: 10px;
+}
+
+.tableRight{
+    text-align: right;
+}
+
+.tableLeft{
+    text-align: left;
+}
+
+::ng-deep .mat-form-field-label{
+    color: white !important;
+}
+
+::ng-deep input.mat-input-element {
+    color: white;
+  }
+  
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+color: white !important;
+}
+
+::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+background-color: white !important;
+}
+
+::ng-deep.mat-form-field{
+    color: white;
+}

@@ -1,0 +1,9 @@
+.card{
+    color: black;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.backButton{
+    margin-left: 20px;
+}

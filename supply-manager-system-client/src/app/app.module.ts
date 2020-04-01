@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,6 +13,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { UserListComponent } from './user-list/user-list.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderFormComponent } from './order-form/order-form.component';
+import { HttpClientModule }    from '@angular/common/http';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LogsComponent } from './logs/logs.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { HistoryComponent } from './history/history.component';
+import { HistoryFormComponent } from './history-form/history-form.component';
+import { CompanyListComponent } from './company-list/company-list.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
+import { CompanyFormComponent } from './company-form/company-form.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +37,17 @@ import { OrderFormComponent } from './order-form/order-form.component';
     OrderListComponent,
     UserListComponent,
     OrderDetailComponent,
-    OrderFormComponent
+    OrderFormComponent,
+    PageNotFoundComponent,
+    LogsComponent,
+    ForbiddenComponent,
+    HistoryComponent,
+    HistoryFormComponent,
+    CompanyListComponent,
+    UserDetailComponent,
+    UserFormComponent,
+    CompanyDetailComponent,
+    CompanyFormComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +56,15 @@ import { OrderFormComponent } from './order-form/order-form.component';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
+    HttpClientModule,
+    FormsModule,
+    MatFormFieldModule,
+    NgbModule,
+    MatInputModule,
+    MatMenuModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    ReactiveFormsModule
     
   ],
   providers: [],
