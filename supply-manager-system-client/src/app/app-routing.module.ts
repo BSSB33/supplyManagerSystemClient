@@ -13,6 +13,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
+import { AuthGuard } from './auth.guard';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 const routes: Routes = [
   {
@@ -22,11 +24,13 @@ const routes: Routes = [
   },
   {
     path: 'sales',
-    component: OrderListComponent
+    component: OrderListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'purchases',
-    component: OrderListComponent
+    component: OrderListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'orders/add',
@@ -71,6 +75,10 @@ const routes: Routes = [
   {
     path: 'companies',
     component: CompanyListComponent
+  },
+  {
+    path: 'login',
+    component: LoginFormComponent,
   },
   {
     path: '404',

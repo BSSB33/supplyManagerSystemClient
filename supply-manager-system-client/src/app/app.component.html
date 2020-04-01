@@ -1,13 +1,34 @@
-<mat-toolbar color="primary" role="heading">
+<!-- ORIGINAL <mat-toolbar color="primary" role="heading">
   <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
   <button mat-button routerLink="/sales">Sales</button>
   <button mat-button routerLink="/purchases">Purchases</button>
   <button mat-button routerLink="/users">Users</button>
   <button mat-button routerLink="/companies">Companies</button>
-  <!--<button mat-stroked-button routerLink="/orders/add">Add Sale</button>
-  <button mat-stroked-button routerLink="/orders/add">Add Purchase</button>-->
+  <button mat-stroked-button routerLink="/orders/add">Add Sale</button>
+  <button mat-stroked-button routerLink="/orders/add">Add Purchase</button>
   <span class="example-fill-remaining-space"></span>
   <button mat-button routerLink="/logs">Logs</button>
+</mat-toolbar>-->
+
+<mat-toolbar color="primary" role="heading">
+  <div *ngIf="authService.isLoggedIn">
+    <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
+    <button mat-button routerLink="/sales">Sales</button>
+    <button mat-button routerLink="/purchases">Purchases</button>
+    <button mat-button routerLink="/users">Users</button>
+    <button mat-button routerLink="/companies">Companies</button>
+    <button mat-stroked-button routerLink="/orders/add">Add Sale</button>
+    <button mat-stroked-button routerLink="/orders/add">Add Purchase</button>
+    <span class="fill-space"></span>
+    <span>Hello, !</span>
+    <button mat-button routerLink="/logs">Logs</button>
+    <button mat-button (click)="logout()">Logout</button>
+  </div>
+  <div *ngIf="!authService.isLoggedIn">
+    <button mat-button ><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
+    <button mat-stroked-button routerLink="/login">Login</button>
+  </div>
+  
 </mat-toolbar>
 
 <router-outlet></router-outlet>

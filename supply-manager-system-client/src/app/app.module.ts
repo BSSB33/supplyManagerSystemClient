@@ -30,6 +30,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CompanyFormComponent } from './company-form/company-form.component';
     UserDetailComponent,
     UserFormComponent,
     CompanyDetailComponent,
-    CompanyFormComponent
+    CompanyFormComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,
