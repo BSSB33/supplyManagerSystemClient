@@ -96,7 +96,7 @@ const routes: Routes = [
     component: PageNotFoundComponent
   },
   {
-    path: '403',
+    path: 'forbidden',
     component: ForbiddenComponent
   },
   {

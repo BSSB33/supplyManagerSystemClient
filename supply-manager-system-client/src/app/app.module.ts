@@ -31,6 +31,7 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
     UserFormComponent,
     CompanyDetailComponent,
     CompanyFormComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    ForbiddenDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -67,10 +69,12 @@ import { LoginFormComponent } from './login-form/login-form.component';
     MatMenuModule,
     MatButtonToggleModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
     
   ],
   providers: [
+    MessageService,
     {
       provide: HTTP_INTERCEPTORS,
          useFactory: function(router: Router) {
@@ -82,51 +86,63 @@ import { LoginFormComponent } from './login-form/login-form.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
+
+
 
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { RouterModule, Router } from '@angular/router';
 import { HttpHandler, HttpEvent, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse} from '@angular/common/http';
+import { ForbiddenDialogComponent } from './forbidden-dialog/forbidden-dialog.component';
+import { MessageService } from './services/message.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private router: Router) {}
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(req).pipe(catchError(err => this.handleError(err)));
-    }
-    
-    private handleError(err: HttpErrorResponse): Observable<any> {
-      console.log('HttpRequest Error intercepted!');
 
-        if (err.status === 401) {
-            this.handleUnauthorized();
-            return of(err.message);
-        }
-        if (err.status === 404){
-          this.handleNotFound();
+  constructor(
+    private router: Router
+    ) {}
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+      return next.handle(req).pipe(catchError(err => this.handleError(err)));
+  }
+  
+  private handleError(err: HttpErrorResponse): Observable<any> {
+    console.log('HttpRequest Error intercepted!');
+
+      if (err.status === 401){
+          this.handleUnauthorized();
           return of(err.message);
-        }
-        if (err.status === 403){
-          this.handleForbidden();
-          return of(err.message);
-        }
-        // handle your auth error or rethrow
-        return of(err);
-    }
+      }
+      if (err.status === 404){
+        this.handleNotFound();
+        return of(err.message);
+      }
+      if (err.status === 403){
+        this.handleForbidden();
+        return of(err.message);
+      }
+      // handle your auth error or rethrow
+      return of(err);
+  }
 
-    handleUnauthorized(){
-      //this.router.navigate(['/login']);
-      window.location.href = '/login';
-    }
+  handleUnauthorized(){
+    //this.router.navigate(['/login']);
+    //window.location.href = '/login';
+    //this.messageService.openDialog();
+  
+  }
 
-    handleForbidden(){
+  handleForbidden(){
+    //this.router.navigate(['/login']);
+    //this.messageService.openDialog();
+  }
 
-    }
-
-    handleNotFound(){
-
-    }
+  handleNotFound(){
+    //this.router.navigate(['/login']);
+    //this.messageService.openDialog();
+  }
     
 }

@@ -17,8 +17,8 @@
     <button mat-button routerLink="/purchases">Purchases</button>
     <button mat-button routerLink="/users">Users</button>
     <button mat-button routerLink="/companies">Companies</button>
-    <span ></span>
-    <span style="flex: 1 1">Hello, {{ authService.user.username }}!</span>
+    <span class="example-fill-remaining-space"></span>
+    <button mat-button disabled>Welcome, {{ authService.user.username }}! - Role: [{{ authService.user.role }}]</button>
     <button mat-button routerLink="/logs">Logs</button>
     <button mat-stroked-button (click)="logout()">Logout</button>
   </div>
