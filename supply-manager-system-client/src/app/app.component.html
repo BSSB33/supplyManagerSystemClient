@@ -17,12 +17,10 @@
     <button mat-button routerLink="/purchases">Purchases</button>
     <button mat-button routerLink="/users">Users</button>
     <button mat-button routerLink="/companies">Companies</button>
-    <button mat-stroked-button routerLink="/orders/add">Add Sale</button>
-    <button mat-stroked-button routerLink="/orders/add">Add Purchase</button>
-    <span class="fill-space"></span>
-    <span>Hello, !</span>
+    <span ></span>
+    <span style="flex: 1 1">Hello, {{ authService.user.username }}!</span>
     <button mat-button routerLink="/logs">Logs</button>
-    <button mat-button (click)="logout()">Logout</button>
+    <button mat-stroked-button (click)="logout()">Logout</button>
   </div>
   <div *ngIf="!authService.isLoggedIn">
     <button mat-button ><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>

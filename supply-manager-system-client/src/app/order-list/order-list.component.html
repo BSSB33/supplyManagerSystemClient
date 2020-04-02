@@ -1,5 +1,5 @@
 <div class="panel panel-default" style="margin: 20px;">
-  <h2 style="margin-left: 20px;">{{title}}</h2>
+  <h2 style="margin-left: 20px;">{{title}} </h2>
   <table class="table table-dark table-hover table-curved">
       <thead>
         <tr>
@@ -26,11 +26,13 @@
               <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
               <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
               <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
-              <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">Edit</button> </td>
-              <td><button mat-raised-button color="primary" (click)="deleteOrder(order)">Delete</button> </td>
+              <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">Edit</button></td>
+              <td><button mat-raised-button color="primary" (click)="deleteOrder(order)">Delete</button></td>
           </tr>
       </tbody>
   </table>
+
+  <button style="margin-left: 10px;" mat-raised-button color="primary" disabled>Add {{addButtonText}}</button>
 
   <ng-template #unassigned>
       <td><strong style="color: crimson;">UNASSIGNED</strong></td>

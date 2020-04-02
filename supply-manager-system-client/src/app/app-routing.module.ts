@@ -34,47 +34,58 @@ const routes: Routes = [
   },
   {
     path: 'orders/add',
-    component: OrderFormComponent
+    component: OrderFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'orders/:id',
-    component: OrderDetailComponent
+    component: OrderDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'orders/edit/:id',
-    component: OrderFormComponent
+    component: OrderFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users/add',
-    component: UserFormComponent
+    component: UserFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users/:id',
-    component: UserDetailComponent
+    component: UserDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users/edit/:id',
-    component: UserFormComponent
+    component: UserFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users',
-    component: UserListComponent
+    component: UserListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'companies/add',
-    component: CompanyFormComponent
+    component: CompanyFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'companies/:id',
-    component: CompanyDetailComponent
+    component: CompanyDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'companies/edit/:id',
-    component: CompanyFormComponent
+    component: CompanyFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'companies',
-    component: CompanyListComponent
+    component: CompanyListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -90,7 +101,8 @@ const routes: Routes = [
   },
   {
     path: 'logs',
-    component: LogsComponent
+    component: LogsComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', 
     component: PageNotFoundComponent

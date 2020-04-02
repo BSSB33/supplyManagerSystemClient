@@ -9,7 +9,9 @@ import { Order } from '../classes/order';
   styleUrls: ['./order-list.component.css']
 })
 export class OrderListComponent implements OnInit {
-  title = " Of My Company";
+  
+  title = "Orders";
+  addButtonText = "Order";
   public unassigned: String = "UNASSIGNED";
 
   orders: Order[] = [];
@@ -22,6 +24,7 @@ export class OrderListComponent implements OnInit {
     this.getOrders();
     this.orderService.href;
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
+    this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
   }
 
   getOrders(): void {

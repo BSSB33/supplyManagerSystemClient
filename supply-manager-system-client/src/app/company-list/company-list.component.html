@@ -16,8 +16,17 @@
                 <td *ngIf="company.name; else missing">
                     <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.name}}</a>
                 </td>
+                <td *ngIf="company.active; else disabledCompany">
+                    <a style="color: green;">Enabled Company</a>
+                </td>
+                <ng-template #disabledCompany>
+                    <td>
+                        <a style="color: red;">Disabled Company</a>
+                    </td>
+                </ng-template>
+
                 <td><button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">Edit Company </button></td>
-                <!-- TODO Implement disable Company in backend -->
+                <!-- TODO disable the disable button in te case of logged in user -->
                 <td *ngIf="company.active; else disabledCompanyButton">
                     <button mat-raised-button color="primary" (click)="disableOrEnableCompany(company)">Disable</button>
                 </td>

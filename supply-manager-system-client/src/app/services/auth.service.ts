@@ -44,8 +44,8 @@ export class AuthService {
       //Stores the logged in user
       this.user = user;
       //Logs user login 
-      console.log("login() - " + user);
-      this.log("login() called with user - " + user);
+      console.log("login() - " + user.username);
+      this.log("login() called with user - " + user.username);
 
       return Promise.resolve(this.user);
     } catch (e) {
@@ -66,6 +66,6 @@ export class AuthService {
 
   //Logger method
   private log(message: string) {
-    this.messageService.add(`CompanyService: ${message}`);
+    this.messageService.add(`AuthService: ${message}`);
   }
 }
