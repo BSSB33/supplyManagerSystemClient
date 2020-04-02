@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -31,6 +31,7 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+
 
 @NgModule({
   declarations: [
@@ -69,7 +70,63 @@ import { LoginFormComponent } from './login-form/login-form.component';
     ReactiveFormsModule
     
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+         useFactory: function(router: Router) {
+           return new AuthInterceptor(router);
+         },
+         multi: true,
+         deps: [RouterModule]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { RouterModule, Router } from '@angular/router';
+import { HttpHandler, HttpEvent, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse} from '@angular/common/http';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+    constructor(private router: Router) {}
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(req).pipe(catchError(err => this.handleError(err)));
+    }
+    
+    private handleError(err: HttpErrorResponse): Observable<any> {
+      console.log('HttpRequest Error intercepted!');
+
+        if (err.status === 401) {
+            this.handleUnauthorized();
+            return of(err.message);
+        }
+        if (err.status === 404){
+          this.handleNotFound();
+          return of(err.message);
+        }
+        if (err.status === 403){
+          this.handleForbidden();
+          return of(err.message);
+        }
+        // handle your auth error or rethrow
+        return of(err);
+    }
+
+    handleUnauthorized(){
+      //this.router.navigate(['/login']);
+      window.location.href = '/login';
+    }
+
+    handleForbidden(){
+
+    }
+
+    handleNotFound(){
+
+    }
+    
+}
