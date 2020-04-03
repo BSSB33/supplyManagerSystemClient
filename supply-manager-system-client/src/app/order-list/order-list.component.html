@@ -27,7 +27,7 @@
               <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
               <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
               <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">Edit</button></td>
-              <td><button mat-raised-button color="primary" (click)="deleteOrder(order)">Delete</button></td>
+              <td><button mat-raised-button color="primary" (click)="openDeleteOrderDialog(order)">Delete</button></td>
           </tr>
       </tbody>
   </table>

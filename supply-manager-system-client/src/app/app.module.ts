@@ -32,7 +32,7 @@ import { CompanyDetailComponent } from './company-detail/company-detail.componen
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     CompanyDetailComponent,
     CompanyFormComponent,
     LoginFormComponent,
-    ForbiddenDialogComponent
+    ForbiddenDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +71,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonToggleModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
     
   ],
   providers: [
@@ -97,6 +98,7 @@ import { RouterModule, Router } from '@angular/router';
 import { HttpHandler, HttpEvent, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse} from '@angular/common/http';
 import { ForbiddenDialogComponent } from './forbidden-dialog/forbidden-dialog.component';
 import { MessageService } from './services/message.service';
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
