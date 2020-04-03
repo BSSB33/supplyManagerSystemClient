@@ -5,8 +5,6 @@ import { MessageService } from './message.service';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 
-//TODO export things from other files too (e.g.: authUrls)
-//rewrite to Observables
 export const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -43,6 +41,10 @@ export class AuthService {
       this.isLoggedIn = true;
       //Stores the logged in user
       this.user = user;
+      if(!this.user.enabled){
+        this.logout();
+        return;
+      }
       //Logs user login 
       console.log("login() - " + user.username);
       this.log("login() called with user - " + user.username);
