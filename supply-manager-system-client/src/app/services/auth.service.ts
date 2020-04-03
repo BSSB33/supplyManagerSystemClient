@@ -37,18 +37,17 @@ export class AuthService {
       httpOptions.headers = httpOptions.headers.set('Authorization', `Basic ${token}`);
       //Login
       const user = await this.http.post<User>(`${this.authUrl}/login`, {}, httpOptions).toPromise();
+      if(user == undefined || !user.enabled){
+        httpOptions.headers = httpOptions.headers.set('Authorization', ``);
+        return;
+      }
       //Logged in status
       this.isLoggedIn = true;
       //Stores the logged in user
       this.user = user;
-      if(!this.user.enabled){
-        this.logout();
-        return;
-      }
       //Logs user login 
       console.log("login() - " + user.username);
       this.log("login() called with user - " + user.username);
-
       return Promise.resolve(this.user);
     } catch (e) {
       console.log(e);

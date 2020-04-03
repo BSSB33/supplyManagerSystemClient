@@ -1,0 +1,42 @@
+.card-body{
+    margin: auto;
+    background-color: white;
+    width: auto;
+
+}
+.card{
+    width: 25rem;
+    margin: 20px;
+    background-color: rgb(30, 30, 30);
+    color: white;
+}
+
+.list-group{
+    margin-left: 100px; 
+    margin-right: 100px; 
+    margin-bottom: 40px;
+    margin-top: 40px;
+    color: white;
+}
+
+.font-weight-bold{
+    color: white;
+    background-color: rgb(30, 30, 30);
+}
+
+.aligned-with-icon-begin {
+    position: absolute;
+    margin-top: -10px;
+}
+
+.aligned-with-icon {
+    position: absolute;
+    margin-top: 0px;
+    margin-left: 20px;
+}
+
+.aligned-with-icon-end{
+    position: absolute;
+    margin-top: -10px;
+    margin-left: 45px;
+}

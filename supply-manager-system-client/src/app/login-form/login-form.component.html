@@ -1,21 +1,39 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <!--TODO password icon not showing-->
+  <div *ngIf="message">
 
-    <div *ngIf="message">
-      
-    </div>
-  
-    <mat-form-field>
-      <input matInput placeholder="Username" formControlName="username" required>
-      <mat-error *ngIf="username.invalid">Username is required</mat-error>
-    </mat-form-field>
-  
-    <mat-form-field>
-      <input matInput placeholder="Password" formControlName="password" required [type]="hidePassword ? 'password' : 'text'">
-      <mat-icon matSuffix (click)="hidePassword = !hidePassword"></mat-icon>
-      <mat-error *ngIf="password.invalid">Password is required</mat-error>
-    </mat-form-field>
-  
-    <div>
-      <button mat-flat-button type="submit" color="primary" [disabled]="form.invalid">Login!</button>
-    </div>
-  </form>
+  </div>
+
+  <div class="card">
+
+    <ul class="list-group list-group-flush">
+
+      <h2 class="font-weight-bold aligned-with-icon-begin">L</h2>
+      <div>
+        <mat-icon class="aligned-with-icon">explore</mat-icon>
+      </div>
+      <h2 class="font-weight-bold aligned-with-icon-end">gin</h2>
+
+      <div style="margin-top: 30px;">
+        <mat-form-field style="width: 200px;">
+          <input matInput placeholder="Username" formControlName="username" required>
+          <mat-error *ngIf="username.invalid">Username is required</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="width: 200px;">
+          <input matInput placeholder="Password" formControlName="password" required
+            [type]="hidePassword ? 'password' : 'text'">
+          <mat-icon matSuffix (click)="hidePassword = !hidePassword"></mat-icon>
+          <mat-error *ngIf="password.invalid">Password is required</mat-error>
+        </mat-form-field>
+
+        <div style="margin-top: 20px;">
+          <button mat-flat-button type="submit" color="primary" [disabled]="form.invalid">Login</button>
+        </div>
+        
+      </div>
+
+    </ul>
+  </div>
+
+</form>

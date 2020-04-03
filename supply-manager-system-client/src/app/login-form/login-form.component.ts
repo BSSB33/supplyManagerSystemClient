@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { AuthService, httpOptions } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder } from '@angular/forms';
+import { User } from '../classes/user';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  styleUrls: ['./login-form.component.css'],
+  providers: [LoginFormComponent]
 })
 export class LoginFormComponent implements OnInit {
 
@@ -40,6 +42,7 @@ export class LoginFormComponent implements OnInit {
         this.router.navigate(['/']);
       }
     } catch (e) {
+      //TODO doesn't work
       this.message = 'Cannot log in!';
     }
   }

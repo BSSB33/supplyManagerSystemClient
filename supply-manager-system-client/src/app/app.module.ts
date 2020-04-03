@@ -112,39 +112,43 @@ export class AuthInterceptor implements HttpInterceptor {
   }
   
   private handleError(err: HttpErrorResponse): Observable<any> {
-    console.log('HttpRequest Error intercepted!');
 
       if (err.status === 401){
-          this.handleUnauthorized();
-          return of(err.message);
+        //this.router.navigate(['/login']);
+        //window.location.href = '/login';
+        //this.messageService.openDialog();
+        return of(err.message);
       }
       if (err.status === 404){
-        this.handleNotFound();
+        //this.router.navigate(['/login']);
+        window.location.href = '/404';
+        //this.messageService.openDialog();
         return of(err.message);
       }
       if (err.status === 403){
-        this.handleForbidden();
+        //this.router.navigate(['/login']);
+        window.location.href = '/login';
+        //this.messageService.openDialog();
         return of(err.message);
+      }
+      else{
+        console.log('HttpRequest Error intercepted!');
       }
       // handle your auth error or rethrow
       return of(err);
   }
 
   handleUnauthorized(){
-    //this.router.navigate(['/login']);
-    //window.location.href = '/login';
-    //this.messageService.openDialog();
+
   
   }
 
   handleForbidden(){
-    //this.router.navigate(['/login']);
-    //this.messageService.openDialog();
+    
   }
 
   handleNotFound(){
-    //this.router.navigate(['/login']);
-    //this.messageService.openDialog();
+
   }
     
 }
