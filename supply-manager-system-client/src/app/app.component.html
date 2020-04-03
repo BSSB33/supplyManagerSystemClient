@@ -12,22 +12,53 @@
 
 <mat-toolbar color="primary" role="heading">
   <div *ngIf="authService.isLoggedIn">
-    <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-    <button mat-button routerLink="/sales">Sales</button>
-    <button mat-button routerLink="/purchases">Purchases</button>
-    <button mat-button routerLink="/users">Users</button>
-    <button mat-button routerLink="/companies">Companies</button>
-    <span class="example-fill-remaining-space"></span>
-    <button mat-button disabled>Welcome, {{ authService.user.username }}! - Role: [{{ authService.user.role }}]</button>
-    <button mat-button routerLink="/logs">Logs</button>
-    <button mat-stroked-button (click)="logout()">Logout</button>
+    <div *ngIf="authService.user.role === 'ROLE_ADMIN'; else director">
+      <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
+      <button mat-button routerLink="/sales">Sales</button>
+      <button mat-button routerLink="/purchases">Purchases</button>
+      <button mat-button routerLink="/users">Users</button>
+      <button mat-button routerLink="/companies">Companies</button>
+      <span class="example-fill-remaining-space"></span>
+      <button mat-button disabled>Welcome, {{ authService.user.username }}! - Role: [{{ authService.user.role }}]</button>
+      <button mat-button routerLink="/logs">Logs</button>
+      <button mat-stroked-button (click)="logout()">Logout</button>
+    </div>
+    <ng-template #director>
+      <div *ngIf="authService.user.role === 'ROLE_DIRECTOR'; else manager">
+        <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
+        <button mat-button routerLink="/sales">Sales</button>
+        <button mat-button routerLink="/purchases">Purchases</button>
+        <button mat-button routerLink="/users">Users</button>
+        <button mat-button routerLink="/companies">Companies</button>
+        <span class="example-fill-remaining-space"></span>
+        <button mat-button disabled>Welcome, {{ authService.user.username }}! - Role: [{{ authService.user.role }}]</button>
+        <button mat-button routerLink="/logs">Logs</button>
+        <button mat-stroked-button (click)="logout()">Logout</button>
+      </div>
+    </ng-template>
+    <ng-template #manager>
+      <div *ngIf="authService.user.role === 'ROLE_MANAGER'">
+        <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
+        <button mat-button routerLink="/sales">Sales</button>
+        <button mat-button routerLink="/purchases">Purchases</button>
+        <button mat-button routerLink="/users">Users</button>
+        <button mat-button routerLink="/companies">Companies</button>
+        <span class="example-fill-remaining-space"></span>
+        <button mat-button disabled>Welcome, {{ authService.user.username }}! - Role: [{{ authService.user.role }}]</button>
+        <button mat-button routerLink="/logs">Logs</button>
+        <button mat-stroked-button (click)="logout()">Logout</button>
+      </div>
+    </ng-template>
+
   </div>
+
   <div *ngIf="!authService.isLoggedIn">
-    <button mat-button ><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
+    <button mat-button><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
     <button mat-stroked-button routerLink="/login">Login</button>
   </div>
   
 </mat-toolbar>
+
 
 <router-outlet></router-outlet>
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../classes/user';
 import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-user-list',
@@ -12,7 +14,8 @@ export class UserListComponent implements OnInit {
   users: User[] = [];
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -29,7 +32,7 @@ export class UserListComponent implements OnInit {
     this.userService.deleteUser(user).subscribe();
   }
 
-  disableOrEnableUser(user: User): void {
+  disableOrEnableUser(user: User){
     this.userService.disableOrEnableUser(user).subscribe();
     user.enabled = !user.enabled;
   }

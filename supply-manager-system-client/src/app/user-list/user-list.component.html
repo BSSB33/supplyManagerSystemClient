@@ -1,6 +1,12 @@
 <div class="panel panel-default" style="margin: 20px;">
-    <!-- TODO Modify Title for different roles: /Employees/Colleagues/Registerd Users -->
-    <h2 style="margin-left: 20px;">Registered Users</h2>
+    <h2 *ngIf="authService.user.role === 'ROLE_ADMIN'; else directorTitle" style="margin-left: 20px;">Registered Users</h2>
+    <ng-template #directorTitle>
+        <h2 *ngIf="authService.user.role === 'ROLE_DIRECTOR'; else managerTitle" style="margin-left: 20px;">Employees</h2>
+    </ng-template>
+    <ng-template #managerTitle>
+        <h2 *ngIf="authService.user.role === 'ROLE_MANAGER'" style="margin-left: 20px;">Colleagues</h2>
+    </ng-template>
+
     <table class="table table-dark table-hover table-curved">
         <thead>
             <tr>
@@ -21,19 +27,42 @@
                 <td *ngIf="user.username; else missing">
                     <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.username}}</a>
                 </td>
+
                 <td *ngIf="user.enabled; else disabledUser"><label style="color: green;">Enabled User</label></td>
                 <ng-template #disabledUser>
                     <td><label style="color: red;">Disabled User</label></td>
                 </ng-template>
+
                 <td *ngIf="user.company; else notADirector">{{user.company.name}}</td>
                 <td *ngIf="user.workplace; else missing">{{user.workplace.name}}</td>
                 <td *ngIf="user.role; else missing">{{user.role}}</td>
-                <td><button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]">Edit</button></td>
-                <!-- TODO Disable these buttons in the case of the Logged In user-->
-                <td><button mat-raised-button color="primary" (click)="deleteUser(user)" disabled>Delete</button></td>
-                <td *ngIf="user.enabled; else disabledUserButton">
-                    <button mat-raised-button color="primary" (click)="disableOrEnableUser(user)">Disable</button>
+
+                <td *ngIf="authService.user.role !== 'ROLE_MANAGER'; else manager">
+                    <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]">Edit</button>
                 </td>
+                <ng-template #manager>
+                    <td>
+                        <button mat-raised-button color="primary" disabled>Edit</button>
+                    </td>
+                </ng-template>
+
+                <td *ngIf="authService.user.id === user.id || authService.user.role === 'ROLE_MANAGER'; else notDeletableUser">
+                    <button mat-raised-button color="primary" (click)="deleteUser(user)" disabled>Delete</button>
+                </td>
+                <ng-template #notDeletableUser>
+                    <td>
+                        <button mat-raised-button color="primary" (click)="deleteUser(user)">Delete</button>
+                    </td>
+                </ng-template>
+
+                <td *ngIf="user.enabled && authService.user.id === user.id || user.enabled && authService.user.role === 'ROLE_MANAGER'; else switchableUser">
+                    <button mat-raised-button color="primary" disabled>Disable</button>
+                </td>
+                <ng-template #switchableUser>
+                    <td *ngIf="user.enabled; else disabledUserButton">
+                        <button mat-raised-button color="primary" (click)="disableOrEnableUser(user)">Disable</button>
+                    </td>
+                </ng-template>
                 <ng-template #disabledUserButton>
                     <td><button mat-raised-button color="primary" (click)="disableOrEnableUser(user)">Enable</button></td>
                 </ng-template>
