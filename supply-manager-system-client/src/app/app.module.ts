@@ -117,6 +117,7 @@ export class AuthInterceptor implements HttpInterceptor {
         //this.router.navigate(['/login']);
         //window.location.href = '/login';
         //this.messageService.openDialog();
+        console.log(err);
         return of(err.message);
       }
       if (err.status === 404){
@@ -126,6 +127,8 @@ export class AuthInterceptor implements HttpInterceptor {
         return of(err.message);
       }
       if (err.status === 403){
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         //this.router.navigate(['/login']);
         window.location.href = '/login';
         //this.messageService.openDialog();

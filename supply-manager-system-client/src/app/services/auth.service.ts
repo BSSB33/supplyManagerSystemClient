@@ -4,6 +4,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { MessageService } from './message.service';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { stringify } from 'querystring';
 
 export const httpOptions = {
   headers: new HttpHeaders({
@@ -27,7 +28,15 @@ export class AuthService {
     private http: HttpClient,
     private messageService: MessageService,
     private router: Router
-  ) { }
+  ) {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user != null){
+      httpOptions.headers = httpOptions.headers.set('Authorization', `Basic ${token}`);
+      this.user = user;
+      this.isLoggedIn = true;
+    }
+   }
 
   async login(username: string, password: string): Promise<User> {
     try {
@@ -39,12 +48,16 @@ export class AuthService {
       const user = await this.http.post<User>(`${this.authUrl}/login`, {}, httpOptions).toPromise();
       if(user == undefined || !user.enabled){
         httpOptions.headers = httpOptions.headers.set('Authorization', ``);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         return;
       }
       //Logged in status
       this.isLoggedIn = true;
       //Stores the logged in user
       this.user = user;
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
       //Logs user login 
       console.log("login() - " + user.username);
       this.log("login() called with user - " + user.username);
@@ -59,6 +72,8 @@ export class AuthService {
   logout() {
     //Sets token to empty
     httpOptions.headers = httpOptions.headers.set('Authorization', ``);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     //Sets variables
     this.isLoggedIn = false;
     this.user = null;
