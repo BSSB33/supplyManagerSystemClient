@@ -90,7 +90,6 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 export class AppModule {}
 
 
-
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
@@ -98,7 +97,6 @@ import { RouterModule, Router } from '@angular/router';
 import { HttpHandler, HttpEvent, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse} from '@angular/common/http';
 import { ForbiddenDialogComponent } from './forbidden-dialog/forbidden-dialog.component';
 import { MessageService } from './services/message.service';
-
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -115,7 +113,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
       if (err.status === 401){
         //window.location.href = '/login';
-        console.log(err);
+        //console.log(err);
+        localStorage.setItem('loginMessage', "Unauthorized!");
         return of(err.message);
       }
       if (err.status === 404){
@@ -125,7 +124,7 @@ export class AuthInterceptor implements HttpInterceptor {
       if (err.status === 403){
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = '/login';
+        //window.location.href = '/login';
         return of(err.message);
       }
       if (err.status === 406){

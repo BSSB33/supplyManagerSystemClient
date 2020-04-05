@@ -32,6 +32,7 @@ export class UserListComponent implements OnInit {
   getUsers(): void {
     this.userService.getUsers()
         .subscribe(users => this.users = users);
+        //this.users.sort(function(a, b) { return - (a.id - b.id); });
   }
 
   deleteUser(user: User): void {

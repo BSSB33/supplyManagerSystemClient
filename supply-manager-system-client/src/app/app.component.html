@@ -11,64 +11,70 @@
 </mat-toolbar>-->
 
 <mat-toolbar color="primary" role="heading">
-  <div *ngIf="authService.isLoggedIn">
-    <div *ngIf="authService.user.role === 'ROLE_ADMIN'; else director">
+  <div *ngIf="authService.isLoggedIn" fxLayout="row" fxShow="false" fxShow.gt-sm>
+    <!--Admin menu-->
+    <div *ngIf="authService.user.role === 'ROLE_ADMIN'; else director" fxLayout="row" fxShow="false" fxShow.gt-sm>
       <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-      <button mat-button routerLink="/sales">Sales</button>
-      <button mat-button routerLink="/purchases">Purchases</button>
-      <button mat-button routerLink="/users">Users</button>
-      <button mat-button routerLink="/companies">Companies</button>
-      <span class="example-fill-remaining-space"></span>
-      <button mat-button disabled>Welcome, {{ authService.user.username }}! - Role: [{{ authService.user.role }}]</button>
-      <button mat-button routerLink="/logs">Logs</button>
-      <button mat-stroked-button (click)="logout()">Logout</button>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" fxHide="false" fxHide.gt-sm>
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <button mat-button routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
+      <button mat-button routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+      <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Users</button>
+      <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+      <button mat-raised-button disabled style="color: white; font-weight: bold;">Welcome, {{ authService.user.username }}! - [{{ authService.user.role }}]</button>
+      <span class="fill-space"></span>
+      <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
+      <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
     </div>
+    <!--Director menu-->
     <ng-template #director>
       <div *ngIf="authService.user.role === 'ROLE_DIRECTOR'; else manager">
         <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-        <button mat-button routerLink="/sales">Sales</button>
-        <button mat-button routerLink="/purchases">Purchases</button>
-        <button mat-button routerLink="/users">Users</button>
-        <button mat-button routerLink="/companies">Companies</button>
-        <span class="example-fill-remaining-space"></span>
-        <button mat-button disabled>Welcome, {{ authService.user.username }}! - Role: [{{ authService.user.role }}]</button>
-        <button mat-button routerLink="/logs">Logs</button>
-        <button mat-stroked-button (click)="logout()">Logout</button>
+        <button mat-button routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
+        <button mat-button routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+        <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Emplyees</button>
+        <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+        <button mat-raised-button disabled style="color: white; font-weight: bold;">Welcome, {{ authService.user.username }}! - [{{ authService.user.role }}]</button>
+        <span class="fill-space"></span>
+        <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
+        <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
       </div>
     </ng-template>
+    <!--Manager menu-->
     <ng-template #manager>
       <div *ngIf="authService.user.role === 'ROLE_MANAGER'">
         <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-        <button mat-button routerLink="/sales">Sales</button>
-        <button mat-button routerLink="/purchases">Purchases</button>
-        <button mat-button routerLink="/users">Users</button>
-        <button mat-button routerLink="/companies">Companies</button>
-        <span class="example-fill-remaining-space"></span>
-        <button mat-button disabled>Welcome, {{ authService.user.username }}! - Role: [{{ authService.user.role }}]</button>
-        <button mat-button routerLink="/logs">Logs</button>
-        <button mat-stroked-button (click)="logout()">Logout</button>
+        <button mat-button routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
+        <button mat-button routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+        <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
+        <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+        <button mat-raised-button disabled style="color: white; font-weight: bold;">Welcome, {{ authService.user.username }}! - [{{ authService.user.role }}]</button>
+        <span class="fill-space"></span>
+        <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
+        <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
       </div>
     </ng-template>
 
   </div>
 
-  <div *ngIf="!authService.isLoggedIn">
+  <!--Login menu-->
+  <div *ngIf="!authService.isLoggedIn" fxLayout="row" fxShow="false" fxShow.gt-sm>
     <button mat-button><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-    <button mat-stroked-button routerLink="/login">Login</button>
+    <button mat-stroked-button routerLink="/login"><mat-icon>power_settings_new</mat-icon>&nbsp;Login</button>
   </div>
   
 </mat-toolbar>
 
+<mat-menu xPosition="before" #menu="matMenu">
+  <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
+  <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+  <button mat-menu-item routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Users</button>
+  <button mat-menu-item routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+  <button mat-menu-item routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
+  <button mat-menu-item (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
+</mat-menu>
 
 <router-outlet></router-outlet>
-
-
-<!--<div class="basic-container">
-  <p>
-    <button mat-button (click)="openDialog()">Open Confirm Dialog</button>
-  </p>
-  <p>
-    <button mat-button (click)="openAlertDialog()">Open Alert Dialog</button>
-  </p>
-</div>-->
-

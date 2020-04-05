@@ -40,9 +40,9 @@ export class LoginFormComponent implements OnInit {
         this.router.navigate([this.authService.redirectUrl]);
       } else {
         this.router.navigate(['/']);
+        this.message = localStorage.getItem('loginMessage');
       }
     } catch (e) {
-      //TODO doesn't work
       this.message = 'Cannot log in!';
     }
   }
