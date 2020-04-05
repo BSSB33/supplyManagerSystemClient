@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Order } from '../classes/order';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
-import { ForbiddenDialogComponent } from '../forbidden-dialog/forbidden-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../services/message.service';
 
@@ -62,7 +61,6 @@ export class OrderListComponent implements OnInit {
         this.log("OrderDeletion: Option: CANCEL");
       }
     });
-
   }
 
   private log(message: string) {

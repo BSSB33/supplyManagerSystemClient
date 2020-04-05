@@ -114,24 +114,23 @@ export class AuthInterceptor implements HttpInterceptor {
   private handleError(err: HttpErrorResponse): Observable<any> {
 
       if (err.status === 401){
-        //this.router.navigate(['/login']);
         //window.location.href = '/login';
-        //this.messageService.openDialog();
         console.log(err);
         return of(err.message);
       }
       if (err.status === 404){
-        //this.router.navigate(['/login']);
         window.location.href = '/404';
-        //this.messageService.openDialog();
         return of(err.message);
       }
       if (err.status === 403){
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        //this.router.navigate(['/login']);
         window.location.href = '/login';
-        //this.messageService.openDialog();
+        return of(err.message);
+      }
+      if (err.status === 406){
+        console.log("406: Object Cannot be deleted!");
+        console.log(err.error)
         return of(err.message);
       }
       else{
@@ -139,19 +138,6 @@ export class AuthInterceptor implements HttpInterceptor {
       }
       // handle your auth error or rethrow
       return of(err);
-  }
-
-  handleUnauthorized(){
-
-  
-  }
-
-  handleForbidden(){
-    
-  }
-
-  handleNotFound(){
-
   }
     
 }

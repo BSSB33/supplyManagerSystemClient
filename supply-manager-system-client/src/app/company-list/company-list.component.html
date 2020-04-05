@@ -42,13 +42,19 @@
                     </td>
                 </ng-template>
 
-                <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN'; else disabledCompany">
-                    <button mat-raised-button color="primary" (click)="disableOrEnableCompany(company)">Disable</button>
+                <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.company.id !== company.id; else usersCompany">
+                    <button mat-raised-button color="primary" (click)="openDisableOrEnableCompanyDialog(company, 'disable')">Disable</button>
                 </td>
+                <ng-template #usersCompany>
+                    <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.company.id === company.id; else disabledCompany">
+                        <button mat-raised-button color="primary"
+                            (click)="openDisableOrEnableCompanyDialog(company, 'enable')" disabled>Disable</button>
+                    </td>
+                </ng-template>
                 <ng-template #disabledCompany>
                     <td *ngIf="!company.active && authService.user.role === 'ROLE_ADMIN'">
                         <button mat-raised-button color="primary"
-                            (click)="disableOrEnableCompany(company)">Enable</button>
+                            (click)="openDisableOrEnableCompanyDialog(company, 'enable')">Enable</button>
                     </td>
                 </ng-template>
             </tr>
