@@ -1,4 +1,4 @@
-<div class="panel panel-default" style="margin: 20px; width: 600Px;">
+<div class="panel panel-default" style="margin: 20px; width: 800Px;">
 
     <h2 style="margin-left: 20px;">Registered Companies</h2>
     <table class="table table-dark table-hover table-curved">
@@ -6,34 +6,51 @@
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Company Name</th>
-                <th scope="col">Edit Company</th>
-                <th scope="col">Disable Company</th>
+                <th scope="col">Company Status</th>
+                <th scope="col" *ngIf="authService.user.role === 'ROLE_ADMIN' || authService.user.role === 'ROLE_DIRECTOR'">Edit Company</th>
+                <th scope="col" *ngIf="authService.user.role === 'ROLE_ADMIN'">Disable Company</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let company of companies">
                 <th scope="row">{{ company.id }}</th>
+
                 <td *ngIf="company.name; else missing">
                     <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.name}}</a>
                 </td>
-                <td *ngIf="company.active; else disabledCompany">
-                    <a style="color: green;">Enabled Company</a>
+
+                <td *ngIf="company.active; else disabledCompanyLabel">
+                    <label style="color: green;">Enabled Company</label>
                 </td>
-                <ng-template #disabledCompany>
+                <ng-template #disabledCompanyLabel>
                     <td>
-                        <a style="color: red;">Disabled Company</a>
+                        <label style="color: red;">Disabled Company</label>
+                    </td>
+                </ng-template>
+                
+                <td *ngIf="authService.user.role === 'ROLE_ADMIN' else directorEditButtons">
+                    <button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">Edit Company </button>
+                </td>
+                <ng-template #directorEditButtons>
+                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && authService.user.company.id === company.id else nonDirectorEditButtons">
+                        <button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">Edit Company </button>
+                    </td>
+                </ng-template>
+                <ng-template #nonDirectorEditButtons>
+                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && authService.user.company.id !== company.id">
+                        <button mat-raised-button color="primary" disabled>Edit Company </button>
                     </td>
                 </ng-template>
 
-                <td><button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">Edit Company </button></td>
-                <!-- TODO disable the disable button in te case of logged in user -->
-                <td *ngIf="company.active; else disabledCompanyButton">
+                <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN'; else disabledCompany">
                     <button mat-raised-button color="primary" (click)="disableOrEnableCompany(company)">Disable</button>
                 </td>
-                <ng-template #disabledCompanyButton>
-                    <td><button mat-raised-button color="primary" (click)="disableOrEnableCompany(company)">Enable</button></td>
+                <ng-template #disabledCompany>
+                    <td *ngIf="!company.active && authService.user.role === 'ROLE_ADMIN'">
+                        <button mat-raised-button color="primary"
+                            (click)="disableOrEnableCompany(company)">Enable</button>
+                    </td>
                 </ng-template>
-                
             </tr>
         </tbody>
     </table>

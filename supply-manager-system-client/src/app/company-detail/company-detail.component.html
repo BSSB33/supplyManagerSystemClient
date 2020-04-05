@@ -11,11 +11,15 @@
 
     <ul class="list-group list-group-flush">
 
-        <li *ngIf="company.director; else elseBlock1" class="list-group-item">
-            <label>Director:&nbsp;<label style="color: green;">{{company.director}}</label></label></li>
+        <li *ngIf="company.active; else elseBlock1" class="list-group-item">
+            <label>Company Status:&nbsp;<label style="color: green;">Enabled</label></label>
+        </li>
         <ng-template #elseBlock1>
-            <li class="list-group-item"><label>Director:&nbsp;</label><label style="color: red;">Disabled</label></li>
+            <li class="list-group-item">
+                <label>Company Status:&nbsp;</label><label style="color: red;">Disabled</label>
+            </li>
         </ng-template>
+        <!--TODO get director of company by (request?)-->
 
     </ul>
     <div class="card-body">

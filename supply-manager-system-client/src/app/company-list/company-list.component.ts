@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Company } from '../classes/company';
 import { CompanyService } from '../services/company.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-company-list',
@@ -12,7 +13,8 @@ export class CompanyListComponent implements OnInit {
   companies: Company[] = [];
 
   constructor(
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
