@@ -11,18 +11,22 @@
 
     <ul class="list-group list-group-flush">
 
-        <li *ngIf="company.director; else elseBlock1" class="list-group-item">
-            <label>Director:&nbsp;<label style="color: green;">{{company.director}}</label></label></li>
+        <li *ngIf="company.active; else elseBlock1" class="list-group-item">
+            <label>Company Status:&nbsp;<label style="color: green;">Enabled</label></label>
+        </li>
         <ng-template #elseBlock1>
-            <li class="list-group-item"><label>Director:&nbsp;</label><label style="color: red;">Disabled</label></li>
+            <li class="list-group-item">
+                <label>Company Status:&nbsp;</label><label style="color: red;">Disabled</label>
+            </li>
         </ng-template>
+        <!--TODO get director of company by (request?)-->
 
     </ul>
     <div class="card-body">
         <a [routerLink]="['/companies/edit', company.id]" class="card-link">Edit Company</a>
     </div>
 </div>
-<!-- TODO add employees if the logged in user is wokring at the selected company -->
+<!-- TODO list employees if the logged in user is wokring at the selected company -->
 <ng-template #dontHaveADirector>
     <td><strong style="color: orange;">Not a Director</strong></td>
 </ng-template>

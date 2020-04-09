@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { Company } from '../classes/company';
+import { httpOptions } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,29 +15,22 @@ export class CompanyService {
 
   constructor(    
     private http: HttpClient,
-    private router: Router,
     private messageService: MessageService
   ) { }
 
   private companiesUrl = 'http://localhost:8080/companies';
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic QmFsYXpzOnBhc3N3b3Jk'
-    })
-  };
 
   getCompany(id: number): Observable<Company> {
     const url = `${this.companiesUrl}/${id}`;
-    return this.http.get<Company>(url, this.httpOptions).pipe(
+    return this.http.get<Company>(url, httpOptions).pipe(
       tap(_ => this.log(`Fetched Company ID=${id}`)),
       catchError(this.handleError<Company>(`getCompany ID=${id}`))
     );
   }
 
   getCompanies(): Observable<Company[]> {
-    return this.http.get<Company[]>(this.companiesUrl, this.httpOptions)
+    return this.http.get<Company[]>(this.companiesUrl, httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Companies')),
         catchError(this.handleError<Company[]>('getCompanies', []))
@@ -46,7 +40,7 @@ export class CompanyService {
   getCompanyOfUser(): Observable<Company> {
     this.log('Fetched Company Of User');
     const url = `${this.companiesUrl}/mycompany`;
-    return this.http.get<Company>(url, this.httpOptions).pipe(
+    return this.http.get<Company>(url, httpOptions).pipe(
       tap(_ => this.log(`Fetched Company Of User`)),
       catchError(this.handleError<Company>(`getCompany Of User`))
     );
@@ -61,7 +55,7 @@ export class CompanyService {
       url = `${this.companiesUrl}/${company.id}/enable`;
     }
     
-    return this.http.put(url, company, this.httpOptions).pipe(
+    return this.http.put(url, company, httpOptions).pipe(
       tap(_ => this.log(`Disabled/Enabled User ID=${company.id}`)),
       catchError(this.handleError<any>('disableOrEnableUser'))
     );
@@ -71,7 +65,7 @@ export class CompanyService {
     const id = typeof company === 'number' ? company : company.id;
     const url = `${this.companiesUrl}/${id}`;
     console.log(`${this.companiesUrl}/${id}`);
-    return this.http.delete<Company>(url, this.httpOptions).pipe(
+    return this.http.delete<Company>(url, httpOptions).pipe(
       tap(_ => this.log(`Deleted Company ID=${id}`)),
       catchError(this.handleError<Company>('deleteCompany'))
     );

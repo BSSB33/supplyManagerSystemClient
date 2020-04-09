@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -30,6 +30,9 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,10 @@ import { CompanyFormComponent } from './company-form/company-form.component';
     UserDetailComponent,
     UserFormComponent,
     CompanyDetailComponent,
-    CompanyFormComponent
+    CompanyFormComponent,
+    LoginFormComponent,
+    ForbiddenDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -64,10 +70,74 @@ import { CompanyFormComponent } from './company-form/company-form.component';
     MatMenuModule,
     MatButtonToggleModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
     
   ],
-  providers: [],
+  providers: [
+    MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+         useFactory: function(router: Router) {
+           return new AuthInterceptor(router);
+         },
+         multi: true,
+         deps: [RouterModule]
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
+
+
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { RouterModule, Router } from '@angular/router';
+import { HttpHandler, HttpEvent, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse} from '@angular/common/http';
+import { ForbiddenDialogComponent } from './forbidden-dialog/forbidden-dialog.component';
+import { MessageService } from './services/message.service';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+
+  constructor(
+    private router: Router
+    ) {}
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+      return next.handle(req).pipe(catchError(err => this.handleError(err)));
+  }
+  
+  private handleError(err: HttpErrorResponse): Observable<any> {
+
+      if (err.status === 401){
+        //window.location.href = '/login';
+        //console.log(err);
+        localStorage.setItem('loginMessage', "Unauthorized!");
+        return of(err.message);
+      }
+      if (err.status === 404){
+        window.location.href = '/404';
+        return of(err.message);
+      }
+      if (err.status === 403){
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        //window.location.href = '/login';
+        return of(err.message);
+      }
+      if (err.status === 406){
+        console.log("406: Object Cannot be deleted!");
+        console.log(err.error)
+        return of(err.message);
+      }
+      else{
+        console.log(err.error)
+        console.log('HttpRequest Error intercepted!');
+      }
+      // handle your auth error or rethrow
+      return of(err);
+  }
+    
+}

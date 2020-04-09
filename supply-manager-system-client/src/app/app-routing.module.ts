@@ -13,6 +13,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
+import { AuthGuard } from './auth.guard';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 const routes: Routes = [
   {
@@ -22,67 +24,85 @@ const routes: Routes = [
   },
   {
     path: 'sales',
-    component: OrderListComponent
+    component: OrderListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'purchases',
-    component: OrderListComponent
+    component: OrderListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'orders/add',
-    component: OrderFormComponent
+    component: OrderFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'orders/:id',
-    component: OrderDetailComponent
+    component: OrderDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'orders/edit/:id',
-    component: OrderFormComponent
+    component: OrderFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users/add',
-    component: UserFormComponent
+    component: UserFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users/:id',
-    component: UserDetailComponent
+    component: UserDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users/edit/:id',
-    component: UserFormComponent
+    component: UserFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users',
-    component: UserListComponent
+    component: UserListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'companies/add',
-    component: CompanyFormComponent
+    component: CompanyFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'companies/:id',
-    component: CompanyDetailComponent
+    component: CompanyDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'companies/edit/:id',
-    component: CompanyFormComponent
+    component: CompanyFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'companies',
-    component: CompanyListComponent
+    component: CompanyListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'login',
+    component: LoginFormComponent,
   },
   {
     path: '404',
     component: PageNotFoundComponent
   },
   {
-    path: '403',
+    path: 'forbidden',
     component: ForbiddenComponent
   },
   {
     path: 'logs',
-    component: LogsComponent
+    component: LogsComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', 
     component: PageNotFoundComponent

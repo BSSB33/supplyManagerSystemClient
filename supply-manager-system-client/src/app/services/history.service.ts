@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { History } from '../classes/history';
+import { httpOptions } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +20,8 @@ export class HistoryService {
 
   private historiesUrl = 'http://localhost:8080/histories';
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic QmFsYXpzOnBhc3N3b3Jk'
-    })
-  };
-
   addHistory(history: History): Observable<History> {
-    return this.http.post<History>(this.historiesUrl, history, this.httpOptions).pipe(
+    return this.http.post<History>(this.historiesUrl, history, httpOptions).pipe(
       tap((newHistory: History) => this.log(`added History w/ id=${newHistory.id}`)), //ID could be problem
       catchError(this.handleError<History>('addHistory'))
     );
@@ -36,7 +30,7 @@ export class HistoryService {
   deleteHistory (history: History | number): Observable<History> {
     const id = typeof history === 'number' ? history : history.id;
     console.log(`${this.historiesUrl}/${id}`);
-    return this.http.delete<History>(`${this.historiesUrl}/${id}`, this.httpOptions).pipe(
+    return this.http.delete<History>(`${this.historiesUrl}/${id}`, httpOptions).pipe(
       tap(_ => this.log(`Deleted Historiy ID=${id}`)),
       catchError(this.handleError<History>('deleteHistory'))
     );
