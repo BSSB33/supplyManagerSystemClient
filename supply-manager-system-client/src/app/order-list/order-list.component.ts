@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Order } from '../classes/order';
+import { NewOrderFormComponent } from '../new-order-form/new-order-form.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../services/message.service';
@@ -14,6 +15,7 @@ export class OrderListComponent implements OnInit {
   
   title = "Orders";
   addButtonText = "Order";
+  addOrder: Boolean = false;
   public unassigned: String = "UNASSIGNED";
 
   orders: Order[] = [];
@@ -29,6 +31,11 @@ export class OrderListComponent implements OnInit {
     this.orderService.href;
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
     this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
+  }
+
+  
+  toggleAddOrder(): void{
+    this.addOrder = !this.addOrder;
   }
 
   getOrders(): void {

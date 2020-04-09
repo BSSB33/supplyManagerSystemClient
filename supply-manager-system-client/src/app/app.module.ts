@@ -53,7 +53,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     CompanyFormComponent,
     LoginFormComponent,
     ForbiddenDialogComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    NewOrderFormComponent
   ],
   imports: [
     BrowserModule,
@@ -97,6 +98,7 @@ import { RouterModule, Router } from '@angular/router';
 import { HttpHandler, HttpEvent, HttpInterceptor, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse} from '@angular/common/http';
 import { ForbiddenDialogComponent } from './forbidden-dialog/forbidden-dialog.component';
 import { MessageService } from './services/message.service';
+import { NewOrderFormComponent } from './new-order-form/new-order-form.component';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -112,19 +114,23 @@ export class AuthInterceptor implements HttpInterceptor {
   private handleError(err: HttpErrorResponse): Observable<any> {
 
       if (err.status === 401){
+        //Unauthorized
         //window.location.href = '/login';
-        //console.log(err);
         localStorage.setItem('loginMessage', "Unauthorized!");
+        console.log(err.error)
         return of(err.message);
       }
       if (err.status === 404){
         window.location.href = '/404';
+        console.log(err.error)
         return of(err.message);
       }
       if (err.status === 403){
+        //Forbidden
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         //window.location.href = '/login';
+        console.log(err.error)
         return of(err.message);
       }
       if (err.status === 406){

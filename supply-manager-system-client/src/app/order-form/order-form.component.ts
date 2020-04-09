@@ -9,7 +9,7 @@ import { CompanyService } from '../services/company.service';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-order-form',
+  selector: 'order-form',
   templateUrl: './order-form.component.html',
   styleUrls: ['./order-form.component.css']
 })
