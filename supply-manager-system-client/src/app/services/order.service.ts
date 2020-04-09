@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { History } from '../classes/history';
-import { httpOptions } from './auth.service';
+import { httpOptions, AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,8 @@ export class OrderService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService,
   ) { }
 
   public href: string = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
@@ -25,12 +26,14 @@ export class OrderService {
 
   setHref(){
     this.href = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
-    this.sales_purchasesUrl = 'http://localhost:8080/orders/' + this.href;
+    this.sales_purchasesUrl = this.ordersUrl + '/' + this.href;
   }
 
   getOrders(): Observable<Order[]> {
     this.setHref();
-    return this.http.get<Order[]>(this.sales_purchasesUrl, httpOptions)
+    var url = this.ordersUrl;
+    if(this.href != "orders") url = this.sales_purchasesUrl;
+    return this.http.get<Order[]>(url, httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Orders')),
         catchError(this.handleError<Order[]>('getOrders', []))
@@ -59,6 +62,14 @@ export class OrderService {
     return this.http.put(url, order, httpOptions).pipe(
       tap(_ => this.log(`Updated Order ID=${order.id}`)),
       catchError(this.handleError<any>('updateOrder'))
+    );
+  }
+
+  addOrder(order: Order): Observable<Order> {
+    console.log(order);
+    return this.http.post<Order>(this.ordersUrl, order, httpOptions).pipe(
+      tap((order: Order) => this.log(`added Order w/ id=${order.id}`)),
+      catchError(this.handleError<Order>('addOrder'))
     );
   }
 

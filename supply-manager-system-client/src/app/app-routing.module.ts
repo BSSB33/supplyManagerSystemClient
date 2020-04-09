@@ -33,6 +33,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'orders',
+    component: OrderListComponent,
+    canActivate: [AuthGuard] //TODO admin only endpoint
+  },
+  {
     path: 'orders/add',
     component: OrderFormComponent,
     canActivate: [AuthGuard]

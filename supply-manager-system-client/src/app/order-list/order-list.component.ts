@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Order } from '../classes/order';
+import { User } from '../classes/user';
 import { NewOrderFormComponent } from '../new-order-form/new-order-form.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../services/message.service';
+import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { Company } from '../classes/company';
+import { Status } from '../status.enum';
 
 @Component({
   selector: 'order-list',
@@ -24,6 +30,7 @@ export class OrderListComponent implements OnInit {
     private orderService: OrderService,
     private messageService: MessageService,
     private dialog: MatDialog,
+    public authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -33,9 +40,43 @@ export class OrderListComponent implements OnInit {
     this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
   }
 
-  
   toggleAddOrder(): void{
     this.addOrder = !this.addOrder;
+    if(this.addOrder){
+      this.setUpNewHOrder();
+    }
+  }
+
+  private _buyer: Company;
+  private _buyerManager: User;
+  private _seller: Company;
+  private _sellerManager: User;
+  setUpNewHOrder(): void{
+    if(this.orderService.href == "sales"){
+      this._seller = this.authService.user.workplace;
+      this._buyer = null;
+    }
+    else if(this.orderService.href == "purchases"){
+      this._buyer = this.authService.user.workplace;
+      this._seller = null;
+    }
+
+    this._buyerManager = null;
+    this._sellerManager = null;
+  }
+
+  addHistoryToOrder(title: String, price: Number, status: String): void {
+    title = title.trim();
+    price = Number(price);
+    status = status.trim();
+
+
+    var order : Order = new Order(title, price, status, this._buyer, this._buyerManager, this._seller, this._sellerManager);
+
+    this.orderService.addOrder(order)
+      .subscribe(order => {
+        this.orders.push(order);
+      });
   }
 
   getOrders(): void {

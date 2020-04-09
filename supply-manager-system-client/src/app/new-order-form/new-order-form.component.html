@@ -1,1 +1,39 @@
-<p>new-order-form works!</p>
+<div class="card fixedContainer orderTable" style="background-color: rgb(33, 37, 41);">
+    <form #orderForm="ngForm">
+        <div style="margin: 10px;">
+            <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41);">
+                <tbody>
+                    <tr>
+                        <label class="whiteLabel">Add Product Name:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput #productName type="text" name="product" placeholder="Enter Product Name"
+                                    aria-describedby="titleHelp"/>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Add price:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput #productPrice type="text" name="price" placeholder="Set Price"
+                                    aria-describedby="titleHelp"/>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Set Status:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput #productStatus type="text" name="status" placeholder="Set Status"
+                                    aria-describedby="titleHelp"/>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <button mat-flat-button [disabled]="orderForm.invalid" color="primary"
+                            (click)="add(productName.value, productPrice.value, productStatus.value);
+                             productName.value=''; productPrice.value=''; productStatus.value=''">Save Order</button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

@@ -139,8 +139,8 @@ export class AuthInterceptor implements HttpInterceptor {
         return of(err.message);
       }
       else{
-        console.log(err.error)
         console.log('HttpRequest Error intercepted!');
+        console.log(err)
       }
       // handle your auth error or rethrow
       return of(err);

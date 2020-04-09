@@ -45,11 +45,9 @@
     <button *ngIf="addOrder" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary"><mat-icon>remove</mat-icon>&nbsp;Cancel new {{addButtonText}}</button>
   </ng-template>
 
-  <h4 *ngIf="addOrder" style="margin: 20px;">Add new Order:</h4>
-  <table class="table" style="color: black; font-size: large;">
-      <tr *ngIf="addOrder">
-          <new-order-form></new-order-form>
-      </tr>
-  </table>
+  <div *ngIf="addOrder">
+    <h4 *ngIf="addOrder" style="margin: 10px;">Add new Order:</h4>
+    <new-order-form></new-order-form>
+  </div>
   
 </div>
