@@ -19,5 +19,9 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  }
+  },
+  "compilerOptions": {
+        "experimentalDecorators": true,
+        "allowJs": true
+   }
 }
