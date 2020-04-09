@@ -6,3 +6,9 @@
 .lex-div{
    display: flex;
 }
+
+.ideMenu{
+   width: 2000px;
+   flex: 1;
+
+}
