@@ -60,16 +60,6 @@ export class UserService {
     );
   }
 
-  deleteUser (user: User | number): Observable<User> {
-    const id = typeof user === 'number' ? user : user.id;
-    const url = `${this.usersUrl}/${id}`;
-    console.log(`${this.usersUrl}/${id}`);
-    return this.http.delete<User>(url, httpOptions).pipe(
-      tap(_ => this.log(`Deleted User ID=${id}`)),
-      catchError(this.handleError<User>('deleteUser'))
-    );
-  }
-
     /**
    * Handle Http operation that failed.
    * Let the app continue.

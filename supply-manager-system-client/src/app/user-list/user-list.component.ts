@@ -35,11 +35,6 @@ export class UserListComponent implements OnInit {
         //this.users.sort(function(a, b) { return - (a.id - b.id); });
   }
 
-  deleteUser(user: User): void {
-    this.users = this.users.filter(u => u !== user);
-    this.userService.deleteUser(user).subscribe();
-  }
-
   disableOrEnableUser(user: User){
     this.userService.disableOrEnableUser(user).subscribe();
     user.enabled = !user.enabled;
@@ -63,29 +58,6 @@ export class UserListComponent implements OnInit {
       }
       else {
         this.log("User " + action + " dialog: Option: CANCEL");
-      }
-    });
-  }
-
-  openDeleteUserDialog(user: User) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
-      data:{
-        message: 'User Deletion is not Recommended! All the Orders, Histories, Companies will be deleted upon the deletion of the User!',
-        buttonText: {
-          ok: 'DELETE',
-          cancel: 'Cancel'
-        }
-      }
-    });
-    
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.log("User Deletation dialog: Option: DELETE anyway");
-        this.deleteUser(user);
-        //TODO implement delete cascade in backend! - if breaks remove function
-      }
-      else {
-        this.log("User Deletation dialog: Option: CANCEL deletion");
       }
     });
   }

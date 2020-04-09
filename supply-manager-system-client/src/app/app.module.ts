@@ -133,6 +133,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return of(err.message);
       }
       else{
+        console.log(err.error)
         console.log('HttpRequest Error intercepted!');
       }
       // handle your auth error or rethrow

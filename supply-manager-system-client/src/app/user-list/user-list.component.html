@@ -18,7 +18,6 @@
                 <th scope="col">Role</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Disable/Enable</th>
-                <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -47,24 +46,15 @@
                 </ng-template>
 
                 <td *ngIf="user.enabled && authService.user.id === user.id || user.enabled && authService.user.role === 'ROLE_MANAGER'; else switchableUser">
-                    <button mat-raised-button color="primary" disabled><mat-icon>remove_circle</mat-icon>&nbsp;Disable</button>
+                    <button mat-raised-button color="warn" disabled><mat-icon>remove_circle</mat-icon>&nbsp;Disable</button>
                 </td>
                 <ng-template #switchableUser>
                     <td *ngIf="user.enabled; else disabledUserButton">
-                        <button mat-raised-button color="primary" (click)="openDisableUserDialog(user, 'disable')"><mat-icon>remove_circle</mat-icon>&nbsp;Disable</button>
+                        <button mat-raised-button color="warn" (click)="openDisableUserDialog(user, 'disable')"><mat-icon>remove_circle</mat-icon>&nbsp;Disable</button>
                     </td>
                 </ng-template>
                 <ng-template #disabledUserButton>
-                    <td><button mat-raised-button color="primary" (click)="openDisableUserDialog(user, 'enable')"><mat-icon>remove_circle_outline</mat-icon>&nbsp;Enable</button></td>
-                </ng-template>
-
-                <td *ngIf="authService.user.id === user.id || authService.user.role === 'ROLE_MANAGER'; else notDeletableUser">
-                    <button mat-raised-button color="warn" (click)="openDeleteUserDialog(user)" disabled><mat-icon>delete</mat-icon>&nbsp;Delete</button>
-                </td>
-                <ng-template #notDeletableUser>
-                    <td>
-                        <button mat-raised-button color="warn" (click)="openDeleteUserDialog(user)"><mat-icon>delete</mat-icon>&nbsp;Delete</button>
-                    </td>
+                    <td><button mat-raised-button color="warn" (click)="openDisableUserDialog(user, 'enable')"><mat-icon>remove_circle_outline</mat-icon>&nbsp;Enable</button></td>
                 </ng-template>
                 
             </tr>
