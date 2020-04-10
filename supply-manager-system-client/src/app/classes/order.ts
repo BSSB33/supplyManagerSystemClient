@@ -8,9 +8,9 @@ export class Order {
     price: Number;
     status: String;
     buyer: Company;
-    buyerManager: User;
+    buyerManager?: User;
     seller: Company;
-    sellerManager: User;
+    sellerManager?: User;
 
     constructor(productName: String, price: Number, status: String, 
         buyer: Company, buyerManager: User, seller: Company, sellerManager: User){

@@ -1,53 +1,65 @@
 <div class="panel panel-default" style="margin: 20px;">
   <h2 style="margin-left: 20px;">{{title}} </h2>
   <table class="table table-dark table-hover table-curved">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Product Name</th>
-          <th scope="col">Price</th>
-          <th scope="col">Status</th>
-          <th scope="col">Buyer Company</th>
-          <th scope="col">Buyer Manager</th>
-          <th scope="col">Seller Company</th>
-          <th scope="col">Seller Manager</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let order of orders">
-          <th scope="row">{{ order.id }}</th>
-              <td *ngIf="order.buyer; else missing">
-                <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
-              <td *ngIf="order.buyer; else missing">{{order.price | number }} Ft</td>
-              <td *ngIf="order.buyer; else missing">{{order.status}}</td>
-              <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
-              <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
-              <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
-              <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
-              <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button></td>
-              <td><button mat-raised-button color="warn" (click)="openDeleteOrderDialog(order)"><mat-icon>delete</mat-icon>&nbsp;Delete</button></td>
-          </tr>
-      </tbody>
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Status</th>
+        <th scope="col">Buyer Company</th>
+        <th scope="col">Buyer Manager</th>
+        <th scope="col">Seller Company</th>
+        <th scope="col">Seller Manager</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <th scope="row">{{ order.id }}</th>
+        <td *ngIf="order.buyer; else missing">
+          <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
+        <td *ngIf="order.buyer; else missing">{{order.price | number }} Ft</td>
+        <td *ngIf="order.buyer; else missing">{{order.status}}</td>
+        <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
+        <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
+        <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
+        <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
+        <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
+            <mat-icon>edit</mat-icon>&nbsp;Edit
+          </button></td>
+        <td><button mat-raised-button color="warn" (click)="openDeleteOrderDialog(order)">
+            <mat-icon>delete</mat-icon>&nbsp;Delete
+          </button></td>
+
+        <ng-template #unassigned>
+          <td><strong><a style="color: crimson;" [routerLink]="['/orders/edit', order.id]">UNASSIGNED</a></strong></td>
+        </ng-template>
+
+        <ng-template #missing>
+          <td><strong style="color: green;">Please Add Value</strong></td>
+        </ng-template>
+      </tr>
+    </tbody>
   </table>
 
-  <ng-template #unassigned>
-    <td><strong style="color: crimson;">UNASSIGNED</strong></td>
-  </ng-template>
 
-  <ng-template #missing>
-    <td><strong style="color: green;">Please Add Value</strong></td>
-  </ng-template>
 
-  <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary"><mat-icon>add</mat-icon>&nbsp;Add {{addButtonText}}</button>
+
+  <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button
+    color="primary">
+    <mat-icon>add</mat-icon>&nbsp;Add {{addButtonText}}
+  </button>
   <ng-template #cancel>
-    <button *ngIf="addOrder" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary"><mat-icon>remove</mat-icon>&nbsp;Cancel new {{addButtonText}}</button>
+    <button *ngIf="addOrder" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary">
+      <mat-icon>remove</mat-icon>&nbsp;Cancel new {{addButtonText}}
+    </button>
   </ng-template>
 
   <div *ngIf="addOrder">
     <h4 *ngIf="addOrder" style="margin: 10px;">Add new Order:</h4>
     <new-order-form></new-order-form>
   </div>
-  
+
 </div>

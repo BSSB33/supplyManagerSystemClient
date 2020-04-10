@@ -66,6 +66,7 @@ export class OrderService {
   }
 
   addOrder(order: Order): Observable<Order> {
+    console.log("Order sent to backend: ");
     console.log(order);
     return this.http.post<Order>(this.ordersUrl, order, httpOptions).pipe(
       tap((order: Order) => this.log(`added Order w/ id=${order.id}`)),
@@ -76,7 +77,6 @@ export class OrderService {
   deleteOrder (order: Order | number): Observable<Order> {
     const id = typeof order === 'number' ? order : order.id;
     const url = `${this.ordersUrl}/${id}`;
-    console.log(`${this.ordersUrl}/${id}`);
     return this.http.delete<Order>(url, httpOptions).pipe(
       tap(_ => this.log(`Deleted Order ID=${id}`)),
       catchError(this.handleError<Order>('deleteOrder'))

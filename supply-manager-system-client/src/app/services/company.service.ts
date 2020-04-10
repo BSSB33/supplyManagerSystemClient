@@ -64,7 +64,6 @@ export class CompanyService {
   deleteCompany (company: Company | number): Observable<Company> {
     const id = typeof company === 'number' ? company : company.id;
     const url = `${this.companiesUrl}/${id}`;
-    console.log(`${this.companiesUrl}/${id}`);
     return this.http.delete<Company>(url, httpOptions).pipe(
       tap(_ => this.log(`Deleted Company ID=${id}`)),
       catchError(this.handleError<Company>('deleteCompany'))

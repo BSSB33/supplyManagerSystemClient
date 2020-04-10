@@ -10,7 +10,8 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { Company } from '../classes/company';
-import { Status } from '../status.enum';
+import { OrderDetailComponent } from '../order-detail/order-detail.component';
+import { CompanyService } from '../services/company.service';
 
 @Component({
   selector: 'order-list',
@@ -24,6 +25,8 @@ export class OrderListComponent implements OnInit {
   addOrder: Boolean = false;
   public unassigned: String = "UNASSIGNED";
 
+  companies: Company[];
+
   orders: Order[] = [];
 
   constructor(
@@ -31,6 +34,7 @@ export class OrderListComponent implements OnInit {
     private messageService: MessageService,
     private dialog: MatDialog,
     public authService: AuthService,
+    private companyService: CompanyService,
   ) { }
 
   ngOnInit(): void {
@@ -43,40 +47,31 @@ export class OrderListComponent implements OnInit {
   toggleAddOrder(): void{
     this.addOrder = !this.addOrder;
     if(this.addOrder){
-      this.setUpNewHOrder();
+      this.getCompanies();
     }
   }
 
-  private _buyer: Company;
-  private _buyerManager: User;
-  private _seller: Company;
-  private _sellerManager: User;
-  setUpNewHOrder(): void{
-    if(this.orderService.href == "sales"){
-      this._seller = this.authService.user.workplace;
-      this._buyer = null;
-    }
-    else if(this.orderService.href == "purchases"){
-      this._buyer = this.authService.user.workplace;
-      this._seller = null;
-    }
-
-    this._buyerManager = null;
-    this._sellerManager = null;
+  getCompanies(): void {
+    this.companyService.getCompanies()
+        .subscribe(companies => this.companies = companies);
   }
 
-  addHistoryToOrder(title: String, price: Number, status: String): void {
+  private _buyerManager: User = null;
+  private _sellerManager: User = null;
+
+  addNewOrder(title: String, price: Number, status: String, sellerName: string, buyerName: string): void {
     title = title.trim();
     price = Number(price);
     status = status.trim();
-
-
-    var order : Order = new Order(title, price, status, this._buyer, this._buyerManager, this._seller, this._sellerManager);
+    var seller = this.companies.find(company => company.name == sellerName);
+    var buyer = this.companies.find(company => company.name == buyerName);
+        
+    var order : Order = new Order(title, price, status, seller, this._buyerManager, buyer, this._sellerManager);
 
     this.orderService.addOrder(order)
       .subscribe(order => {
         this.orders.push(order);
-      });
+    });
   }
 
   getOrders(): void {

@@ -4,33 +4,63 @@
             <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41);">
                 <tbody>
                     <tr>
-                        <label class="whiteLabel">Add Product Name:
+                        <label class="whiteLabel">Product Name:
                             <mat-form-field style="width: 200px;">
                                 <input matInput #productName type="text" name="product" placeholder="Enter Product Name"
-                                    aria-describedby="titleHelp"/>
+                                    aria-describedby="titleHelp" />
                             </mat-form-field>
                         </label>
                     </tr>
                     <tr>
-                        <label class="whiteLabel">Add price:
+                        <label class="whiteLabel">Product Price:
                             <mat-form-field style="width: 200px;">
                                 <input matInput #productPrice type="text" name="price" placeholder="Set Price"
-                                    aria-describedby="titleHelp"/>
+                                    aria-describedby="titleHelp" />
                             </mat-form-field>
                         </label>
                     </tr>
                     <tr>
-                        <label class="whiteLabel">Set Status:
+                        <label>Product Status:&nbsp;
                             <mat-form-field style="width: 200px;">
-                                <input matInput #productStatus type="text" name="status" placeholder="Set Status"
-                                    aria-describedby="titleHelp"/>
+                                <mat-select #productStatus name="status" placeholder="Enter Status">
+                                    <mat-option value="NEW">New</mat-option>
+                                    <mat-option value="SUCCESSFULLY_COMPLETED">Successfully Completed</mat-option>
+                                    <mat-option value="UNDER_PRODUCTION">Under Production</mat-option>
+                                    <mat-option value="CLOSED">Closed</mat-option>
+                                    <mat-option value="OFFER">Offer</mat-option>
+                                    <mat-option value="IN_STOCK">In Stock</mat-option>
+                                    <mat-option value="ISSUE">Issue</mat-option>
+                                    <mat-option value="UNDER_ASSEMBLY">Under Assembly</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr> <!--TODO only this type of field if....buyer/seller-->
+                        <label>Buyer Company:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <mat-select #buyer name="status" placeholder="Select Buyer Company">
+                                    <mat-option value="" disabled>Choose a Company</mat-option>
+                                    <ng-container *ngFor="let company of companies">
+                                        <mat-option *ngIf="company.id !== authService.user.workplace.id"
+                                            [value]="company.name">{{company.name}}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr> <!--TODO only this type of field if....buyer/seller  [(ngModel)]="authService.user.workplace.name" -->
+                        <label>Seller Company:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <input disabled matInput #seller type="text"
+                                name="seller" placeholder="Seller Company"
+                                aria-describedby="titleHelp" required [value]="authService.user.workplace.name"/>
                             </mat-form-field>
                         </label>
                     </tr>
                     <tr>
-                        <button mat-flat-button [disabled]="orderForm.invalid" color="primary"
-                            (click)="add(productName.value, productPrice.value, productStatus.value);
-                             productName.value=''; productPrice.value=''; productStatus.value=''">Save Order</button>
+                        <button mat-flat-button [disabled]="orderForm.invalid" color="primary" 
+                        (click)="add(productName.value, productPrice.value, productStatus.value, buyer.value, seller.value);
+                            productName.value=''; productPrice.value=''; productStatus.value=''; buyer.value=''; seller.value='';">Save Order</button>
                     </tr>
                 </tbody>
             </table>

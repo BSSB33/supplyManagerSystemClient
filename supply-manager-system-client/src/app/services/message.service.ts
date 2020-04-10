@@ -21,6 +21,5 @@ export class MessageService {
 
   openDialog() {
     this.dialog.open(ForbiddenComponent);
-    console.log("called!");
   }
 }

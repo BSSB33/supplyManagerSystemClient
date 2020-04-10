@@ -34,8 +34,4 @@ export class CompanyDetailComponent implements OnInit {
       .subscribe(company => this.company = company);
   }
 
-  getEmployees(): void {
-    console.log(this.company);
-  }
-
 }
