@@ -12,8 +12,7 @@ export class Order {
     seller: Company;
     sellerManager?: User;
 
-    constructor(productName: String, price: Number, status: String, 
-        buyer: Company, buyerManager: User, seller: Company, sellerManager: User){
+    constructor(productName: String, price: Number, status: String, buyer: Company, buyerManager: User, seller: Company, sellerManager: User){
         this.productName = productName;
         this.price = price;
         this.status = status;

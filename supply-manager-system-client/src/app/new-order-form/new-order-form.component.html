@@ -64,8 +64,27 @@
                                     placeholder="Select Buyer Company">
                                         <mat-option value="">Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of companies">
-                                            <mat-option
-                                                 [value]="company.name">{{company.name}}
+                                            <mat-option *ngIf="company.active"
+                                                 [value]="company.name"
+                                                 (click)="filterUsersOfBuyerCompany(company.name)">{{company.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Buyer Manager:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #buyerManager 
+                                    formControlName="buyerManager" 
+                                    name="buyerManager" 
+                                    placeholder="Select Seller Manager">
+                                        <mat-option value="">Choose a Colleague</mat-option>
+                                        <ng-container *ngFor="let user of usersOfBuyerCompany">
+                                            <mat-option *ngIf="user.enabled"
+                                            [value]="user.username">{{user.username}}
                                             </mat-option>
                                         </ng-container>
                                     </mat-select>
@@ -82,8 +101,27 @@
                                     placeholder="Select Seller Company">
                                         <mat-option value="">Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of companies">
-                                            <mat-option
-                                                [value]="company.name">{{company.name}}
+                                            <mat-option *ngIf="company.active"
+                                                [value]="company.name"
+                                                (click)="filterUsersOfSellerCompany(company.name)">{{company.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Seller Manager:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #sellerManager 
+                                    formControlName="sellerManager" 
+                                    name="sellerManager" 
+                                    placeholder="Select seller Manager">
+                                        <mat-option value="">Choose a User</mat-option>
+                                        <ng-container *ngFor="let user of usersOfSellerCompany">
+                                            <mat-option *ngIf="user.enabled"
+                                            [value]="user.username">{{user.username}}
                                             </mat-option>
                                         </ng-container>
                                     </mat-select>
@@ -106,7 +144,7 @@
                                     placeholder="Select Buyer Company">
                                         <mat-option value="">Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of companies">
-                                            <mat-option *ngIf="company.id !== authService.user.workplace.id"
+                                            <mat-option *ngIf="company.id !== authService.user.workplace.id && company.active"
                                                 [value]="company.name">{{company.name}}
                                             </mat-option>
                                         </ng-container>
@@ -123,6 +161,24 @@
                                         formControlName="seller" 
                                         name="seller" 
                                         placeholder="Select Seller Company">
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Seller Manager:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #sellerManager 
+                                    formControlName="sellerManager" 
+                                    name="sellerManager" 
+                                    placeholder="Select seller Manager">
+                                        <mat-option value="">Choose a User</mat-option>
+                                        <ng-container *ngFor="let user of users">
+                                            <mat-option *ngIf="user.enabled"
+                                            [value]="user.username">{{user.username}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
                                 </mat-form-field>
                             </label>
                         </tr>
@@ -143,7 +199,25 @@
                                         placeholder="Select Buyer Company">
                                 </mat-form-field>
                             </label>
-                        </tr>    
+                        </tr>
+                        <tr>
+                            <label>Buyer Manager:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #buyerManager 
+                                    formControlName="buyerManager" 
+                                    name="buyerManager" 
+                                    placeholder="Select Seller Manager">
+                                        <mat-option value="">Choose a Colleague</mat-option>
+                                        <ng-container *ngFor="let user of users">
+                                            <mat-option *ngIf="user.enabled"
+                                            [value]="user.username">{{user.username}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </label>
+                        </tr>   
                         <tr>
                             <label>Seller Company:&nbsp;
                                 <mat-form-field style="width: 200px;">
@@ -154,7 +228,7 @@
                                     placeholder="Select Seller Company">
                                         <mat-option value="">Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of companies">
-                                            <mat-option *ngIf="company.id !== authService.user.workplace.id"
+                                            <mat-option *ngIf="company.id !== authService.user.workplace.id && company.active"
                                             [value]="company.name">{{company.name}}
                                             </mat-option>
                                         </ng-container>

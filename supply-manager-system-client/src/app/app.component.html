@@ -1,15 +1,3 @@
-<!-- ORIGINAL <mat-toolbar color="primary" role="heading">
-  <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-  <button mat-button routerLink="/sales">Sales</button>
-  <button mat-button routerLink="/purchases">Purchases</button>
-  <button mat-button routerLink="/users">Users</button>
-  <button mat-button routerLink="/companies">Companies</button>
-  <button mat-stroked-button routerLink="/orders/add">Add Sale</button>
-  <button mat-stroked-button routerLink="/orders/add">Add Purchase</button>
-  <span class="example-fill-remaining-space"></span>
-  <button mat-button routerLink="/logs">Logs</button>
-</mat-toolbar>-->
-
 <mat-toolbar color="primary" role="heading">
   <ng-container *ngIf="authService.isLoggedIn" class="wideMenu" fxLayout="row" fxShow="false" fxShow.gt-sm>
     <!--Admin menu-->
@@ -26,7 +14,7 @@
       <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Users</button>
       <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
       <span class="fill-space"></span>
-      <button mat-raised-button disabled style="color: white; font-weight: bold;">Welcome, {{ authService.user.username }}! - [{{ authService.user.role }}]</button>
+      <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
       <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
       <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
     </ng-container>
@@ -39,7 +27,7 @@
         <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Emplyees</button>
         <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
         <span class="fill-space"></span>
-        <button mat-raised-button disabled style="color: white; font-weight: bold;">Welcome, {{ authService.user.username }}! - [{{ authService.user.role }}]</button>
+        <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
         <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
         <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
       </ng-container>
@@ -53,7 +41,7 @@
         <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
         <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
         <span class="fill-space"></span>
-        <button mat-raised-button disabled style="color: white; font-weight: bold;">Welcome, {{ authService.user.username }}! - [{{ authService.user.role }}]</button>
+        <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
         <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
         <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
       </ng-container>

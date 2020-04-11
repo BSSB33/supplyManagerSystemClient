@@ -26,19 +26,22 @@ export class OrderListComponent implements OnInit {
   public unassigned: String = "UNASSIGNED";
 
   companies: Company[];
+  users: User[];
 
   orders: Order[] = [];
 
   constructor(
-    private orderService: OrderService,
+    public orderService: OrderService,
     private messageService: MessageService,
     private dialog: MatDialog,
     public authService: AuthService,
     private companyService: CompanyService,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
     this.getOrders();
+    this.getUsers();
     this.orderService.href;
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
     this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
@@ -56,17 +59,16 @@ export class OrderListComponent implements OnInit {
         .subscribe(companies => this.companies = companies);
   }
 
-  private _buyerManager: User = null;
-  private _sellerManager: User = null;
-
-  addNewOrder(title: String, price: Number, status: String, sellerName: string, buyerName: string): void {
-    title = title.trim();
+  addNewOrder(productName: String, price: Number, status: String,buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string): void {
+    productName = productName.trim();
     price = Number(price);
     status = status.trim();
     var seller = this.companies.find(company => company.name == sellerName);
     var buyer = this.companies.find(company => company.name == buyerName);
+    var sellerManager = this.users.find(user => user.username == sellerManagerName);
+    var buyerManager = this.users.find(user => user.username == buyerManagerName);
         
-    var order : Order = new Order(title, price, status, seller, this._buyerManager, buyer, this._sellerManager);
+    var order : Order = new Order(productName, price, status, buyer, buyerManager, seller, sellerManager);
     console.log
 
     this.orderService.addOrder(order)
@@ -78,6 +80,11 @@ export class OrderListComponent implements OnInit {
   getOrders(): void {
     this.orderService.getOrders()
         .subscribe(orders => this.orders = orders);
+  }
+
+  getUsers(): void{
+    this.userService.getUsers()
+      .subscribe(users => this.users = users);
   }
 
   deleteOrder(order: Order): void {

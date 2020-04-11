@@ -20,7 +20,7 @@
         <th scope="row">{{ order.id }}</th>
         <td *ngIf="order.buyer; else missing">
           <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
-        <td *ngIf="order.buyer; else missing">{{order.price | number }} Ft</td>
+        <td *ngIf="order.buyer; else missing">{{order.price | number}} Ft</td>
         <td *ngIf="order.buyer; else missing">{{order.status}}</td>
         <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
         <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
@@ -34,7 +34,9 @@
           </button></td>
 
         <ng-template #unassigned>
-          <td><strong><a style="color: crimson;" [routerLink]="['/orders/edit', order.id]">UNASSIGNED</a></strong></td>
+          <td>
+            <strong><a style="color: orangered;">UNASSIGNED</a></strong>
+          </td>
         </ng-template>
 
         <ng-template #missing>
@@ -43,9 +45,6 @@
       </tr>
     </tbody>
   </table>
-
-
-
 
   <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button
     color="primary">
