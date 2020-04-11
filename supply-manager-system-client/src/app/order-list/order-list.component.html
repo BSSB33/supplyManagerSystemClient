@@ -58,7 +58,11 @@
   </ng-template>
 
   <div *ngIf="addOrder">
-    <h4 *ngIf="addOrder" style="margin: 10px;">Add new Order:</h4>
+    <h4 *ngIf="addButtonText === 'Sale'; else purchase" style="margin: 10px;">Give an Offer:</h4>
+    <ng-template #purchase>
+      <h4 style="margin: 10px;">Order from a Company:</h4>
+    </ng-template>
+
     <new-order-form></new-order-form>
   </div>
 
