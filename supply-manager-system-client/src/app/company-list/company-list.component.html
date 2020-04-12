@@ -36,8 +36,7 @@
                     </button>
                 </td>
                 <ng-template #directorEditButtons>
-                    <td
-                        *ngIf="authService.user.role === 'ROLE_DIRECTOR' && authService.user.company.id === company.id else nonDirectorEditButtons">
+                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && authService.user.company.id === company.id else nonDirectorEditButtons">
                         <button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">
                             <mat-icon>edit</mat-icon>&nbsp;Edit Company
                         </button>
@@ -51,16 +50,14 @@
                     </td>
                 </ng-template>
 
-                <td
-                    *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.company.id !== company.id; else usersCompany">
+                <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.company.id !== company.id; else usersCompany">
                     <button mat-raised-button color="warn"
                         (click)="openDisableOrEnableCompanyDialog(company, 'disable')">
                         <mat-icon>remove_circle</mat-icon>&nbsp;Disable
                     </button>
                 </td>
                 <ng-template #usersCompany>
-                    <td
-                        *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.company.id === company.id; else disabledCompany">
+                    <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.company.id === company.id; else disabledCompany">
                         <button mat-raised-button color="warn"
                             (click)="openDisableOrEnableCompanyDialog(company, 'enable')" disabled>
                             <mat-icon>remove_circle</mat-icon>&nbsp;Disable

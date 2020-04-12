@@ -26,6 +26,6 @@ export class NewCompanyFormComponent implements OnInit {
 
   submit(): void {
     var companyName = this.companyForm.controls['companyName'].value.trim();
-    this.companyList.addNewCompany(new Company(companyName));
+    this.companyList.addNewCompany(new Company(companyName, true));
   }
 }
