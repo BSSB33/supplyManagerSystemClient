@@ -1,4 +1,4 @@
-<form #orderForm="ngForm">
+<form [formGroup]="orderForm" (submit)="submit()">
   <div style="margin: 20px;">
     <h1>Edit order</h1>
   </div>
@@ -10,101 +10,56 @@
     <ul class="list-group list-group-flush">
 
       <li class="list-group-item">
-        <label>Order Name:&nbsp;
-          <mat-form-field style="width: 300px;">
-            <input matInput #productName type="text" [(ngModel)]="order.productName" name="productName" placeholder="Enter Product Name"
-              aria-describedby="titleHelp" required />
+       <label class="whiteLabel">Product Name:
+        <mat-form-field style="width: 200px;">
+            <input matInput 
+            #productName 
+            formControlName="productName" 
+            [(ngModel)] = "order.productName"
+            type="text" 
+            name="productName"
+            placeholder="Enter Product Name"
+            aria-describedby="titleHelp" />
           </mat-form-field>
-          <mat-error *ngIf="price.invalid && (price.dirty || price.touched) && price.errors.required">
-            Productname is required!
-          </mat-error>
         </label>
       </li>
 
       <li class="list-group-item">
-        <label>Product Price:&nbsp;
-          <mat-form-field  style="width: 80px;">
-            <input matInput #price type="text" [(ngModel)]="order.price" name="price" placeholder="Enter Price"
-              aria-describedby="titleHelp" required />
+        <label class="whiteLabel">Product Price:
+          <mat-form-field style="width: 200px;">
+              <input matInput 
+              #productPrice 
+              formControlName="price" 
+              [(ngModel)]="order.price"
+              type="text" 
+              name="productPrice" 
+              placeholder="Set Price"
+              aria-describedby="titleHelp" />
           </mat-form-field>
-          Ft
         </label>
       </li>
 
       <li class="list-group-item">
         <label>Product Status:&nbsp;
           <mat-form-field style="width: 200px;">
-            <mat-select #price matNativeControl [(ngModel)]="order.status" placeholder="Enter Status" name="status">
-              <mat-option value="NEW">New</mat-option>
-              <mat-option value="SUCCESSFULLY_COMPLETED">Successfully Completed</mat-option>
-              <mat-option value="UNDER_PRODUCTION">Under Production</mat-option>
-              <mat-option value="CLOSED">Closed</mat-option>
-              <mat-option value="OFFER">Offer</mat-option>
-              <mat-option value="IN_STOCK">In Stock</mat-option>
-              <mat-option value="ISSUE">Issue</mat-option>
-              <mat-option value="UNDER_ASSEMBLY">Under Assembly</mat-option>
-            </mat-select>
+              <mat-select
+              #productStatus 
+              formControlName="status" 
+              [(ngModel)] = "order.status"
+              name="productStatus" 
+              placeholder="Enter Status">
+                  <mat-option value="NEW">New</mat-option>
+                  <mat-option value="SUCCESSFULLY_COMPLETED">Successfully Completed</mat-option>
+                  <mat-option value="UNDER_PRODUCTION">Under Production</mat-option>
+                  <mat-option value="CLOSED">Closed</mat-option>
+                  <mat-option value="OFFER">Offer</mat-option>
+                  <mat-option value="IN_STOCK">In Stock</mat-option>
+                  <mat-option value="ISSUE">Issue</mat-option>
+                  <mat-option value="UNDER_ASSEMBLY">Under Assembly</mat-option>
+              </mat-select>
           </mat-form-field>
         </label>
       </li>
-
-      <!--<li class="list-group-item">
-        <label>Buyer Company:&nbsp;
-          <mat-form-field>
-            <mat-select #price matNativeControl [(ngModel)]="order.buyer.name" placeholder="Enter Buyer Company" name="buyerCompany">
-              <mat-option value="" disabled>Choose a Company</mat-option>
-              <mat-option *ngFor="let company of companies" [value]="company.name" >{{company.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </label>
-      </li>-->
-      <li class="list-group-item">
-        <label>Buyer Company:&nbsp;
-          <mat-form-field>
-            <input disabled matInput #buyerName type="text" [(ngModel)]="order.buyer.name" name="buyerName" placeholder="Enter Buyer Company"
-              aria-describedby="titleHelp" required />
-          </mat-form-field>
-        </label>
-      </li>
-      
-      <!--<li class="list-group-item">
-        <label>Buyer Manager:&nbsp;
-          <mat-form-field>
-            <mat-select disabled matNativeControl #buyerManager [(ngModel)]="order.buyerManager.username" placeholder="Enter Buyer Manager" name="buyerManager">
-              <mat-option value="" disabled>Choose a Manager</mat-option>
-              <mat-option *ngFor="let manager of managers" value="manager" >{{manager.username}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </label>
-      </li>-->
-
-      <li class="list-group-item">
-        <label>Seller Company:&nbsp;
-          <mat-form-field>
-            <input disabled matInput #sellerName type="text" [(ngModel)]="order.seller.name" name="sellerName" placeholder="Enter Seller Company"
-              aria-describedby="titleHelp" required />
-          </mat-form-field>
-        </label>
-      </li>
-
-      <!--<li *nfIf="order.sellerManager; else unassigned" class="list-group-item">
-        <label>Seller Manager:&nbsp;
-          <mat-form-field>
-            <mat-select #sellerManager matNativeControl [(ngModel)]="order.sellerManager.username" placeholder="Enter Seller Manager" name="sellerManager">
-              <mat-option value="">Choose a Manager</mat-option>
-              <mat-option *ngFor="let manager of managers" [value]="manager.username" >{{manager.username}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </li>
-      <li #unassigned class="list-group-item">
-        <label>Seller Manager:&nbsp;
-          <mat-form-field>
-            <mat-select #sellerManager matNativeControl [(ngModel)]="order.sellerManager.username" placeholder="Enter Seller Manager" name="sellerManager">
-              <mat-option value="">Choose a Manager</mat-option>
-              <mat-option *ngFor="let manager of managers" [value]="manager.username" >{{manager.username}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </li>-->
 
     </ul>
     <div class="card-body">

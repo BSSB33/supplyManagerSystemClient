@@ -7,6 +7,7 @@ import { Company } from '../classes/company';
 import { User } from '../classes/user';
 import { CompanyService } from '../services/company.service';
 import { UserService } from '../services/user.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'order-form',
@@ -20,22 +21,30 @@ export class OrderFormComponent implements OnInit {
   companies: Company[];
   companyOfUser: Company;
   companiesToChooseFrom: Company[];
-
   managers: User[];
+
+  orderForm: FormGroup;
 
   constructor(    
     private location: Location,
     private route: ActivatedRoute,
     private orderService: OrderService,
     private companyService: CompanyService,
-    private userService: UserService) { 
+    private userService: UserService) 
+    { 
+      this.orderForm = new FormGroup({
+        productName: new FormControl('', Validators.required),
+        price: new FormControl('', Validators.required),
+        status: new FormControl('', Validators.required),
+       
+      });
     }
 
   ngOnInit(): void {
     this.getOrderById();
-    this.getCompanies();
-    this.getCompenyOfUser();   
-    this.getManagersOfUser();
+    //this.getCompanies();
+    //this.getCompenyOfUser();   
+    //this.getManagersOfUser();
     //this.companiesToChooseFrom = this.companies.filter(obj => obj !== this.companyOfUser);
     //console.log(this.companiesToChooseFrom);
     //this.managers.push(new User());
@@ -65,6 +74,12 @@ export class OrderFormComponent implements OnInit {
   save(): void {
     this.orderService.updateOrder(this.order)
       .subscribe(() => this.goBack());
+  }
+
+  submit(): void {
+    console.log("Form Conten: " + this.orderForm.value);
+    this.orderService.updateOrder(this.order)
+    .subscribe(() => this.goBack());
   }
 
   goBack(): void {
