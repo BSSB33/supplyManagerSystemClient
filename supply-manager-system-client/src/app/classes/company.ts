@@ -1,8 +1,10 @@
-import { User } from './user';
-
 export class Company {
     id: number;
-    active: Boolean;
-    director: User;
+    active: boolean;
     name: string;
+
+    constructor(name: string, active: boolean){
+        this.name = name;
+        this.active = active;
+    }
 }

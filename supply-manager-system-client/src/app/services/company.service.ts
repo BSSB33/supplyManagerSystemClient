@@ -46,6 +46,20 @@ export class CompanyService {
     );
   }
 
+  updateCompany (company: Company): Observable<Company> {
+    return this.http.put(this.companiesUrl+"/"+ company.id, company, httpOptions).pipe(
+      tap(_ => this.log(`Updated Company ID=${company.id}`)),
+      catchError(this.handleError<any>('updateCompany'))
+    );
+  }
+
+  addCompany(copmany: Company): Observable<Company> {
+    return this.http.post<Company>(this.companiesUrl + '/register', copmany, httpOptions).pipe(
+      tap((company: Company) => this.log(`added Company w/ id=${company.id}`)),
+      catchError(this.handleError<Company>('addCompany'))
+    );
+  }
+
   disableOrEnableCompany (company: Company): Observable<any> {
     var url;
     if(company.active){

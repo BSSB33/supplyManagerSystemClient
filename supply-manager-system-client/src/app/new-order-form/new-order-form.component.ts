@@ -84,17 +84,17 @@ export class NewOrderFormComponent implements OnInit {
     );
   }
 
+  add(productName: String, productPrice: Number, productStatus: String, buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string) {
+    this.orderList.addNewOrder(productName, productPrice, productStatus, buyerName, buyerManagerName, sellerName, sellerManagerName);
+    this.orderList.toggleAddOrder();
+  }
+
   filterUsersOfBuyerCompany(companyName: string){
     this.usersOfBuyerCompany = this.users.filter(user => user.workplace.name == companyName);
   }
 
   filterUsersOfSellerCompany(companyName: string){
     this.usersOfSellerCompany = this.users.filter(user => user.workplace.name == companyName);
-  }
-
-  add(productName: String, productPrice: Number, productStatus: String, buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string) {
-    this.orderList.addNewOrder(productName, productPrice, productStatus, buyerName, buyerManagerName, sellerName, sellerManagerName);
-    this.orderList.toggleAddOrder();
   }
 
   getCompanies(): void {

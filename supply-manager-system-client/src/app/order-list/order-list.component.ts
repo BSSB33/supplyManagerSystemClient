@@ -69,7 +69,6 @@ export class OrderListComponent implements OnInit {
     var buyerManager = this.users.find(user => user.username == buyerManagerName);
         
     var order : Order = new Order(productName, price, status, buyer, buyerManager, seller, sellerManager);
-    console.log
 
     this.orderService.addOrder(order)
       .subscribe(order => {
