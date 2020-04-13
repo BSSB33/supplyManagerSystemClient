@@ -13,7 +13,7 @@
        <label class="whiteLabel">Product Name:
         <mat-form-field style="width: 200px;">
             <input matInput 
-            #productName 
+            #title
             formControlName="productName" 
             [(ngModel)] = "order.productName"
             type="text" 
@@ -61,10 +61,91 @@
         </label>
       </li>
 
+      <!-- === Seller === -->
+      <li class="list-group-item" *ngIf="order.seller.id === authService.user.workplace.id && authService.user.role !== 'ROLE_ADMIN'">
+        <label>Seller Manager:&nbsp;
+          <mat-form-field *ngIf="order.sellerManager; else unassignedSeller" style="width: 200px;">
+              <mat-select 
+                #sellerManager 
+                formControlName="sellerManager" 
+                name="sellerManager" 
+                placeholder="Select Seller Manager"
+                [(ngModel)]="order.sellerManager.username">
+                  <mat-option value="" disabled>Choose a User</mat-option>
+                  <ng-container *ngFor="let user of managers">
+                      <mat-option *ngIf="user.enabled"
+                      [value]="user.username">{{user.username}}
+                      </mat-option>
+                  </ng-container>
+              </mat-select>
+          </mat-form-field>
+        </label>
+      </li>
+
+      <ng-template #unassignedSeller>
+        <mat-form-field style="width: 200px;">
+          <mat-select 
+            #sellerManager 
+            formControlName="sellerManager" 
+            name="sellerManager" 
+            placeholder="Select Seller Manager">
+              <mat-option value="" disabled>Choose a User</mat-option>
+              <ng-container *ngFor="let user of managers">
+                  <mat-option *ngIf="user.enabled"
+                  [value]="user.username">{{user.username}}
+                  </mat-option>
+              </ng-container>
+          </mat-select>
+        </mat-form-field>
+    </ng-template>
+
+
+    <!-- === Buyer === TODO BUGOS: Mi van ha nincs sellerManager (beérkező kérelmek miatt)-->
+    <li class="list-group-item" *ngIf="order.buyer.id === authService.user.workplace.id && authService.user.role !== 'ROLE_ADMIN'">
+      <label>Buyer Manager:&nbsp;
+        <mat-form-field *ngIf="order.buyerManager; else unassignedBuyer" style="width: 200px;">
+            <mat-select 
+            #buyerManager 
+            formControlName="buyerManager" 
+            name="buyerManager" 
+            placeholder="Select Buyer Manager"
+            [(ngModel)]="order.buyerManager.username">
+                <mat-option value="" disabled>Choose a User</mat-option>
+                <ng-container *ngFor="let user of managers">
+                    <mat-option *ngIf="user.enabled"
+                    [value]="user.username">{{user.username}}
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+      </label>
+    </li>
+
+    <ng-template #unassignedBuyer>
+      <mat-form-field style="width: 200px;">
+        <mat-select
+            #buyerManager 
+            formControlName="buyerManager" 
+            name="buyerManager" 
+            placeholder="Select Buyer Manager">
+          <mat-option value="" disabled>Choose a User</mat-option>
+          <ng-container *ngFor="let user of managers">
+              <mat-option *ngIf="user.enabled"
+              [value]="user.username">{{user.username}}
+              </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </ng-template>
+
+    <!-- === Admin page === -->
+
+
+
     </ul>
     <div class="card-body">
       <button [routerLink]="['/orders/edit', order.id]" mat-raised-button [disabled]="!orderForm.valid" color="primary"
-        (click)="save()">Save Order</button>
+      type="submit">Save Order</button>
     </div>
   </div>
 

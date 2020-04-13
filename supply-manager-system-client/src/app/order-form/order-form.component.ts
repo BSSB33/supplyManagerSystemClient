@@ -7,7 +7,8 @@ import { Company } from '../classes/company';
 import { User } from '../classes/user';
 import { CompanyService } from '../services/company.service';
 import { UserService } from '../services/user.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormsModule, FormControlName, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'order-form',
@@ -17,10 +18,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class OrderFormComponent implements OnInit {
 
   @Input() order: Order;
-
+  sales: Boolean = this.orderService.href == "sales";
   companies: Company[];
-  companyOfUser: Company;
-  companiesToChooseFrom: Company[];
   managers: User[];
 
   orderForm: FormGroup;
@@ -30,21 +29,46 @@ export class OrderFormComponent implements OnInit {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private companyService: CompanyService,
-    private userService: UserService) 
+    private userService: UserService,
+    public authService: AuthService,
+    ) 
     { 
-      this.orderForm = new FormGroup({
-        productName: new FormControl('', Validators.required),
-        price: new FormControl('', Validators.required),
-        status: new FormControl('', Validators.required),
-       
-      });
+      if(this.authService.user.role == "ROLE_ADMIN"){
+        this.orderForm = new FormGroup({
+          productName: new FormControl(Validators.required),
+          price: new FormControl(Validators.required),
+          status: new FormControl(Validators.required),
+          seller: new FormControl(Validators.required),
+          buyer: new FormControl(Validators.required),
+          sellerManager: new FormControl(Validators.required),
+          buyerManager: new FormControl(Validators.required),
+        });
+      }
+      if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
+        this.orderForm = new FormGroup({
+          productName: new FormControl(Validators.required),
+          price: new FormControl(Validators.required),
+          status: new FormControl(Validators.required),
+          sellerManager: new FormControl(Validators.required),
+        });
+      }
+      //purchases
+      if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
+        this.orderForm = new FormGroup({
+          productName: new FormControl(Validators.required),
+          price: new FormControl(Validators.required),
+          status: new FormControl(Validators.required),
+          buyerManager: new FormControl(Validators.required),
+        });
+      }
     }
 
   ngOnInit(): void {
     this.getOrderById();
-    //this.getCompanies();
-    //this.getCompenyOfUser();   
-    //this.getManagersOfUser();
+    this.getManagersOfUser();
+    this.getCompanies();
+    //this.getCompanyOfUser();
+    
     //this.companiesToChooseFrom = this.companies.filter(obj => obj !== this.companyOfUser);
     //console.log(this.companiesToChooseFrom);
     //this.managers.push(new User());
@@ -54,12 +78,6 @@ export class OrderFormComponent implements OnInit {
     this.companyService.getCompanies()
         .subscribe(companies => this.companies = companies);
   }
-
-  getCompenyOfUser(): void{
-    this.companyService.getCompanyOfUser()
-        .subscribe(company => this.companyOfUser = company);
-  }
-
   getOrderById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
@@ -71,13 +89,23 @@ export class OrderFormComponent implements OnInit {
         .subscribe(managers => this.managers = managers);
   }
     
-  save(): void {
-    this.orderService.updateOrder(this.order)
-      .subscribe(() => this.goBack());
-  }
-
   submit(): void {
-    console.log("Form Conten: " + this.orderForm.value);
+    if(this.authService.user.role == "ROLE_ADMIN"){
+      var buyerManagerName = this.orderForm.controls['buyerManager'].value;
+      var sellerManagerName = this.orderForm.controls['sellerManager'].value;
+      this.order.buyerManager = this.managers.find(user => user.username == buyerManagerName);
+      this.order.sellerManager = this.managers.find(user => user.username == sellerManagerName);
+      //TODO compnies
+    }
+    if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
+      var sellerManagerName = this.orderForm.controls['sellerManager'].value;
+      this.order.sellerManager = this.managers.find(user => user.username == sellerManagerName);
+    }
+    if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
+      var buyerManagerName = this.orderForm.controls['buyerManager'].value;
+      this.order.buyerManager = this.managers.find(user => user.username == buyerManagerName);
+    }
+    
     this.orderService.updateOrder(this.order)
     .subscribe(() => this.goBack());
   }
