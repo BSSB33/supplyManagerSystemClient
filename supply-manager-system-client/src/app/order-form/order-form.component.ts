@@ -19,8 +19,12 @@ export class OrderFormComponent implements OnInit {
 
   @Input() order: Order;
   sales: Boolean = this.orderService.href == "sales";
-  companies: Company[];
+  public companies: Company[];
   managers: User[];
+  usersOfSellerCompany: User[];
+  usersOfBuyerCompany: User[];
+  selectedBuyerCompany: Company;
+  selectedSellerCompany: Company;
 
   orderForm: FormGroup;
 
@@ -67,35 +71,43 @@ export class OrderFormComponent implements OnInit {
     this.getOrderById();
     this.getManagersOfUser();
     this.getCompanies();
-    //this.getCompanyOfUser();
-    
-    //this.companiesToChooseFrom = this.companies.filter(obj => obj !== this.companyOfUser);
-    //console.log(this.companiesToChooseFrom);
-    //this.managers.push(new User());
   }
 
-  getCompanies(): void{
+  getCompanies(): void {
     this.companyService.getCompanies()
-        .subscribe(companies => this.companies = companies);
+      .subscribe(companies => this.companies = companies);
   }
+
   getOrderById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
-      .subscribe(order => this.order = order);
+      .subscribe(order => {
+        this.order = order
+        //TODO mikor kéne filterelni? Most csak kattintás után szűri a listát!
+        //this.filterUsersOfBuyerCompany(order.buyer.name);
+        //this.filterUsersOfSellerCompany(order.seller.name);
+      });
   }
 
   getManagersOfUser(): void{
     this.userService.getUsers()
-        .subscribe(managers => this.managers = managers);
+        .subscribe(managers => {
+          this.managers = managers
+          this.usersOfSellerCompany = managers;
+          this.usersOfBuyerCompany = managers;
+        });
   }
     
   submit(): void {
     if(this.authService.user.role == "ROLE_ADMIN"){
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
       var sellerManagerName = this.orderForm.controls['sellerManager'].value;
+      var buyerName = this.orderForm.controls['buyer'].value;
+      var sellerName = this.orderForm.controls['seller'].value;
       this.order.buyerManager = this.managers.find(user => user.username == buyerManagerName);
       this.order.sellerManager = this.managers.find(user => user.username == sellerManagerName);
-      //TODO compnies
+      this.order.buyer = this.companies.find(copmany => copmany.name == buyerName);
+      this.order.seller = this.companies.find(copmany => copmany.name == sellerName);
     }
     if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
       var sellerManagerName = this.orderForm.controls['sellerManager'].value;
@@ -108,6 +120,14 @@ export class OrderFormComponent implements OnInit {
     
     this.orderService.updateOrder(this.order)
     .subscribe(() => this.goBack());
+  }
+
+  filterUsersOfBuyerCompany(companyName: string){
+    this.usersOfBuyerCompany = this.managers.filter(user => user.workplace.name == companyName);
+  }
+
+  filterUsersOfSellerCompany(companyName: string){
+    this.usersOfSellerCompany = this.managers.filter(user => user.workplace.name == companyName);
   }
 
   goBack(): void {

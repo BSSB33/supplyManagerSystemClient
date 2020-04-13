@@ -41,6 +41,7 @@ export class NewOrderFormComponent implements OnInit {
         sellerManager: new FormControl('', Validators.required),
         buyerManager: new FormControl('', Validators.required),
       });
+      
     }
     if (this.sales && authService.user.role != "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
