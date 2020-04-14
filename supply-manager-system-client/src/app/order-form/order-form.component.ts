@@ -23,8 +23,8 @@ export class OrderFormComponent implements OnInit {
   managers: User[];
   usersOfSellerCompany: User[];
   usersOfBuyerCompany: User[];
-  selectedBuyerCompany: Company;
-  selectedSellerCompany: Company;
+  editBuyerManager:boolean;
+  editSellerManager:boolean;
 
   orderForm: FormGroup;
 
@@ -81,23 +81,18 @@ export class OrderFormComponent implements OnInit {
   getOrderById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
-      .subscribe(order => {
-        this.order = order
-        //TODO mikor kéne filterelni? Most csak kattintás után szűri a listát!
-        //this.filterUsersOfBuyerCompany(order.buyer.name);
-        //this.filterUsersOfSellerCompany(order.seller.name);
-      });
+      .subscribe(order => this.order = order);
   }
 
   getManagersOfUser(): void{
     this.userService.getUsers()
-        .subscribe(managers => {
-          this.managers = managers
-          this.usersOfSellerCompany = managers;
-          this.usersOfBuyerCompany = managers;
-        });
+      .subscribe(managers => {
+        this.managers = managers
+        this.usersOfSellerCompany = managers;//.filter(user => user.workplace.id == this.order.seller.id);
+        this.usersOfBuyerCompany = managers;//.filter(user => user.workplace.id == this.order.buyer.id);;
+      });
   }
-    
+
   submit(): void {
     if(this.authService.user.role == "ROLE_ADMIN"){
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
@@ -128,6 +123,16 @@ export class OrderFormComponent implements OnInit {
 
   filterUsersOfSellerCompany(companyName: string){
     this.usersOfSellerCompany = this.managers.filter(user => user.workplace.name == companyName);
+  }
+
+  toggleBuyerMagager(companyName: string){
+    this.editBuyerManager = !this.editBuyerManager;
+    if(this.editBuyerManager) this.filterUsersOfBuyerCompany(companyName);
+  }
+
+  toggleSellerMagager(companyName: string){
+    this.editSellerManager = !this.editSellerManager;
+    if(this.editSellerManager) this.filterUsersOfSellerCompany(companyName);
   }
 
   goBack(): void {

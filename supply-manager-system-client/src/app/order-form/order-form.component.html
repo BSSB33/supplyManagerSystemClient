@@ -163,8 +163,11 @@
     </li>
 
     <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
-      <label>Seller Manager:&nbsp;
-        <mat-form-field *ngIf="order.sellerManager" style="width: 200px;">
+      <label *ngIf="!editSellerManager">Edit Seller Manager:&nbsp;</label>
+        <mat-checkbox *ngIf="!editSellerManager" (click)="toggleSellerMagager(order.seller.name)"></mat-checkbox><br>
+      <div *ngIf="editSellerManager">
+        <label>Seller Manager:&nbsp;
+        <mat-form-field *ngIf="order.sellerManager; else unassignedSellerAdmin" style="width: 200px;">
             <mat-select 
               #sellerManager
               formControlName="sellerManager" 
@@ -180,7 +183,26 @@
             </mat-select>
         </mat-form-field>
       </label>
+      </div>
+      
     </li>
+
+    <ng-template #unassignedSellerAdmin>
+      <mat-form-field style="width: 200px;">
+        <mat-select 
+          #sellerManager 
+          formControlName="sellerManager" 
+          name="sellerManager" 
+          placeholder="Select Seller Manager">
+            <mat-option value="" disabled>Choose a User</mat-option>
+            <ng-container *ngFor="let manager of usersOfSellerCompany">
+                <mat-option *ngIf="manager.enabled"
+                  [value]="manager.username">{{manager.username}}
+                </mat-option>
+            </ng-container>
+        </mat-select>
+      </mat-form-field>
+  </ng-template>
 
     <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
       <label>Buyer Company:&nbsp;
@@ -204,24 +226,45 @@
     </li>
 
     <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
-      <label>Buyer Manager:&nbsp;
-        <mat-form-field *ngIf="order.buyerManager" style="width: 200px;"> <!-- TODO mi van ha nincs? (ng-template) -->
-            <mat-select 
-              #buyerManager
-              formControlName="buyerManager" 
-              name="buyerManager" 
-              placeholder="Select Buyer Manager"
-              [(ngModel)]="order.buyerManager.username">
-                <mat-option value="" disabled>Choose a Manager</mat-option>
-                <ng-container *ngFor="let manager of usersOfBuyerCompany">
-                  <mat-option *ngIf="manager.enabled"
-                    [value]="manager.username">{{manager.username}}
-                 </mat-option>
-                </ng-container>
-            </mat-select>
-        </mat-form-field>
-      </label>
+      <label *ngIf="!editBuyerManager">Edit Buyer Manager:&nbsp;</label>
+        <mat-checkbox *ngIf="!editBuyerManager" (click)="toggleBuyerMagager(order.buyer.name)"></mat-checkbox><br>
+      <div *ngIf="editBuyerManager">
+        <label>Buyer Manager:&nbsp;
+          <mat-form-field *ngIf="order.buyerManager; else unassignedBuyerAdmin" style="width: 200px;"> <!-- TODO mi van ha nincs? (ng-template) -->
+              <mat-select 
+                #buyerManager
+                formControlName="buyerManager" 
+                name="buyerManager" 
+                placeholder="Select Buyer Manager"
+                [(ngModel)]="order.buyerManager.username">
+                  <mat-option value="" disabled>Choose a Manager</mat-option>
+                  <ng-container *ngFor="let manager of usersOfBuyerCompany">
+                    <mat-option *ngIf="manager.enabled"
+                      [value]="manager.username">{{manager.username}}
+                   </mat-option>
+                  </ng-container>
+              </mat-select>
+          </mat-form-field>
+        </label>
+      </div>
     </li>
+
+    <ng-template #unassignedBuyerAdmin>
+      <mat-form-field style="width: 200px;">
+        <mat-select
+            #buyerManager 
+            formControlName="buyerManager" 
+            name="buyerManager" 
+            placeholder="Select Buyer Manager">
+          <mat-option value="" disabled>Choose a User</mat-option>
+          <ng-container *ngFor="let manager of usersOfBuyerCompany">
+              <mat-option *ngIf="manager.enabled"
+              [value]="manager.username">{{manager.username}}
+              </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </ng-template>
 
 
     </ul>

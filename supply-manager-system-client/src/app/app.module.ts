@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox'; 
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { HistoryComponent } from './history/history.component';
@@ -33,6 +34,7 @@ import { CompanyFormComponent } from './company-form/company-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { MatDividerModule } from '@angular/material/divider'; 
 
 @NgModule({
   declarations: [
@@ -74,7 +76,9 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     MatSelectModule,
     ReactiveFormsModule,
     MatDialogModule,
-    
+    MatCheckboxModule,
+    MatDividerModule,
+
   ],
   providers: [
     MessageService,
