@@ -47,7 +47,7 @@
                             </mat-form-field>
                         </label>
                     </tr>
-                    <tr>
+                    <tr *ngIf="authService.user.role ==='ROLE_ADMIN'">
                         <label>User Role:&nbsp;
                             <mat-form-field style="width: 200px;">
                                 <mat-select
@@ -56,16 +56,21 @@
                                 name="userRole" 
                                 type="text" 
                                 placeholder="Select Role">
-                                    <mat-option value="ROLE_ADMIN">Admin</mat-option>
-                                    <mat-option value="ROLE_DIRECTOR" *ngIf="authService.user.role ==='ROLE_ADMIN'">
+                                    <mat-option value="ROLE_ADMIN" 
+                                    (click)="setSelectedRole('ROLE_ADMIN')">Admin</mat-option>
+                                    <mat-option value="ROLE_DIRECTOR" 
+                                    (click)="setSelectedRole('ROLE_DIRECTOR')" 
+                                    *ngIf="authService.user.role ==='ROLE_ADMIN'">
                                         Director</mat-option>
-                                    <mat-option value="ROLE_MANAGER" *ngIf="authService.user.role ==='ROLE_ADMIN' || authService.user.role ==='ROLE_DIRECTOR'">
+                                    <mat-option value="ROLE_MANAGER" 
+                                    (click)="setSelectedRole('ROLE_MANAGER')" 
+                                    *ngIf="authService.user.role ==='ROLE_ADMIN' || authService.user.role ==='ROLE_DIRECTOR'">
                                         Manager</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </label>
                     </tr>
-                    <tr>
+                    <tr *ngIf="authService.user.role ==='ROLE_ADMIN'">
                         <label>Workplace Of User:&nbsp;
                             <mat-form-field style="width: 200px;">
                                 <mat-select
@@ -73,7 +78,7 @@
                                 formControlName="workplace" 
                                 name="workplace" 
                                 type="text" 
-                                placeholder="Select Wokrplace">
+                                placeholder="Select Workplace">
                                     <mat-option value="">Choose a Company</mat-option>
                                     <ng-container *ngFor="let company of this.userList.companies">
                                         <mat-option *ngIf="company.active" [value]="company.name">
@@ -84,8 +89,6 @@
                             </mat-form-field>
                         </label>
                     </tr>
-
-
                     <tr>
                         <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">Add Order</button>
                     </tr>

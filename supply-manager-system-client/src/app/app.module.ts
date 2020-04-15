@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox'; 
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { HistoryComponent } from './history/history.component';
@@ -75,6 +76,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     MatSelectModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatCheckboxModule,
     
   ],
   providers: [
@@ -121,6 +123,8 @@ export class AuthInterceptor implements HttpInterceptor {
         //Unauthorized
         //window.location.href = '/login';
         localStorage.setItem('loginMessage', "Unauthorized!");
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         console.log(err.error)
         return of(err.message);
       }
@@ -131,9 +135,9 @@ export class AuthInterceptor implements HttpInterceptor {
       }
       if (err.status === 403){
         //Forbidden
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        //window.location.href = '/login';
+        //localStorage.removeItem('token');
+        //localStorage.removeItem('user');
+        window.location.href = '/forbidden';
         console.log(err.error)
         return of(err.message);
       }

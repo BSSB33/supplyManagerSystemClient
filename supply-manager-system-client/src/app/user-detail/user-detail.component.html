@@ -18,7 +18,7 @@
         </ng-template>
 
         <li *ngIf="user.company; else elseBlock2" class="list-group-item">
-            <label>Company Of The User: {{user.company.name}}</label></li>
+            <label>Director At: {{user.company.name}}</label></li>
         <ng-template #elseBlock2>
             <li class="list-group-item"><label>Company Of The User:&nbsp;</label><label style="color: orange;"> Not a Director</label></li>
         </ng-template>

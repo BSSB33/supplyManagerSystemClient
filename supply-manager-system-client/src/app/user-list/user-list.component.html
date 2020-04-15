@@ -71,10 +71,17 @@
 
     
 
-    <button *ngIf="!addUser && (authService.user.role ==='ROLE_ADMIN' || authService.user.role ==='ROLE_DIRECTOR'); else cancel" 
+    <button *ngIf="!addUser && authService.user.role ==='ROLE_ADMIN'; else directorButton" 
     style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
         <mat-icon>add</mat-icon>&nbsp;Register New User
     </button>
+    <ng-template #directorButton>
+        <button *ngIf="!addUser && authService.user.role ==='ROLE_DIRECTOR'; else cancel" 
+        style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
+            <mat-icon>add</mat-icon>&nbsp;Register New Manager
+        </button>
+    </ng-template>
+
     <ng-template #cancel>
         <button *ngIf="addUser" style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
             <mat-icon>remove</mat-icon>&nbsp;Cancel Registration
