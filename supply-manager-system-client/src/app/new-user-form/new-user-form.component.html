@@ -48,41 +48,42 @@
                         </label>
                     </tr>
                     <tr>
-                        <label>Workplace of User:&nbsp;
+                        <label>User Role:&nbsp;
                             <mat-form-field style="width: 200px;">
                                 <mat-select
-                                #workplace 
+                                #userRole 
+                                formControlName="userRole" 
+                                name="userRole" 
+                                type="text" 
+                                placeholder="Select Role">
+                                    <mat-option value="ROLE_ADMIN">Admin</mat-option>
+                                    <mat-option value="ROLE_DIRECTOR" *ngIf="authService.user.role ==='ROLE_ADMIN'">
+                                        Director</mat-option>
+                                    <mat-option value="ROLE_MANAGER" *ngIf="authService.user.role ==='ROLE_ADMIN' || authService.user.role ==='ROLE_DIRECTOR'">
+                                        Manager</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label>Workplace Of User:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <mat-select
+                                #workplace
                                 formControlName="workplace" 
                                 name="workplace" 
                                 type="text" 
-                                placeholder="Select Workplace">
+                                placeholder="Select Wokrplace">
                                     <mat-option value="">Choose a Company</mat-option>
                                     <ng-container *ngFor="let company of this.userList.companies">
-                                        <mat-option *ngIf="company.active"
-                                            [value]="company.name">{{company.name}}
+                                        <mat-option *ngIf="company.active" [value]="company.name">
+                                            {{company.name}}
                                         </mat-option>
                                     </ng-container>
                                 </mat-select>
                             </mat-form-field>
                         </label>
-                    </tr><!--TODO if company is not null, disable workplace and set it to the same company-->
-                    <tr>
-                        <label>User Status:&nbsp;
-                            <mat-form-field style="width: 200px;">
-                                <mat-select
-                                #userStatus 
-                                formControlName="userStatus" 
-                                name="userStatus" 
-                                type="text" 
-                                placeholder="Select Status">
-                                    <mat-option value="true">Enabled</mat-option>
-                                    <mat-option value="false">Disabled</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </label>
                     </tr>
-
-
 
 
                     <tr>
