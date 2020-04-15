@@ -55,7 +55,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     ForbiddenDialogComponent,
     ConfirmationDialogComponent,
     NewOrderFormComponent,
-    NewCompanyFormComponent
+    NewCompanyFormComponent,
+    NewUserFormComponent
   ],
   imports: [
     BrowserModule,
@@ -101,6 +102,7 @@ import { ForbiddenDialogComponent } from './forbidden-dialog/forbidden-dialog.co
 import { MessageService } from './services/message.service';
 import { NewOrderFormComponent } from './new-order-form/new-order-form.component';
 import { NewCompanyFormComponent } from './new-company-form/new-company-form.component';
+import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

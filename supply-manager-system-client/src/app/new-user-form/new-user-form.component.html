@@ -1,0 +1,95 @@
+<div class="card fixedContainer userTable" style="background-color: rgb(33, 37, 41);">
+    <form [formGroup]="userForm" (submit)="submit()">
+        <div style="margin: 10px;">
+            <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41); margin: 20px">
+                <tbody>
+                    <tr>
+                        <label class="whiteLabel">Username:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #username 
+                                formControlName="username" 
+                                type="text" 
+                                name="username"
+                                placeholder="Enter Usernameame"
+                                aria-describedby="titleHelp" />
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label>User Status:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <mat-select
+                                #userStatus 
+                                formControlName="userStatus" 
+                                name="userStatus" 
+                                type="text" 
+                                placeholder="Select Status">
+                                    <mat-option value="true">Enabled</mat-option>
+                                    <mat-option value="false">Disabled</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label>Password:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #password 
+                                formControlName="password" 
+                                type="text" 
+                                name="password"
+                                placeholder="Enter Password"
+                                aria-describedby="titleHelp"
+                                [type]="hidePassword ? 'password' : 'text'"/>
+                                <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
+                                <mat-error *ngIf="password.invalid">Password is required</mat-error> 
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label>Workplace of User:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <mat-select
+                                #workplace 
+                                formControlName="workplace" 
+                                name="workplace" 
+                                type="text" 
+                                placeholder="Select Workplace">
+                                    <mat-option value="">Choose a Company</mat-option>
+                                    <ng-container *ngFor="let company of this.userList.companies">
+                                        <mat-option *ngIf="company.active"
+                                            [value]="company.name">{{company.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
+                        </label>
+                    </tr><!--TODO if company is not null, disable workplace and set it to the same company-->
+                    <tr>
+                        <label>User Status:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <mat-select
+                                #userStatus 
+                                formControlName="userStatus" 
+                                name="userStatus" 
+                                type="text" 
+                                placeholder="Select Status">
+                                    <mat-option value="true">Enabled</mat-option>
+                                    <mat-option value="false">Disabled</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">Add Order</button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

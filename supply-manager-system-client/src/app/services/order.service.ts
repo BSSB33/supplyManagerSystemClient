@@ -66,8 +66,6 @@ export class OrderService {
   }
 
   addOrder(order: Order): Observable<Order> {
-    console.log("Order sent to backend: ");
-    console.log(order);
     return this.http.post<Order>(this.ordersUrl, order, httpOptions).pipe(
       tap((order: Order) => this.log(`added Order w/ id=${order.id}`)),
       catchError(this.handleError<Order>('addOrder'))
