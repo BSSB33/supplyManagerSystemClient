@@ -76,7 +76,6 @@ export class NewUserFormComponent implements OnInit {
       role,
     );
     this.userList.registerUser(newUser);
-    console.log(this.companies);
     this.userList.toggleAddUser();
   }
 }

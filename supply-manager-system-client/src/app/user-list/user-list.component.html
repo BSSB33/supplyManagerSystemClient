@@ -40,8 +40,13 @@
                     <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
                 </td>
                 <ng-template #manager>
-                    <td>
+                    <td *ngIf="authService.user.id !== user.id; else loggedInManager">
                         <button mat-raised-button color="primary" disabled><mat-icon>edit</mat-icon>&nbsp;Edit</button>
+                    </td>
+                </ng-template>
+                <ng-template #loggedInManager>
+                    <td>
+                        <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
                     </td>
                 </ng-template>
 
