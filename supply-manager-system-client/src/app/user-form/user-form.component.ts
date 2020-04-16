@@ -19,6 +19,7 @@ export class UserFormComponent implements OnInit {
   companies: Company[];
   hidePassword: boolean = true;
   userForm: FormGroup;
+  selectedRole: string;
 
   constructor(
     private location: Location,
@@ -31,10 +32,9 @@ export class UserFormComponent implements OnInit {
       this.userForm = new FormGroup({
         username: new FormControl(Validators.required),
         userStatus: new FormControl(Validators.required), //TODO check save
-        password: new FormControl(),
+        newPassword: new FormControl(),
         userRole: new FormControl(Validators.required),
         workplace: new FormControl(Validators.required),
-        directorAtWorkplace: new FormControl(Validators.required),
       });
     }
   }
@@ -58,13 +58,23 @@ export class UserFormComponent implements OnInit {
       });
   }
 
-  /*toggleEnabled(){
-    this.enabled = !this.enabled;
-  }*/
+  setSelectedRole(selectedRole: string){
+    this.selectedRole = selectedRole;
+  }
 
   submit(): void {
     console.log(this.user);
+    if(this.authService.user.role == "ROLE_ADMIN"){
 
+      if(this.selectedRole == 'ROLE_DIRECTOR' || this.selectedRole == 'ROLE_ADMIN'){
+        this.user.company = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
+      }
+      else this.user.company = null;
+      this.user.role = this.userForm.controls['userRole'].value;
+    }
+    if(this.userForm.controls['newPassword'].value == null) this.user.password = null;
+    else this.user.password = this.userForm.controls['newPassword'].value;
+    
     this.userService.updateUser(this.user)
     .subscribe(() => this.goBack());
   }

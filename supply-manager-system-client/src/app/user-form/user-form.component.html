@@ -40,8 +40,8 @@
                 <mat-form-field style="width: 200px;">
                     <input matInput 
                         #password 
-                        formControlName="password" 
-                        name="password"
+                        formControlName="newPassword" 
+                        name="newPassword"
                         placeholder="Enter Password"
                         aria-describedby="titleHelp"
                         [type]="hidePassword ? 'password' : 'text'"/>
@@ -51,7 +51,7 @@
             </label>
         </li>
 
-        <!--<li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
+        <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
             <label>User Role:&nbsp;
                 <mat-form-field style="width: 200px;">
                     <mat-select
@@ -59,10 +59,18 @@
                     formControlName="userRole" 
                     name="userRole" 
                     type="text" 
-                    placeholder="Select Role">
-                        <mat-option value="ROLE_ADMIN">Admin</mat-option>
-                        <mat-option value="ROLE_DIRECTOR" >Director</mat-option>
-                        <mat-option value="ROLE_MANAGER">Manager</mat-option>
+                    placeholder="Select Role"
+                    [(ngModel)]="user.role">
+                    <mat-option value="ROLE_ADMIN" 
+                        (click)="setSelectedRole('ROLE_ADMIN')">Admin</mat-option>
+                        <mat-option value="ROLE_DIRECTOR" 
+                        (click)="setSelectedRole('ROLE_DIRECTOR')" 
+                        *ngIf="authService.user.role ==='ROLE_ADMIN'">
+                            Director</mat-option>
+                        <mat-option value="ROLE_MANAGER" 
+                        (click)="setSelectedRole('ROLE_MANAGER')" 
+                    *ngIf="authService.user.role ==='ROLE_ADMIN' || authService.user.role ==='ROLE_DIRECTOR'">
+                        Manager</mat-option>
                     </mat-select>
                 </mat-form-field>
             </label>
@@ -76,6 +84,7 @@
                     formControlName="workplace" 
                     name="workplace" 
                     type="text" 
+                    [(ngModel)]="user.workplace.name"
                     placeholder="Select Workplace">
                         <mat-option value="">Choose a Company</mat-option>
                         <ng-container *ngFor="let company of companies">
@@ -87,16 +96,6 @@
                 </mat-form-field>
             </label>
         </li>
-
-        <li class="list-group-item">
-            <label class="whiteLabel">User is Director At Workplace: &nbsp;
-               <mat-checkbox 
-                   type="checkbox" 
-                   [checked]="user.company"
-                   formControlName="directorAtWorkplace">
-               </mat-checkbox>
-            </label>
-        </li>-->
         
     </ul>
     <div class="card-body">
