@@ -31,7 +31,16 @@ export class UserFormComponent implements OnInit {
     if(this.authService.user.role == "ROLE_ADMIN"){
       this.userForm = new FormGroup({
         username: new FormControl(Validators.required),
-        userStatus: new FormControl(Validators.required), //TODO check save
+        userStatus: new FormControl(Validators.required),
+        newPassword: new FormControl(),
+        userRole: new FormControl(Validators.required),
+        workplace: new FormControl(Validators.required),
+      });
+    }
+    if(this.authService.user.role == "ROLE_DIRECTOR"){
+      this.userForm = new FormGroup({
+        username: new FormControl(Validators.required),
+        userStatus: new FormControl(Validators.required),
         newPassword: new FormControl(),
         userRole: new FormControl(Validators.required),
         workplace: new FormControl(Validators.required),
@@ -67,11 +76,14 @@ export class UserFormComponent implements OnInit {
       this.selectedRole = this.user.role;
     }
     console.log(this.user);
-    if(this.authService.user.role == "ROLE_ADMIN"){
+    if(this.authService.user.role == "ROLE_ADMIN"){ //TODO managers can modify itself -> MANAGER branch
 
       if(this.selectedRole == 'ROLE_DIRECTOR' || this.selectedRole == 'ROLE_ADMIN'){
         this.user.workplace = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
         this.user.company = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
+        if(this.selectedRole == 'ROLE_ADMIN' && this.user.id == this.authService.user.id){
+          this.user.role = 'ROLE_ADMIN';
+        }
       }
       else {
         this.user.workplace = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
@@ -79,6 +91,13 @@ export class UserFormComponent implements OnInit {
       }
       this.user.role = this.userForm.controls['userRole'].value;
     }
+    else if(this.authService.user.role == "ROLE_DIRECTOR" && this.user.role == 'ROLE_DIRECTOR'){
+      this.user.role = 'ROLE_DIRECTOR';
+    }
+    else if(this.authService.user.role == "ROLE_DIRECTOR" && this.user.role == 'ROLE_MANAGER'){
+      this.user.role = 'ROLE_MANAGER';
+    }
+
     if(this.userForm.controls['newPassword'].value == null) {
       this.user.password = null;
     }

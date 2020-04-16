@@ -34,6 +34,7 @@ import { CompanyFormComponent } from './company-form/company-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     ReactiveFormsModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatDividerModule,
     
   ],
   providers: [
