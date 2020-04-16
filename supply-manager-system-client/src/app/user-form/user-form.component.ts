@@ -63,16 +63,25 @@ export class UserFormComponent implements OnInit {
   }
 
   submit(): void {
+    if(this.selectedRole == null){
+      this.selectedRole = this.user.role;
+    }
     console.log(this.user);
     if(this.authService.user.role == "ROLE_ADMIN"){
 
       if(this.selectedRole == 'ROLE_DIRECTOR' || this.selectedRole == 'ROLE_ADMIN'){
+        this.user.workplace = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
         this.user.company = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
       }
-      else this.user.company = null;
+      else {
+        this.user.workplace = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
+        this.user.company = null;
+      }
       this.user.role = this.userForm.controls['userRole'].value;
     }
-    if(this.userForm.controls['newPassword'].value == null) this.user.password = null;
+    if(this.userForm.controls['newPassword'].value == null) {
+      this.user.password = null;
+    }
     else this.user.password = this.userForm.controls['newPassword'].value;
     
     this.userService.updateUser(this.user)
