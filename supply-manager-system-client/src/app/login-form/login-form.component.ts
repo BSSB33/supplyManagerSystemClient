@@ -30,6 +30,10 @@ export class LoginFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if(localStorage.getItem('loginMessage') != null){
+      this.message = localStorage.getItem('loginMessage');
+      localStorage.removeItem('loginMessage');
+    }
   }
 
   async onSubmit() {
@@ -41,6 +45,7 @@ export class LoginFormComponent implements OnInit {
       } else {
         this.router.navigate(['/']);
         this.message = localStorage.getItem('loginMessage');
+        localStorage.removeItem('loginMessage');
       }
     } catch (e) {
       this.message = 'Cannot log in!';
