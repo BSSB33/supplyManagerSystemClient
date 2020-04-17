@@ -72,7 +72,6 @@ export class NewOrderFormComponent implements OnInit {
   }
 
   submit(): void {
-    console.log("Form Conten: " + this.orderForm.value);
     this.add(
       this.orderForm.controls['productName'].value,
       this.orderForm.controls['productPrice'].value,

@@ -50,14 +50,14 @@
                     </td>
                 </ng-template>
 
-                <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.company.id !== company.id; else usersCompany">
+                <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.workplace.id !== company.id; else usersCompany">
                     <button mat-raised-button color="warn"
                         (click)="openDisableOrEnableCompanyDialog(company, 'disable')">
                         <mat-icon>remove_circle</mat-icon>&nbsp;Disable
                     </button>
                 </td>
                 <ng-template #usersCompany>
-                    <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.company.id === company.id; else disabledCompany">
+                    <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.workplace.id === company.id; else disabledCompany">
                         <button mat-raised-button color="warn"
                             (click)="openDisableOrEnableCompanyDialog(company, 'enable')" disabled>
                             <mat-icon>remove_circle</mat-icon>&nbsp;Disable

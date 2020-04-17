@@ -15,7 +15,6 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
     private messageService: MessageService
   ) { }
 
@@ -45,6 +44,13 @@ export class UserService {
     );
   }
 
+  registerUser(user: User): Observable<User> {
+    return this.http.post<User>(this.usersUrl + '/register', user, httpOptions).pipe(
+      tap((company: User) => this.log(`registered User w/ id=${company.id}`)),
+      catchError(this.handleError<User>('registerUser'))
+    );
+  }
+
   disableOrEnableUser (user: User): Observable<any> {
     var url;
     if(user.enabled){
@@ -60,7 +66,7 @@ export class UserService {
     );
   }
 
-    /**
+  /**
    * Handle Http operation that failed.
    * Let the app continue.
    * @param operation - name of the operation that failed

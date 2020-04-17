@@ -36,12 +36,22 @@
                 <td *ngIf="user.workplace; else missing">{{user.workplace.name}}</td>
                 <td *ngIf="user.role; else missing">{{user.role}}</td>
 
-                <td *ngIf="authService.user.role !== 'ROLE_MANAGER'; else manager">
+                <td *ngIf="authService.user.role === 'ROLE_ADMIN'; else managerOrDirector">
                     <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
                 </td>
+                <ng-template #managerOrDirector>
+                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && (authService.user.id === user.id || user.role === 'ROLE_MANAGER'); else manager">
+                        <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
+                    </td>
+                </ng-template>
                 <ng-template #manager>
-                    <td>
+                    <td *ngIf="authService.user.id !== user.id; else loggedInManager">
                         <button mat-raised-button color="primary" disabled><mat-icon>edit</mat-icon>&nbsp;Edit</button>
+                    </td>
+                </ng-template>
+                <ng-template #loggedInManager>
+                    <td>
+                        <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
                     </td>
                 </ng-template>
 
@@ -68,4 +78,29 @@
     <ng-template #missing>
         <td><strong style="color: green;">Please Add Value</strong></td>
     </ng-template>
+
+    
+
+    <button *ngIf="!addUser && authService.user.role ==='ROLE_ADMIN'; else directorButton" 
+    style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
+        <mat-icon>add</mat-icon>&nbsp;Register New User
+    </button>
+    <ng-template #directorButton>
+        <button *ngIf="!addUser && authService.user.role ==='ROLE_DIRECTOR'; else cancel" 
+        style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
+            <mat-icon>add</mat-icon>&nbsp;Register New Manager
+        </button>
+    </ng-template>
+
+    <ng-template #cancel>
+        <button *ngIf="addUser" style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
+            <mat-icon>remove</mat-icon>&nbsp;Cancel Registration
+        </button>
+    </ng-template>
+
+    <div *ngIf="addUser">
+        <h4 style="margin: 10px;">Register a new User:</h4>
+        <new-user-form></new-user-form>
+    </div>
+
 </div>

@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox'; 
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { HistoryComponent } from './history/history.component';
@@ -33,6 +34,7 @@ import { CompanyFormComponent } from './company-form/company-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     ForbiddenDialogComponent,
     ConfirmationDialogComponent,
     NewOrderFormComponent,
-    NewCompanyFormComponent
+    NewCompanyFormComponent,
+    NewUserFormComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +77,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     MatSelectModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatCheckboxModule,
+    MatDividerModule,
     
   ],
   providers: [
@@ -101,6 +106,7 @@ import { ForbiddenDialogComponent } from './forbidden-dialog/forbidden-dialog.co
 import { MessageService } from './services/message.service';
 import { NewOrderFormComponent } from './new-order-form/new-order-form.component';
 import { NewCompanyFormComponent } from './new-company-form/new-company-form.component';
+import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -119,6 +125,8 @@ export class AuthInterceptor implements HttpInterceptor {
         //Unauthorized
         //window.location.href = '/login';
         localStorage.setItem('loginMessage', "Unauthorized!");
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         console.log(err.error)
         return of(err.message);
       }
@@ -129,9 +137,9 @@ export class AuthInterceptor implements HttpInterceptor {
       }
       if (err.status === 403){
         //Forbidden
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        //window.location.href = '/login';
+        //localStorage.removeItem('token');
+        //localStorage.removeItem('user');
+        window.location.href = '/forbidden';
         console.log(err.error)
         return of(err.message);
       }
