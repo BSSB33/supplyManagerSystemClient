@@ -11,6 +11,7 @@
     background-color: rgb(33, 37, 41);
 }
 
+
 ::ng-deep .mat-form-field-label{
     color:white !important;
 }

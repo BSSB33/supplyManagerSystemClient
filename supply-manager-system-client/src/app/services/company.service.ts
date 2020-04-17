@@ -30,9 +30,8 @@ export class CompanyService {
   }
 
   getCompanies(): Observable<Company[]> {
-    return this.http.get<Company[]>(this.companiesUrl, httpOptions)
-      .pipe(
-        tap(_ => this.log('Fetched Companies')),
+    return this.http.get<Company[]>(this.companiesUrl, httpOptions).pipe(
+      tap(_ => this.log('Fetched Companies')),
         catchError(this.handleError<Company[]>('getCompanies', []))
       );
   }

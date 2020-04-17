@@ -2,7 +2,7 @@
   <ng-container *ngIf="authService.isLoggedIn" class="wideMenu" fxLayout="row" fxShow="false" fxShow.gt-sm>
     <!--Admin menu-->
     <ng-container *ngIf="authService.user.role === 'ROLE_ADMIN'; else director" class="wideMenu" fxLayout="row" fxShow="false" fxShow.gt-sm>
-      <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
+      <button mat-button routerLink="/orders"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
 
       <button mat-icon-button [matMenuTriggerFor]="menu" fxHide="false" fxHide.gt-sm>
         <mat-icon>menu</mat-icon>
