@@ -20,7 +20,7 @@
                 <th scope="col">Disable/Enable</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody><!--modifying logged in user username or password should be warned and signed out-->
             <tr *ngFor="let user of users">
                 <th scope="row">{{ user.id }}</th>
                 <td *ngIf="user.username; else missing">
@@ -36,10 +36,15 @@
                 <td *ngIf="user.workplace; else missing">{{user.workplace.name}}</td>
                 <td *ngIf="user.role; else missing">{{user.role}}</td>
 
-                <td *ngIf="authService.user.role !== 'ROLE_MANAGER'; else manager"> <!-- TODO directors are not allowed to modify directors -->
+                <td *ngIf="authService.user.role === 'ROLE_ADMIN'; else managerOrDirector">
                     <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
                 </td>
-                <ng-template #manager> <!--TODO managers can modify itself???-->
+                <ng-template #managerOrDirector>
+                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && (authService.user.id === user.id || user.role === 'ROLE_MANAGER'); else manager">
+                        <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
+                    </td>
+                </ng-template>
+                <ng-template #manager>
                     <td *ngIf="authService.user.id !== user.id; else loggedInManager">
                         <button mat-raised-button color="primary" disabled><mat-icon>edit</mat-icon>&nbsp;Edit</button>
                     </td>

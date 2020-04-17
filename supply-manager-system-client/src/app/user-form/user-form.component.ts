@@ -28,24 +28,13 @@ export class UserFormComponent implements OnInit {
     private userService: UserService,
     public authService: AuthService,
   ) {
-    if(this.authService.user.role == "ROLE_ADMIN"){
-      this.userForm = new FormGroup({
-        username: new FormControl(Validators.required),
-        userStatus: new FormControl(Validators.required),
-        newPassword: new FormControl(),
-        userRole: new FormControl(Validators.required),
-        workplace: new FormControl(Validators.required),
-      });
-    }
-    if(this.authService.user.role == "ROLE_DIRECTOR"){
-      this.userForm = new FormGroup({
-        username: new FormControl(Validators.required),
-        userStatus: new FormControl(Validators.required),
-        newPassword: new FormControl(),
-        userRole: new FormControl(Validators.required),
-        workplace: new FormControl(Validators.required),
-      });
-    }
+    this.userForm = new FormGroup({
+      username: new FormControl(Validators.required),
+      userStatus: new FormControl(Validators.required),
+      newPassword: new FormControl(),
+      userRole: new FormControl(Validators.required),
+      workplace: new FormControl(Validators.required),
+    });
   }
 
   ngOnInit(): void {
