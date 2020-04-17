@@ -48,7 +48,7 @@ export class OrderFormComponent implements OnInit {
           status: new FormControl(Validators.required),
           seller: new FormControl(Validators.required),
           buyer: new FormControl(Validators.required),
-          sellerManager: new FormControl(Validators.required),
+          sellerManager: new FormControl([Validators.required]),
           buyerManager: new FormControl(Validators.required),
         });
       }
@@ -71,7 +71,7 @@ export class OrderFormComponent implements OnInit {
         });
       }
     }
-
+   
   ngOnInit(): void {
     this.getOrderById();
     this.getManagersOfUser();
@@ -86,11 +86,15 @@ export class OrderFormComponent implements OnInit {
   getOrderById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
-      .subscribe(order => {
+      .subscribe(
+        order => {
         this.order = order
-        //Issue: Due to the asyncron query, company is sometimes undefined when needed here.
-        this.filterUsersOfBuyerCompany(order.buyer.name)
-        this.filterUsersOfSellerCompany(order.seller.name)
+        this.companyService.getCompanies()
+          .subscribe(companies => {
+            this.companies = companies
+            this.initFilterUsersOfBuyerCompany(order.buyer.name, companies)
+            this.initFilterUsersOfSellerCompany(order.seller.name, companies)
+          });
       });
   }
 
@@ -98,8 +102,8 @@ export class OrderFormComponent implements OnInit {
     this.userService.getUsers()
       .subscribe(managers => {
         this.managers = managers
-        this.usersOfSellerCompany = managers;//.filter(user => user.workplace.id == this.order.seller.id);
-        this.usersOfBuyerCompany = managers;//.filter(user => user.workplace.id == this.order.buyer.id);;
+        this.usersOfSellerCompany = managers;
+        this.usersOfBuyerCompany = managers;
       });
   }
 
@@ -127,17 +131,27 @@ export class OrderFormComponent implements OnInit {
     .subscribe(() => this.goBack());
   }
 
+  initFilterUsersOfBuyerCompany(companyName: string, companies: Company[]){
+    this.selectedBuyerCompany = companies.find(company => company.name == companyName);
+    this.selectableCompanyiesForSeller = companies.filter(company => company.name != companyName);
+    this.usersOfBuyerCompany = this.managers.filter(user => user.workplace.name == companyName);
+  }
+
+  initFilterUsersOfSellerCompany(companyName: string, companies: Company[]){
+    this.selectedSellerCompany = companies.find(company => company.name == companyName);
+    this.selectableCompanyiesForBuyer = companies.filter(company => company.name != companyName);
+    this.usersOfSellerCompany = this.managers.filter(user => user.workplace.name == companyName);
+  }
+
   filterUsersOfBuyerCompany(companyName: string){
     this.selectedBuyerCompany = this.companies.find(company => company.name == companyName);
     this.selectableCompanyiesForSeller = this.companies.filter(company => company.name != companyName);
-
     this.usersOfBuyerCompany = this.managers.filter(user => user.workplace.name == companyName);
   }
 
   filterUsersOfSellerCompany(companyName: string){
     this.selectedSellerCompany = this.companies.find(company => company.name == companyName);
     this.selectableCompanyiesForBuyer = this.companies.filter(company => company.name != companyName);
-
     this.usersOfSellerCompany = this.managers.filter(user => user.workplace.name == companyName);
   }
 
