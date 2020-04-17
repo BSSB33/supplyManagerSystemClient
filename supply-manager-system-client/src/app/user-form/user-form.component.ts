@@ -70,9 +70,7 @@ export class UserFormComponent implements OnInit {
     if(this.selectedRole == null){
       this.selectedRole = this.user.role;
     }
-    console.log(this.user);
     if(this.authService.user.role == "ROLE_ADMIN"){
-
       //Setting workplace and company for each user upon modification
       if(this.selectedRole == 'ROLE_DIRECTOR' || this.selectedRole == 'ROLE_ADMIN'){
         this.user.workplace = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
@@ -80,12 +78,15 @@ export class UserFormComponent implements OnInit {
         if(this.selectedRole == 'ROLE_ADMIN' && this.user.id == this.authService.user.id){
           this.user.role = 'ROLE_ADMIN';
         }
+        else{
+          this.user.role = this.userForm.controls['userRole'].value;
+        }
       }
       else {
         this.user.workplace = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
         this.user.company = null;
       }
-      this.user.role = this.userForm.controls['userRole'].value;
+      
     }
     else if(this.authService.user.role == "ROLE_DIRECTOR" && this.user.role == 'ROLE_DIRECTOR'){
       this.user.role = 'ROLE_DIRECTOR';
@@ -95,32 +96,32 @@ export class UserFormComponent implements OnInit {
     }
 
     //Setting password or leaving it empty in case of not modifying the password
-    if(this.userForm.controls['newPassword'].value == null) {
+    if(this.userForm.controls['newPassword'].value == "") {
       this.user.password = null;
     }
     else this.user.password = this.userForm.controls['newPassword'].value;
 
-    //Warns user and asks for confirmation if username or password is modified
-    if( this.user.id == this.authService.user.id && (this.user.password != null || this.userForm.controls['username'].value != this.originalUsername || this.userForm.controls['userStatus'].value == false)){
-        const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
-          data:{
-            message: 'WARNING! Upon modifying your Username or Password or disabling your account, you will be singned out! - Are you sure?',
-            buttonText: {
-              ok: 'Yes',
-              cancel: 'No'
-            }
+    //Warns user and asks for confirmation if profile is modified
+    if( this.user.id == this.authService.user.id){ // && (this.user.password != null || this.userForm.controls['username'].value != this.originalUsername)
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
+        data:{
+          message: 'WARNING! Upon modifying your Profile, you will be singned out! - Are you sure?',
+          buttonText: {
+            ok: 'Yes',
+            cancel: 'No'
           }
-        });
-    
-        dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-          if (confirmed) {
-            this.userService.updateUser(this.user)
-            .subscribe(() => this.goBack());
-            this.authService.logout();
-            localStorage.setItem('loginMessage', 'Please log in with you new creditensials!');
-          }
-          else return;
-        });
+        }
+      });
+    //TODO huge bug! El tudom érni hogy ne legyenf elhasználó a cégben
+      dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.userService.updateUser(this.user)
+          .subscribe(() => this.goBack());
+          this.authService.logout();
+          localStorage.setItem('loginMessage', 'Please log in with you new creditensials!');
+        }
+        else return;
+      });
     }
     else{
       this.userService.updateUser(this.user)

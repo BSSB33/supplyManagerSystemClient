@@ -27,7 +27,11 @@ export class LoginFormComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private fb: FormBuilder
-  ) { }
+  ) { 
+    if(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) == "login"){
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit() {
     if(localStorage.getItem('loginMessage') != null){
