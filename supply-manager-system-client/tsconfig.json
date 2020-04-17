@@ -7,6 +7,7 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "allowJs": true,
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
@@ -19,9 +20,5 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  },
-  "compilerOptions": {
-        "experimentalDecorators": true,
-        "allowJs": true
-   }
+  }
 }

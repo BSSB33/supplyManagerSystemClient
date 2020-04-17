@@ -21,10 +21,13 @@ export class OrderFormComponent implements OnInit {
   sales: Boolean = this.orderService.href == "sales";
   public companies: Company[];
   managers: User[];
-  usersOfSellerCompany: User[];
   usersOfBuyerCompany: User[];
-  editBuyerManager:boolean;
-  editSellerManager:boolean;
+  usersOfSellerCompany: User[];
+  selectedBuyerCompany: Company;
+  selectedSellerCompany: Company;
+
+  selectableCompanyiesForBuyer: Company[];
+  selectableCompanyiesForSeller: Company[];
 
   orderForm: FormGroup;
 
@@ -37,6 +40,7 @@ export class OrderFormComponent implements OnInit {
     public authService: AuthService,
     ) 
     { 
+      //Admin page
       if(this.authService.user.role == "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
@@ -48,6 +52,7 @@ export class OrderFormComponent implements OnInit {
           buyerManager: new FormControl(Validators.required),
         });
       }
+      //Sales page
       if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
@@ -56,7 +61,7 @@ export class OrderFormComponent implements OnInit {
           sellerManager: new FormControl(Validators.required),
         });
       }
-      //purchases
+      //Purchase pages
       if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
@@ -81,7 +86,12 @@ export class OrderFormComponent implements OnInit {
   getOrderById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
-      .subscribe(order => this.order = order);
+      .subscribe(order => {
+        this.order = order
+        //Issue: Due to the asyncron query, company is sometimes undefined when needed here.
+        this.filterUsersOfBuyerCompany(order.buyer.name)
+        this.filterUsersOfSellerCompany(order.seller.name)
+      });
   }
 
   getManagersOfUser(): void{
@@ -118,21 +128,17 @@ export class OrderFormComponent implements OnInit {
   }
 
   filterUsersOfBuyerCompany(companyName: string){
+    this.selectedBuyerCompany = this.companies.find(company => company.name == companyName);
+    this.selectableCompanyiesForSeller = this.companies.filter(company => company.name != companyName);
+
     this.usersOfBuyerCompany = this.managers.filter(user => user.workplace.name == companyName);
   }
 
   filterUsersOfSellerCompany(companyName: string){
+    this.selectedSellerCompany = this.companies.find(company => company.name == companyName);
+    this.selectableCompanyiesForBuyer = this.companies.filter(company => company.name != companyName);
+
     this.usersOfSellerCompany = this.managers.filter(user => user.workplace.name == companyName);
-  }
-
-  toggleBuyerMagager(companyName: string){
-    this.editBuyerManager = !this.editBuyerManager;
-    if(this.editBuyerManager) this.filterUsersOfBuyerCompany(companyName);
-  }
-
-  toggleSellerMagager(companyName: string){
-    this.editSellerManager = !this.editSellerManager;
-    if(this.editSellerManager) this.filterUsersOfSellerCompany(companyName);
   }
 
   goBack(): void {
