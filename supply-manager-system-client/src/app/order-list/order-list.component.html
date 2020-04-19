@@ -3,7 +3,6 @@
   <table class="table table-dark table-hover table-curved">
     <thead>
       <tr>
-        <th scope="col">Id</th>
         <th scope="col">Product Name</th>
         <th scope="col">Price</th>
         <th scope="col">Status</th>
@@ -17,7 +16,6 @@
     </thead>
     <tbody>
       <tr *ngFor="let order of orders">
-        <th scope="row">{{ order.id }}</th>
         <td *ngIf="order.buyer; else missing">
           <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
         <td *ngIf="order.buyer; else missing">{{order.price | number}} Ft</td>

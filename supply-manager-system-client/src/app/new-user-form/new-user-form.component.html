@@ -54,8 +54,27 @@
                                     Password is required!
                                 </mat-error>
                             </mat-form-field>
-                        </label><!--TODO add 2. password field-->
+                        </label>
                     </tr>
+                    <!--<tr>
+                        <label>Password Confirmation:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #password_confirmation 
+                                formControlName="password_confirmation" 
+                                type="text" 
+                                name="password_confirmation"
+                                placeholder="Enter Password Again"
+                                aria-describedby="titleHelp"
+                                [type]="hidePassword ? 'password' : 'text'"/>
+                                <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
+                                <mat-error *ngIf="password.invalid">Password is required</mat-error> 
+                                <mat-error *ngIf="password.value != password_confirmation">
+                                    Password is required!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>-->
                     <tr *ngIf="authService.user.role ==='ROLE_ADMIN'">
                         <label>User Role:&nbsp;
                             <mat-form-field style="width: 200px;">

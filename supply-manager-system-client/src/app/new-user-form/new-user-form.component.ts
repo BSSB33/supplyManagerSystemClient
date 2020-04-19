@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { Validators, FormGroup, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { CompanyService } from '../services/company.service';
@@ -33,6 +33,7 @@ export class NewUserFormComponent implements OnInit {
       this.userForm = new FormGroup({
         username: new FormControl('', Validators.required),
         password: new FormControl('', Validators.required),
+        //password_confirmation: new FormControl('', Validators.required),
         userStatus: new FormControl('', Validators.required),
         workplace: new FormControl('', Validators.required),
         userRole: new FormControl('', Validators.required),
