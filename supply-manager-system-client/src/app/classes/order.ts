@@ -1,6 +1,5 @@
 import { Company } from './company';
 import { User } from './user';
-import { Status } from '../status.enum';
 
 export class Order {
     id: number;

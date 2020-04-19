@@ -1,15 +1,23 @@
 <div class="panel panel-default" style="margin: 20px;">
-  <h2 style="margin-left: 20px;">{{title}} </h2>
 
-  <mat-form-field>  
-    <input matInput 
-    name="term"
-    [(ngModel)]="term"
-    type="text"
-    placeholder="Search Here">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <div class="filterPanel">
 
+    <mat-form-field class="filterTool">  
+      <input matInput 
+      name="term"
+      [(ngModel)]="term"
+      type="text"
+      placeholder="Search Here">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <order-status-filter class="filterTool" [status]="selectedStatus" [statuses]="statuses" (onChange)="onFilterChange($event)"></order-status-filter>
+
+  </div>
+
+  
+
+  <h2 style="margin-left: 20px;"> {{title}} </h2>
   <table class="table table-dark table-hover table-curved">
     <thead>
       <tr>
@@ -25,7 +33,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of orders | filter : term">
+      <tr *ngFor="let order of filteredOrders | filter : term">
         <td *ngIf="order.buyer; else missing">
           <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
         <td *ngIf="order.buyer; else missing">{{order.price | number}} Ft</td>

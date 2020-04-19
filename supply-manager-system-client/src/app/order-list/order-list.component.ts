@@ -26,12 +26,15 @@ export class OrderListComponent implements OnInit {
   addButtonText = "Order";
   addOrder: Boolean = false;
   public unassigned: String = "UNASSIGNED";
+  public selectedStatus: string = '';
 
   companies: Company[];
   users: User[];
 
   orders: Order[] = [];
-  term = "";
+  filteredOrders: Order[];
+  term: string = "";
+  statuses: Set<String> = new Set(); //['UNDER_PRODUCTION', 'UNDER_ASSEMBLY', 'IN_STOCK', 'UNDER_SHIPPING', 'SUCCESSFULLY_COMPLETED', 'CLOSED', 'ISSUE', 'NEW', 'OFFER'];
 
   constructor(
     public orderService: OrderService,
@@ -45,9 +48,22 @@ export class OrderListComponent implements OnInit {
   ngOnInit(): void {
     this.getOrders();
     this.getUsers();
+    this.selectedStatus = '';
+    this.filter();
     this.orderService.href;
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
     this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
+  }
+
+  onFilterChange(status: string): void {
+    this.selectedStatus = status;
+    this.filter();
+  }
+
+  private filter(): void {
+    this.filteredOrders = this.selectedStatus == ''
+    ? this.orders
+    : this.orders.filter(order => order.status == this.selectedStatus);
   }
 
   toggleAddOrder(): void{
@@ -81,7 +97,15 @@ export class OrderListComponent implements OnInit {
 
   getOrders(): void {
     this.orderService.getOrders()
-        .subscribe(orders => this.orders = orders);
+        .subscribe(orders => {
+          this.orders = orders;
+          this.filteredOrders = orders;
+          var statuses: Set<String> = new Set();
+          orders.forEach(function (order) {
+            statuses.add(order.status);
+          })
+          this.statuses = statuses;
+        });
   }
 
   getUsers(): void{
