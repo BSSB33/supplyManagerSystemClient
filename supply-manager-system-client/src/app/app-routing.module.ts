@@ -35,7 +35,10 @@ const routes: Routes = [
   {
     path: 'orders',
     component: OrderListComponent,
-    canActivate: [AuthGuard] //TODO admin only endpoint
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN']
+    }
   },
   {
     path: 'orders/add',

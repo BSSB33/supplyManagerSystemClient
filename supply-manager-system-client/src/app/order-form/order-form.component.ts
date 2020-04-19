@@ -27,7 +27,7 @@ export class OrderFormComponent implements OnInit {
   usersOfSellerCompany: User[];
   selectedBuyerCompany: Company;
   selectedSellerCompany: Company;
-  originalStatus: String; //TODO ticket
+  originalStatus: String;
 
   selectableCompanyiesForBuyer: Company[];
   selectableCompanyiesForSeller: Company[];

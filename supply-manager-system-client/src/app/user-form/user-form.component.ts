@@ -112,7 +112,6 @@ export class UserFormComponent implements OnInit {
           }
         }
       });
-    //TODO huge bug! El tudom érni hogy ne legyenf elhasználó a cégben
       dialogRef.afterClosed().subscribe((confirmed: boolean) => {
         if (confirmed) {
           this.userService.updateUser(this.user)
