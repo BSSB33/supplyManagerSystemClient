@@ -8,9 +8,7 @@ import { Order } from '../classes/order';
 import { User } from '../classes/user';
 import { Router } from '@angular/router';
 import { History } from '../classes/history';
-import { Observable } from 'rxjs';
-import { from } from 'rxjs';
-import { of } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -29,7 +27,7 @@ export class OrderDetailComponent implements OnInit {
     private historyService: HistoryService,
     private location: Location,
     public router: Router,
-    private userService: UserService
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -61,18 +59,17 @@ export class OrderDetailComponent implements OnInit {
   private _creator: User;
   private _order: Order;
   setUpNewHistory(): void{
-    this.userService.getUser(2)
-    .subscribe(user => this._creator = user ); //replace
-
+    this._creator = this.authService.user;
+  
     this.orderService.getOrder(+this.route.snapshot.paramMap.get('id'))
     .subscribe(order => this._order = order );
   }
 
-  addHistoryToOrder(note: string, historyType: string): void {
+  addHistoryToOrder(historyType: string, note: string): void {
     note = note.trim();
     historyType = historyType.trim();
 
-    var history : History = new History(this._creator, this._order, note, historyType);
+    var history : History = new History(this._creator, this._order, historyType, note);
 
     this.historyService.addHistory(history)
       .subscribe(history => {

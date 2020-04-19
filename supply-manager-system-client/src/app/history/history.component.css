@@ -22,7 +22,7 @@ p.block {
 }
 
 .historyLabel{
-    margin: 10px;
+    margin: 5px;
 }
 
 .tableRight{
@@ -34,6 +34,6 @@ p.block {
 }
 
 .deleteLink{
-    margin: 10px;
-    margin-left: 20px;
+    margin: 5px;
+    margin-left: 15px;
 }

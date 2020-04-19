@@ -6,7 +6,7 @@
                     <tr>
                         <label class="whiteLabel">Select type :
                             <mat-form-field style="width: 200px;">
-                                <mat-select #historyType placeholder="Select Type" name="type"  [formControl]="historyControl" required>
+                                <mat-select #historyType placeholder="Select Type" name="type" [formControl]="historyControl">
                                     <mat-option value="PHONE_CALL">Phone Call</mat-option>
                                     <mat-option value="EMAIL_SENT">Email Sent</mat-option>
                                     <mat-option value="MADE_AN_OFFER">Made An Offer</mat-option>
@@ -17,9 +17,12 @@
                                     <mat-option value="OFFER">Offer Given</mat-option>
                                     <mat-option value="NOTE">Simple Note</mat-option>
                                     <mat-option value="SHIPPED">Shipped</mat-option>
+                                    <mat-option value="STATUS_MODIFIED" disabled>Status Modified</mat-option>
                                 </mat-select>
+                                <mat-error >
+                                    Please choose a Status
+                                </mat-error>
                             </mat-form-field>
-                            <mat-error *ngIf="historyControl.hasError('required')">Please choose an animal</mat-error>
                         </label>
                     </tr>
                     <tr>

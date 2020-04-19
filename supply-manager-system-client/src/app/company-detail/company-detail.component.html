@@ -1,16 +1,15 @@
 <div *ngIf="company" class="card" style="width: 40rem; margin: 20px;">
 
     <div *ngIf="company.name; else elseBlock0" class="card-body">
-        <h2 class="font-weight-bold mb-3">Company: {{company.name}}</h2>
+        <h2 class="font-weight-bold mb-3">Company Name: {{company.name}}</h2>
     </div>
     <ng-template #elseBlock0>
         <div class="card-body">
-            <h2 class="font-weight-bold mb-3">Company:&nbsp;<label>Please Set a Name For this Company</label></h2>
+            <h2 class="font-weight-bold mb-3">Company Name:&nbsp;<label>Please Set a Name For this Company</label></h2>
         </div>
     </ng-template>
 
     <ul class="list-group list-group-flush">
-
         <li *ngIf="company.active; else elseBlock1" class="list-group-item">
             <label>Company Status:&nbsp;<label style="color: green;">Enabled</label></label>
         </li>
@@ -19,14 +18,27 @@
                 <label>Company Status:&nbsp;</label><label style="color: red;">Disabled</label>
             </li>
         </ng-template>
-        <!--TODO get director of company by (request?)-->
-
     </ul>
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngIf="authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN'">
+            <h4>Users:</h4>
+        </li>
+    </ul>
+    <ng-container *ngFor="let user of users">
+        <ul class="list-group list-group-flush" *ngIf="user.workplace.id === company.id && 
+                    (authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN') && user.enabled">
+            <li class="list-group-item">
+                <label>{{user.username}} - {{user.role}}</label>
+            </li>
+        </ul>
+    </ng-container>
+    
     <div class="card-body">
         <a [routerLink]="['/companies/edit', company.id]" class="card-link">Edit Company</a>
     </div>
 </div>
-<!-- TODO list employees if the logged in user is wokring at the selected company -->
+
 <ng-template #dontHaveADirector>
     <td><strong style="color: orange;">Not a Director</strong></td>
 </ng-template>

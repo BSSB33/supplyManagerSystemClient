@@ -39,10 +39,10 @@ export class AppComponent {
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        console.log("YES");
+        //console.log("YES");
       }
       else{
-        console.log("No");
+        //console.log("No");
       }
     });
 

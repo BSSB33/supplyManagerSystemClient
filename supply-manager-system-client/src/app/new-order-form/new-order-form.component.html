@@ -1,0 +1,282 @@
+<div class="card fixedContainer orderTable" style="background-color: rgb(33, 37, 41);">
+    <form [formGroup]="orderForm" (submit)="submit()">
+        <div style="margin: 10px;">
+            <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41); margin: 20px">
+                <tbody>
+                    <tr>
+                        <label class="whiteLabel">Product Name:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #productName 
+                                formControlName="productName" 
+                                type="text" 
+                                name="productName"
+                                placeholder="Enter Product Name"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Product Name is required!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Product Price:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #productPrice 
+                                formControlName="productPrice" 
+                                type="text" 
+                                name="productPrice" 
+                                placeholder="Set Price"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Product Price is required!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label>Product Status:&nbsp;
+                            <mat-form-field style="width: 200px;">
+                                <mat-select
+                                #productStatus 
+                                formControlName="productStatus" 
+                                name="productStatus" 
+                                placeholder="Enter Status">
+                                    <mat-option value="NEW">New</mat-option>
+                                    <mat-option value="SUCCESSFULLY_COMPLETED">Successfully Completed</mat-option>
+                                    <mat-option value="UNDER_PRODUCTION">Under Production</mat-option>
+                                    <mat-option value="UNDER_SHIPPING">Under Shipping</mat-option>
+                                    <mat-option value="CLOSED">Closed</mat-option>
+                                    <mat-option value="OFFER">Offer</mat-option>
+                                    <mat-option value="IN_STOCK">In Stock</mat-option>
+                                    <mat-option value="ISSUE">Issue</mat-option>
+                                    <mat-option value="UNDER_ASSEMBLY">Under Assembly</mat-option>
+                                </mat-select>
+                                <mat-error>
+                                    Product Status is needed to be set!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+
+                    <!--== Admin Page ==-->
+
+                    <ng-container *ngIf="authService.user.role === 'ROLE_ADMIN'">
+                        <strong>Set Buyer and Seller Company:<br></strong>
+                        <tr>
+                            <label>Buyer Company:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #buyer 
+                                    formControlName="buyer" 
+                                    name="buyer" 
+                                    placeholder="Select Buyer Company">
+                                        <mat-option value="" disabled>Choose a Company</mat-option>
+                                        <ng-container *ngFor="let company of companies">
+                                            <mat-option *ngIf="company.active"
+                                                 [value]="company.name"
+                                                 (click)="filterUsersOfBuyerCompany(company.name)">{{company.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                        Please Select a Company
+                                    </mat-error>
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Buyer Manager:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #buyerManager 
+                                    formControlName="buyerManager" 
+                                    name="buyerManager" 
+                                    placeholder="Select Seller Manager">
+                                        <mat-option value="">Choose a Colleague</mat-option>
+                                        <ng-container *ngFor="let user of usersOfBuyerCompany">
+                                            <mat-option *ngIf="user.enabled"
+                                            [value]="user.username">{{user.username}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                        Please Select a Manager
+                                    </mat-error>
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Seller Company:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #seller 
+                                    formControlName="seller" 
+                                    name="seller" 
+                                    placeholder="Select Seller Company">
+                                        <mat-option value="" disabled>Choose a Company</mat-option>
+                                        <ng-container *ngFor="let company of companies">
+                                            <mat-option *ngIf="company.active"
+                                                [value]="company.name"
+                                                (click)="filterUsersOfSellerCompany(company.name)">{{company.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                        Please Select a Company
+                                    </mat-error>
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Seller Manager:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #sellerManager 
+                                    formControlName="sellerManager" 
+                                    name="sellerManager" 
+                                    placeholder="Select seller Manager">
+                                        <mat-option value="">Choose a User</mat-option>
+                                        <ng-container *ngFor="let user of usersOfSellerCompany">
+                                            <mat-option *ngIf="user.enabled"
+                                            [value]="user.username">{{user.username}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                        Please Select a Manager
+                                    </mat-error>
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                    </ng-container>
+
+                    <!--== Sales ==-->
+
+                    <ng-container *ngIf="orderService.href === 'sales' && authService.user.role !== 'ROLE_ADMIN'">
+                        <strong>Choose who you want to sell to:<br></strong>
+                        <tr>
+                            <label>Buyer Company:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #buyer 
+                                    formControlName="buyer" 
+                                    name="buyer" 
+                                    placeholder="Select Buyer Company">
+                                        <mat-option value="" disabled>Choose a Company</mat-option>
+                                        <ng-container *ngFor="let company of companies">
+                                            <mat-option *ngIf="company.id !== authService.user.workplace.id && company.active"
+                                                [value]="company.name">{{company.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                        Please Select a Company
+                                    </mat-error>
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Seller Company:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <input
+                                        matInput
+                                        #seller 
+                                        formControlName="seller" 
+                                        name="seller" 
+                                        placeholder="Select Seller Company">
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Seller Manager:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #sellerManager 
+                                    formControlName="sellerManager" 
+                                    name="sellerManager" 
+                                    placeholder="Select seller Manager">
+                                        <mat-option value="">Choose a User</mat-option>
+                                        <ng-container *ngFor="let user of users">
+                                            <mat-option *ngIf="user.enabled"
+                                            [value]="user.username">{{user.username}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                        Please Select a Manager
+                                    </mat-error>
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                    </ng-container>
+
+                    <!--== Purchases ==-->
+
+                    <ng-container *ngIf="orderService.href === 'purchases' && authService.user.role !== 'ROLE_ADMIN'">
+                        <strong>Choose who you want to order from:<br></strong>
+                        <tr>
+                            <label>Buyer Company:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <input
+                                        matInput
+                                        #seller 
+                                        formControlName="buyer" 
+                                        name="buyer" 
+                                        placeholder="Select Buyer Company">
+                                </mat-form-field>
+                            </label>
+                        </tr>
+                        <tr>
+                            <label>Buyer Manager:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #buyerManager 
+                                    formControlName="buyerManager" 
+                                    name="buyerManager" 
+                                    placeholder="Select Seller Manager">
+                                        <mat-option value="">Choose a Colleague</mat-option>
+                                        <ng-container *ngFor="let user of users">
+                                            <mat-option *ngIf="user.enabled"
+                                            [value]="user.username">{{user.username}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                        Please Select a Manager
+                                    </mat-error>
+                                </mat-form-field>
+                            </label>
+                        </tr>   
+                        <tr>
+                            <label>Seller Company:&nbsp;
+                                <mat-form-field style="width: 200px;">
+                                    <mat-select 
+                                    #seller 
+                                    formControlName="seller" 
+                                    name="seller" 
+                                    placeholder="Select Seller Company">
+                                        <mat-option value="" disabled>Choose a Company</mat-option>
+                                        <ng-container *ngFor="let company of companies">
+                                            <mat-option *ngIf="company.id !== authService.user.workplace.id && company.active"
+                                            [value]="company.name">{{company.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                        Please Select a Company
+                                    </mat-error>
+                                </mat-form-field>
+                            </label>
+                        </tr>                  
+                    </ng-container>
+                    
+                    <tr>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!orderForm.valid">Add Order</button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

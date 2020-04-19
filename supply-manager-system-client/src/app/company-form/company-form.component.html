@@ -1,1 +1,31 @@
-<p>company-form works!</p>
+<form #companyForm="ngForm">
+    <div style="margin: 20px;">
+        <h1>Edit Company</h1>
+    </div>
+    <div *ngIf="company" class="card" style="width: 40rem; margin: 20px;">
+        <div class="card-body">
+            <h2 class="font-weight-bold mb-3">{{company.name}}</h2>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <label>Company Name:&nbsp;
+                    <mat-form-field style="width: 300px;">
+                        <input matInput #companyName type="text" [(ngModel)]="company.name" name="companyName"
+                            placeholder="Enter Company Name" aria-describedby="titleHelp" required/>
+                        <mat-error>
+                            Name is required!
+                        </mat-error>
+                    </mat-form-field>
+                </label>
+            </li>
+        </ul>
+        <div class="card-body">
+            <button mat-raised-button [routerLink]="['/companies/edit', company.id]" [disabled]="!companyForm.valid"
+                color="primary" (click)="save()">Save Company</button>
+        </div>
+    </div>
+
+
+</form>
+
+<div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>

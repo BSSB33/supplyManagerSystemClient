@@ -29,7 +29,6 @@ export class HistoryService {
 
   deleteHistory (history: History | number): Observable<History> {
     const id = typeof history === 'number' ? history : history.id;
-    console.log(`${this.historiesUrl}/${id}`);
     return this.http.delete<History>(`${this.historiesUrl}/${id}`, httpOptions).pipe(
       tap(_ => this.log(`Deleted Historiy ID=${id}`)),
       catchError(this.handleError<History>('deleteHistory'))

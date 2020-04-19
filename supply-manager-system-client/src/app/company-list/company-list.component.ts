@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MessageService } from '../services/message.service';
+import { ForbiddenDialogComponent } from '../forbidden-dialog/forbidden-dialog.component';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { MessageService } from '../services/message.service';
 export class CompanyListComponent implements OnInit {
 
   companies: Company[] = [];
+  addCompany: Boolean = false;
 
   constructor(
     private companyService: CompanyService,
@@ -30,11 +32,6 @@ export class CompanyListComponent implements OnInit {
   getCompanies(): void {
     this.companyService.getCompanies()
         .subscribe(companies => this.companies = companies);
-  }
-
-  deleteCompanies(company: Company): void {
-    this.companies = this.companies.filter(u => u !== company);
-    this.companyService.deleteCompany(company).subscribe();
   }
 
   disableOrEnableCompany(copmany: Company): void {
@@ -63,8 +60,35 @@ export class CompanyListComponent implements OnInit {
       }
     });
   }
+
+  toggleAddCompany(){
+    this.addCompany = !this.addCompany;
+  }
+
+  addNewCompany(company: Company): void{
+    let copmanyNames = this.companies.map(comapny => comapny.name);
+    if(!copmanyNames.includes(company.name))
+    {
+      this.companyService.addCompany(company)
+      .subscribe(company => {
+        this.companies.push(company);
+      });
+      this.toggleAddCompany();
+    }
+    else
+    {
+      this.dialog.open(ForbiddenDialogComponent,{
+        data:{
+          message: 'Company Already Exists!',
+          buttonText: {
+            cancel: 'OK'
+          }
+        },
+      });
+    }
+  }
   
   private log(message: string) {
-    this.messageService.add(`OrderList: ${message}`);
+    this.messageService.add(`CompanyList: ${message}`);
   }
 }

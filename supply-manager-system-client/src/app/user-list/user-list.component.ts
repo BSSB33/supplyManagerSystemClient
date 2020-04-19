@@ -7,6 +7,8 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MessageService } from '../services/message.service';
 import { ForbiddenDialogComponent } from '../forbidden-dialog/forbidden-dialog.component';
 import { Router } from '@angular/router';
+import { CompanyService } from '../services/company.service';
+import { Company } from '../classes/company';
 
 @Component({
   selector: 'app-user-list',
@@ -16,11 +18,14 @@ import { Router } from '@angular/router';
 export class UserListComponent implements OnInit {
 
   users: User[] = [];
+  addUser: boolean;
+  companies: Company[];
 
   constructor(
     private userService: UserService,
     public authService: AuthService,
     private messageService: MessageService,
+    private companyService: CompanyService,
     private dialog: MatDialog,
     public router: Router,
   ) { }
@@ -32,7 +37,11 @@ export class UserListComponent implements OnInit {
   getUsers(): void {
     this.userService.getUsers()
         .subscribe(users => this.users = users);
-        //this.users.sort(function(a, b) { return - (a.id - b.id); });
+  }
+
+  getCompanies(): void {
+    this.companyService.getCompanies()
+        .subscribe(companies => this.companies = companies);
   }
 
   disableOrEnableUser(user: User){
@@ -60,6 +69,19 @@ export class UserListComponent implements OnInit {
         this.log("User " + action + " dialog: Option: CANCEL");
       }
     });
+  }
+
+  registerUser(newUser: User){
+    this.userService.registerUser(newUser)
+      .subscribe(user => 
+        this.users.push(user))
+  }
+
+  toggleAddUser(): void{
+    this.addUser = !this.addUser;
+    if(this.addUser){
+      this.getCompanies();
+    }
   }
   
   private log(message: string) {

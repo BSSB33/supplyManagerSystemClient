@@ -1,0 +1,29 @@
+<div class="card fixedContainer orderTable" style="background-color: rgb(33, 37, 41);">
+    <form [formGroup]="companyForm" (submit)="submit()">
+        <div style="margin: 20px;">
+            <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41); margin: 20px">
+                <tbody>
+                    <tr>
+                        <label class="whiteLabel">Company Name:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #companyName 
+                                formControlName="companyName" 
+                                type="text" 
+                                name="companyName"
+                                placeholder="Enter Company Name"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Name must be at least 4 characters long.
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!companyForm.valid">Register Company</button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

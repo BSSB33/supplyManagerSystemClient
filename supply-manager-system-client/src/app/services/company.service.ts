@@ -30,9 +30,8 @@ export class CompanyService {
   }
 
   getCompanies(): Observable<Company[]> {
-    return this.http.get<Company[]>(this.companiesUrl, httpOptions)
-      .pipe(
-        tap(_ => this.log('Fetched Companies')),
+    return this.http.get<Company[]>(this.companiesUrl, httpOptions).pipe(
+      tap(_ => this.log('Fetched Companies')),
         catchError(this.handleError<Company[]>('getCompanies', []))
       );
   }
@@ -43,6 +42,20 @@ export class CompanyService {
     return this.http.get<Company>(url, httpOptions).pipe(
       tap(_ => this.log(`Fetched Company Of User`)),
       catchError(this.handleError<Company>(`getCompany Of User`))
+    );
+  }
+
+  updateCompany (company: Company): Observable<Company> {
+    return this.http.put(this.companiesUrl+"/"+ company.id, company, httpOptions).pipe(
+      tap(_ => this.log(`Updated Company ID=${company.id}`)),
+      catchError(this.handleError<any>('updateCompany'))
+    );
+  }
+
+  addCompany(copmany: Company): Observable<Company> {
+    return this.http.post<Company>(this.companiesUrl + '/register', copmany, httpOptions).pipe(
+      tap((company: Company) => this.log(`added Company w/ id=${company.id}`)),
+      catchError(this.handleError<Company>('addCompany'))
     );
   }
 
@@ -64,7 +77,6 @@ export class CompanyService {
   deleteCompany (company: Company | number): Observable<Company> {
     const id = typeof company === 'number' ? company : company.id;
     const url = `${this.companiesUrl}/${id}`;
-    console.log(`${this.companiesUrl}/${id}`);
     return this.http.delete<Company>(url, httpOptions).pipe(
       tap(_ => this.log(`Deleted Company ID=${id}`)),
       catchError(this.handleError<Company>('deleteCompany'))

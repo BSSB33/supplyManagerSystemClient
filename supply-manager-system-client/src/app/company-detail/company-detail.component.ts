@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { CompanyService } from '../services/company.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-company-detail',
@@ -15,27 +16,34 @@ import { CompanyService } from '../services/company.service';
 export class CompanyDetailComponent implements OnInit {
 
   @Input() company: Company;
+  users: User[];
   
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     public router: Router,
     private userService: UserService,
+    public authService: AuthService,
     private companyService: CompanyService
   ) { }
 
   ngOnInit(): void {
     this.getCompanyById();
+    this.getUsers();
   }
 
   getCompanyById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.companyService.getCompany(id)
-      .subscribe(company => this.company = company);
+      .subscribe(company => {
+        this.company = company
+      });
   }
 
-  getEmployees(): void {
-    console.log(this.company);
+  getUsers(): void {
+    this.userService.getUsers()
+        .subscribe(users => this.users = users);
   }
 
+  
 }

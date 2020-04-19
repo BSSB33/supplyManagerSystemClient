@@ -27,9 +27,17 @@ export class LoginFormComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private fb: FormBuilder
-  ) { }
+  ) { 
+    if(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) == "login"){
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit() {
+    if(localStorage.getItem('loginMessage') != null){
+      this.message = localStorage.getItem('loginMessage');
+      localStorage.removeItem('loginMessage');
+    }
   }
 
   async onSubmit() {
@@ -41,6 +49,7 @@ export class LoginFormComponent implements OnInit {
       } else {
         this.router.navigate(['/']);
         this.message = localStorage.getItem('loginMessage');
+        localStorage.removeItem('loginMessage');
       }
     } catch (e) {
       this.message = 'Cannot log in!';

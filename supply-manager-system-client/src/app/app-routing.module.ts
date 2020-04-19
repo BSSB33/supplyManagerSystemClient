@@ -33,6 +33,14 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'orders',
+    component: OrderListComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN']
+    }
+  },
+  {
     path: 'orders/add',
     component: OrderFormComponent,
     canActivate: [AuthGuard]
