@@ -58,7 +58,8 @@ import { MatDividerModule } from '@angular/material/divider';
     ConfirmationDialogComponent,
     NewOrderFormComponent,
     NewCompanyFormComponent,
-    NewUserFormComponent
+    NewUserFormComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -107,6 +108,7 @@ import { MessageService } from './services/message.service';
 import { NewOrderFormComponent } from './new-order-form/new-order-form.component';
 import { NewCompanyFormComponent } from './new-company-form/new-company-form.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
+import { FilterPipe } from './filter.pipe';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Order } from '../classes/order';
 import { User } from '../classes/user';
@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Company } from '../classes/company';
 import { OrderDetailComponent } from '../order-detail/order-detail.component';
 import { CompanyService } from '../services/company.service';
+import { FilterPipe } from '../filter.pipe';
+
 
 @Component({
   selector: 'order-list',
@@ -29,6 +31,7 @@ export class OrderListComponent implements OnInit {
   users: User[];
 
   orders: Order[] = [];
+  term = "";
 
   constructor(
     public orderService: OrderService,
