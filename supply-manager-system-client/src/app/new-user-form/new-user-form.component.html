@@ -13,6 +13,9 @@
                                 name="username"
                                 placeholder="Enter Usernameame"
                                 aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Username is required!
+                                </mat-error>
                             </mat-form-field>
                         </label>
                     </tr>
@@ -28,6 +31,9 @@
                                     <mat-option value="true">Enabled</mat-option>
                                     <mat-option value="false">Disabled</mat-option>
                                 </mat-select>
+                                <mat-error>
+                                    Status is required to be set!
+                                </mat-error>
                             </mat-form-field>
                         </label>
                     </tr>
@@ -44,8 +50,11 @@
                                 [type]="hidePassword ? 'password' : 'text'"/>
                                 <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
                                 <mat-error *ngIf="password.invalid">Password is required</mat-error> 
+                                <mat-error>
+                                    Password is required!
+                                </mat-error>
                             </mat-form-field>
-                        </label>
+                        </label><!--TODO add 2. password field-->
                     </tr>
                     <tr *ngIf="authService.user.role ==='ROLE_ADMIN'">
                         <label>User Role:&nbsp;
@@ -67,6 +76,9 @@
                                     *ngIf="authService.user.role ==='ROLE_ADMIN' || authService.user.role ==='ROLE_DIRECTOR'">
                                         Manager</mat-option>
                                 </mat-select>
+                                <mat-error>
+                                    Please Choose a Role!
+                                </mat-error>
                             </mat-form-field>
                         </label>
                     </tr>
@@ -86,6 +98,9 @@
                                         </mat-option>
                                     </ng-container>
                                 </mat-select>
+                                <mat-error>
+                                    Please Choose a Company!
+                                </mat-error>
                             </mat-form-field>
                         </label>
                     </tr>

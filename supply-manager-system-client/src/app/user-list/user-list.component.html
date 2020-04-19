@@ -55,16 +55,33 @@
                     </td>
                 </ng-template>
 
-                <td *ngIf="user.enabled && authService.user.id === user.id || user.enabled && authService.user.role === 'ROLE_MANAGER'; else switchableUser">
+                <td *ngIf="user.enabled && (authService.user.id === user.id || authService.user.role === 'ROLE_MANAGER' || 
+                        (authService.user.role !== 'ROLE_ADMIN' && user.role === 'ROLE_ADMIN')); else switchableUser">
                     <button mat-raised-button color="warn" disabled><mat-icon>remove_circle</mat-icon>&nbsp;Disable</button>
                 </td>
                 <ng-template #switchableUser>
                     <td *ngIf="user.enabled; else disabledUserButton">
-                        <button mat-raised-button color="warn" (click)="openDisableUserDialog(user, 'disable')"><mat-icon>remove_circle</mat-icon>&nbsp;Disable</button>
+                        <button mat-raised-button color="warn" (click)="openDisableUserDialog(user, 'disable')">
+                            <mat-icon>remove_circle</mat-icon>
+                            &nbsp;Disable
+                        </button>
                     </td>
                 </ng-template>
                 <ng-template #disabledUserButton>
-                    <td><button mat-raised-button color="warn" (click)="openDisableUserDialog(user, 'enable')"><mat-icon>remove_circle_outline</mat-icon>&nbsp;Enable</button></td>
+                    <td *ngIf="!(authService.user.role !== 'ROLE_ADMIN' && user.role === 'ROLE_ADMIN'); else adminEnabling">
+                        <button mat-raised-button color="warn" (click)="openDisableUserDialog(user, 'enable')">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                            &nbsp;Enable
+                        </button>
+                    </td>
+                </ng-template>
+                <ng-template #adminEnabling>
+                    <td>
+                        <button mat-raised-button color="warn" disabled>
+                            <mat-icon>remove_circle_outline</mat-icon>
+                            &nbsp;Enable
+                        </button>
+                    </td>
                 </ng-template>
                 
             </tr>

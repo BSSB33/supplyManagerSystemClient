@@ -25,6 +25,7 @@ export class OrderFormComponent implements OnInit {
   usersOfSellerCompany: User[];
   selectedBuyerCompany: Company;
   selectedSellerCompany: Company;
+  //originalStatus: String; TODO ticket
 
   selectableCompanyiesForBuyer: Company[];
   selectableCompanyiesForSeller: Company[];
@@ -48,7 +49,7 @@ export class OrderFormComponent implements OnInit {
           status: new FormControl(Validators.required),
           seller: new FormControl(Validators.required),
           buyer: new FormControl(Validators.required),
-          sellerManager: new FormControl([Validators.required]),
+          sellerManager: new FormControl(Validators.required),
           buyerManager: new FormControl(Validators.required),
         });
       }

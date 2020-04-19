@@ -11,8 +11,8 @@
                 <label>Company Name:&nbsp;
                     <mat-form-field style="width: 300px;">
                         <input matInput #companyName type="text" [(ngModel)]="company.name" name="companyName"
-                            placeholder="Enter Company Name" aria-describedby="titleHelp" />
-                        <mat-error *ngIf="companyName.invalid && (companyName.dirty || companyName.touched)">
+                            placeholder="Enter Company Name" aria-describedby="titleHelp" required/>
+                        <mat-error>
                             Name is required!
                         </mat-error>
                     </mat-form-field>

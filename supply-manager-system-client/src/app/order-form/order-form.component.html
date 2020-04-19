@@ -13,14 +13,15 @@
        <label class="whiteLabel">Product Name:
         <mat-form-field style="width: 200px;">
             <input matInput 
-            #productName
-            formControlName="productName" 
-            [(ngModel)] = "order.productName"
-            type="text" 
-            name="productName"
-            placeholder="Enter Product Name"
-            aria-describedby="titleHelp" />
-            <mat-error> <!-- TODO Form is always valid -->
+              #productName
+              formControlName="productName" 
+              [(ngModel)] = "order.productName"
+              type="text" 
+              name="productName"
+              placeholder="Enter Product Name"
+              aria-describedby="titleHelp" 
+              required/>
+            <mat-error>
               Name must be added!
             </mat-error>
           </mat-form-field>
@@ -31,13 +32,17 @@
         <label class="whiteLabel">Product Price:
           <mat-form-field style="width: 200px;">
               <input matInput 
-              #productPrice 
-              formControlName="price" 
-              [(ngModel)]="order.price"
-              type="text" 
-              name="productPrice" 
-              placeholder="Set Price"
-              aria-describedby="titleHelp" />
+                #productPrice 
+                formControlName="price" 
+                [(ngModel)]="order.price"
+                type="text" 
+                name="productPrice" 
+                placeholder="Set Price"
+                aria-describedby="titleHelp" 
+                required/>
+              <mat-error>
+                Price must be set!
+              </mat-error>
           </mat-form-field>
         </label>
       </li>
@@ -46,11 +51,12 @@
         <label>Product Status:&nbsp;
           <mat-form-field style="width: 200px;">
               <mat-select
-              #productStatus 
-              formControlName="status" 
-              [(ngModel)] = "order.status"
-              name="productStatus" 
-              placeholder="Enter Status">
+                #productStatus 
+                formControlName="status" 
+                [(ngModel)] = "order.status"
+                name="productStatus" 
+                placeholder="Enter Status"
+                required>
                   <mat-option value="NEW">New</mat-option>
                   <mat-option value="SUCCESSFULLY_COMPLETED">Successfully Completed</mat-option>
                   <mat-option value="UNDER_PRODUCTION">Under Production</mat-option>
@@ -61,6 +67,9 @@
                   <mat-option value="ISSUE">Issue</mat-option>
                   <mat-option value="UNDER_ASSEMBLY">Under Assembly</mat-option>
               </mat-select>
+              <mat-error>
+                Please Select a Status
+              </mat-error>
           </mat-form-field>
         </label>
       </li>
@@ -70,18 +79,22 @@
         <label>Seller Manager:&nbsp;
           <mat-form-field *ngIf="order.sellerManager; else unassignedSeller" style="width: 200px;">
               <mat-select 
-                #sellerManager 
-                formControlName="sellerManager" 
-                name="sellerManager" 
-                placeholder="Select Seller Manager"
-                [(ngModel)]="order.sellerManager.username">
-                  <mat-option value="" disabled>Choose a User</mat-option>
-                  <ng-container *ngFor="let user of managers">
-                      <mat-option *ngIf="user.enabled"
-                      [value]="user.username">{{user.username}}
-                      </mat-option>
-                  </ng-container>
+                  #sellerManager 
+                  formControlName="sellerManager" 
+                  name="sellerManager" 
+                  placeholder="Select Seller Manager"
+                  [(ngModel)]="order.sellerManager.username"
+                  required>
+                <mat-option value="" disabled>Choose a User</mat-option>
+                <ng-container *ngFor="let user of managers">
+                    <mat-option *ngIf="user.enabled"
+                    [value]="user.username">{{user.username}}
+                    </mat-option>
+                </ng-container>
               </mat-select>
+              <mat-error>
+                Please Select a Manager
+              </mat-error>
           </mat-form-field>
         </label>
       </li>
@@ -92,7 +105,8 @@
             #sellerManager 
             formControlName="sellerManager" 
             name="sellerManager" 
-            placeholder="Select Seller Manager">
+            placeholder="Select Seller Manager"
+            required>
               <mat-option value="" disabled>Choose a User</mat-option>
               <ng-container *ngFor="let user of managers">
                   <mat-option *ngIf="user.enabled"
@@ -100,6 +114,9 @@
                   </mat-option>
               </ng-container>
           </mat-select>
+          <mat-error>
+            Please Select a Manager
+          </mat-error>
         </mat-form-field>
     </ng-template>
 
@@ -113,7 +130,8 @@
             formControlName="buyerManager" 
             name="buyerManager" 
             placeholder="Select Buyer Manager"
-            [(ngModel)]="order.buyerManager.username">
+            [(ngModel)]="order.buyerManager.username"
+            required>
                 <mat-option value="" disabled>Choose a User</mat-option>
                 <ng-container *ngFor="let user of managers">
                     <mat-option *ngIf="user.enabled"
@@ -121,6 +139,9 @@
                     </mat-option>
                 </ng-container>
             </mat-select>
+            <mat-error>
+              Please Select Buyer Company
+            </mat-error>
         </mat-form-field>
       </label>
     </li>
@@ -131,7 +152,8 @@
             #buyerManager 
             formControlName="buyerManager" 
             name="buyerManager" 
-            placeholder="Select Buyer Manager">
+            placeholder="Select Buyer Manager"
+            required>
           <mat-option value="" disabled>Choose a User</mat-option>
           <ng-container *ngFor="let user of managers">
               <mat-option *ngIf="user.enabled"
@@ -139,6 +161,9 @@
               </mat-option>
           </ng-container>
         </mat-select>
+        <mat-error>
+          Please Select a Manager
+        </mat-error>
       </mat-form-field>
     </ng-template>
 
@@ -152,7 +177,8 @@
               formControlName="seller" 
               name="seller" 
               placeholder="Select Seller Company"
-              [(ngModel)]="order.seller.name">
+              [(ngModel)]="order.seller.name"
+              required>
                 <mat-option value="" disabled>Choose a Company</mat-option>
                 <ng-container *ngFor="let company of selectableCompanyiesForSeller">
                   <mat-option *ngIf="company.active"
@@ -161,6 +187,9 @@
                  </mat-option>
                 </ng-container>
             </mat-select>
+            <mat-error>
+              Please Select a Company
+            </mat-error>
         </mat-form-field>
       </label>
     </li>
@@ -173,7 +202,8 @@
               formControlName="sellerManager" 
               name="sellerManager" 
               placeholder="Select Seller Manager"
-              [(ngModel)]="order.sellerManager.username">
+              [(ngModel)]="order.sellerManager.username"
+              required>
                 <mat-option value="" disabled>Choose a Manager</mat-option>
                 <ng-container *ngFor="let manager of usersOfSellerCompany">
                   <mat-option *ngIf="manager.enabled"
@@ -181,6 +211,9 @@
                  </mat-option>
                 </ng-container>
             </mat-select>
+            <mat-error>
+              Please Select a Manager
+            </mat-error>
         </mat-form-field>
       </label>
     </li>
@@ -191,7 +224,8 @@
           #sellerManager 
           formControlName="sellerManager" 
           name="sellerManager" 
-          placeholder="Select Seller Manager">
+          placeholder="Select Seller Manager"
+          required>
             <mat-option value="" disabled>Choose a User</mat-option>
             <ng-container *ngFor="let manager of usersOfSellerCompany">
                 <mat-option *ngIf="manager.enabled"
@@ -199,6 +233,9 @@
                 </mat-option>
             </ng-container>
         </mat-select>
+        <mat-error>
+          Please Select a Manager
+        </mat-error>
       </mat-form-field>
   </ng-template>
 
@@ -210,7 +247,8 @@
               formControlName="buyer" 
               name="buyer" 
               placeholder="Select Buyer Company"
-              [(ngModel)]="order.buyer.name">
+              [(ngModel)]="order.buyer.name"
+              required>
                 <mat-option value="" disabled>Choose a Company</mat-option>
                 <ng-container *ngFor="let company of selectableCompanyiesForBuyer">
                   <mat-option *ngIf="company.active"
@@ -219,6 +257,9 @@
                   </mat-option>
                 </ng-container>
             </mat-select>
+            <mat-error>
+              Please Select a Company
+            </mat-error>
         </mat-form-field>
       </label>
     </li>
@@ -231,7 +272,8 @@
               formControlName="buyerManager" 
               name="buyerManager" 
               placeholder="Select Buyer Manager"
-              [(ngModel)]="order.buyerManager.username">
+              [(ngModel)]="order.buyerManager.username"
+              required>
                 <mat-option value="" disabled>Choose a Manager</mat-option>
                 <ng-container *ngFor="let manager of usersOfBuyerCompany">
                   <mat-option *ngIf="manager.enabled"
@@ -239,6 +281,9 @@
                  </mat-option>
                 </ng-container>
             </mat-select>
+            <mat-error>
+              Please Select a Manager
+            </mat-error>
         </mat-form-field>
       </label>
     </li>
@@ -249,7 +294,8 @@
             #buyerManager 
             formControlName="buyerManager" 
             name="buyerManager" 
-            placeholder="Select Buyer Manager">
+            placeholder="Select Buyer Manager"
+            required>
           <mat-option value="" disabled>Choose a User</mat-option>
           <ng-container *ngFor="let manager of usersOfBuyerCompany">
               <mat-option *ngIf="manager.enabled"
@@ -257,6 +303,9 @@
               </mat-option>
           </ng-container>
         </mat-select>
+        <mat-error>
+          Please Select a Manager
+        </mat-error>
       </mat-form-field>
     </ng-template>
 

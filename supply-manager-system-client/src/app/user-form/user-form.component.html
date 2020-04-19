@@ -13,13 +13,17 @@
          <label class="whiteLabel">Username: &nbsp;
           <mat-form-field style="width: 200px;">
               <input matInput 
-              #username
-              formControlName="username" 
-              [(ngModel)]="user.username"
-              type="text" 
-              name="username"
-              placeholder="Enter Username"
-              aria-describedby="titleHelp" />
+                #username
+                formControlName="username" 
+                [(ngModel)]="user.username"
+                type="text" 
+                name="username"
+                placeholder="Enter Username"
+                aria-describedby="titleHelp" 
+                required/>
+                <mat-error>
+                    Username is required!
+                </mat-error>
             </mat-form-field>
           </label>
         </li>
@@ -30,7 +34,8 @@
                 type="checkbox" 
                 value="user.enabled"
                 formControlName="userStatus"
-                [(ngModel)]="user.enabled">
+                [(ngModel)]="user.enabled"
+                required>
             </mat-checkbox>
           </label>
         </li>
@@ -47,6 +52,7 @@
                         [type]="hidePassword ? 'password' : 'text'"/>
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
                         <mat-error *ngIf="password.invalid">Password is required</mat-error> 
+                        <!--TODO 2. Password field-->
                 </mat-form-field>
             </label>
         </li>
@@ -60,7 +66,8 @@
                     name="userRole" 
                     type="text" 
                     placeholder="Select Role"
-                    [(ngModel)]="user.role">
+                    [(ngModel)]="user.role"
+                    required>
                     <mat-option value="ROLE_ADMIN" 
                         (click)="setSelectedRole('ROLE_ADMIN')">Admin</mat-option>
                         <mat-option value="ROLE_DIRECTOR" 
@@ -70,8 +77,11 @@
                         <mat-option value="ROLE_MANAGER" 
                         (click)="setSelectedRole('ROLE_MANAGER')" 
                         *ngIf="authService.user.role ==='ROLE_ADMIN' || authService.user.role ==='ROLE_DIRECTOR'">
-                        Manager</mat-option>
+                            Manager</mat-option>
                     </mat-select>
+                    <mat-error>
+                        Please select a role!
+                    </mat-error>
                 </mat-form-field>
             </label>
         </li>
@@ -85,7 +95,8 @@
                     name="workplace" 
                     type="text" 
                     [(ngModel)]="user.workplace.name"
-                    placeholder="Select Workplace">
+                    placeholder="Select Workplace"
+                    required>
                         <mat-option value="">Choose a Company</mat-option>
                         <ng-container *ngFor="let company of companies">
                             <mat-option *ngIf="company.active" [value]="company.name">
@@ -93,6 +104,9 @@
                             </mat-option>
                         </ng-container>
                     </mat-select>
+                    <mat-error>
+                        Please select a Workplace!
+                    </mat-error>
                 </mat-form-field>
             </label>
         </li>
