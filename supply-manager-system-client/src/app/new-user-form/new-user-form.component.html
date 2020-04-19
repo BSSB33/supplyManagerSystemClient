@@ -110,7 +110,7 @@
                                 name="workplace" 
                                 type="text" 
                                 placeholder="Select Workplace">
-                                    <mat-option value="">Choose a Company</mat-option>
+                                    <mat-option value="" disabled>Choose a Company</mat-option>
                                     <ng-container *ngFor="let company of this.userList.companies">
                                         <mat-option *ngIf="company.active" [value]="company.name">
                                             {{company.name}}

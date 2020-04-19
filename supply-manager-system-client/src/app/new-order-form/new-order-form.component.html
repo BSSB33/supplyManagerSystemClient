@@ -72,7 +72,7 @@
                                     formControlName="buyer" 
                                     name="buyer" 
                                     placeholder="Select Buyer Company">
-                                        <mat-option value="">Choose a Company</mat-option>
+                                        <mat-option value="" disabled>Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of companies">
                                             <mat-option *ngIf="company.active"
                                                  [value]="company.name"
@@ -115,7 +115,7 @@
                                     formControlName="seller" 
                                     name="seller" 
                                     placeholder="Select Seller Company">
-                                        <mat-option value="">Choose a Company</mat-option>
+                                        <mat-option value="" disabled>Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of companies">
                                             <mat-option *ngIf="company.active"
                                                 [value]="company.name"
@@ -164,7 +164,7 @@
                                     formControlName="buyer" 
                                     name="buyer" 
                                     placeholder="Select Buyer Company">
-                                        <mat-option value="">Choose a Company</mat-option>
+                                        <mat-option value="" disabled>Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of companies">
                                             <mat-option *ngIf="company.id !== authService.user.workplace.id && company.active"
                                                 [value]="company.name">{{company.name}}
@@ -257,7 +257,7 @@
                                     formControlName="seller" 
                                     name="seller" 
                                     placeholder="Select Seller Company">
-                                        <mat-option value="">Choose a Company</mat-option>
+                                        <mat-option value="" disabled>Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of companies">
                                             <mat-option *ngIf="company.id !== authService.user.workplace.id && company.active"
                                             [value]="company.name">{{company.name}}

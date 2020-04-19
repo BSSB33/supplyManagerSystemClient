@@ -65,11 +65,11 @@ export class OrderDetailComponent implements OnInit {
     .subscribe(order => this._order = order );
   }
 
-  addHistoryToOrder(note: string, historyType: string): void {
+  addHistoryToOrder(historyType: string, note: string): void {
     note = note.trim();
     historyType = historyType.trim();
 
-    var history : History = new History(this._creator, this._order, note, historyType);
+    var history : History = new History(this._creator, this._order, historyType, note);
 
     this.historyService.addHistory(history)
       .subscribe(history => {

@@ -12,8 +12,6 @@ export class HistoryFormComponent implements OnInit {
 
   historyControl = new FormControl('', Validators.required);
 
-
-
   constructor(private orderDetailComponent : OrderDetailComponent) { }
 
   ngOnInit(): void {

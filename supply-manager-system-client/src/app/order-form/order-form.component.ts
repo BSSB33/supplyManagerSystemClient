@@ -9,6 +9,8 @@ import { CompanyService } from '../services/company.service';
 import { UserService } from '../services/user.service';
 import { FormGroup, FormControl, FormsModule, FormControlName, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { HistoryService } from '../services/history.service';
+import { History } from '../classes/history';
 
 @Component({
   selector: 'order-form',
@@ -25,7 +27,7 @@ export class OrderFormComponent implements OnInit {
   usersOfSellerCompany: User[];
   selectedBuyerCompany: Company;
   selectedSellerCompany: Company;
-  //originalStatus: String; TODO ticket
+  originalStatus: String; //TODO ticket
 
   selectableCompanyiesForBuyer: Company[];
   selectableCompanyiesForSeller: Company[];
@@ -36,6 +38,7 @@ export class OrderFormComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private orderService: OrderService,
+    private historyService: HistoryService,
     private companyService: CompanyService,
     private userService: UserService,
     public authService: AuthService,
@@ -77,6 +80,7 @@ export class OrderFormComponent implements OnInit {
     this.getOrderById();
     this.getManagersOfUser();
     this.getCompanies();
+    this.setUpNewStatusChangeHistory();
   }
 
   getCompanies(): void {
@@ -90,6 +94,7 @@ export class OrderFormComponent implements OnInit {
       .subscribe(
         order => {
         this.order = order
+        this.originalStatus = order.status
         this.companyService.getCompanies()
           .subscribe(companies => {
             this.companies = companies
@@ -107,6 +112,24 @@ export class OrderFormComponent implements OnInit {
         this.usersOfBuyerCompany = managers;
       });
   }
+
+  private _creator: User;
+  private _order: Order;
+  setUpNewStatusChangeHistory(): void{
+    this._creator = this.authService.user;
+  
+    this.orderService.getOrder(+this.route.snapshot.paramMap.get('id'))
+    .subscribe(order => this._order = order );
+  }
+
+  addHistoryToOrder(note: string, historyType: string): void {
+    note = note.trim();
+    historyType = historyType.trim();
+
+    var history : History = new History(this._creator, this._order, historyType, note);
+    this.historyService.addHistory(history).subscribe();
+  }
+    
 
   submit(): void {
     if(this.authService.user.role == "ROLE_ADMIN"){
@@ -126,6 +149,10 @@ export class OrderFormComponent implements OnInit {
     if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
       this.order.buyerManager = this.managers.find(user => user.username == buyerManagerName);
+    }
+    //If Status modified, create a new History card
+    if(this.originalStatus != this.orderForm.controls['status'].value){
+      this.addHistoryToOrder("Status Modified from " + this.originalStatus + " to " + this.orderForm.controls['status'].value, "STATUS_MODIFIED");
     }
     
     this.orderService.updateOrder(this.order)
