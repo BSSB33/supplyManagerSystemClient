@@ -8,11 +8,12 @@
         <mat-icon>menu</mat-icon>
       </button>
 
-      <button mat-button routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
-      <button mat-button routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+      <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
+      <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
       <button mat-button routerLink="/orders"><mat-icon>fingerprint</mat-icon>&nbsp;All Orders</button>
       <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Users</button>
       <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+      <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
       <span class="fill-space"></span>
       <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
       <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
@@ -22,10 +23,11 @@
     <ng-template #director>
       <ng-container *ngIf="authService.user.role === 'ROLE_DIRECTOR'; else manager">
         <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-        <button mat-button routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
-        <button mat-button routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+        <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
+        <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
         <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Emplyees</button>
         <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+        <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
         <span class="fill-space"></span>
         <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
         <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
@@ -36,8 +38,8 @@
     <ng-template #manager>
       <ng-container *ngIf="authService.user.role === 'ROLE_MANAGER'">
         <button mat-button routerLink="/"><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-        <button mat-button routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
-        <button mat-button routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+        <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
+        <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
         <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
         <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
         <span class="fill-space"></span>

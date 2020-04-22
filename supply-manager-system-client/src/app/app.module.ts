@@ -60,7 +60,8 @@ import { MatDividerModule } from '@angular/material/divider';
     NewCompanyFormComponent,
     NewUserFormComponent,
     FilterPipe,
-    OrderStatusFilterComponent
+    OrderStatusFilterComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
@@ -111,6 +112,7 @@ import { NewCompanyFormComponent } from './new-company-form/new-company-form.com
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { FilterPipe } from './filter.pipe';
 import { OrderStatusFilterComponent } from './order-status-filter/order-status-filter.component';
+import { StatsComponent } from './stats/stats.component';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
