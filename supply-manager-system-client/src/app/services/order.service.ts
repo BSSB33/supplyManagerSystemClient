@@ -40,6 +40,38 @@ export class OrderService {
       );
   }
 
+  getMonthlyIncomeStats(): Observable<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/monthlyIncome', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getRecordedIncomeStats', []))
+      );
+  }
+  
+  getMonthlyExpensesStats(): Observable<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/monthlyExpense', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getRecordedIncomeStats', []))
+      );
+  }
+
+  getPartnerStats(): Observable<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/partnersStat', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getPartnerStats', []))
+      );
+  }
+  
+  getOrderCountStats(): Observable<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/orderCount', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getOrderCountStats', []))
+      );
+  }
+
   getOrder(id: number): Observable<Order> {
     const url = `${this.ordersUrl}/${id}`;
     return this.http.get<Order>(url, httpOptions).pipe(
