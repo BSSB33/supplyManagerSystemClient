@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
 import { CompanyService } from '../services/company.service';
 import { User } from '../classes/user';
 import { Company } from '../classes/company';
-import { stringify } from 'querystring';
 import { UserListComponent } from '../user-list/user-list.component';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'new-user-form',
@@ -68,9 +67,12 @@ export class NewUserFormComponent implements OnInit {
       role = 'ROLE_MANAGER';
       company = null;
     }
+
+    const salt = bcrypt.genSaltSync(10);
+    let hashedPw = bcrypt.hashSync(this.userForm.controls['password'].value, salt);
     var newUser: User  = new User(
       this.userForm.controls['username'].value,
-      this.userForm.controls['password'].value,
+      hashedPw,
       this.userForm.controls['userStatus'].value,
       company,
       workplace,
