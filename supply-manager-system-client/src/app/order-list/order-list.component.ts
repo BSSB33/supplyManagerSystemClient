@@ -92,7 +92,17 @@ export class OrderListComponent implements OnInit {
     this.orderService.addOrder(order)
       .subscribe(order => {
         this.orders.push(order);
+        this.filter();
+        this.setStatusOptions(this.orders);
     });
+  }
+
+  setStatusOptions(orders: Order[]){
+    var statuses: Set<String> = new Set();
+    orders.forEach(function (order) {
+      statuses.add(order.status);
+    })
+    this.statuses = statuses;
   }
 
   getOrders(): void {
@@ -100,11 +110,8 @@ export class OrderListComponent implements OnInit {
         .subscribe(orders => {
           this.orders = orders;
           this.filteredOrders = orders;
-          var statuses: Set<String> = new Set();
-          orders.forEach(function (order) {
-            statuses.add(order.status);
-          })
-          this.statuses = statuses;
+          this.setStatusOptions(orders);
+
         });
   }
 
