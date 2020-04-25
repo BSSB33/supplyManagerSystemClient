@@ -61,9 +61,8 @@
                     </tr>
 
                     <!--== Admin Page ==-->
-
                     <ng-container *ngIf="authService.user.role === 'ROLE_ADMIN'">
-                        <strong>Set Buyer and Seller Company:<br></strong>
+                        <strong>Set Buyer and Seller Company:<br><br></strong>
                         <tr>
                             <label>Buyer Company:&nbsp;
                                 <mat-form-field style="width: 200px;">
@@ -94,7 +93,7 @@
                                     formControlName="buyerManager" 
                                     name="buyerManager" 
                                     placeholder="Select Seller Manager">
-                                        <mat-option value="">Choose a Colleague</mat-option>
+                                        <mat-option value="">Choose a User</mat-option>
                                         <ng-container *ngFor="let user of usersOfBuyerCompany">
                                             <mat-option *ngIf="user.enabled"
                                             [value]="user.username">{{user.username}}
