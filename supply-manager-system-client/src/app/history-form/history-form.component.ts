@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderDetailComponent } from '../order-detail/order-detail.component';
 import { FormControl, Validators } from '@angular/forms';
+import { MessageService } from '../services/message.service';
 
 
 @Component({
@@ -10,18 +11,20 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class HistoryFormComponent implements OnInit {
 
+  historyTypes: String[] = ["PHONE_CALL", "EMAIL_SENT", "MADE_AN_OFFER", "DISCUSSION", "STARTED_SHIPPING", "PAID", "ORDER", "OFFER", "NOTE", "SHIPPED"];
+
   historyControl = new FormControl('', Validators.required);
 
-  constructor(private orderDetailComponent : OrderDetailComponent) { }
+  constructor(
+    private orderDetailComponent: OrderDetailComponent,
+    public messageService: MessageService,
+    ) { }
 
   ngOnInit(): void {
   }
 
-  add(note: string, type: string): void{
-    if(note == ""){
-      note = null;
-    }
-    this.orderDetailComponent.addHistoryToOrder(note, type);
+  add(note: string, type: string): void {
+    this.orderDetailComponent.addHistoryToOrder(type, note);
     this.orderDetailComponent.toggleAddHistory();
   }
 

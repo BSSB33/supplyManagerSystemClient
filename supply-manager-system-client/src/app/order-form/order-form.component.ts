@@ -29,7 +29,7 @@ export class OrderFormComponent implements OnInit {
   selectedBuyerCompany: Company;
   selectedSellerCompany: Company;
   originalStatus: String;
-
+  statuses: String[] = ["UNDER_PRODUCTION", "UNDER_ASSEMBLY", "IN_STOCK", "UNDER_SHIPPING", "SUCCESSFULLY_COMPLETED", "CLOSED", "ISSUE", "NEW", "OFFER"];
   selectableCompanyiesForBuyer: Company[];
   selectableCompanyiesForSeller: Company[];
 

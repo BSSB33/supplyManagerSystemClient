@@ -18,7 +18,7 @@
         </ng-template>
 
         <li *ngIf="order.status; else elseBlock2" class="list-group-item">
-            <label>Product Status: {{order.status}}</label></li>
+            <label>Product Status: {{this.messageService.getStatusString(order.status)}}</label></li>
         <ng-template #elseBlock2>
             <li class="list-group-item"><label>Product Status:&nbsp;</label><label class="unassigned"> Please Add a
                     Status for this order</label></li>

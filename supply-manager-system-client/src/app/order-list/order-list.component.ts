@@ -41,7 +41,7 @@ export class OrderListComponent implements OnInit {
 
   constructor(
     public orderService: OrderService,
-    private messageService: MessageService,
+    public messageService: MessageService,
     private dialog: MatDialog,
     public authService: AuthService,
     private companyService: CompanyService,

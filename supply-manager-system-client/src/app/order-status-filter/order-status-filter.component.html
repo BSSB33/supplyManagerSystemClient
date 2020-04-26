@@ -3,8 +3,8 @@
         ALL
     </mat-button-toggle>
 
-    <mat-button-toggle value="{{status}}"  *ngFor="let status of statuses">
-        {{ status }}
+    <mat-button-toggle value="{{status}}" *ngFor="let status of statuses">
+        {{ this.messageService.getStatusString(status) }}
     </mat-button-toggle>
 </mat-button-toggle-group>
   

@@ -30,7 +30,7 @@ export class UserListComponent implements OnInit {
   constructor(
     private userService: UserService,
     public authService: AuthService,
-    private messageService: MessageService,
+    public messageService: MessageService,
     private companyService: CompanyService,
     private dialog: MatDialog,
     public router: Router,

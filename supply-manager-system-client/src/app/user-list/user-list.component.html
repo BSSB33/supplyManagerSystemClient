@@ -60,7 +60,7 @@
 
                 <td *ngIf="user.company; else notADirector">{{user.company.name}}</td>
                 <td *ngIf="user.workplace; else missing">{{user.workplace.name}}</td>
-                <td *ngIf="user.role; else missing">{{user.role}}</td>
+                <td *ngIf="user.role; else missing">{{this.messageService.getRoleString(user.role)}}</td>
 
                 <td *ngIf="authService.user.role === 'ROLE_ADMIN'; else managerOrDirector">
                     <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>

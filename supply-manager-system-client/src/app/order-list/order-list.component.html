@@ -56,7 +56,7 @@
         <td *ngIf="order.buyer; else missing">
           <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
         <td *ngIf="order.buyer; else missing">{{order.price | number}} Ft</td>
-        <td *ngIf="order.buyer; else missing">{{order.status}}</td>
+        <td *ngIf="order.buyer; else missing">{{this.messageService.getStatusString(order.status)}}</td>
         <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
         <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
         <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>

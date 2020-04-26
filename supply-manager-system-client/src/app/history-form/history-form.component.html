@@ -7,16 +7,7 @@
                         <label class="whiteLabel">Select type :
                             <mat-form-field style="width: 200px;">
                                 <mat-select #historyType placeholder="Select Type" name="type" [formControl]="historyControl">
-                                    <mat-option value="PHONE_CALL">Phone Call</mat-option>
-                                    <mat-option value="EMAIL_SENT">Email Sent</mat-option>
-                                    <mat-option value="MADE_AN_OFFER">Made An Offer</mat-option>
-                                    <mat-option value="DISCUSSION">Discussion Update</mat-option>
-                                    <mat-option value="STARTED_SHIPPING">Started Shipping</mat-option>
-                                    <mat-option value="PAID">Paid</mat-option>
-                                    <mat-option value="ORDER">Ordered</mat-option>
-                                    <mat-option value="OFFER">Offer Given</mat-option>
-                                    <mat-option value="NOTE">Simple Note</mat-option>
-                                    <mat-option value="SHIPPED">Shipped</mat-option>
+                                    <mat-option *ngFor="let historyType of historyTypes" [value]="historyType" >{{this.messageService.getHistoryTypeString(historyType)}}</mat-option>
                                     <mat-option value="STATUS_MODIFIED" disabled>Status Modified</mat-option>
                                 </mat-select>
                                 <mat-error >
@@ -35,8 +26,9 @@
                     </tr>
                     <tr>
                         <button [routerLink]="" mat-flat-button [disabled]="historyNote.empty || historyType.empty" color="primary"
-                            (click)="add(historyType.value, historyNote.value); historyType.value=''; historyNote.value='';">Save
-                            Order</button>
+                            (click)="add(historyNote.value, historyType.value); historyType.value=''; historyNote.value='';">Save
+                            Order
+                        </button>
                     </tr>
                 </tbody>
             </table>

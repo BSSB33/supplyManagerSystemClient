@@ -30,7 +30,7 @@
         </ng-template>
 
         <li *ngIf="user.role; else elseBlock4" class="list-group-item">
-            <label>Role Of The User: {{user.role}}</label></li>
+            <label>Role Of The User: {{this.messageService.getRoleString(user.role)}}</label></li>
         <ng-template #elseBlock4>
             <li class="list-group-item"><label>Role Of The User:&nbsp;</label><label style="color: orange;">Role Should Be added</label></li>
         </ng-template>

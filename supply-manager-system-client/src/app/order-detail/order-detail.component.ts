@@ -9,6 +9,7 @@ import { User } from '../classes/user';
 import { Router } from '@angular/router';
 import { History } from '../classes/history';
 import { AuthService } from '../services/auth.service';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -24,6 +25,7 @@ export class OrderDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
+    public messageService: MessageService,
     private historyService: HistoryService,
     private location: Location,
     public router: Router,
@@ -67,7 +69,6 @@ export class OrderDetailComponent implements OnInit {
 
   addHistoryToOrder(historyType: string, note: string): void {
     note = note.trim();
-    historyType = historyType.trim();
 
     var history : History = new History(this._creator, this._order, historyType, note);
 

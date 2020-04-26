@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'order-status-filter',
@@ -11,7 +12,9 @@ export class OrderStatusFilterComponent implements OnInit {
   @Input('statuses') statuses: string[];
   @Output() onChange = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(
+    public messageService: MessageService,
+  ) { }
 
   ngOnInit(){ }
 

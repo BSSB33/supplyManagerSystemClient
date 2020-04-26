@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'user-role-filter',
@@ -11,7 +12,9 @@ export class UserRoleFilterComponent implements OnInit {
   @Input('roles') roles: string[];
   @Output() onChange = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(
+    public messageService: MessageService,
+  ) { }
 
   ngOnInit(){ }
 
