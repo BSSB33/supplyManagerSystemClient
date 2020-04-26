@@ -34,7 +34,6 @@ export class OrderListComponent implements OnInit {
   public selectedStatus: string = '';
   orders: Order[] = [];
   filteredOrders: Order[];
-  sortedOrders: Order[];
   term: string = "";
   statuses: Set<String> = new Set();
 
@@ -114,7 +113,6 @@ export class OrderListComponent implements OnInit {
         .subscribe(orders => {
           this.orders = orders;
           this.filteredOrders = orders;
-          this.sortedOrders = orders;
           this.setStatusOptions(orders);
 
         });
@@ -155,7 +153,7 @@ export class OrderListComponent implements OnInit {
   sortData(sort: Sort) {
     const data = this.filteredOrders.slice();
     if (!sort.active || sort.direction === '') {
-      this.sortedOrders = data;
+      this.filteredOrders = data;
       return;
     }
 
@@ -166,15 +164,9 @@ export class OrderListComponent implements OnInit {
         case 'price': return this.compare(a.price, b.price, isAsc);
         case 'status': return this.compare(a.status, b.status, isAsc);
         case 'buyer': return this.compare(a.buyer.name, b.buyer.name, isAsc);
-        case 'buyerManager': {
-          //if(a.buyerManager != null && b.buyerManager != null)
-          return this.compareManagers(a.buyerManager, b.buyerManager, isAsc);
-        }
+        case 'buyerManager': return this.compareManagers(a.buyerManager, b.buyerManager, isAsc);
         case 'seller': return this.compare(a.seller.name, b.seller.name, isAsc);
-        case 'sellerManager':{
-          //if(a.sellerManager != null && b.sellerManager != null)
-          return this.compareManagers(a.sellerManager, b.sellerManager, isAsc);
-        }
+        case 'sellerManager': return this.compareManagers(a.sellerManager, b.sellerManager, isAsc);
         default: return 0;
       }
     });

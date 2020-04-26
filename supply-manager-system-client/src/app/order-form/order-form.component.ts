@@ -50,7 +50,7 @@ export class OrderFormComponent implements OnInit {
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
           price: new FormControl(Validators.required),
-          status: new FormControl(Validators.required),
+          status: new FormControl(),
           seller: new FormControl(Validators.required),
           buyer: new FormControl(Validators.required),
           sellerManager: new FormControl(Validators.required),
@@ -62,7 +62,7 @@ export class OrderFormComponent implements OnInit {
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
           price: new FormControl(Validators.required),
-          status: new FormControl(Validators.required),
+          status: new FormControl(),
           sellerManager: new FormControl(Validators.required),
           buyerManager: new FormControl(),
         });
@@ -72,7 +72,7 @@ export class OrderFormComponent implements OnInit {
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
           price: new FormControl(Validators.required),
-          status: new FormControl(Validators.required),
+          status: new FormControl(),
           buyerManager: new FormControl(Validators.required),
           sellerManager: new FormControl(),
         });
