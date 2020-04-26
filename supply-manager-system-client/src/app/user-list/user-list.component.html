@@ -23,6 +23,8 @@
         </mat-form-field>
 
         <user-role-filter class="filterTool" [role]="selectedRole" [roles]="roles" (onChange)="onFilterChange($event)"></user-role-filter>
+
+        <button mat-button id="closeButton" (click)="closeFilter()">Close Filter</button>
     </div>
 
     <h2 *ngIf="authService.user.role === 'ROLE_ADMIN'; else directorTitle" style="margin-left: 20px;">Registered Users</h2>

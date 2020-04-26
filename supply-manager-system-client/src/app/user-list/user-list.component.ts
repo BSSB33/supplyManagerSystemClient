@@ -159,6 +159,14 @@ export class UserListComponent implements OnInit {
   onCompanyFilterChange(companyId: number){
     this.selectedCompanyId = companyId;
   }
+
+  closeFilter(){
+    this.authService.toggleFilters();
+    this.selectedRole = "";
+    this.selectedCompanyId = null;
+    this.term = "";
+    this.filter();
+  }
   
   private log(message: string) {
     this.messageService.add(`OrderList: ${message}`);

@@ -34,6 +34,8 @@
     </mat-form-field>
 
     <order-status-filter class="filterTool" [status]="selectedStatus" [statuses]="statuses" (onChange)="onFilterChange($event)"></order-status-filter>
+    
+    <button mat-button id="closeButton" (click)="closeFilter()">Close Filter</button>
   </div>
 
   <h2 style="margin-left: 20px;"> {{title}} </h2>

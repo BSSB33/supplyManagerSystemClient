@@ -32,9 +32,8 @@ export class OrderListComponent implements OnInit {
   selectedBuyerCompanyName: string;
   selectedSellerCompanyName: string;
   users: User[];
-
-  public unassigned: String = "UNASSIGNED";
-  public selectedStatus: string = '';
+  unassigned: String = "UNASSIGNED";
+  selectedStatus: string = "";
   orders: Order[] = [];
   filteredOrders: Order[];
   term: string = "";
@@ -52,7 +51,7 @@ export class OrderListComponent implements OnInit {
   ngOnInit(): void {
     this.getOrders();
     this.getUsers();
-    this.selectedStatus = '';
+    this.selectedStatus = "";
     this.term = "";
     this.filter();
     //console.log(this.orderService.href);
@@ -214,6 +213,15 @@ export class OrderListComponent implements OnInit {
 
   compare(a: Number | String, b: Number | String, isAsc: boolean) {
       return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  closeFilter(){
+    this.authService.toggleFilters();
+    this.selectedBuyerCompanyName = "";
+    this.selectedSellerCompanyName = "";
+    this.selectedStatus = "";
+    this.term = "";
+    this.filter();
   }
 
   private log(message: string) {

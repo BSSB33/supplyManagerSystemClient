@@ -82,7 +82,6 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  
   filters: boolean = false;
   toggleFilters(){
     this.filters = !this.filters;
