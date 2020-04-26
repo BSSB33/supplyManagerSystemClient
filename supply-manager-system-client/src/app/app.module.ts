@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injectable } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { CommonModule } from '@angular/common';  
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -36,6 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSortModule } from '@angular/material/sort'; 
+import { MatProgressBarModule } from '@angular/material/progress-bar'; 
 
 @NgModule({
   declarations: [
@@ -68,6 +68,7 @@ import { MatSortModule } from '@angular/material/sort';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     MatToolbarModule,
@@ -86,6 +87,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatCheckboxModule,
     MatDividerModule,
     MatSortModule,
+    MatProgressBarModule,
 
   ],
   providers: [

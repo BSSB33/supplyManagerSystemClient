@@ -18,7 +18,7 @@ export class StatsComponent implements OnInit {
   ) { }
 
 	ngOnInit() {
-    this.initMonthlyIncomeChart();
+    this.initMonthlyIncomeChart(); //this._toolBar is undefinded
     this.initGetSalePartnerStatsChart()
     this.initSalesAndPurchacesChart();
     if(this.authService.user.role == 'ROLE_ADMIN'){
@@ -31,7 +31,7 @@ export class StatsComponent implements OnInit {
   }
 
   async initMonthlyIncomeChart(){
-    this.orderService.getMonthlyIncomeStats().subscribe(stat =>{
+    await this.orderService.getMonthlyIncomeStats().then(stat =>{
       let chart = new CanvasJS.Chart("chartContainer1", {
         animationEnabled: true,
         exportEnabled: false,
@@ -97,7 +97,7 @@ export class StatsComponent implements OnInit {
   }
 
   async initMothlyExpensesChart(){
-    this.orderService.getMonthlyExpensesStats().subscribe(stat =>{
+    await this.orderService.getMonthlyExpensesStats().then(stat =>{
       let chart = new CanvasJS.Chart("chartContainer2", {
         animationEnabled: true,
         exportEnabled: false,
@@ -163,7 +163,7 @@ export class StatsComponent implements OnInit {
   }
 
   async initGetSalePartnerStatsChart(){
-    this.orderService.getPartnerStats().subscribe(partners => {
+    await this.orderService.getPartnerStats().then(partners => {
       let dict = [];
       for (const [key, value] of Object.entries(partners)) {
         dict.push({ y: value, label: key })
@@ -192,7 +192,7 @@ export class StatsComponent implements OnInit {
   }
 
   async initSalesAndPurchacesChart(){
-    this.orderService.getOrderCountStats().subscribe(stats => {
+    await this.orderService.getOrderCountStats().then(stats => {
       let chart = new CanvasJS.Chart("pieContainer", {
         animationEnabled: true,
         exportEnabled: false,
@@ -217,7 +217,7 @@ export class StatsComponent implements OnInit {
   }
     
   async initGetOrderCountStats(){
-    this.orderService.getUserCountStats().subscribe(stats => {
+    await this.orderService.getUserCountStats().then(stats => {
       let chart = new CanvasJS.Chart("chartContainer2", {
         animationEnabled: true,
         exportEnabled: false,

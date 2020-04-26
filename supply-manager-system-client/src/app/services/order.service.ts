@@ -40,44 +40,44 @@ export class OrderService {
       );
   }
 
-  getMonthlyIncomeStats(): Observable<any> {
+  async getMonthlyIncomeStats(): Promise<any> {
     return this.http.get<any>(this.ordersUrl + '/stats/monthlyIncome', httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Stats')),
         catchError(this.handleError<any>('getRecordedIncomeStats', []))
-      );
+      ).toPromise();
   }
   
-  getMonthlyExpensesStats(): Observable<any> {
+  async getMonthlyExpensesStats(): Promise<any> {
     return this.http.get<any>(this.ordersUrl + '/stats/monthlyExpense', httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Stats')),
         catchError(this.handleError<any>('getRecordedIncomeStats', []))
-      );
+      ).toPromise();
   }
 
-  getPartnerStats(): Observable<any> {
+  async getPartnerStats(): Promise<any> {
     return this.http.get<any>(this.ordersUrl + '/stats/partnersStat', httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Stats')),
         catchError(this.handleError<any>('getPartnerStats', []))
-      );
+      ).toPromise();
   }
   
-  getOrderCountStats(): Observable<any> {
+  async getOrderCountStats(): Promise<any> {
     return this.http.get<any>(this.ordersUrl + '/stats/orderCount', httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Stats')),
         catchError(this.handleError<any>('getOrderCountStats', []))
-      );
+      ).toPromise();
   }
 
-  getUserCountStats(): Observable<any> {
+  async getUserCountStats(): Promise<any> {
     return this.http.get<any>(this.ordersUrl + '/stats/userCount', httpOptions)
       .pipe(
         tap(_ => this.log('Fetched Stats')),
         catchError(this.handleError<any>('getUserCountStats', []))
-      );
+      ).toPromise();
   }
 
   getOrder(id: number): Observable<Order> {

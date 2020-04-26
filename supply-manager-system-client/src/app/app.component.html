@@ -60,6 +60,10 @@
   
 </mat-toolbar>
 
+<mat-progress-bar
+  *ngIf="loading" color="accent" mode="indeterminate">
+</mat-progress-bar>
+
 <mat-menu xPosition="before" #menu="matMenu">
   <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
   <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
