@@ -120,15 +120,15 @@ import { MessageService } from './services/message.service';
 import { NewOrderFormComponent } from './new-order-form/new-order-form.component';
 import { NewCompanyFormComponent } from './new-company-form/new-company-form.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
-import { FilterPipe } from './filter.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
 import { OrderStatusFilterComponent } from './order-status-filter/order-status-filter.component';
 import { StatsComponent } from './stats/stats.component';
 import { UserRoleFilterComponent } from './user-role-filter/user-role-filter.component';
-import { UserFilterPipe } from './user-filter.pipe';
-import { CompanyFilterPipe } from './company-filter.pipe';
-import { CompanyNameFilterPipe } from './company-name-filter.pipe';
-import { OrderBuyerFilterPipe } from './order-buyer-filter.pipe';
-import { OrderSellerFilterPipe } from './order-seller-filter.pipe';
+import { UserFilterPipe } from './pipes/user-filter.pipe';
+import { CompanyFilterPipe } from './pipes/company-filter.pipe';
+import { CompanyNameFilterPipe } from './pipes/company-name-filter.pipe';
+import { OrderBuyerFilterPipe } from './pipes/order-buyer-filter.pipe';
+import { OrderSellerFilterPipe } from './pipes/order-seller-filter.pipe';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

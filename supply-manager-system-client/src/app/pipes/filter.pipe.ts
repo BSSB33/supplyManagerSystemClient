@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Order } from './classes/order';
-import { User } from './classes/user';
+import { Order } from '../classes/order';
+import { User } from '../classes/user';
 
 @Pipe({
   name: 'filter',

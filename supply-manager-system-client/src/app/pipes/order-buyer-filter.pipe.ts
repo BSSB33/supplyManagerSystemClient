@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Order } from './classes/order';
+import { Order } from '../classes/order';
 
 @Pipe({
-  name: 'orderSellerFilter'
+  name: 'orderBuyerFilter'
 })
-export class OrderSellerFilterPipe implements PipeTransform {
+export class OrderBuyerFilterPipe implements PipeTransform {
 
   transform(value: Order[], filterBy: string): Order[] {
     filterBy = filterBy ? filterBy : "";
     return filterBy ? value.filter((order: Order) =>
-    order.seller.name == filterBy) : value;
+    order.buyer.name == filterBy) : value;
   }
 
 }

@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Company } from '../classes/company';
 import { OrderDetailComponent } from '../order-detail/order-detail.component';
 import { CompanyService } from '../services/company.service';
-import { FilterPipe } from '../filter.pipe';
+import { FilterPipe } from '../pipes/filter.pipe';
 import { Sort } from '@angular/material/sort';
 import { MatSortHeader } from '@angular/material/sort';
 
