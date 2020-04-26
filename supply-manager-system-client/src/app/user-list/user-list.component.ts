@@ -23,6 +23,7 @@ export class UserListComponent implements OnInit {
   companies: Company[];
   selectedRole: string = '';
   filteredUsers: User[];
+  selectedCompanyId: number;
   term: string = "";
   roles: Set<String> = new Set();
 
@@ -37,12 +38,13 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    this.getCompanies();
     this.filter();
   }
 
   setRoleOptions(users: User[]){
     var roles: Set<String> = new Set();
-    users.forEach(function (user) {
+    users.forEach(user => {
       roles.add(user.role);
     })
     this.roles = roles;
@@ -50,11 +52,12 @@ export class UserListComponent implements OnInit {
 
   getUsers(): void {
     this.userService.getUsers()
-        .subscribe(users => {
-          this.users = users;
-          this.filteredUsers = users;
-          this.setRoleOptions(users);
-        });
+      .subscribe(users => {
+        this.users = users;
+        this.filteredUsers = users;
+        this.setRoleOptions(users);
+      }
+    );
   }
 
   getCompanies(): void {
@@ -151,6 +154,10 @@ export class UserListComponent implements OnInit {
       return 1;
     }
     else return (a.name < b.name ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  onCompanyFilterChange(companyId: number){
+    this.selectedCompanyId = companyId;
   }
   
   private log(message: string) {

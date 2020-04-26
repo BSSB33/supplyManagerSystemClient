@@ -10,6 +10,18 @@
         <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
+        <mat-form-field class="filterTool" *ngIf="authService.user.role === 'ROLE_ADMIN'">
+            <mat-label>Workplace selection:</mat-label>
+            <mat-select>
+                <mat-option value="0" (click)="onCompanyFilterChange(0)">
+                All Companies
+                </mat-option>
+                <mat-option *ngFor="let workplace of companies" [value]="workplace.name" (click)="onCompanyFilterChange(workplace.id)">
+                    {{workplace.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <user-role-filter class="filterTool" [role]="selectedRole" [roles]="roles" (onChange)="onFilterChange($event)"></user-role-filter>
     </div>
 
@@ -34,7 +46,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of filteredUsers | userFilter : term">
+            <tr *ngFor="let user of filteredUsers | userFilter : term | companyNameFilter: selectedCompanyId">
                 <td *ngIf="user.username; else missing">
                     <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.username}}</a>
                 </td>
