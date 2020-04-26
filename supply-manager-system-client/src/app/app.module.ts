@@ -62,7 +62,9 @@ import { MatSortModule } from '@angular/material/sort';
     NewUserFormComponent,
     FilterPipe,
     OrderStatusFilterComponent,
-    StatsComponent
+    StatsComponent,
+    UserRoleFilterComponent,
+    UserFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -115,6 +117,8 @@ import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { FilterPipe } from './filter.pipe';
 import { OrderStatusFilterComponent } from './order-status-filter/order-status-filter.component';
 import { StatsComponent } from './stats/stats.component';
+import { UserRoleFilterComponent } from './user-role-filter/user-role-filter.component';
+import { UserFilterPipe } from './user-filter.pipe';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

@@ -30,7 +30,7 @@ export class StatsComponent implements OnInit {
     }
   }
 
-  initMonthlyIncomeChart(){
+  async initMonthlyIncomeChart(){
     this.orderService.getMonthlyIncomeStats().subscribe(stat =>{
       let chart = new CanvasJS.Chart("chartContainer1", {
         animationEnabled: true,
@@ -96,7 +96,7 @@ export class StatsComponent implements OnInit {
 
   }
 
-  initMothlyExpensesChart(){
+  async initMothlyExpensesChart(){
     this.orderService.getMonthlyExpensesStats().subscribe(stat =>{
       let chart = new CanvasJS.Chart("chartContainer2", {
         animationEnabled: true,
@@ -162,7 +162,7 @@ export class StatsComponent implements OnInit {
       });
   }
 
-  initGetSalePartnerStatsChart(){
+  async initGetSalePartnerStatsChart(){
     this.orderService.getPartnerStats().subscribe(partners => {
       let dict = [];
       for (const [key, value] of Object.entries(partners)) {
@@ -191,7 +191,7 @@ export class StatsComponent implements OnInit {
     
   }
 
-  initSalesAndPurchacesChart(){
+  async initSalesAndPurchacesChart(){
     this.orderService.getOrderCountStats().subscribe(stats => {
       let chart = new CanvasJS.Chart("pieContainer", {
         animationEnabled: true,
@@ -216,7 +216,7 @@ export class StatsComponent implements OnInit {
     });   
   }
     
-  initGetOrderCountStats(){
+  async initGetOrderCountStats(){
     this.orderService.getUserCountStats().subscribe(stats => {
       let chart = new CanvasJS.Chart("chartContainer2", {
         animationEnabled: true,

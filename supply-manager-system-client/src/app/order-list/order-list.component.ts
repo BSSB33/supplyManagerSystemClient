@@ -27,12 +27,11 @@ export class OrderListComponent implements OnInit {
   title = "Orders";
   addButtonText = "Order";
   addOrder: Boolean = false;
-  public unassigned: String = "UNASSIGNED";
-  public selectedStatus: string = '';
-
   companies: Company[];
   users: User[];
 
+  public unassigned: String = "UNASSIGNED";
+  public selectedStatus: string = '';
   orders: Order[] = [];
   filteredOrders: Order[];
   sortedOrders: Order[];
@@ -57,7 +56,6 @@ export class OrderListComponent implements OnInit {
     this.orderService.href;
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
     this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
-    if(this.authService.filters) this.authService.filters = false;
   }
 
   onFilterChange(status: string): void {

@@ -20,6 +20,10 @@ export class UserListComponent implements OnInit {
   users: User[] = [];
   addUser: boolean;
   companies: Company[];
+  selectedRole: string = '';
+  filteredUsers: User[];
+  term: string = "";
+  roles: Set<String> = new Set();
 
   constructor(
     private userService: UserService,
@@ -32,11 +36,24 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    this.filter();
+  }
+
+  setRoleOptions(users: User[]){
+    var roles: Set<String> = new Set();
+    users.forEach(function (user) {
+      roles.add(user.role);
+    })
+    this.roles = roles;
   }
 
   getUsers(): void {
     this.userService.getUsers()
-        .subscribe(users => this.users = users);
+        .subscribe(users => {
+          this.users = users;
+          this.filteredUsers = users;
+          this.setRoleOptions(users);
+        });
   }
 
   getCompanies(): void {
@@ -73,8 +90,11 @@ export class UserListComponent implements OnInit {
 
   registerUser(newUser: User){
     this.userService.registerUser(newUser)
-      .subscribe(user => 
-        this.users.push(user))
+      .subscribe(user => {
+        this.users.push(user);
+        this.setRoleOptions(this.users);
+        this.filter();
+      })
   }
 
   toggleAddUser(): void{
@@ -82,6 +102,17 @@ export class UserListComponent implements OnInit {
     if(this.addUser){
       this.getCompanies();
     }
+  }
+  
+  onFilterChange(role: string): void {
+    this.selectedRole = role;
+    this.filter();
+  }
+
+  private filter(): void {
+    this.filteredUsers = this.selectedRole == ''
+    ? this.users
+    : this.users.filter(user => user.role == this.selectedRole);
   }
   
   private log(message: string) {

@@ -1,4 +1,18 @@
 <div class="panel panel-default" style="margin: 20px;">
+
+    <div class="filterPanel" *ngIf="authService.filters">
+        <mat-form-field class="filterTool">  
+        <input matInput 
+        name="term"
+        [(ngModel)]="term"
+        type="text"
+        placeholder="Search by Username">
+        <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <user-role-filter class="filterTool" [role]="selectedRole" [roles]="roles" (onChange)="onFilterChange($event)"></user-role-filter>
+    </div>
+
     <h2 *ngIf="authService.user.role === 'ROLE_ADMIN'; else directorTitle" style="margin-left: 20px;">Registered Users</h2>
     <ng-template #directorTitle>
         <h2 *ngIf="authService.user.role === 'ROLE_DIRECTOR'; else managerTitle" style="margin-left: 20px;">Employees</h2>
@@ -20,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users">
+            <tr *ngFor="let user of filteredUsers | userFilter : term">
                 <td *ngIf="user.username; else missing">
                     <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.username}}</a>
                 </td>
