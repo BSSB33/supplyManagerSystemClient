@@ -28,6 +28,9 @@ export class OrderListComponent implements OnInit {
   addButtonText = "Order";
   addOrder: Boolean = false;
   companies: Company[];
+  companiesFromOrders: Set<String> = new Set();
+  selectedBuyerCompanyName: string;
+  selectedSellerCompanyName: string;
   users: User[];
 
   public unassigned: String = "UNASSIGNED";
@@ -52,7 +55,7 @@ export class OrderListComponent implements OnInit {
     this.selectedStatus = '';
     this.term = "";
     this.filter();
-    this.orderService.href;
+    //console.log(this.orderService.href);
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
     this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
   }
@@ -115,7 +118,27 @@ export class OrderListComponent implements OnInit {
           this.filteredOrders = orders;
           this.setStatusOptions(orders);
 
+          let workplaces: Set<String> = new Set();
+          if(this.orderService.href == "sales" || this.orderService.href == "orders"){
+            orders.forEach(order => {
+              workplaces.add(order.buyer.name);
+            })
+          }
+          else if(this.orderService.href == "purchases" || this.orderService.href == "orders"){
+            orders.forEach(order => {
+              workplaces.add(order.seller.name);
+            })
+          }
+          this.companiesFromOrders = workplaces;
         });
+  }
+
+  onBuyerCompanyFilterChange(companyName: string){
+    this.selectedBuyerCompanyName = companyName;
+  }
+
+  onSellerCompanyFilterChange(companyName: string){
+    this.selectedSellerCompanyName = companyName;
   }
 
   getUsers(): void{

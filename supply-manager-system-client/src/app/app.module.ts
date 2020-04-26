@@ -66,7 +66,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     UserRoleFilterComponent,
     UserFilterPipe,
     CompanyFilterPipe,
-    CompanyNameFilterPipe
+    CompanyNameFilterPipe,
+    OrderBuyerFilterPipe,
+    OrderSellerFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -125,6 +127,8 @@ import { UserRoleFilterComponent } from './user-role-filter/user-role-filter.com
 import { UserFilterPipe } from './user-filter.pipe';
 import { CompanyFilterPipe } from './company-filter.pipe';
 import { CompanyNameFilterPipe } from './company-name-filter.pipe';
+import { OrderBuyerFilterPipe } from './order-buyer-filter.pipe';
+import { OrderSellerFilterPipe } from './order-seller-filter.pipe';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
