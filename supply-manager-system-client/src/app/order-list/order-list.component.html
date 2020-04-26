@@ -1,18 +1,16 @@
 <div class="panel panel-default" style="margin: 20px;">
 
-  <div class="filterPanel">
-
+  <div class="filterPanel" *ngIf="authService.filters">
     <mat-form-field class="filterTool">  
       <input matInput 
       name="term"
       [(ngModel)]="term"
       type="text"
-      placeholder="Search Here">
+      placeholder="Search by Product Name">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
     <order-status-filter class="filterTool" [status]="selectedStatus" [statuses]="statuses" (onChange)="onFilterChange($event)"></order-status-filter>
-
   </div>
 
   <h2 style="margin-left: 20px;"> {{title}} </h2>

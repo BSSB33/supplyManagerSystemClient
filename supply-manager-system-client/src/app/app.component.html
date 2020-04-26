@@ -17,6 +17,7 @@
       <span class="fill-space"></span>
       <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
       <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
+      <button mat-button (click)="authService.toggleFilters()"><mat-icon>search</mat-icon>&nbsp;</button>
       <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
     </ng-container>
     <!--Director menu-->
@@ -30,7 +31,7 @@
         <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
         <span class="fill-space"></span>
         <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
-        <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
+        <button mat-button (click)="authService.toggleFilters()"><mat-icon>search</mat-icon>&nbsp;</button>
         <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
       </ng-container>
     </ng-template>
@@ -44,7 +45,7 @@
         <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
         <span class="fill-space"></span>
         <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
-        <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
+        <button mat-button (click)="authService.toggleFilters()"><mat-icon>search</mat-icon>&nbsp;</button>
         <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
       </ng-container>
     </ng-template>

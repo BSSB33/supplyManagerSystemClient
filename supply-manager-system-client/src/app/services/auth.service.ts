@@ -5,6 +5,7 @@ import { MessageService } from './message.service';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { stringify } from 'querystring';
+import { OrderListComponent } from '../order-list/order-list.component';
 
 export const httpOptions = {
   headers: new HttpHeaders({
@@ -27,7 +28,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    
   ) {
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
@@ -78,6 +80,12 @@ export class AuthService {
     this.isLoggedIn = false;
     this.user = null;
     this.router.navigate(['/login']);
+  }
+
+  
+  filters: boolean = false;
+  toggleFilters(){
+    this.filters = !this.filters;
   }
 
   //Logger method

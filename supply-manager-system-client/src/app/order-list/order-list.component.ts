@@ -37,7 +37,7 @@ export class OrderListComponent implements OnInit {
   filteredOrders: Order[];
   sortedOrders: Order[];
   term: string = "";
-  statuses: Set<String> = new Set(); //['UNDER_PRODUCTION', 'UNDER_ASSEMBLY', 'IN_STOCK', 'UNDER_SHIPPING', 'SUCCESSFULLY_COMPLETED', 'CLOSED', 'ISSUE', 'NEW', 'OFFER'];
+  statuses: Set<String> = new Set();
 
   constructor(
     public orderService: OrderService,
@@ -52,10 +52,12 @@ export class OrderListComponent implements OnInit {
     this.getOrders();
     this.getUsers();
     this.selectedStatus = '';
+    this.term = "";
     this.filter();
     this.orderService.href;
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
     this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
+    if(this.authService.filters) this.authService.filters = false;
   }
 
   onFilterChange(status: string): void {
@@ -81,7 +83,8 @@ export class OrderListComponent implements OnInit {
         .subscribe(companies => this.companies = companies);
   }
 
-  addNewOrder(productName: String, price: Number, status: String,buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string): void {
+  addNewOrder(productName: String, price: Number, status: String,
+    buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string): void {
     productName = productName.trim();
     price = Number(price);
     status = status.trim();
