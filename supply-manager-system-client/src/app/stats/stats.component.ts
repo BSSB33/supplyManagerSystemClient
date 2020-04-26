@@ -170,23 +170,28 @@ export class StatsComponent implements OnInit {
       }
       dict.sort((a,b) =>{return a.y > b.y ? 1 : -1})
 
-      var chart = new CanvasJS.Chart("chartContainer3", {
-        animationEnabled: true,
-        theme: "dark2",
-        title:{
-          text: "Business Partners"
-        },
-        backgroundColor: "rgb(48,48,48)",
-        data: [{
-          type: "pyramid",
-          indexLabelFontSize: 16,
-          indexLabel: "{label}({y} order)",
-          indexLabelPlacement: "inside",
-          dataPoints: dict,
-        }]
-      });
+      if(dict.length != 0){
+
+        var chart = new CanvasJS.Chart("chartContainer3", {
+          animationEnabled: true,
+          theme: "dark2",
+          title:{
+            text: "Business Partners"
+          },
+          backgroundColor: "rgb(48,48,48)",
+          data: [{
+            type: "pyramid",
+            indexLabelFontSize: 16,
+            indexLabel: "{label}({y} order)",
+            indexLabelPlacement: "inside",
+            dataPoints: dict,
+          }]
+        });
+
+        chart.render();
+
+      }
       
-      chart.render();
     })
     
   }

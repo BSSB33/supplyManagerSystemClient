@@ -124,7 +124,9 @@ export class OrderListComponent implements OnInit {
   }
 
   deleteOrder(order: Order): void {
+    console.log(order.id);
     this.orders = this.orders.filter(h => h !== order);
+    this.filter();
     this.orderService.deleteOrder(order).subscribe();
   }
 
