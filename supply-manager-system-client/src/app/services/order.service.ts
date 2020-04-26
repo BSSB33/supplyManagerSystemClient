@@ -72,6 +72,14 @@ export class OrderService {
       );
   }
 
+  getUserCountStats(): Observable<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/userCount', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getUserCountStats', []))
+      );
+  }
+
   getOrder(id: number): Observable<Order> {
     const url = `${this.ordersUrl}/${id}`;
     return this.http.get<Order>(url, httpOptions).pipe(
