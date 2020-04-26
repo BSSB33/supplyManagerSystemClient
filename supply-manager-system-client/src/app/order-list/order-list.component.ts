@@ -13,6 +13,8 @@ import { Company } from '../classes/company';
 import { OrderDetailComponent } from '../order-detail/order-detail.component';
 import { CompanyService } from '../services/company.service';
 import { FilterPipe } from '../filter.pipe';
+import { Sort } from '@angular/material/sort';
+import { MatSortHeader } from '@angular/material/sort';
 
 
 @Component({
@@ -33,6 +35,7 @@ export class OrderListComponent implements OnInit {
 
   orders: Order[] = [];
   filteredOrders: Order[];
+  sortedOrders: Order[];
   term: string = "";
   statuses: Set<String> = new Set(); //['UNDER_PRODUCTION', 'UNDER_ASSEMBLY', 'IN_STOCK', 'UNDER_SHIPPING', 'SUCCESSFULLY_COMPLETED', 'CLOSED', 'ISSUE', 'NEW', 'OFFER'];
 
@@ -110,6 +113,7 @@ export class OrderListComponent implements OnInit {
         .subscribe(orders => {
           this.orders = orders;
           this.filteredOrders = orders;
+          this.sortedOrders = orders;
           this.setStatusOptions(orders);
 
         });
@@ -145,6 +149,53 @@ export class OrderListComponent implements OnInit {
         this.log("OrderDeletion: Option: CANCEL");
       }
     });
+  }
+
+  sortData(sort: Sort) {
+    const data = this.filteredOrders.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedOrders = data;
+      return;
+    }
+
+    this.filteredOrders = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'productName': return this.compare(a.productName, b.productName, isAsc);
+        case 'price': return this.compare(a.price, b.price, isAsc);
+        case 'status': return this.compare(a.status, b.status, isAsc);
+        case 'buyer': return this.compare(a.buyer.name, b.buyer.name, isAsc);
+        case 'buyerManager': {
+          //if(a.buyerManager != null && b.buyerManager != null)
+          return this.compareManagers(a.buyerManager, b.buyerManager, isAsc);
+        }
+        case 'seller': return this.compare(a.seller.name, b.seller.name, isAsc);
+        case 'sellerManager':{
+          //if(a.sellerManager != null && b.sellerManager != null)
+          return this.compareManagers(a.sellerManager, b.sellerManager, isAsc);
+        }
+        default: return 0;
+      }
+    });
+  }
+
+  compareManagers(a: User, b: User, isAsc: boolean){
+    if (a === b) {
+      return 0;
+    }
+    else if(a === null){
+      return 1;
+    }
+    else if(b === null){
+      return 1;
+    }
+    else{
+      return (a.username < b.username ? -1 : 1) * (isAsc ? 1 : -1);
+    }
+  }
+
+  compare(a: Number | String, b: Number | String, isAsc: boolean) {
+      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   private log(message: string) {

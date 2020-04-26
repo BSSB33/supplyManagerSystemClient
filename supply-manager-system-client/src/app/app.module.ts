@@ -35,6 +35,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSortModule } from '@angular/material/sort'; 
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDialogModule,
     MatCheckboxModule,
     MatDividerModule,
-    
+    MatSortModule,
+
   ],
   providers: [
     MessageService,
