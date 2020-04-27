@@ -12,6 +12,7 @@ import { AuthService } from '../services/auth.service';
 import { HistoryService } from '../services/history.service';
 import { History } from '../classes/history';
 import { stringify } from 'querystring';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'order-form',
@@ -43,6 +44,7 @@ export class OrderFormComponent implements OnInit {
     private companyService: CompanyService,
     private userService: UserService,
     public authService: AuthService,
+    public messageService: MessageService,
     ) 
     { 
       //Admin page

@@ -42,16 +42,8 @@
                                 #productStatus 
                                 formControlName="productStatus" 
                                 name="productStatus" 
-                                placeholder="Enter Status"><!--TODO replace it with *ngFor-->
-                                    <mat-option value="NEW">New</mat-option>
-                                    <mat-option value="SUCCESSFULLY_COMPLETED">Successfully Completed</mat-option>
-                                    <mat-option value="UNDER_PRODUCTION">Under Production</mat-option>
-                                    <mat-option value="UNDER_SHIPPING">Under Shipping</mat-option>
-                                    <mat-option value="CLOSED">Closed</mat-option>
-                                    <mat-option value="OFFER">Offer</mat-option>
-                                    <mat-option value="IN_STOCK">In Stock</mat-option>
-                                    <mat-option value="ISSUE">Issue</mat-option>
-                                    <mat-option value="UNDER_ASSEMBLY">Under Assembly</mat-option>
+                                placeholder="Enter Status">
+                                    <mat-option *ngFor="let status of statuses" [value]="status">{{this.messageService.getStatusString(status)}}</mat-option>
                                 </mat-select>
                                 <mat-error>
                                     Product Status is needed to be set!
@@ -72,7 +64,7 @@
                                     name="buyer" 
                                     placeholder="Select Buyer Company">
                                         <mat-option value="" disabled>Choose a Company</mat-option>
-                                        <ng-container *ngFor="let company of companies">
+                                        <ng-container *ngFor="let company of selectableCompanyiesForBuyer">
                                             <mat-option *ngIf="company.active"
                                                  [value]="company.name"
                                                  (click)="filterUsersOfBuyerCompany(company.name)">{{company.name}}
@@ -115,7 +107,7 @@
                                     name="seller" 
                                     placeholder="Select Seller Company">
                                         <mat-option value="" disabled>Choose a Company</mat-option>
-                                        <ng-container *ngFor="let company of companies">
+                                        <ng-container *ngFor="let company of selectableCompanyiesForSeller">
                                             <mat-option *ngIf="company.active"
                                                 [value]="company.name"
                                                 (click)="filterUsersOfSellerCompany(company.name)">{{company.name}}

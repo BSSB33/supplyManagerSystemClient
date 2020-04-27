@@ -8,6 +8,7 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from '../classes/user';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'new-order-form',
@@ -18,8 +19,13 @@ export class NewOrderFormComponent implements OnInit {
 
   order: Order;
   companies: Company[];
+  selectedBuyerCompany: Company;
+  selectedSellerCompany: Company;
+  selectableCompanyiesForBuyer: Company[];
+  selectableCompanyiesForSeller: Company[];
   users: User[]
   sales: Boolean = this.orderService.href == "sales";
+  statuses: String[] = ["UNDER_PRODUCTION", "UNDER_ASSEMBLY", "IN_STOCK", "UNDER_SHIPPING", "SUCCESSFULLY_COMPLETED", "CLOSED", "ISSUE", "NEW", "OFFER"];
   orderForm: FormGroup;
   usersOfBuyerCompany: User[];
   usersOfSellerCompany: User[];
@@ -30,6 +36,7 @@ export class NewOrderFormComponent implements OnInit {
     private companyService: CompanyService,
     private userService: UserService,
     public authService: AuthService,
+    public messageService: MessageService,
   ) {
     if (authService.user.role == "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
@@ -91,15 +98,21 @@ export class NewOrderFormComponent implements OnInit {
 
   filterUsersOfBuyerCompany(companyName: string){
     this.usersOfBuyerCompany = this.users.filter(user => user.workplace.name == companyName);
+    this.selectableCompanyiesForSeller = this.companies.filter(company => company.name != companyName);
   }
 
   filterUsersOfSellerCompany(companyName: string){
     this.usersOfSellerCompany = this.users.filter(user => user.workplace.name == companyName);
+    this.selectableCompanyiesForBuyer = this.companies.filter(company => company.name != companyName);
   }
 
   getCompanies(): void {
     this.companyService.getCompanies()
-      .subscribe(companies => this.companies = companies);
+      .subscribe(companies => {
+        this.companies = companies;
+        this.selectableCompanyiesForSeller = companies;
+        this.selectableCompanyiesForBuyer = companies;
+      });
   }
 
   getUsers(): void {

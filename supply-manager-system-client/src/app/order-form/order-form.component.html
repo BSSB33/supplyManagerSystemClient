@@ -56,16 +56,8 @@
                 [(ngModel)] = "order.status"
                 name="productStatus" 
                 placeholder="Enter Status"
-                required> <!--TODO replace it with *ngFor-->
-                  <mat-option value="NEW">New</mat-option>
-                  <mat-option value="SUCCESSFULLY_COMPLETED">Successfully Completed</mat-option>
-                  <mat-option value="UNDER_PRODUCTION">Under Production</mat-option>
-                  <mat-option value="UNDER_SHIPPING">Under Shipping</mat-option>
-                  <mat-option value="CLOSED">Closed</mat-option>
-                  <mat-option value="OFFER">Offer</mat-option>
-                  <mat-option value="IN_STOCK">In Stock</mat-option>
-                  <mat-option value="ISSUE">Issue</mat-option>
-                  <mat-option value="UNDER_ASSEMBLY">Under Assembly</mat-option>
+                required>
+                  <mat-option *ngFor="let status of statuses" [value]="status">{{this.messageService.getStatusString(status)}}</mat-option>
               </mat-select>
               <mat-error>
                 Please Select a Status
