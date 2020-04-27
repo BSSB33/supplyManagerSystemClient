@@ -16,8 +16,12 @@ export class AppComponent {
     private router: Router,
   ){
     this.router.events.subscribe((event: Event) => {
-      if(event instanceof NavigationStart) this.loading = true;
-      else if(event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) this.loading = false;
+      if(event instanceof NavigationStart) {
+        this.loading = true;
+      }
+      else if(event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        this.loading = false;
+      }
     });
   }
 

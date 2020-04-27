@@ -14,7 +14,10 @@ import { CompanyListComponent } from '../company-list/company-list.component';
 export class NewCompanyFormComponent implements OnInit {
 
   companyForm = new FormGroup({
-    companyName: new FormControl('', [Validators.required, Validators.minLength(4)])
+    companyName: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    address: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    taxNumber: new FormControl('', [Validators.required, Validators.minLength(10)]),
+    bankAccountNumber: new FormControl('', [Validators.required, Validators.minLength(12)]),
   });
   constructor(
     public companyService: CompanyService,
@@ -25,7 +28,13 @@ export class NewCompanyFormComponent implements OnInit {
   }
 
   submit(): void {
-    var companyName = this.companyForm.controls['companyName'].value.trim();
-    this.companyList.addNewCompany(new Company(companyName, true));
+    this.companyList.addNewCompany(
+      new Company(
+        this.companyForm.controls['companyName'].value.trim(), 
+        true, 
+        this.companyForm.controls['address'].value,
+        this.companyForm.controls['taxNumber'].value,
+        this.companyForm.controls['bankAccountNumber'].value,
+      ));
   }
 }

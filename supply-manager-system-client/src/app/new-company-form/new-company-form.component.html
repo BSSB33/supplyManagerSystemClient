@@ -14,7 +14,55 @@
                                 placeholder="Enter Company Name"
                                 aria-describedby="titleHelp" />
                                 <mat-error>
-                                    Name must be at least 4 characters long.
+                                    Name must be at least 4 characters long!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Company Address:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #address
+                                formControlName="address" 
+                                type="text" 
+                                name="address"
+                                placeholder="Enter Company Address"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Name must be at least 4 characters long!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Company Tax Number:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #taxNumber 
+                                formControlName="taxNumber" 
+                                type="text" 
+                                name="taxNumber"
+                                placeholder="Enter Tax Number Name"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Name must be at least 10 characters long!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Bank Account Number:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #bankAccountNumber 
+                                formControlName="bankAccountNumber" 
+                                type="text" 
+                                name="bankAccountNumber"
+                                placeholder="Enter Bank Account Number"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Name must be at least 12 characters long!
                                 </mat-error>
                             </mat-form-field>
                         </label>

@@ -101,8 +101,11 @@ export class CompanyListComponent implements OnInit {
 
     this.companies = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
+      switch (sort.active) {//TODO filter
         case 'name': return this.compare(a.name, b.name, isAsc);
+        case 'address': return this.compare(a.address, b.address, isAsc);
+        case 'taxNumber': return this.compare(a.taxNumber, b.taxNumber, isAsc);
+        case 'bankAccountNumber': return this.compare(a.bankAccountNumber, b.bankAccountNumber, isAsc);
         case 'status': return this.compare(a.name, b.name, isAsc);
         default: return 0;
       }
