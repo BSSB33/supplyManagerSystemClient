@@ -28,6 +28,44 @@
           </label>
         </li>
         
+        <li class="list-group-item">
+            <label class="whiteLabel">Full Name: &nbsp;
+             <mat-form-field style="width: 200px;">
+                 <input matInput 
+                   #fullName
+                   formControlName="fullName" 
+                   [(ngModel)]="user.fullName"
+                   type="text" 
+                   name="fullName"
+                   placeholder="Enter Full Name"
+                   aria-describedby="titleHelp" 
+                   required/>
+                   <mat-error>
+                       Full Name is required!
+                   </mat-error>
+               </mat-form-field>
+             </label>
+           </li>
+
+           <li class="list-group-item">
+            <label class="whiteLabel">Email Address: &nbsp;
+             <mat-form-field style="width: 200px;">
+                <input matInput 
+                   #email
+                   formControlName="email" 
+                   [(ngModel)]="user.email"
+                   type="text" 
+                   name="email"
+                   placeholder="Enter email"
+                   aria-describedby="titleHelp" 
+                   required/>
+                   <mat-error>
+                      Please provide a valid email address!
+                   </mat-error>
+                </mat-form-field>
+            </label>
+        </li>
+           
         <li class="list-group-item" *ngIf="user.id !== authService.user.id">
          <label class="whiteLabel">User Status (Enable/Disable): &nbsp;
             <mat-checkbox 

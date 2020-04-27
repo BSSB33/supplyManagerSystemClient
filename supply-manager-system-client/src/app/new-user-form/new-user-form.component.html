@@ -20,6 +20,38 @@
                         </label>
                     </tr>
                     <tr>
+                        <label class="whiteLabel">Full Name:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #fullName 
+                                formControlName="fullName" 
+                                type="text" 
+                                name="fullName"
+                                placeholder="Enter Full Name"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Full Name is required!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Email Address:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #email 
+                                formControlName="email" 
+                                type="text" 
+                                name="email"
+                                placeholder="Enter Email Address"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Please provide a valid email address!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
                         <label>User Status:&nbsp;
                             <mat-form-field style="width: 200px;">
                                 <mat-select

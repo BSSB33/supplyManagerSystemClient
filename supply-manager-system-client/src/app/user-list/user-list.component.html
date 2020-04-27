@@ -39,6 +39,8 @@
         <thead>
             <tr>
                 <th scope="col" mat-sort-header="username">Username</th>
+                <th scope="col" mat-sort-header="fullName">Full Name</th>
+                <th scope="col" mat-sort-header="email">Email Address</th>
                 <th scope="col" mat-sort-header="status">User Status</th>
                 <th scope="col" mat-sort-header="company">Director At</th>
                 <th scope="col" mat-sort-header="workplace">Workplace</th>
@@ -51,6 +53,14 @@
             <tr *ngFor="let user of filteredUsers | userFilter : term | companyNameFilter: selectedCompanyId">
                 <td *ngIf="user.username; else missing">
                     <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.username}}</a>
+                </td>
+
+                <td *ngIf="user.fullName; else missing">
+                    <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.fullName}}</a>
+                </td>
+                
+                <td *ngIf="user.email; else missing">
+                    <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.email}}</a>
                 </td>
 
                 <td *ngIf="user.enabled; else disabledUser"><label style="color: green;">Enabled User</label></td>

@@ -34,6 +34,11 @@ export class UserFormComponent implements OnInit {
   ) {
     this.userForm = new FormGroup({
       username: new FormControl(Validators.required),
+      fullName: new FormControl(Validators.required),
+      email: new FormControl('', [
+        Validators.required, 
+        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
+      ]),
       userStatus: new FormControl(Validators.required),
       newPassword: new FormControl(),
       userRole: new FormControl(Validators.required),

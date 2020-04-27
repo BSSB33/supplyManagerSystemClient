@@ -52,6 +52,14 @@
                     UNASSIGNED</label></li>
         </ng-template>
 
+        <li class="list-group-item">
+            <label>Created At: {{order.createdAt}}</label>
+        </li>
+
+        <li class="list-group-item">
+            <label>Last ModifiedAt At: {{order.modifiedAt}}</label>
+        </li>
+
     </ul>
     <div class="card-body">
         <a [routerLink]="['/orders/edit', order.id]" class="card-link">Edit Order</a>

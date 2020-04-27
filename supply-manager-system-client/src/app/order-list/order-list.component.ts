@@ -56,7 +56,6 @@ export class OrderListComponent implements OnInit {
     this.selectedStatus = "";
     this.term = "";
     this.filter();
-    //console.log(this.orderService.href);
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
     this.addButtonText = (this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1)).slice(0, -1);
   }
@@ -193,6 +192,7 @@ export class OrderListComponent implements OnInit {
         case 'buyerManager': return this.compareManagers(a.buyerManager, b.buyerManager, isAsc);
         case 'seller': return this.compare(a.seller.name, b.seller.name, isAsc);
         case 'sellerManager': return this.compareManagers(a.sellerManager, b.sellerManager, isAsc);
+        case 'createdAt': return this.compare(a.createdAt, b.createdAt, isAsc);
         default: return 0;
       }
     });

@@ -48,6 +48,7 @@
         <th scope="col" mat-sort-header="buyerManager">Buyer Manager</th>
         <th scope="col" mat-sort-header="seller">Seller Company</th>
         <th scope="col" mat-sort-header="sellerManager">Seller Manager</th>
+        <th scope="col" mat-sort-header="createdAt">Creation</th>
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
     </thead>
@@ -61,6 +62,7 @@
         <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
         <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
         <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
+        <td *ngIf="order.buyer; else missing">{{order.createdAt}}</td>
         <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
             <mat-icon>edit</mat-icon>&nbsp;Edit
           </button></td>

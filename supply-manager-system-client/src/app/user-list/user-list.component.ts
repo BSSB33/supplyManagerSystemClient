@@ -132,6 +132,8 @@ export class UserListComponent implements OnInit {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'username': return this.compare(a.username, b.username, isAsc);
+        case 'fullName': return this.compare(a.fullName, b.fullName, isAsc);
+        case 'email': return this.compare(a.email, b.email, isAsc);
         case 'status': return this.compare(a.enabled, b.enabled, isAsc);
         case 'company': return this.compareCompany(a.company, b.company, isAsc);
         case 'workplace': return this.compareCompany(a.workplace, b.workplace, isAsc);
