@@ -14,10 +14,23 @@ import { CompanyListComponent } from '../company-list/company-list.component';
 export class NewCompanyFormComponent implements OnInit {
 
   companyForm = new FormGroup({
-    companyName: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    address: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    taxNumber: new FormControl('', [Validators.required, Validators.minLength(10)]),
-    bankAccountNumber: new FormControl('', [Validators.required, Validators.minLength(12)]),
+    companyName: new FormControl('', [
+      Validators.required, 
+      Validators.minLength(4)
+    ]),
+    address: new FormControl('', [
+      Validators.required, 
+      Validators.minLength(4)
+    ]),
+    taxNumber: new FormControl('', [
+      Validators.required, 
+      Validators.minLength(10),
+      Validators.pattern("[0-9-]{10,20}$")
+    ]),
+    bankAccountNumber: new FormControl('', [
+      Validators.required, 
+      Validators.minLength(12)
+    ]),
   });
   constructor(
     public companyService: CompanyService,

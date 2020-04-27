@@ -22,7 +22,8 @@
                 aria-describedby="titleHelp" 
                 required/>
                 <mat-error>
-                    Username is required!
+                    Username must be at least 4 characters long
+                    and can only contain letters and numbers!
                 </mat-error>
             </mat-form-field>
           </label>
@@ -41,7 +42,8 @@
                    aria-describedby="titleHelp" 
                    required/>
                    <mat-error>
-                       Full Name is required!
+                        Full Name must be at least 4 characters long
+                        and can only contain Upper or Lowe case letters and White Spaces!
                    </mat-error>
                </mat-form-field>
              </label>
@@ -60,7 +62,8 @@
                    aria-describedby="titleHelp" 
                    required/>
                    <mat-error>
-                      Please provide a valid email address!
+                    Please provide a valid email address!
+                    e.g.: something@gmail.com
                    </mat-error>
                 </mat-form-field>
             </label>
@@ -88,12 +91,14 @@
                         aria-describedby="titleHelp"
                         [type]="hidePassword ? 'password' : 'text'"/>
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
-                        <mat-error *ngIf="password.invalid">Password is required</mat-error> 
-                        <!--TODO 2. Password field-->
+                        <mat-error> 
+                            Minimum: 8 characters long and 
+                            must contain at least one Upper and Lower case letter and a number
+                        </mat-error> 
                 </mat-form-field>
             </label>
-        </li>
-
+        </li> <!--TODO Password confirmation-->
+        <!--TODO errors overfit their containr in heright!-->
         <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN' && authService.user.id !== user.id">
             <label>User Role:&nbsp;
                 <mat-form-field style="width: 200px;">
