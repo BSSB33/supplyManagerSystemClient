@@ -4,7 +4,7 @@
     </mat-button-toggle>
 
     <mat-button-toggle value="{{role}}"  *ngFor="let role of roles">
-        {{ this.messageService.getRoleString(role) }}
+        {{ this.enumService.getRoleString(role) }}
     </mat-button-toggle>
 </mat-button-toggle-group>
   

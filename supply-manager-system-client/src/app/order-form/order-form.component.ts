@@ -13,6 +13,7 @@ import { HistoryService } from '../services/history.service';
 import { History } from '../classes/history';
 import { stringify } from 'querystring';
 import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'order-form',
@@ -30,7 +31,7 @@ export class OrderFormComponent implements OnInit {
   selectedBuyerCompany: Company;
   selectedSellerCompany: Company;
   originalStatus: String;
-  statuses: String[] = ["UNDER_PRODUCTION", "UNDER_ASSEMBLY", "IN_STOCK", "UNDER_SHIPPING", "SUCCESSFULLY_COMPLETED", "CLOSED", "ISSUE", "NEW", "OFFER"];
+  statuses: String[];
   selectableCompanyiesForBuyer: Company[];
   selectableCompanyiesForSeller: Company[];
 
@@ -44,7 +45,7 @@ export class OrderFormComponent implements OnInit {
     private companyService: CompanyService,
     private userService: UserService,
     public authService: AuthService,
-    public messageService: MessageService,
+    public enumService: EnumService,
     ) 
     { 
       //Admin page
@@ -86,6 +87,11 @@ export class OrderFormComponent implements OnInit {
     this.getManagersOfUser();
     this.getCompanies();
     this.setUpNewStatusChangeHistory();
+    this.getStatuses();
+  }
+
+  getStatuses(): void {
+    this.statuses = this.enumService.getStatuses();
   }
 
   getCompanies(): void {

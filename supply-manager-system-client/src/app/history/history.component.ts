@@ -1,7 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { History } from '../classes/history';
 import { OrderDetailComponent } from '../order-detail/order-detail.component';
-import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'history',
@@ -14,7 +14,7 @@ export class HistoryComponent implements OnInit {
   
   constructor(
     private orderDetailComponent: OrderDetailComponent,
-    public messageService: MessageService,
+    public enumService: EnumService,
     ) { }
 
   deleteHistory(history: History){

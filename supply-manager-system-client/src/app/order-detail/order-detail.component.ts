@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { History } from '../classes/history';
 import { AuthService } from '../services/auth.service';
 import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -25,7 +26,7 @@ export class OrderDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
-    public messageService: MessageService,
+    public enumService: EnumService,
     private historyService: HistoryService,
     private location: Location,
     public router: Router,

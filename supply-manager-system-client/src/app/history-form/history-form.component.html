@@ -7,7 +7,7 @@
                         <label class="whiteLabel">Select type :
                             <mat-form-field style="width: 200px;">
                                 <mat-select #historyType placeholder="Select Type" name="type" [formControl]="historyControl">
-                                    <mat-option *ngFor="let historyType of historyTypes" [value]="historyType" >{{this.messageService.getHistoryTypeString(historyType)}}</mat-option>
+                                    <mat-option *ngFor="let historyType of historyTypes" [value]="historyType" >{{this.enumService.getHistoryTypeString(historyType)}}</mat-option>
                                     <mat-option value="STATUS_MODIFIED" disabled>Status Modified</mat-option>
                                 </mat-select>
                                 <mat-error >

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { CompanyService } from '../services/company.service';
 import { Company } from '../classes/company';
 import { Sort } from '@angular/material/sort';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'app-user-list',
@@ -31,6 +32,7 @@ export class UserListComponent implements OnInit {
     private userService: UserService,
     public authService: AuthService,
     public messageService: MessageService,
+    public enumService: EnumService,
     private companyService: CompanyService,
     private dialog: MatDialog,
     public router: Router,

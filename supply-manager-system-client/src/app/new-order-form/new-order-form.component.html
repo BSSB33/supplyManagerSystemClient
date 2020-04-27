@@ -43,7 +43,7 @@
                                 formControlName="productStatus" 
                                 name="productStatus" 
                                 placeholder="Enter Status">
-                                    <mat-option *ngFor="let status of statuses" [value]="status">{{this.messageService.getStatusString(status)}}</mat-option>
+                                    <mat-option *ngFor="let status of statuses" [value]="status">{{this.enumService.getStatusString(status)}}</mat-option>
                                 </mat-select>
                                 <mat-error>
                                     Product Status is needed to be set!

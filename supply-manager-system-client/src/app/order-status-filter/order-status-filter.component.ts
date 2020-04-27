@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'order-status-filter',
@@ -13,7 +13,7 @@ export class OrderStatusFilterComponent implements OnInit {
   @Output() onChange = new EventEmitter<string>();
 
   constructor(
-    public messageService: MessageService,
+    public enumService: EnumService,
   ) { }
 
   ngOnInit(){ }

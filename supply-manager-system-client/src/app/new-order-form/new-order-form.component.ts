@@ -9,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from '../classes/user';
 import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'new-order-form',
@@ -25,7 +26,7 @@ export class NewOrderFormComponent implements OnInit {
   selectableCompanyiesForSeller: Company[];
   users: User[]
   sales: Boolean = this.orderService.href == "sales";
-  statuses: String[] = ["UNDER_PRODUCTION", "UNDER_ASSEMBLY", "IN_STOCK", "UNDER_SHIPPING", "SUCCESSFULLY_COMPLETED", "CLOSED", "ISSUE", "NEW", "OFFER"];
+  statuses: String[];
   orderForm: FormGroup;
   usersOfBuyerCompany: User[];
   usersOfSellerCompany: User[];
@@ -36,7 +37,7 @@ export class NewOrderFormComponent implements OnInit {
     private companyService: CompanyService,
     private userService: UserService,
     public authService: AuthService,
-    public messageService: MessageService,
+    public enumService: EnumService,
   ) {
     if (authService.user.role == "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
@@ -77,6 +78,11 @@ export class NewOrderFormComponent implements OnInit {
   ngOnInit(): void {
     this.getCompanies();
     this.getUsers();
+    this.getStatuses();
+  }
+
+  getStatuses(): void {
+    this.statuses = this.enumService.getStatuses();
   }
 
   submit(): void {

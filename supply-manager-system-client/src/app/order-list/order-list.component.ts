@@ -15,6 +15,7 @@ import { CompanyService } from '../services/company.service';
 import { FilterPipe } from '../pipes/filter.pipe';
 import { Sort } from '@angular/material/sort';
 import { MatSortHeader } from '@angular/material/sort';
+import { EnumService } from '../services/enum.service';
 
 
 @Component({
@@ -42,6 +43,7 @@ export class OrderListComponent implements OnInit {
   constructor(
     public orderService: OrderService,
     public messageService: MessageService,
+    public enumService: EnumService,
     private dialog: MatDialog,
     public authService: AuthService,
     private companyService: CompanyService,

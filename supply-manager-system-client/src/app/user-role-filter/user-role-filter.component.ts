@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'user-role-filter',
@@ -13,7 +13,7 @@ export class UserRoleFilterComponent implements OnInit {
   @Output() onChange = new EventEmitter<string>();
 
   constructor(
-    public messageService: MessageService,
+    public enumService: EnumService,
   ) { }
 
   ngOnInit(){ }
