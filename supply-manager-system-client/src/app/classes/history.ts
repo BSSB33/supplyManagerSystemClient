@@ -7,7 +7,7 @@ export class History {
     order: Order;
     historyType: string;
     note: string;
-    createdAt: Date;
+    createdAt: string;
 
     constructor(creator: User, order: Order, historyType: string, note: string){
         this.creator = creator;

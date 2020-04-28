@@ -22,7 +22,7 @@ companyForm: FormGroup;
     public companyService: CompanyService,
     private authService: AuthService,
   ){ 
-    if (this.authService.user.role == "ROLE_ADMIN") {
+    if (this.authService.user.role != "ROLE_MANAGER") {
       this.companyForm = new FormGroup({
         name: new FormControl('', [
           Validators.required,
@@ -32,7 +32,6 @@ companyForm: FormGroup;
         address: new FormControl('', [
           Validators.required,
           Validators.minLength(4),
-          
         ]),
         taxNumber: new FormControl('', [
           Validators.required,

@@ -47,7 +47,7 @@ export class UserFormComponent implements OnInit {
         Validators.required, 
         Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
       ]),
-      userStatus: new FormControl('', Validators.required),
+      userStatus: new FormControl(),
       newPassword: new FormControl('', [
         Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d$@$!%*?&].{8,}'),
       ]),
@@ -55,8 +55,8 @@ export class UserFormComponent implements OnInit {
         Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d$@$!%*?&].{8,}'),
         UserFormComponent.matchValues('newPassword')
       ]),
-      userRole: new FormControl('', Validators.required),
-      workplace: new FormControl('', Validators.required),
+      userRole: new FormControl(Validators.required),
+      workplace: new FormControl(Validators.required),
     });
   }
 
