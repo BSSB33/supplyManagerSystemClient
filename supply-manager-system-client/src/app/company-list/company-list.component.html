@@ -1,11 +1,27 @@
-<div class="panel panel-default" style="margin: 20px; width: 800Px;">
+<div class="panel panel-default" style="margin: 20px; width: 1200px;">
+
+    <div class="filterPanel" *ngIf="authService.filters">
+        <mat-form-field class="filterTool">  
+          <input matInput 
+          name="term"
+          [(ngModel)]="term"
+          type="text"
+          placeholder="Search by Company Name">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-button id="closeButton" (click)="closeFilter()">Close Filter</button>
+    </div>
 
     <h2 style="margin-left: 20px;">Registered Companies</h2>
-    <table class="table table-dark table-hover table-curved">
+    <table matSort (matSortChange)="sortData($event)" class="table table-dark table-hover table-curved">
         <thead>
             <tr>
-                <th scope="col">Company Name</th>
-                <th scope="col">Company Status</th>
+                <th scope="col" mat-sort-header="name">Company Name</th>
+                <th scope="col" mat-sort-header="address">Address</th>
+                <th scope="col" mat-sort-header="taxNumber">Tax Number</th>
+                <th scope="col" mat-sort-header="bankAccountNumber">Bank Account Number</th>
+                <th scope="col" mat-sort-header="status">Company Status</th>
                 <th scope="col"
                     *ngIf="authService.user.role === 'ROLE_ADMIN' || authService.user.role === 'ROLE_DIRECTOR'">Edit
                     Company</th>
@@ -13,10 +29,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let company of companies">
+            <tr *ngFor="let company of companies | companyFilter : term">
                 
                 <td *ngIf="company.name; else missing">
                     <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.name}}</a>
+                </td>
+                <td *ngIf="company.address; else missing">
+                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.address}}</a>
+                </td>
+                <td *ngIf="company.taxNumber; else missing">
+                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.taxNumber}}</a>
+                </td>
+                <td *ngIf="company.bankAccountNumber; else missing">
+                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.bankAccountNumber}}</a>
                 </td>
 
                 <td *ngIf="company.active; else disabledCompanyLabel">

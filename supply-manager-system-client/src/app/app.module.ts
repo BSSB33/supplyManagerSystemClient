@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injectable } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { CommonModule } from '@angular/common';  
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -35,6 +34,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSortModule } from '@angular/material/sort'; 
+import { MatProgressBarModule } from '@angular/material/progress-bar'; 
 
 @NgModule({
   declarations: [
@@ -58,10 +59,20 @@ import { MatDividerModule } from '@angular/material/divider';
     ConfirmationDialogComponent,
     NewOrderFormComponent,
     NewCompanyFormComponent,
-    NewUserFormComponent
+    NewUserFormComponent,
+    FilterPipe,
+    OrderStatusFilterComponent,
+    StatsComponent,
+    UserRoleFilterComponent,
+    UserFilterPipe,
+    CompanyFilterPipe,
+    CompanyNameFilterPipe,
+    OrderBuyerFilterPipe,
+    OrderSellerFilterPipe
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     MatToolbarModule,
@@ -79,7 +90,9 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDialogModule,
     MatCheckboxModule,
     MatDividerModule,
-    
+    MatSortModule,
+    MatProgressBarModule,
+
   ],
   providers: [
     MessageService,
@@ -107,6 +120,15 @@ import { MessageService } from './services/message.service';
 import { NewOrderFormComponent } from './new-order-form/new-order-form.component';
 import { NewCompanyFormComponent } from './new-company-form/new-company-form.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { OrderStatusFilterComponent } from './order-status-filter/order-status-filter.component';
+import { StatsComponent } from './stats/stats.component';
+import { UserRoleFilterComponent } from './user-role-filter/user-role-filter.component';
+import { UserFilterPipe } from './pipes/user-filter.pipe';
+import { CompanyFilterPipe } from './pipes/company-filter.pipe';
+import { CompanyNameFilterPipe } from './pipes/company-name-filter.pipe';
+import { OrderBuyerFilterPipe } from './pipes/order-buyer-filter.pipe';
+import { OrderSellerFilterPipe } from './pipes/order-seller-filter.pipe';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

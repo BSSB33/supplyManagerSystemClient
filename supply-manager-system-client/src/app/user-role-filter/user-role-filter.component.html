@@ -1,0 +1,10 @@
+<mat-button-toggle-group (change)="onFilterChange(group.value)" [value]="selectedRole" #group="matButtonToggleGroup" appearance="legacy">
+    <mat-button-toggle value="">
+        ALL
+    </mat-button-toggle>
+
+    <mat-button-toggle value="{{role}}"  *ngFor="let role of roles">
+        {{ this.enumService.getRoleString(role) }}
+    </mat-button-toggle>
+</mat-button-toggle-group>
+  

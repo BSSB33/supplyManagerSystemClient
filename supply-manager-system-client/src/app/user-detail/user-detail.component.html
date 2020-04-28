@@ -11,6 +11,18 @@
 
     <ul class="list-group list-group-flush">
 
+        <li *ngIf="user.fullName; else elseBlock5" class="list-group-item">
+            <label>Full Name: {{user.fullName}}</label></li>
+        <ng-template #elseBlock5>
+            <li class="list-group-item"><label>Full Name:&nbsp;</label><label>Full Name Should Be Added</label></li>
+        </ng-template>
+
+        <li *ngIf="user.email; else elseBlock6" class="list-group-item">
+            <label>Email Address: {{user.email}}</label></li>
+        <ng-template #elseBlock6>
+            <li class="list-group-item"><label>Email Address:&nbsp;</label><label>Email Address Should Be Added</label></li>
+        </ng-template>
+
         <li *ngIf="user.enabled; else elseBlock1" class="list-group-item">
             <label>Status:&nbsp;<label style="color: green;">Enabled</label></label></li>
         <ng-template #elseBlock1>
@@ -30,7 +42,7 @@
         </ng-template>
 
         <li *ngIf="user.role; else elseBlock4" class="list-group-item">
-            <label>Role Of The User: {{user.role}}</label></li>
+            <label>Role Of The User: {{this.enumService.getRoleString(user.role)}}</label></li>
         <ng-template #elseBlock4>
             <li class="list-group-item"><label>Role Of The User:&nbsp;</label><label style="color: orange;">Role Should Be added</label></li>
         </ng-template>

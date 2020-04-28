@@ -11,10 +11,45 @@
                                 formControlName="username" 
                                 type="text" 
                                 name="username"
-                                placeholder="Enter Usernameame"
+                                placeholder="Enter Username"
                                 aria-describedby="titleHelp" />
                                 <mat-error>
-                                    Username is required!
+                                    Username must be at least 4 characters long
+                                    and can only contain letters and numbers!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Full Name:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #fullName 
+                                formControlName="fullName" 
+                                type="text" 
+                                name="fullName"
+                                placeholder="Enter Full Name"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Full Name must be at least 4 characters long
+                                    and can only contain Upper or Lowe case letters and White Spaces!
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                    </tr>
+                    <tr>
+                        <label class="whiteLabel">Email Address:
+                            <mat-form-field style="width: 200px;">
+                                <input matInput 
+                                #email 
+                                formControlName="email" 
+                                type="text" 
+                                name="email"
+                                placeholder="Enter Email Address"
+                                aria-describedby="titleHelp" />
+                                <mat-error>
+                                    Please provide a valid email address!
+                                    e.g.: something@gmail.com
                                 </mat-error>
                             </mat-form-field>
                         </label>
@@ -51,12 +86,13 @@
                                 <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
                                 <mat-error *ngIf="password.invalid">Password is required</mat-error> 
                                 <mat-error>
-                                    Password is required!
+                                    Minimum: 8 characters long and 
+                                    must contain at least one Upper and Lower case letter and a number
                                 </mat-error>
                             </mat-form-field>
                         </label>
                     </tr>
-                    <!--<tr>
+                    <tr>
                         <label>Password Confirmation:&nbsp;
                             <mat-form-field style="width: 200px;">
                                 <input matInput 
@@ -70,11 +106,11 @@
                                 <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
                                 <mat-error *ngIf="password.invalid">Password is required</mat-error> 
                                 <mat-error *ngIf="password.value != password_confirmation">
-                                    Password is required!
+                                    Passwords must Match!
                                 </mat-error>
                             </mat-form-field>
                         </label>
-                    </tr>-->
+                    </tr>
                     <tr *ngIf="authService.user.role ==='ROLE_ADMIN'">
                         <label>User Role:&nbsp;
                             <mat-form-field style="width: 200px;">

@@ -1,4 +1,4 @@
-<form #companyForm="ngForm">
+<form [formGroup]="companyForm" (submit)="submit()"><!--TODO not ngForm missing validators-->
     <div style="margin: 20px;">
         <h1>Edit Company</h1>
     </div>
@@ -6,22 +6,83 @@
         <div class="card-body">
             <h2 class="font-weight-bold mb-3">{{company.name}}</h2>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <label>Company Name:&nbsp;
-                    <mat-form-field style="width: 300px;">
-                        <input matInput #companyName type="text" [(ngModel)]="company.name" name="companyName"
-                            placeholder="Enter Company Name" aria-describedby="titleHelp" required/>
-                        <mat-error>
-                            Name is required!
-                        </mat-error>
-                    </mat-form-field>
-                </label>
-            </li>
-        </ul>
+        <li class="list-group-item">
+            <label>Company Name:&nbsp;
+                <mat-form-field style="width: 300px;">
+                    <input matInput 
+                    #companyName 
+                    type="text"
+                    formControlName="name" 
+                    [(ngModel)]="company.name" 
+                    name="companyName"
+                    placeholder="Enter Company Name" 
+                    aria-describedby="titleHelp"
+                    required />
+                    <mat-error>
+                        Name must be at least 4 characters long!
+                    </mat-error>
+                </mat-form-field>
+            </label>
+        </li>
+        <li class="list-group-item">
+            <label>Company Address:&nbsp;
+                <mat-form-field style="width: 300px;">
+                    <input matInput
+                    #address 
+                    type="text"
+                    formControlName="address" 
+                    [(ngModel)]="company.address" 
+                    name="address"
+                    placeholder="Enter Company Address" 
+                    aria-describedby="titleHelp"
+                    required />
+                    <mat-error>
+                        Address must be at least 4 characters long!
+                    </mat-error>
+                </mat-form-field>
+            </label>
+        </li>
+        <li class="list-group-item">
+            <label>Tax Number:&nbsp;
+                <mat-form-field style="width: 300px;">
+                    <input matInput
+                    #taxNumber 
+                    type="text"
+                    formControlName="taxNumber" 
+                    [(ngModel)]="company.taxNumber" 
+                    name="taxNumber"
+                    placeholder="Enter Company Tax Number" 
+                    aria-describedby="titleHelp"
+                    required />
+                    <mat-error>
+                        Tax Number must be at least 10 characters long
+                        and can only contains numbers and '-' signs!
+                    </mat-error>
+                </mat-form-field>
+            </label>
+        </li>
+        <li class="list-group-item">
+            <label>Bank Account Number:&nbsp;
+                <mat-form-field style="width: 300px;">
+                    <input matInput
+                    #bankAccountNumber 
+                    type="text"
+                    formControlName="bankAccountNumber"
+                    [(ngModel)]="company.bankAccountNumber" 
+                    name="bankAccountNumber"
+                    placeholder="Enter Bank Account Number" 
+                    aria-describedby="titleHelp"
+                    required />
+                    <mat-error>
+                        Bank Account Number must be at least 12 characters long!
+                    </mat-error>
+                </mat-form-field>
+            </label>
+        </li>
+        
         <div class="card-body">
             <button mat-raised-button [routerLink]="['/companies/edit', company.id]" [disabled]="!companyForm.valid"
-                color="primary" (click)="save()">Save Company</button>
+            type="submit" color="primary">Save Company</button>
         </div>
     </div>
 

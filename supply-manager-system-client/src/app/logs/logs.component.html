@@ -2,4 +2,4 @@
 <div *ngIf="messageService.messages.length" class="logs">
     <div *ngFor='let message of messageService.messages'> {{message}} </div>  
 </div>
-<button mat-button (click)="messageService.clear()">Clear logs</button>
+<button style="margin: 20px;" mat-raised-button color="primary" (click)="messageService.clear()">Clear logs</button>

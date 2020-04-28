@@ -1,6 +1,5 @@
 import { Company } from './company';
 import { User } from './user';
-import { Status } from '../status.enum';
 
 export class Order {
     id: number;
@@ -11,6 +10,8 @@ export class Order {
     buyerManager?: User;
     seller: Company;
     sellerManager?: User;
+    createdAt: String;
+    modifiedAt: String;
 
     constructor(productName: String, price: Number, status: String, buyer: Company, buyerManager: User, seller: Company, sellerManager: User){
         this.productName = productName;

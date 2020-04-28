@@ -4,6 +4,8 @@ import { UserService } from '../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -18,7 +20,8 @@ export class UserDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     public router: Router,
-    private userService: UserService
+    private userService: UserService,
+    public enumService: EnumService,
   ) { }
 
   ngOnInit(): void {

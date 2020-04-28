@@ -18,7 +18,7 @@
         </ng-template>
 
         <li *ngIf="order.status; else elseBlock2" class="list-group-item">
-            <label>Product Status: {{order.status}}</label></li>
+            <label>Product Status: {{this.enumService.getStatusString(order.status)}}</label></li>
         <ng-template #elseBlock2>
             <li class="list-group-item"><label>Product Status:&nbsp;</label><label class="unassigned"> Please Add a
                     Status for this order</label></li>
@@ -51,6 +51,14 @@
             <li class="list-group-item"><label>Seller Manager:&nbsp;</label><label class="unassigned">
                     UNASSIGNED</label></li>
         </ng-template>
+
+        <li class="list-group-item">
+            <label>Created At: {{order.createdAt}}</label>
+        </li>
+
+        <li class="list-group-item">
+            <label>Last ModifiedAt At: {{order.modifiedAt}}</label>
+        </li>
 
     </ul>
     <div class="card-body">

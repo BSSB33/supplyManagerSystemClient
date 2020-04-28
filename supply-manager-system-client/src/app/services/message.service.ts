@@ -7,7 +7,7 @@ import { ForbiddenComponent } from '../forbidden/forbidden.component';
 })
 export class MessageService {
 
-  constructor(public dialog: MatDialog){}
+  constructor(public dialog: MatDialog) { }
 
   messages: string[] = [];
 
@@ -22,4 +22,5 @@ export class MessageService {
   openDialog() {
     this.dialog.open(ForbiddenComponent);
   }
+
 }

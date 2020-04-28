@@ -1,0 +1,16 @@
+.chartContainer1{
+    width: 90%;
+    margin: 20px;
+    height: 370px;
+}
+
+.chartContainer2{
+    width: 90%;
+    margin: 20px;
+    height: 370px;
+}
+
+.table, .th, .td{
+    width: 90%;
+    align-self: flex-start;
+}

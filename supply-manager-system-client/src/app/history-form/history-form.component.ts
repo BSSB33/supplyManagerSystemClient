@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderDetailComponent } from '../order-detail/order-detail.component';
 import { FormControl, Validators } from '@angular/forms';
+import { EnumService } from '../services/enum.service';
 
 
 @Component({
@@ -10,19 +11,27 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class HistoryFormComponent implements OnInit {
 
+  historyTypes: String[];
+
   historyControl = new FormControl('', Validators.required);
 
-  constructor(private orderDetailComponent : OrderDetailComponent) { }
+  constructor(
+    private orderDetailComponent: OrderDetailComponent,
+    public enumService: EnumService,
+    ) { }
 
   ngOnInit(): void {
+    this.getHistoryTypes();
   }
 
-  add(note: string, type: string): void{
-    if(note == ""){
-      note = null;
-    }
-    this.orderDetailComponent.addHistoryToOrder(note, type);
+  getHistoryTypes(): void {
+    this.historyTypes = this.enumService.getHistoryTypes();
+  }
+
+  add(note: string, type: string): void {
+    this.orderDetailComponent.addHistoryToOrder(type, note);
     this.orderDetailComponent.toggleAddHistory();
   }
+  
 
 }

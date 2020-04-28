@@ -18,7 +18,7 @@ export class OrderService {
     private router: Router,
     private messageService: MessageService,
     private authService: AuthService,
-  ) { }
+  ) {}
 
   public href: string = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
   private sales_purchasesUrl = 'http://localhost:8080/orders/' + this.href;
@@ -38,6 +38,46 @@ export class OrderService {
         tap(_ => this.log('Fetched Orders')),
         catchError(this.handleError<Order[]>('getOrders', []))
       );
+  }
+
+  async getMonthlyIncomeStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/monthlyIncome', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getRecordedIncomeStats', []))
+      ).toPromise();
+  }
+  
+  async getMonthlyExpensesStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/monthlyExpense', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getRecordedIncomeStats', []))
+      ).toPromise();
+  }
+
+  async getPartnerStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/partnersStat', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getPartnerStats', []))
+      ).toPromise();
+  }
+  
+  async getOrderCountStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/orderCount', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getOrderCountStats', []))
+      ).toPromise();
+  }
+
+  async getUserCountStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/userCount', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getUserCountStats', []))
+      ).toPromise();
   }
 
   getOrder(id: number): Observable<Order> {

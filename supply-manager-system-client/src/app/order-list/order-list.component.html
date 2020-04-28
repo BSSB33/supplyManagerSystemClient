@@ -1,29 +1,68 @@
 <div class="panel panel-default" style="margin: 20px;">
-  <h2 style="margin-left: 20px;">{{title}} </h2>
-  <table class="table table-dark table-hover table-curved">
+
+  <div class="filterPanel" *ngIf="authService.filters">
+    <mat-form-field class="filterTool">  
+      <input matInput 
+      name="term"
+      [(ngModel)]="term"
+      type="text"
+      placeholder="Search by Product Name">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field class="filterTool" *ngIf="this.orderService.href === 'sales' || this.orderService.href === 'orders'">
+      <mat-label>Select Buyer Company:</mat-label>
+      <mat-select>
+          <mat-option value="" (click)="onBuyerCompanyFilterChange('')">
+          All Companies
+          </mat-option>
+          <mat-option *ngFor="let workplace of companiesFromOrders" [value]="workplace" (click)="onBuyerCompanyFilterChange(workplace)">
+              {{workplace}}
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="filterTool" *ngIf="this.orderService.href === 'purchases' || this.orderService.href === 'orders'">
+      <mat-label>Select Seller Company:</mat-label>
+      <mat-select>
+          <mat-option value="" (click)="onSellerCompanyFilterChange('')">
+          All Companies
+          </mat-option>
+          <mat-option *ngFor="let workplace of companiesFromOrders" [value]="workplace" (click)="onSellerCompanyFilterChange(workplace)">
+              {{workplace}}
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <order-status-filter class="filterTool" [status]="selectedStatus" [statuses]="statuses" (onChange)="onFilterChange($event)"></order-status-filter>
+    
+    <button mat-button id="closeButton" (click)="closeFilter()">Close Filter</button>
+  </div>
+
+  <h2 style="margin-left: 20px;"> {{title}} </h2>
+  <table matSort (matSortChange)="sortData($event)" class="table table-hover table-dark table-curved">
     <thead>
-      <tr>
-        <th scope="col">Product Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">Status</th>
-        <th scope="col">Buyer Company</th>
-        <th scope="col">Buyer Manager</th>
-        <th scope="col">Seller Company</th>
-        <th scope="col">Seller Manager</th>
+        <th scope="col" mat-sort-header="productName">Product Name</th>
+        <th scope="col" mat-sort-header="price">Price</th>
+        <th scope="col" mat-sort-header="status">Status</th>
+        <th scope="col" mat-sort-header="buyer">Buyer Company</th>
+        <th scope="col" mat-sort-header="buyerManager">Buyer Manager</th>
+        <th scope="col" mat-sort-header="seller">Seller Company</th>
+        <th scope="col" mat-sort-header="sellerManager">Seller Manager</th>
+        <th scope="col" mat-sort-header="createdAt">Creation</th>
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
-      </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of orders">
+      <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName">
         <td *ngIf="order.buyer; else missing">
           <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
         <td *ngIf="order.buyer; else missing">{{order.price | number}} Ft</td>
-        <td *ngIf="order.buyer; else missing">{{order.status}}</td>
+        <td *ngIf="order.buyer; else missing">{{this.enumService.getStatusString(order.status)}}</td>
         <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
         <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
         <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
         <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
+        <td *ngIf="order.buyer; else missing">{{order.createdAt | date :  "yyyy. MM. dd."}}</td>
         <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
             <mat-icon>edit</mat-icon>&nbsp;Edit
           </button></td>
@@ -65,7 +104,7 @@
 
 </div>
 
-<footer>
+<!--<footer>
   <mat-divider style="width: 100%;"></mat-divider>
   <p class="dividerText">&copy; All rights reserved for <i>SupplyManagerSystem</i> 2020<br>Page hints</p>
-</footer>
+</footer>-->

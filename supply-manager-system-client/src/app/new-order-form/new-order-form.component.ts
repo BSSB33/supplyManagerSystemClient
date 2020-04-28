@@ -8,6 +8,8 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from '../classes/user';
+import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'new-order-form',
@@ -18,8 +20,13 @@ export class NewOrderFormComponent implements OnInit {
 
   order: Order;
   companies: Company[];
+  selectedBuyerCompany: Company;
+  selectedSellerCompany: Company;
+  selectableCompanyiesForBuyer: Company[];
+  selectableCompanyiesForSeller: Company[];
   users: User[]
   sales: Boolean = this.orderService.href == "sales";
+  statuses: String[];
   orderForm: FormGroup;
   usersOfBuyerCompany: User[];
   usersOfSellerCompany: User[];
@@ -30,11 +37,19 @@ export class NewOrderFormComponent implements OnInit {
     private companyService: CompanyService,
     private userService: UserService,
     public authService: AuthService,
+    public enumService: EnumService,
   ) {
     if (authService.user.role == "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
-        productName: new FormControl('', Validators.required),
-        productPrice: new FormControl('', Validators.required),
+        productName: new FormControl('', [
+          Validators.required,
+          Validators.minLength(3)
+        ]),
+        productPrice: new FormControl('',[
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('^[0-9]+')
+        ]),
         productStatus: new FormControl('', Validators.required),
         seller: new FormControl('', Validators.required),
         buyer: new FormControl('', Validators.required),
@@ -46,7 +61,11 @@ export class NewOrderFormComponent implements OnInit {
     if (this.sales && authService.user.role != "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
         productName: new FormControl('', Validators.required),
-        productPrice: new FormControl('', Validators.required),
+        productPrice: new FormControl('',[
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('^[0-9]+')
+        ]),
         productStatus: new FormControl('', Validators.required),
         seller: new FormControl({ value: this.authService.user.workplace.name, disabled: true }, Validators.required),
         buyer: new FormControl('', Validators.required),
@@ -57,7 +76,11 @@ export class NewOrderFormComponent implements OnInit {
     if (!this.sales && authService.user.role != "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
         productName: new FormControl('', Validators.required),
-        productPrice: new FormControl('', Validators.required),
+        productPrice: new FormControl('',[
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('^[0-9]+')
+        ]),
         productStatus: new FormControl('', Validators.required),
         seller: new FormControl('', Validators.required),
         buyer: new FormControl({ value: this.authService.user.workplace.name, disabled: true }, Validators.required),
@@ -70,6 +93,11 @@ export class NewOrderFormComponent implements OnInit {
   ngOnInit(): void {
     this.getCompanies();
     this.getUsers();
+    this.getStatuses();
+  }
+
+  getStatuses(): void {
+    this.statuses = this.enumService.getStatuses();
   }
 
   submit(): void {
@@ -91,15 +119,21 @@ export class NewOrderFormComponent implements OnInit {
 
   filterUsersOfBuyerCompany(companyName: string){
     this.usersOfBuyerCompany = this.users.filter(user => user.workplace.name == companyName);
+    this.selectableCompanyiesForSeller = this.companies.filter(company => company.name != companyName);
   }
 
   filterUsersOfSellerCompany(companyName: string){
     this.usersOfSellerCompany = this.users.filter(user => user.workplace.name == companyName);
+    this.selectableCompanyiesForBuyer = this.companies.filter(company => company.name != companyName);
   }
 
   getCompanies(): void {
     this.companyService.getCompanies()
-      .subscribe(companies => this.companies = companies);
+      .subscribe(companies => {
+        this.companies = companies;
+        this.selectableCompanyiesForSeller = companies;
+        this.selectableCompanyiesForBuyer = companies;
+      });
   }
 
   getUsers(): void {

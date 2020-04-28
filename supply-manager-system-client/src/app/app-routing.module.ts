@@ -15,6 +15,7 @@ import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { AuthGuard } from './auth.guard';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { StatsComponent } from './stats/stats.component';
 
 const routes: Routes = [
   {
@@ -94,6 +95,14 @@ const routes: Routes = [
     path: 'companies',
     component: CompanyListComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'stats',
+    component: StatsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['ROLE_ADMIN', 'ROLE_DIRECTOR']
+    }
   },
   {
     path: 'login',

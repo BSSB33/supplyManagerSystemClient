@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { ForbiddenDialogComponent } from './forbidden-dialog/forbidden-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router'
+import { OrderService } from './services/order.service';
 
 @Component({
   selector: 'app-root',
@@ -11,51 +10,24 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AppComponent {
   title = 'Supply Manager System (SMS) Client';
+  loading = true;
 
   constructor(
     public authService: AuthService,
-    private dialog: MatDialog,
-  
-  ){}
+    public router: Router,
+  ){
+    this.router.events.subscribe((event: Event) => {
+      if(event instanceof NavigationStart) {
+        this.loading = true;
+      }
+      else if(event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        this.loading = false;
+      }
+    });
+  }
 
   logout()
   {
     this.authService.logout();
-  }
-
-  //================================================
-
-  openDialog() {
-
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
-      data:{
-        message: 'Are you sure?',
-        buttonText: {
-          ok: 'Yes',
-          cancel: 'No'
-        }
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        //console.log("YES");
-      }
-      else{
-        //console.log("No");
-      }
-    });
-
-  }
-
-  openAlertDialog() {
-    const dialogRef = this.dialog.open(ForbiddenDialogComponent,{
-      data:{
-        message: 'Alet Text',
-        buttonText: {
-          cancel: 'Ok'
-        }
-      },
-    });
   }
 }

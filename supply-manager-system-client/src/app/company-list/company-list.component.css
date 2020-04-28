@@ -1,0 +1,21 @@
+.table-curved {
+    border-radius: 10px;
+}
+
+.filterPanel {
+    background-color: rgb(33, 37, 41);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.filterTool {
+    margin: 10px 20px 10px 20px;
+}
+
+#closeButton {
+    position: absolute;
+    color: rgb(190, 190, 190);
+    top: 5px;
+    right: 5px;
+}

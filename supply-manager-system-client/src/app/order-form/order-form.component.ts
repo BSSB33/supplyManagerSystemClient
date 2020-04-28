@@ -11,6 +11,9 @@ import { FormGroup, FormControl, FormsModule, FormControlName, Validators } from
 import { AuthService } from '../services/auth.service';
 import { HistoryService } from '../services/history.service';
 import { History } from '../classes/history';
+import { stringify } from 'querystring';
+import { MessageService } from '../services/message.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'order-form',
@@ -28,7 +31,7 @@ export class OrderFormComponent implements OnInit {
   selectedBuyerCompany: Company;
   selectedSellerCompany: Company;
   originalStatus: String;
-
+  statuses: String[];
   selectableCompanyiesForBuyer: Company[];
   selectableCompanyiesForSeller: Company[];
 
@@ -42,14 +45,22 @@ export class OrderFormComponent implements OnInit {
     private companyService: CompanyService,
     private userService: UserService,
     public authService: AuthService,
+    public enumService: EnumService,
     ) 
     { 
       //Admin page
       if(this.authService.user.role == "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
-          productName: new FormControl(Validators.required),
-          price: new FormControl(Validators.required),
-          status: new FormControl(Validators.required),
+          productName: new FormControl('', [
+            Validators.required,
+            Validators.minLength(3)
+          ]),
+          price: new FormControl('',[
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^[0-9]+')
+          ]),
+          status: new FormControl(),
           seller: new FormControl(Validators.required),
           buyer: new FormControl(Validators.required),
           sellerManager: new FormControl(Validators.required),
@@ -60,18 +71,28 @@ export class OrderFormComponent implements OnInit {
       if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
-          price: new FormControl(Validators.required),
-          status: new FormControl(Validators.required),
+          price: new FormControl('',[
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^[0-9]+')
+          ]),
+          status: new FormControl(),
           sellerManager: new FormControl(Validators.required),
+          buyerManager: new FormControl(),
         });
       }
       //Purchase pages
       if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
-          price: new FormControl(Validators.required),
-          status: new FormControl(Validators.required),
+          price: new FormControl('',[
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^[0-9]+')
+          ]),
+          status: new FormControl(),
           buyerManager: new FormControl(Validators.required),
+          sellerManager: new FormControl(),
         });
       }
     }
@@ -81,6 +102,11 @@ export class OrderFormComponent implements OnInit {
     this.getManagersOfUser();
     this.getCompanies();
     this.setUpNewStatusChangeHistory();
+    this.getStatuses();
+  }
+
+  getStatuses(): void {
+    this.statuses = this.enumService.getStatuses();
   }
 
   getCompanies(): void {
@@ -117,9 +143,10 @@ export class OrderFormComponent implements OnInit {
   private _order: Order;
   setUpNewStatusChangeHistory(): void{
     this._creator = this.authService.user;
-  
-    this.orderService.getOrder(+this.route.snapshot.paramMap.get('id'))
-    .subscribe(order => this._order = order );
+    let orderId = +this.route.snapshot.paramMap.get('id');
+
+    this.orderService.getOrder(orderId)
+      .subscribe(order => this._order = order );
   }
 
   addHistoryToOrder(note: string, historyType: string): void {
@@ -129,8 +156,26 @@ export class OrderFormComponent implements OnInit {
     var history : History = new History(this._creator, this._order, historyType, note);
     this.historyService.addHistory(history).subscribe();
   }
-    
 
+  addHistorySystemMessage(note: string, historyType: string): void {
+    note = note.trim();
+    historyType = historyType.trim();
+
+    //Add history to logged in user
+    var history : History = new History(this._creator, this._order, historyType, note);
+    this.historyService.addHistory(history).subscribe();
+
+    //Add history to the partner company
+    if(this._order.buyer.id == this.authService.user.workplace.id && this._order.sellerManager != null){
+      var otherHistory : History = new History(this._order.sellerManager, this._order, historyType, note);
+      this.historyService.addHistory(otherHistory).subscribe();
+    }
+    if(this._order.seller.id == this.authService.user.workplace.id && this._order.buyerManager != null){
+      var otherHistory : History = new History(this._order.buyerManager, this._order, historyType, note);
+      this.historyService.addHistory(otherHistory).subscribe();
+    }
+  }
+    
   submit(): void {
     if(this.authService.user.role == "ROLE_ADMIN"){
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
@@ -152,7 +197,7 @@ export class OrderFormComponent implements OnInit {
     }
     //If Status modified, create a new History card
     if(this.originalStatus != this.orderForm.controls['status'].value){
-      this.addHistoryToOrder("Status Modified from " + this.originalStatus + " to " + this.orderForm.controls['status'].value, "STATUS_MODIFIED");
+      this.addHistorySystemMessage("Status Modified from " + this.originalStatus + " to " + this.orderForm.controls['status'].value, "STATUS_MODIFIED");
     }
     
     this.orderService.updateOrder(this.order)
