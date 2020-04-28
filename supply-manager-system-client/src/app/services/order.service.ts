@@ -40,46 +40,6 @@ export class OrderService {
       );
   }
 
-  async getMonthlyIncomeStats(): Promise<any> {
-    return this.http.get<any>(this.ordersUrl + '/stats/monthlyIncome', httpOptions)
-      .pipe(
-        tap(_ => this.log('Fetched Stats')),
-        catchError(this.handleError<any>('getRecordedIncomeStats', []))
-      ).toPromise();
-  }
-  
-  async getMonthlyExpensesStats(): Promise<any> {
-    return this.http.get<any>(this.ordersUrl + '/stats/monthlyExpense', httpOptions)
-      .pipe(
-        tap(_ => this.log('Fetched Stats')),
-        catchError(this.handleError<any>('getRecordedIncomeStats', []))
-      ).toPromise();
-  }
-
-  async getPartnerStats(): Promise<any> {
-    return this.http.get<any>(this.ordersUrl + '/stats/partnersStat', httpOptions)
-      .pipe(
-        tap(_ => this.log('Fetched Stats')),
-        catchError(this.handleError<any>('getPartnerStats', []))
-      ).toPromise();
-  }
-  
-  async getOrderCountStats(): Promise<any> {
-    return this.http.get<any>(this.ordersUrl + '/stats/orderCount', httpOptions)
-      .pipe(
-        tap(_ => this.log('Fetched Stats')),
-        catchError(this.handleError<any>('getOrderCountStats', []))
-      ).toPromise();
-  }
-
-  async getUserCountStats(): Promise<any> {
-    return this.http.get<any>(this.ordersUrl + '/stats/userCount', httpOptions)
-      .pipe(
-        tap(_ => this.log('Fetched Stats')),
-        catchError(this.handleError<any>('getUserCountStats', []))
-      ).toPromise();
-  }
-
   getOrder(id: number): Observable<Order> {
     const url = `${this.ordersUrl}/${id}`;
     return this.http.get<Order>(url, httpOptions).pipe(
@@ -119,6 +79,47 @@ export class OrderService {
       tap(_ => this.log(`Deleted Order ID=${id}`)),
       catchError(this.handleError<Order>('deleteOrder'))
     );
+  }
+
+  
+  async getMonthlyIncomeStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/monthlyIncome', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getRecordedIncomeStats', []))
+      ).toPromise();
+  }
+  
+  async getMonthlyExpensesStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/monthlyExpense', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getRecordedIncomeStats', []))
+      ).toPromise();
+  }
+
+  async getPartnerStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/partnersStat', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getPartnerStats', []))
+      ).toPromise();
+  }
+  
+  async getOrderCountStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/orderCount', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getOrderCountStats', []))
+      ).toPromise();
+  }
+
+  async getUserCountStats(): Promise<any> {
+    return this.http.get<any>(this.ordersUrl + '/stats/userCount', httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Stats')),
+        catchError(this.handleError<any>('getUserCountStats', []))
+      ).toPromise();
   }
 
   /**

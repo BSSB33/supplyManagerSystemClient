@@ -31,6 +31,8 @@ export class OrderFormComponent implements OnInit {
   selectedBuyerCompany: Company;
   selectedSellerCompany: Company;
   originalStatus: String;
+  originalName: String;
+  originalPrice: Number;
   statuses: String[];
   selectableCompanyiesForBuyer: Company[];
   selectableCompanyiesForSeller: Company[];
@@ -119,11 +121,13 @@ export class OrderFormComponent implements OnInit {
     this.orderService.getOrder(id)
       .subscribe(
         order => {
-        this.order = order
-        this.originalStatus = order.status
+        this.order = order;
+        this.originalStatus = order.status;
+        this.originalName = order.productName;
+        this.originalPrice = order.price;
         this.companyService.getCompanies()
           .subscribe(companies => {
-            this.companies = companies
+            this.companies = companies;
             this.initFilterUsersOfBuyerCompany(order.buyer.name, companies)
             this.initFilterUsersOfSellerCompany(order.seller.name, companies)
           });
@@ -197,7 +201,13 @@ export class OrderFormComponent implements OnInit {
     }
     //If Status modified, create a new History card
     if(this.originalStatus != this.orderForm.controls['status'].value){
-      this.addHistorySystemMessage("Status Modified from " + this.originalStatus + " to " + this.orderForm.controls['status'].value, "STATUS_MODIFIED");
+      this.addHistorySystemMessage("Status was modified from " + this.originalStatus + " to " + this.orderForm.controls['status'].value, "STATUS_MODIFIED");
+    }
+    if(this.originalName != this.orderForm.controls['productName'].value){
+      this.addHistorySystemMessage("Product Name was modified from " + this.originalName + " to " + this.orderForm.controls['productName'].value, "STATUS_MODIFIED");
+    }
+    if(this.originalPrice != this.orderForm.controls['price'].value){
+      this.addHistorySystemMessage("Product Price was modified from " + this.originalPrice + " Ft to " + this.orderForm.controls['price'].value + " Ft", "STATUS_MODIFIED");
     }
     
     this.orderService.updateOrder(this.order)
