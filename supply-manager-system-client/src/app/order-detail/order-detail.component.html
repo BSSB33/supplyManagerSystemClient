@@ -1,4 +1,4 @@
-<div *ngIf="order" class="card" style="width: 40rem; margin: 20px;">
+<div *ngIf="order && loaded" class="card" style="width: 40rem; margin: 20px;">
 
     <div *ngIf="order.price; else elseBlock0" class="card-body">
         <h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2>

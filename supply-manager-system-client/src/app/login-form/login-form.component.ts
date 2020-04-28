@@ -3,6 +3,8 @@ import { AuthService, httpOptions } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder } from '@angular/forms';
 import { User } from '../classes/user';
+import { AppComponent } from '../app.component';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-login-form',
@@ -26,7 +28,7 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) { 
     if(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) == "login"){
       this.router.navigate(['/']);

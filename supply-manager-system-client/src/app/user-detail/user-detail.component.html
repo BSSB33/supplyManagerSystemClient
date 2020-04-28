@@ -1,4 +1,4 @@
-<div *ngIf="user" class="card" style="width: 40rem; margin: 20px;">
+<div *ngIf="user && loaded" class="card" style="width: 40rem; margin: 20px;">
 
     <div *ngIf="user.username; else elseBlock0" class="card-body">
         <h2 class="font-weight-bold mb-3">User: {{user.username}}</h2>

@@ -1,4 +1,4 @@
-<div class="panel panel-default" style="margin: 20px;">
+<div *ngIf="loaded" class="panel panel-default" style="margin: 20px;">
 
   <div class="filterPanel" *ngIf="authService.filters">
     <mat-form-field class="filterTool">  
@@ -83,7 +83,7 @@
     </tbody>
   </table>
 
-  <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button
+  <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" (click)="this.loadingService.setLoading(true);" mat-raised-button
     color="primary">
     <mat-icon>add</mat-icon>&nbsp;Add {{addButtonText}}
   </button>

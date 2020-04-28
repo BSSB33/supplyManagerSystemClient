@@ -11,6 +11,7 @@ import { CompanyService } from '../services/company.service';
 import { Company } from '../classes/company';
 import { Sort } from '@angular/material/sort';
 import { EnumService } from '../services/enum.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-user-list',
@@ -36,6 +37,7 @@ export class UserListComponent implements OnInit {
     private companyService: CompanyService,
     private dialog: MatDialog,
     public router: Router,
+    private loadingService: LoadingService,
   ) { 
     this.authService.filters = false;
   }
@@ -52,6 +54,18 @@ export class UserListComponent implements OnInit {
       roles.add(user.role);
     })
     this.roles = roles;
+  }  
+  
+  toLoad: number = 0;
+  loaded: boolean = false;
+  
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 2){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
   }
 
   getUsers(): void {
@@ -60,13 +74,17 @@ export class UserListComponent implements OnInit {
         this.users = users;
         this.filteredUsers = users;
         this.setRoleOptions(users);
+        this.switchProgressBar();
       }
     );
   }
 
   getCompanies(): void {
     this.companyService.getCompanies()
-        .subscribe(companies => this.companies = companies);
+        .subscribe(companies => {
+          this.companies = companies
+          this.switchProgressBar();
+        });
   }
 
   disableOrEnableUser(user: User){

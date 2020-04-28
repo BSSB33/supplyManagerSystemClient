@@ -1,88 +1,208 @@
-<form [formGroup]="orderForm" (submit)="submit()">
-  <div style="margin: 20px;">
-    <h1>Edit order</h1>
-  </div>
-  <div *ngIf="order" class="card" style="width: 40rem; margin: 20px;">
-    <div class="card-body">
-      <h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2>
+<div *ngIf="loaded">
+  <form [formGroup]="orderForm" (submit)="submit()">
+    <div style="margin: 20px;">
+      <h1>Edit order</h1>
     </div>
-
-    <ul class="list-group list-group-flush">
-
-      <li class="list-group-item">
-       <label class="whiteLabel">Product Name:
-        <mat-form-field style="width: 200px;">
-            <input matInput 
-              #productName
-              formControlName="productName" 
-              [(ngModel)] = "order.productName"
-              type="text" 
-              name="productName"
-              placeholder="Enter Product Name"
-              aria-describedby="titleHelp" 
-              required/>
-            <mat-error>
-              Name must be at least 3 characters long!
-            </mat-error>
-          </mat-form-field>
-        </label>
-      </li>
-
-      <li class="list-group-item">
-        <label class="whiteLabel">Product Price:
+    <div *ngIf="order" class="card" style="width: 40rem; margin: 20px;">
+      <div class="card-body">
+        <h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2>
+      </div>
+  
+      <ul class="list-group list-group-flush">
+  
+        <li class="list-group-item">
+         <label class="whiteLabel">Product Name:
           <mat-form-field style="width: 200px;">
               <input matInput 
-                #price 
-                formControlName="price" 
-                [(ngModel)]="order.price"
+                #productName
+                formControlName="productName" 
+                [(ngModel)] = "order.productName"
                 type="text" 
-                name="price" 
-                placeholder="Set Price"
+                name="productName"
+                placeholder="Enter Product Name"
                 aria-describedby="titleHelp" 
                 required/>
               <mat-error>
-                Price can only contains numbers (Ft)
+                Name must be at least 3 characters long!
               </mat-error>
-          </mat-form-field>
-        </label>
-      </li>
-
-      <li class="list-group-item">
-        <label>Product Status:&nbsp;
-          <mat-form-field style="width: 200px;">
-              <mat-select
-                #productStatus 
-                formControlName="status" 
-                [(ngModel)] = "order.status"
-                name="productStatus" 
-                placeholder="Enter Status"
-                required>
-                  <mat-option *ngFor="let status of statuses" [value]="status">{{this.enumService.getStatusString(status)}}</mat-option>
-              </mat-select>
-              <mat-error>
-                Please Select a Status
-              </mat-error>
-          </mat-form-field>
-        </label>
-      </li>
-
-      <!-- === Seller === -->
-      <li class="list-group-item" *ngIf="order.seller.id === authService.user.workplace.id && authService.user.role !== 'ROLE_ADMIN'">
-        <label>Seller Manager:&nbsp;
-          <mat-form-field *ngIf="order.sellerManager; else unassignedSeller" style="width: 200px;">
-              <mat-select 
-                  #sellerManager 
-                  formControlName="sellerManager" 
-                  name="sellerManager" 
-                  placeholder="Select Seller Manager"
-                  [(ngModel)]="order.sellerManager.username"
+            </mat-form-field>
+          </label>
+        </li>
+  
+        <li class="list-group-item">
+          <label class="whiteLabel">Product Price:
+            <mat-form-field style="width: 200px;">
+                <input matInput 
+                  #price 
+                  formControlName="price" 
+                  [(ngModel)]="order.price"
+                  type="text" 
+                  name="price" 
+                  placeholder="Set Price"
+                  aria-describedby="titleHelp" 
+                  required/>
+                <mat-error>
+                  Price can only contains numbers (Ft)
+                </mat-error>
+            </mat-form-field>
+          </label>
+        </li>
+  
+        <li class="list-group-item">
+          <label>Product Status:&nbsp;
+            <mat-form-field style="width: 200px;">
+                <mat-select
+                  #productStatus 
+                  formControlName="status" 
+                  [(ngModel)] = "order.status"
+                  name="productStatus" 
+                  placeholder="Enter Status"
                   required>
+                    <mat-option *ngFor="let status of statuses" [value]="status">{{this.enumService.getStatusString(status)}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  Please Select a Status
+                </mat-error>
+            </mat-form-field>
+          </label>
+        </li>
+  
+        <!-- === Seller === -->
+        <li class="list-group-item" *ngIf="order.seller.id === authService.user.workplace.id && authService.user.role !== 'ROLE_ADMIN'">
+          <label>Seller Manager:&nbsp;
+            <mat-form-field *ngIf="order.sellerManager; else unassignedSeller" style="width: 200px;">
+                <mat-select 
+                    #sellerManager 
+                    formControlName="sellerManager" 
+                    name="sellerManager" 
+                    placeholder="Select Seller Manager"
+                    [(ngModel)]="order.sellerManager.username"
+                    required>
+                  <mat-option value="" disabled>Choose a User</mat-option>
+                  <ng-container *ngFor="let user of managers">
+                      <mat-option *ngIf="user.enabled"
+                      [value]="user.username">{{user.username}}
+                      </mat-option>
+                  </ng-container>
+                </mat-select>
+                <mat-error>
+                  Please Select a Manager
+                </mat-error>
+            </mat-form-field>
+          </label>
+        </li>
+  
+        <ng-template #unassignedSeller>
+          <mat-form-field style="width: 200px;">
+            <mat-select 
+              #sellerManager 
+              formControlName="sellerManager" 
+              name="sellerManager" 
+              placeholder="Select Seller Manager"
+              required>
                 <mat-option value="" disabled>Choose a User</mat-option>
                 <ng-container *ngFor="let user of managers">
                     <mat-option *ngIf="user.enabled"
                     [value]="user.username">{{user.username}}
                     </mat-option>
                 </ng-container>
+            </mat-select>
+            <mat-error>
+              Please Select a Manager
+            </mat-error>
+          </mat-form-field>
+      </ng-template>
+  
+  
+      <!-- === Buyer === -->
+      <li class="list-group-item" *ngIf="order.buyer.id === authService.user.workplace.id && authService.user.role !== 'ROLE_ADMIN'">
+        <label>Buyer Manager:&nbsp;
+          <mat-form-field *ngIf="order.buyerManager; else unassignedBuyer" style="width: 200px;">
+              <mat-select 
+              #buyerManager 
+              formControlName="buyerManager" 
+              name="buyerManager" 
+              placeholder="Select Buyer Manager"
+              [(ngModel)]="order.buyerManager.username"
+              required>
+                  <mat-option value="" disabled>Choose a User</mat-option>
+                  <ng-container *ngFor="let user of managers">
+                      <mat-option *ngIf="user.enabled"
+                      [value]="user.username">{{user.username}}
+                      </mat-option>
+                  </ng-container>
+              </mat-select>
+              <mat-error>
+                Please Select Buyer Company
+              </mat-error>
+          </mat-form-field>
+        </label>
+      </li>
+  
+      <ng-template #unassignedBuyer>
+        <mat-form-field style="width: 200px;">
+          <mat-select
+              #buyerManager 
+              formControlName="buyerManager" 
+              name="buyerManager" 
+              placeholder="Select Buyer Manager"
+              required>
+            <mat-option value="" disabled>Choose a User</mat-option>
+            <ng-container *ngFor="let user of managers">
+                <mat-option *ngIf="user.enabled"
+                [value]="user.username">{{user.username}}
+                </mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error>
+            Please Select a Manager
+          </mat-error>
+        </mat-form-field>
+      </ng-template>
+  
+      <!-- === Admin page === -->
+  
+      <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
+        <label>Seller Company:&nbsp;
+          <mat-form-field *ngIf="order.seller" style="width: 200px;">
+              <mat-select 
+                #seller
+                formControlName="seller" 
+                name="seller" 
+                placeholder="Select Seller Company"
+                [(ngModel)]="order.seller.name"
+                required>
+                  <mat-option value="" disabled>Choose a Company</mat-option>
+                  <ng-container *ngFor="let company of selectableCompanyiesForSeller">
+                    <mat-option *ngIf="company.active"
+                      [value]="company.name"
+                      (click)="filterUsersOfSellerCompany(company.name)">{{company.name}}
+                   </mat-option>
+                  </ng-container>
+              </mat-select>
+              <mat-error>
+                Please Select a Company
+              </mat-error>
+          </mat-form-field>
+        </label>
+      </li>
+  
+      <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
+        <label>Seller Manager:&nbsp;
+          <mat-form-field *ngIf="order.sellerManager; else unassignedSellerAdmin" style="width: 200px;">
+              <mat-select 
+                #sellerManager
+                formControlName="sellerManager" 
+                name="sellerManager" 
+                placeholder="Select Seller Manager"
+                [(ngModel)]="order.sellerManager.username"
+                required>
+                  <mat-option value="" disabled>Choose a Manager</mat-option>
+                  <ng-container *ngFor="let manager of usersOfSellerCompany">
+                    <mat-option *ngIf="manager.enabled"
+                      [value]="manager.username">{{manager.username}}
+                   </mat-option>
+                  </ng-container>
               </mat-select>
               <mat-error>
                 Please Select a Manager
@@ -90,8 +210,8 @@
           </mat-form-field>
         </label>
       </li>
-
-      <ng-template #unassignedSeller>
+  
+      <ng-template #unassignedSellerAdmin>
         <mat-form-field style="width: 200px;">
           <mat-select 
             #sellerManager 
@@ -100,9 +220,9 @@
             placeholder="Select Seller Manager"
             required>
               <mat-option value="" disabled>Choose a User</mat-option>
-              <ng-container *ngFor="let user of managers">
-                  <mat-option *ngIf="user.enabled"
-                  [value]="user.username">{{user.username}}
+              <ng-container *ngFor="let manager of usersOfSellerCompany">
+                  <mat-option *ngIf="manager.enabled"
+                    [value]="manager.username">{{manager.username}}
                   </mat-option>
               </ng-container>
           </mat-select>
@@ -111,205 +231,87 @@
           </mat-error>
         </mat-form-field>
     </ng-template>
-
-
-    <!-- === Buyer === -->
-    <li class="list-group-item" *ngIf="order.buyer.id === authService.user.workplace.id && authService.user.role !== 'ROLE_ADMIN'">
-      <label>Buyer Manager:&nbsp;
-        <mat-form-field *ngIf="order.buyerManager; else unassignedBuyer" style="width: 200px;">
-            <mat-select 
-            #buyerManager 
-            formControlName="buyerManager" 
-            name="buyerManager" 
-            placeholder="Select Buyer Manager"
-            [(ngModel)]="order.buyerManager.username"
-            required>
-                <mat-option value="" disabled>Choose a User</mat-option>
-                <ng-container *ngFor="let user of managers">
-                    <mat-option *ngIf="user.enabled"
-                    [value]="user.username">{{user.username}}
+  
+      <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'" onload="this.filterUsersOfBuyerCompany(order.buyer.name)">
+        <label>Buyer Company:&nbsp;
+          <mat-form-field *ngIf="order.buyer" style="width: 200px;">
+              <mat-select 
+                #buyer
+                formControlName="buyer" 
+                name="buyer" 
+                placeholder="Select Buyer Company"
+                [(ngModel)]="order.buyer.name"
+                required>
+                  <mat-option value="" disabled>Choose a Company</mat-option>
+                  <ng-container *ngFor="let company of selectableCompanyiesForBuyer">
+                    <mat-option *ngIf="company.active"
+                     [value]="company.name"
+                     (click)="filterUsersOfBuyerCompany(company.name)">{{company.name}}
                     </mat-option>
-                </ng-container>
-            </mat-select>
-            <mat-error>
-              Please Select Buyer Company
-            </mat-error>
-        </mat-form-field>
-      </label>
-    </li>
-
-    <ng-template #unassignedBuyer>
-      <mat-form-field style="width: 200px;">
-        <mat-select
-            #buyerManager 
-            formControlName="buyerManager" 
-            name="buyerManager" 
-            placeholder="Select Buyer Manager"
-            required>
-          <mat-option value="" disabled>Choose a User</mat-option>
-          <ng-container *ngFor="let user of managers">
-              <mat-option *ngIf="user.enabled"
-              [value]="user.username">{{user.username}}
-              </mat-option>
-          </ng-container>
-        </mat-select>
-        <mat-error>
-          Please Select a Manager
-        </mat-error>
-      </mat-form-field>
-    </ng-template>
-
-    <!-- === Admin page === -->
-
-    <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
-      <label>Seller Company:&nbsp;
-        <mat-form-field *ngIf="order.seller" style="width: 200px;">
-            <mat-select 
-              #seller
-              formControlName="seller" 
-              name="seller" 
-              placeholder="Select Seller Company"
-              [(ngModel)]="order.seller.name"
-              required>
-                <mat-option value="" disabled>Choose a Company</mat-option>
-                <ng-container *ngFor="let company of selectableCompanyiesForSeller">
-                  <mat-option *ngIf="company.active"
-                    [value]="company.name"
-                    (click)="filterUsersOfSellerCompany(company.name)">{{company.name}}
-                 </mat-option>
-                </ng-container>
-            </mat-select>
-            <mat-error>
-              Please Select a Company
-            </mat-error>
-        </mat-form-field>
-      </label>
-    </li>
-
-    <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
-      <label>Seller Manager:&nbsp;
-        <mat-form-field *ngIf="order.sellerManager; else unassignedSellerAdmin" style="width: 200px;">
-            <mat-select 
-              #sellerManager
-              formControlName="sellerManager" 
-              name="sellerManager" 
-              placeholder="Select Seller Manager"
-              [(ngModel)]="order.sellerManager.username"
-              required>
-                <mat-option value="" disabled>Choose a Manager</mat-option>
-                <ng-container *ngFor="let manager of usersOfSellerCompany">
-                  <mat-option *ngIf="manager.enabled"
-                    [value]="manager.username">{{manager.username}}
-                 </mat-option>
-                </ng-container>
-            </mat-select>
-            <mat-error>
-              Please Select a Manager
-            </mat-error>
-        </mat-form-field>
-      </label>
-    </li>
-
-    <ng-template #unassignedSellerAdmin>
-      <mat-form-field style="width: 200px;">
-        <mat-select 
-          #sellerManager 
-          formControlName="sellerManager" 
-          name="sellerManager" 
-          placeholder="Select Seller Manager"
-          required>
-            <mat-option value="" disabled>Choose a User</mat-option>
-            <ng-container *ngFor="let manager of usersOfSellerCompany">
-                <mat-option *ngIf="manager.enabled"
-                  [value]="manager.username">{{manager.username}}
-                </mat-option>
-            </ng-container>
-        </mat-select>
-        <mat-error>
-          Please Select a Manager
-        </mat-error>
-      </mat-form-field>
-  </ng-template>
-
-    <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'" onload="this.filterUsersOfBuyerCompany(order.buyer.name)">
-      <label>Buyer Company:&nbsp;
-        <mat-form-field *ngIf="order.buyer" style="width: 200px;">
-            <mat-select 
-              #buyer
-              formControlName="buyer" 
-              name="buyer" 
-              placeholder="Select Buyer Company"
-              [(ngModel)]="order.buyer.name"
-              required>
-                <mat-option value="" disabled>Choose a Company</mat-option>
-                <ng-container *ngFor="let company of selectableCompanyiesForBuyer">
-                  <mat-option *ngIf="company.active"
-                   [value]="company.name"
-                   (click)="filterUsersOfBuyerCompany(company.name)">{{company.name}}
-                  </mat-option>
-                </ng-container>
-            </mat-select>
-            <mat-error>
-              Please Select a Company
-            </mat-error>
-        </mat-form-field>
-      </label>
-    </li>
-
-    <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
-      <label>Buyer Manager:&nbsp;
-        <mat-form-field *ngIf="order.buyerManager; else unassignedBuyerAdmin" style="width: 200px;">
-            <mat-select 
-              #buyerManager
+                  </ng-container>
+              </mat-select>
+              <mat-error>
+                Please Select a Company
+              </mat-error>
+          </mat-form-field>
+        </label>
+      </li>
+  
+      <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
+        <label>Buyer Manager:&nbsp;
+          <mat-form-field *ngIf="order.buyerManager; else unassignedBuyerAdmin" style="width: 200px;">
+              <mat-select 
+                #buyerManager
+                formControlName="buyerManager" 
+                name="buyerManager" 
+                placeholder="Select Buyer Manager"
+                [(ngModel)]="order.buyerManager.username"
+                required>
+                  <mat-option value="" disabled>Choose a Manager</mat-option>
+                  <ng-container *ngFor="let manager of usersOfBuyerCompany">
+                    <mat-option *ngIf="manager.enabled"
+                      [value]="manager.username">{{manager.username}}
+                   </mat-option>
+                  </ng-container>
+              </mat-select>
+              <mat-error>
+                Please Select a Manager
+              </mat-error>
+          </mat-form-field>
+        </label>
+      </li>
+  
+      <ng-template #unassignedBuyerAdmin>
+        <mat-form-field style="width: 200px;">
+          <mat-select
+              #buyerManager 
               formControlName="buyerManager" 
               name="buyerManager" 
               placeholder="Select Buyer Manager"
-              [(ngModel)]="order.buyerManager.username"
               required>
-                <mat-option value="" disabled>Choose a Manager</mat-option>
-                <ng-container *ngFor="let manager of usersOfBuyerCompany">
-                  <mat-option *ngIf="manager.enabled"
-                    [value]="manager.username">{{manager.username}}
-                 </mat-option>
-                </ng-container>
-            </mat-select>
-            <mat-error>
-              Please Select a Manager
-            </mat-error>
+            <mat-option value="" disabled>Choose a User</mat-option>
+            <ng-container *ngFor="let manager of usersOfBuyerCompany">
+                <mat-option *ngIf="manager.enabled"
+                [value]="manager.username">{{manager.username}}
+                </mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error>
+            Please Select a Manager
+          </mat-error>
         </mat-form-field>
-      </label>
-    </li>
-
-    <ng-template #unassignedBuyerAdmin>
-      <mat-form-field style="width: 200px;">
-        <mat-select
-            #buyerManager 
-            formControlName="buyerManager" 
-            name="buyerManager" 
-            placeholder="Select Buyer Manager"
-            required>
-          <mat-option value="" disabled>Choose a User</mat-option>
-          <ng-container *ngFor="let manager of usersOfBuyerCompany">
-              <mat-option *ngIf="manager.enabled"
-              [value]="manager.username">{{manager.username}}
-              </mat-option>
-          </ng-container>
-        </mat-select>
-        <mat-error>
-          Please Select a Manager
-        </mat-error>
-      </mat-form-field>
-    </ng-template>
-
-
-    </ul>
-    <div class="card-body">
-      <button [routerLink]="['/orders/edit', order.id]" mat-raised-button [disabled]="!orderForm.valid" color="primary"
-      type="submit">Save Order</button>
+      </ng-template>
+  
+  
+      </ul>
+      <div class="card-body">
+        <button [routerLink]="['/orders/edit', order.id]" mat-raised-button [disabled]="!orderForm.valid" color="primary"
+        type="submit">Save Order</button>
+      </div>
     </div>
-  </div>
-
-
-</form>
-
-<div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
+  
+  
+  </form>
+  
+  <div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
+</div>

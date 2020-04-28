@@ -16,7 +16,6 @@ export class NewUserFormComponent implements OnInit {
   
   userForm: FormGroup;
   hidePassword: boolean = true;
-  companies: Company[];
   setUserAsDirector: boolean = false;
   selectedRole: string;
 

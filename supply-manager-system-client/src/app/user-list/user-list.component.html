@@ -1,4 +1,4 @@
-<div class="panel panel-default" style="margin: 20px;">
+<div *ngIf="loaded" class="panel panel-default" style="margin: 20px;">
 
     <div class="filterPanel" *ngIf="authService.filters">
         <mat-form-field class="filterTool">  

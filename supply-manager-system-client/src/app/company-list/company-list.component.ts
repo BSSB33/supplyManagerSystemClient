@@ -7,6 +7,8 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MessageService } from '../services/message.service';
 import { ForbiddenDialogComponent } from '../forbidden-dialog/forbidden-dialog.component';
 import { Sort } from '@angular/material/sort';
+import { AppComponent } from '../app.component';
+import { LoadingService } from '../services/loading.service';
 
 
 @Component({
@@ -20,12 +22,15 @@ export class CompanyListComponent implements OnInit {
   filteredCompanies: Company[];
   addCompany: Boolean = false;
   term = "";
-
+  toLoad: number = 0;
+  loaded: boolean = false;
+  
   constructor(
     private companyService: CompanyService,
     public authService: AuthService,
     private messageService: MessageService,
     private dialog: MatDialog,
+    private loadingService: LoadingService,
   ) {
     this.authService.filters = false;
    }
@@ -37,7 +42,11 @@ export class CompanyListComponent implements OnInit {
 
   getCompanies(): void {
     this.companyService.getCompanies()
-        .subscribe(companies => this.companies = companies);
+        .subscribe(companies => {
+          this.companies = companies
+          this.loaded = true;
+          this.loadingService.setLoading(false);
+        });
   }
 
   disableOrEnableCompany(copmany: Company): void {

@@ -7,6 +7,8 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { CompanyService } from '../services/company.service';
 import { AuthService } from '../services/auth.service';
+import { AppComponent } from '../app.component';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-company-detail',
@@ -17,14 +19,26 @@ export class CompanyDetailComponent implements OnInit {
 
   @Input() company: Company;
   users: User[];
+  toLoad: number = 0;
+  loaded: boolean = false;
   
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 2){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     public router: Router,
     private userService: UserService,
     public authService: AuthService,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit(): void {
@@ -38,11 +52,15 @@ export class CompanyDetailComponent implements OnInit {
       .subscribe(company => {
         this.company = company
       });
+    this.switchProgressBar();
   }
 
   getUsers(): void {
     this.userService.getUsers()
-        .subscribe(users => this.users = users);
+      .subscribe(users => {
+        this.users = users;
+        this.switchProgressBar();
+      });
   }
 
   

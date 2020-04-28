@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router'
 import { OrderService } from './services/order.service';
+import { LoadingService } from './services/loading.service';
 
+export let browserRefresh = false;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,19 +12,24 @@ import { OrderService } from './services/order.service';
 })
 export class AppComponent {
   title = 'Supply Manager System (SMS) Client';
-  loading = true;
 
   constructor(
     public authService: AuthService,
     public router: Router,
-  ){
+    public loadingService: LoadingService,
+  )
+  {
     this.router.events.subscribe((event: Event) => {
-      if(event instanceof NavigationStart) {
-        this.loading = true;
+      if(event instanceof NavigationStart || browserRefresh) {
+        browserRefresh = !router.navigated;
+        loadingService.setLoading(true);
+        if(this.router.url == '/login') loadingService.setLoading(false);
+        if(this.router.url == '/') loadingService.setLoading(false);
+        if(this.router.url == '/logs') loadingService.setLoading(false);
       }
-      else if(event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+      /*else if(event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
         this.loading = false;
-      }
+      }*/
     });
   }
 

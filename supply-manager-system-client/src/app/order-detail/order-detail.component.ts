@@ -11,6 +11,7 @@ import { History } from '../classes/history';
 import { AuthService } from '../services/auth.service';
 import { MessageService } from '../services/message.service';
 import { EnumService } from '../services/enum.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -22,6 +23,17 @@ export class OrderDetailComponent implements OnInit {
   @Input() order: Order;
   histories: History[];
   addHistory: Boolean;
+  toLoad: number = 0;
+  loaded: boolean = false;
+  
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 3){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +42,8 @@ export class OrderDetailComponent implements OnInit {
     private historyService: HistoryService,
     private location: Location,
     public router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public loadingService: LoadingService,
   ) { }
 
   ngOnInit(): void {
@@ -46,7 +59,10 @@ export class OrderDetailComponent implements OnInit {
   getOrderById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
-      .subscribe(order => this.order = order);
+      .subscribe(order => {
+        this.order = order;
+        this.switchProgressBar();
+      });
   }
   
   deleteHistory(history: History): void {
@@ -56,7 +72,10 @@ export class OrderDetailComponent implements OnInit {
 
   getHistoriesOfOrder(id: number): void {
     this.orderService.getHistoriesOfOrder(id)
-        .subscribe(histories => this.histories = histories);
+        .subscribe(histories => {
+          this.histories = histories
+          this.switchProgressBar();
+        });
   }
 
   private _creator: User;
@@ -65,7 +84,10 @@ export class OrderDetailComponent implements OnInit {
     this._creator = this.authService.user;
   
     this.orderService.getOrder(+this.route.snapshot.paramMap.get('id'))
-    .subscribe(order => this._order = order );
+    .subscribe(order => {
+      this._order = order;
+      this.switchProgressBar();
+    });
   }
 
   addHistoryToOrder(historyType: string, note: string): void {

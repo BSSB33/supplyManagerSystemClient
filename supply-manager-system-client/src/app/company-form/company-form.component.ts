@@ -5,6 +5,8 @@ import { CompanyService } from '../services/company.service';
 import { Company } from '../classes/company';
 import { AuthService } from '../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AppComponent } from '../app.component';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-company-form',
@@ -15,12 +17,15 @@ export class CompanyFormComponent implements OnInit {
 
 companyForm: FormGroup;
 @Input() company: Company;
+toLoad: number = 0;
+loaded: boolean = false;
 
   constructor(
     private location: Location,
     private route: ActivatedRoute,
     public companyService: CompanyService,
     private authService: AuthService,
+    private loadingService: LoadingService,
   ){ 
     if (this.authService.user.role != "ROLE_MANAGER") {
       this.companyForm = new FormGroup({
@@ -53,7 +58,11 @@ companyForm: FormGroup;
   getCompanyById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.companyService.getCompany(id)
-      .subscribe(company => this.company = company);
+      .subscribe(company => {
+        this.company = company;
+        this.loaded = true;
+        this.loadingService.setLoading(false);
+      });
   }
 
 

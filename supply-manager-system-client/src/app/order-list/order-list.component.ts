@@ -16,6 +16,8 @@ import { FilterPipe } from '../pipes/filter.pipe';
 import { Sort } from '@angular/material/sort';
 import { MatSortHeader } from '@angular/material/sort';
 import { EnumService } from '../services/enum.service';
+import { AppComponent } from '../app.component';
+import { LoadingService } from '../services/loading.service';
 
 
 @Component({
@@ -48,6 +50,7 @@ export class OrderListComponent implements OnInit {
     public authService: AuthService,
     private companyService: CompanyService,
     private userService: UserService,
+    public loadingService: LoadingService,
   ) { 
     this.authService.filters = false;
   }
@@ -77,6 +80,17 @@ export class OrderListComponent implements OnInit {
     this.addOrder = !this.addOrder;
     if(this.addOrder){
       this.getCompanies();
+    }
+  }
+
+  toLoad: number = 0;
+  loaded: boolean = false;
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 2){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
     }
   }
 
@@ -115,7 +129,8 @@ export class OrderListComponent implements OnInit {
 
   getOrders(): void {
     this.orderService.getOrders()
-        .subscribe(orders => {
+        .subscribe(
+          orders => {
           this.orders = orders;
           this.filteredOrders = orders;
           this.setStatusOptions(orders);
@@ -132,6 +147,7 @@ export class OrderListComponent implements OnInit {
             })
           }
           this.companiesFromOrders = workplaces;
+          this.switchProgressBar();
         });
   }
 
@@ -145,7 +161,10 @@ export class OrderListComponent implements OnInit {
 
   getUsers(): void{
     this.userService.getUsers()
-      .subscribe(users => this.users = users);
+      .subscribe(users => {
+        this.users = users
+        this.switchProgressBar();
+      });
   }
 
   deleteOrder(order: Order): void {

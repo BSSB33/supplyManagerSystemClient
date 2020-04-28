@@ -1,4 +1,4 @@
-<div class="card fixedContainer orderTable" style="background-color: rgb(33, 37, 41);">
+<div *ngIf="loaded" class="card fixedContainer orderTable" style="background-color: rgb(33, 37, 41);">
     <form [formGroup]="orderForm" (submit)="submit()">
         <div style="margin: 10px;">
             <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41); margin: 20px">

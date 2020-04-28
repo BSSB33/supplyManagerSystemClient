@@ -1,4 +1,4 @@
-<div *ngIf="company" class="card" style="width: 40rem; margin: 20px;">
+<div *ngIf="company && loaded" class="card" style="width: 40rem; margin: 20px;">
 
     <div *ngIf="company.name; else elseBlock0" class="card-body">
         <h2 class="font-weight-bold mb-3">Company Name: {{company.name}}</h2>

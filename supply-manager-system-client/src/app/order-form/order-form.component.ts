@@ -14,6 +14,7 @@ import { History } from '../classes/history';
 import { stringify } from 'querystring';
 import { MessageService } from '../services/message.service';
 import { EnumService } from '../services/enum.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'order-form',
@@ -48,6 +49,7 @@ export class OrderFormComponent implements OnInit {
     private userService: UserService,
     public authService: AuthService,
     public enumService: EnumService,
+    private loadingService: LoadingService,
     ) 
     { 
       //Admin page
@@ -107,13 +109,28 @@ export class OrderFormComponent implements OnInit {
     this.getStatuses();
   }
 
+  toLoad: number = 0;
+  loaded: boolean = false;
+    //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 5){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
+
   getStatuses(): void {
     this.statuses = this.enumService.getStatuses();
+    this.switchProgressBar();
   }
 
   getCompanies(): void {
     this.companyService.getCompanies()
-      .subscribe(companies => this.companies = companies);
+      .subscribe(companies => {
+        this.companies = companies;
+        this.switchProgressBar();
+      });
   }
 
   getOrderById(): void {
@@ -128,8 +145,9 @@ export class OrderFormComponent implements OnInit {
         this.companyService.getCompanies()
           .subscribe(companies => {
             this.companies = companies;
-            this.initFilterUsersOfBuyerCompany(order.buyer.name, companies)
-            this.initFilterUsersOfSellerCompany(order.seller.name, companies)
+            this.initFilterUsersOfBuyerCompany(order.buyer.name, companies);
+            this.initFilterUsersOfSellerCompany(order.seller.name, companies);
+            this.switchProgressBar();
           });
       });
   }
@@ -140,6 +158,7 @@ export class OrderFormComponent implements OnInit {
         this.managers = managers
         this.usersOfSellerCompany = managers;
         this.usersOfBuyerCompany = managers;
+        this.switchProgressBar();
       });
   }
 
@@ -150,7 +169,10 @@ export class OrderFormComponent implements OnInit {
     let orderId = +this.route.snapshot.paramMap.get('id');
 
     this.orderService.getOrder(orderId)
-      .subscribe(order => this._order = order );
+      .subscribe(order => {
+        this._order = order
+        this.switchProgressBar();
+      });
   }
 
   addHistoryToOrder(note: string, historyType: string): void {

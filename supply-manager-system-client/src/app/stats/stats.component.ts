@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as CanvasJS from '../../assets/canvasjs.min';
 import { OrderService } from '../services/order.service';
 import { AuthService } from '../services/auth.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-stats',
@@ -11,10 +12,21 @@ import { AuthService } from '../services/auth.service';
 export class StatsComponent implements OnInit {
 
   private mainTitle = "Monthly Income (Sales)";
+  toLoad: number = 0;
+  loaded: boolean = false;
 
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 4){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
   constructor(
     private orderService: OrderService,
     public authService: AuthService,
+    private loadingService: LoadingService,
   ) { }
 
 	ngOnInit() {
@@ -92,6 +104,7 @@ export class StatsComponent implements OnInit {
       },
       });
         chart.render();
+        this.switchProgressBar();
       });
 
   }
@@ -159,7 +172,8 @@ export class StatsComponent implements OnInit {
       ]
       });
         chart.render();
-      });
+        this.switchProgressBar();
+    });
   }
 
   async initGetSalePartnerStatsChart(){
@@ -187,9 +201,8 @@ export class StatsComponent implements OnInit {
             dataPoints: dict,
           }]
         });
-
         chart.render();
-
+        this.switchProgressBar();
       }
       
     })
@@ -218,6 +231,7 @@ export class StatsComponent implements OnInit {
         }]
       });
         chart.render();
+        this.switchProgressBar();
     });   
   }
     
@@ -242,6 +256,7 @@ export class StatsComponent implements OnInit {
         }]
       });
         chart.render();
+        this.switchProgressBar();
     });  
   }
 }

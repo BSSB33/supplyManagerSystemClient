@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Order } from '../classes/order';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { History } from '../classes/history';
@@ -35,6 +35,7 @@ export class OrderService {
     if(this.href != "orders") url = this.sales_purchasesUrl;
     return this.http.get<Order[]>(url, httpOptions)
       .pipe(
+        //delay(2000),
         tap(_ => this.log('Fetched Orders')),
         catchError(this.handleError<Order[]>('getOrders', []))
       );
@@ -43,6 +44,7 @@ export class OrderService {
   getOrder(id: number): Observable<Order> {
     const url = `${this.ordersUrl}/${id}`;
     return this.http.get<Order>(url, httpOptions).pipe(
+      //delay(2000),
       tap(_ => this.log(`Fetched Order ID=${id}`)),
       catchError(this.handleError<Order>(`getOrder ID=${id}`))
     );

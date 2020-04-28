@@ -9,6 +9,7 @@ import { Company } from '../classes/company';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-user-form',
@@ -31,6 +32,7 @@ export class UserFormComponent implements OnInit {
     private userService: UserService,
     public authService: AuthService,
     private dialog: MatDialog,
+    private loadingService: LoadingService,
   ) {
     this.userForm = new FormGroup({
       username: new FormControl('', [
@@ -77,10 +79,24 @@ export class UserFormComponent implements OnInit {
     };
   }
 
+  toLoad: number = 0;
+  loaded: boolean = false;
+  
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 2){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
   
   getCompanies(): void {
     this.companyService.getCompanies()
-      .subscribe(companies => this.companies = companies);
+      .subscribe(companies => {
+        this.companies = companies
+        this.switchProgressBar();
+      });
   }
 
   getUserById(): void {
@@ -89,6 +105,7 @@ export class UserFormComponent implements OnInit {
       .subscribe(user => {
         this.user = user;
         this.originalUsername = user.username;
+        this.switchProgressBar();
       });
   }
 

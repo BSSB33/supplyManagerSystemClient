@@ -10,6 +10,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from '../classes/user';
 import { MessageService } from '../services/message.service';
 import { EnumService } from '../services/enum.service';
+import { AppComponent } from '../app.component';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'new-order-form',
@@ -38,6 +40,7 @@ export class NewOrderFormComponent implements OnInit {
     private userService: UserService,
     public authService: AuthService,
     public enumService: EnumService,
+    private loadingService: LoadingService,
   ) {
     if (authService.user.role == "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
@@ -96,8 +99,21 @@ export class NewOrderFormComponent implements OnInit {
     this.getStatuses();
   }
 
+  toLoad: number = 0;
+  loaded: boolean = false;
+  
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 3){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
+
   getStatuses(): void {
     this.statuses = this.enumService.getStatuses();
+    this.switchProgressBar();
   }
 
   submit(): void {
@@ -133,11 +149,15 @@ export class NewOrderFormComponent implements OnInit {
         this.companies = companies;
         this.selectableCompanyiesForSeller = companies;
         this.selectableCompanyiesForBuyer = companies;
+        this.switchProgressBar();
       });
   }
 
   getUsers(): void {
     this.userService.getUsers()
-      .subscribe(users => this.users = users);
+      .subscribe(users => {
+        this.users = users;
+        this.switchProgressBar();
+      });
   }
 }
