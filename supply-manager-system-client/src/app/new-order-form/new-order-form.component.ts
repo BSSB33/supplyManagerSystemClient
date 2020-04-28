@@ -41,8 +41,15 @@ export class NewOrderFormComponent implements OnInit {
   ) {
     if (authService.user.role == "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
-        productName: new FormControl('', Validators.required),
-        productPrice: new FormControl('', Validators.required),
+        productName: new FormControl('', [
+          Validators.required,
+          Validators.minLength(3)
+        ]),
+        productPrice: new FormControl('',[
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('^[0-9]+')
+        ]),
         productStatus: new FormControl('', Validators.required),
         seller: new FormControl('', Validators.required),
         buyer: new FormControl('', Validators.required),
@@ -54,7 +61,11 @@ export class NewOrderFormComponent implements OnInit {
     if (this.sales && authService.user.role != "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
         productName: new FormControl('', Validators.required),
-        productPrice: new FormControl('', Validators.required),
+        productPrice: new FormControl('',[
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('^[0-9]+')
+        ]),
         productStatus: new FormControl('', Validators.required),
         seller: new FormControl({ value: this.authService.user.workplace.name, disabled: true }, Validators.required),
         buyer: new FormControl('', Validators.required),
@@ -65,7 +76,11 @@ export class NewOrderFormComponent implements OnInit {
     if (!this.sales && authService.user.role != "ROLE_ADMIN") {
       this.orderForm = new FormGroup({
         productName: new FormControl('', Validators.required),
-        productPrice: new FormControl('', Validators.required),
+        productPrice: new FormControl('',[
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('^[0-9]+')
+        ]),
         productStatus: new FormControl('', Validators.required),
         seller: new FormControl('', Validators.required),
         buyer: new FormControl({ value: this.authService.user.workplace.name, disabled: true }, Validators.required),

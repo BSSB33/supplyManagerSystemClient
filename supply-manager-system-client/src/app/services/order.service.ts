@@ -18,7 +18,7 @@ export class OrderService {
     private router: Router,
     private messageService: MessageService,
     private authService: AuthService,
-  ) { }
+  ) {}
 
   public href: string = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
   private sales_purchasesUrl = 'http://localhost:8080/orders/' + this.href;

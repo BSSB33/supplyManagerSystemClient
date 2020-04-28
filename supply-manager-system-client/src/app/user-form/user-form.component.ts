@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { CompanyService } from '../services/company.service';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Company } from '../classes/company';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
@@ -47,16 +47,34 @@ export class UserFormComponent implements OnInit {
         Validators.required, 
         Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
       ]),
-      userStatus: new FormControl(Validators.required),
-      newPassword: new FormControl(),
-      userRole: new FormControl(Validators.required),
-      workplace: new FormControl(Validators.required),
+      userStatus: new FormControl('', Validators.required),
+      newPassword: new FormControl('', [
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d$@$!%*?&].{8,}'),
+      ]),
+      confirmNewPassword: new FormControl('', [
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d$@$!%*?&].{8,}'),
+        UserFormComponent.matchValues('newPassword')
+      ]),
+      userRole: new FormControl('', Validators.required),
+      workplace: new FormControl('', Validators.required),
     });
   }
 
   ngOnInit(): void {
     this.getUserById();
     this.getCompanies();
+  }
+
+  public static matchValues( toMatch: string ): (AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if(control.parent != undefined && control.parent.controls[toMatch] != undefined){
+        return !!control.parent &&
+        !!control.parent.value &&
+        control.value === control.parent.controls[toMatch].value
+        ? null
+        : { isMatching: false };
+      }
+    };
   }
 
   

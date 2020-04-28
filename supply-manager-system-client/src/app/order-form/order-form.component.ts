@@ -51,8 +51,15 @@ export class OrderFormComponent implements OnInit {
       //Admin page
       if(this.authService.user.role == "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
-          productName: new FormControl(Validators.required),
-          price: new FormControl(Validators.required),
+          productName: new FormControl('', [
+            Validators.required,
+            Validators.minLength(3)
+          ]),
+          price: new FormControl('',[
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^[0-9]+')
+          ]),
           status: new FormControl(),
           seller: new FormControl(Validators.required),
           buyer: new FormControl(Validators.required),
@@ -64,7 +71,11 @@ export class OrderFormComponent implements OnInit {
       if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
-          price: new FormControl(Validators.required),
+          price: new FormControl('',[
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^[0-9]+')
+          ]),
           status: new FormControl(),
           sellerManager: new FormControl(Validators.required),
           buyerManager: new FormControl(),
@@ -74,7 +85,11 @@ export class OrderFormComponent implements OnInit {
       if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
-          price: new FormControl(Validators.required),
+          price: new FormControl('',[
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^[0-9]+')
+          ]),
           status: new FormControl(),
           buyerManager: new FormControl(Validators.required),
           sellerManager: new FormControl(),

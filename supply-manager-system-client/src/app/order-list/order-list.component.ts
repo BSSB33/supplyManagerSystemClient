@@ -48,7 +48,9 @@ export class OrderListComponent implements OnInit {
     public authService: AuthService,
     private companyService: CompanyService,
     private userService: UserService,
-  ) { }
+  ) { 
+    this.authService.filters = false;
+  }
 
   ngOnInit(): void {
     this.getOrders();

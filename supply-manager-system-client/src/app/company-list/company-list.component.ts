@@ -26,7 +26,9 @@ export class CompanyListComponent implements OnInit {
     public authService: AuthService,
     private messageService: MessageService,
     private dialog: MatDialog,
-  ) { }
+  ) {
+    this.authService.filters = false;
+   }
 
   ngOnInit(): void {
     this.getCompanies();

@@ -18,7 +18,9 @@
       <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
       <span class="fill-space"></span>
       <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
-      <button mat-button *ngIf="!authService.filters" (click)="authService.toggleFilters()"><mat-icon>search</mat-icon>&nbsp;Open Filter</button>
+      <button mat-button *ngIf="!authService.filters && !(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats')" (click)="authService.toggleFilters()">
+        <mat-icon>search</mat-icon>&nbsp;Open Filter
+      </button>
       <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
     </ng-container>
     <!--Director menu-->
@@ -33,7 +35,9 @@
         <span class="fill-space"></span>
         <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
         <span class="fill-space"></span>
-        <button mat-button *ngIf="!authService.filters" (click)="authService.toggleFilters()"><mat-icon>search</mat-icon>&nbsp;Open Filter</button>
+        <button mat-button *ngIf="!authService.filters && !(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats')" (click)="authService.toggleFilters()">
+          <mat-icon>search</mat-icon>&nbsp;Open Filter
+        </button>
         <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
       </ng-container>
     </ng-template>
@@ -48,7 +52,9 @@
         <span class="fill-space"></span>
         <button mat-flat-button disabled style="color: white;">Welcome, {{ authService.user.username }}! - [{{authService.user.workplace.name}} {{ authService.user.role }}]</button>
         <span class="fill-space"></span>
-        <button mat-button *ngIf="!authService.filters" (click)="authService.toggleFilters()"><mat-icon>search</mat-icon>&nbsp;Open Filter</button>
+        <button mat-button *ngIf="!authService.filters && !(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats')" (click)="authService.toggleFilters()">
+          <mat-icon>search</mat-icon>&nbsp;Open Filter
+        </button>
         <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
       </ng-container>
     </ng-template>

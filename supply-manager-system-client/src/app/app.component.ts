@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router'
+import { OrderService } from './services/order.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent {
 
   constructor(
     public authService: AuthService,
-    private router: Router,
+    public router: Router,
   ){
     this.router.events.subscribe((event: Event) => {
       if(event instanceof NavigationStart) {

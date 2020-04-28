@@ -22,7 +22,7 @@
               aria-describedby="titleHelp" 
               required/>
             <mat-error>
-              Name must be added!
+              Name must be at least 3 characters long!
             </mat-error>
           </mat-form-field>
         </label>
@@ -32,16 +32,16 @@
         <label class="whiteLabel">Product Price:
           <mat-form-field style="width: 200px;">
               <input matInput 
-                #productPrice 
+                #price 
                 formControlName="price" 
                 [(ngModel)]="order.price"
                 type="text" 
-                name="productPrice" 
+                name="price" 
                 placeholder="Set Price"
                 aria-describedby="titleHelp" 
                 required/>
               <mat-error>
-                Price must be set!
+                Price can only contains numbers (Ft)
               </mat-error>
           </mat-form-field>
         </label>

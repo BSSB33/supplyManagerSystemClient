@@ -36,7 +36,9 @@ export class UserListComponent implements OnInit {
     private companyService: CompanyService,
     private dialog: MatDialog,
     public router: Router,
-  ) { }
+  ) { 
+    this.authService.filters = false;
+  }
 
   ngOnInit(): void {
     this.getUsers();

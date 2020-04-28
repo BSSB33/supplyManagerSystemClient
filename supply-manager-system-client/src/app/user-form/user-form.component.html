@@ -98,6 +98,23 @@
                 </mat-form-field>
             </label>
         </li> <!--TODO Password confirmation-->
+        <li class="list-group-item">
+            <label class="whiteLabel">Password Confirmation: &nbsp;
+                <mat-form-field style="width: 200px;">
+                    <input matInput 
+                        #confirmNewPassword 
+                        formControlName="confirmNewPassword" 
+                        name="confirmNewPassword"
+                        placeholder="Enter Password Again"
+                        aria-describedby="titleHelp"
+                        [type]="hidePassword ? 'password' : 'text'"/>
+                        <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
+                        <mat-error> 
+                            Passwords must Match!
+                        </mat-error> 
+                </mat-form-field>
+            </label>
+        </li>
         <!--TODO errors overfit their containr in heright!-->
         <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN' && authService.user.id !== user.id">
             <label>User Role:&nbsp;
