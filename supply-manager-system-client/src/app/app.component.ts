@@ -3,6 +3,7 @@ import { AuthService } from './services/auth.service';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router'
 import { OrderService } from './services/order.service';
 import { LoadingService } from './services/loading.service';
+import { EnumService } from './services/enum.service';
 
 export let browserRefresh = false;
 @Component({
@@ -17,6 +18,7 @@ export class AppComponent {
     public authService: AuthService,
     public router: Router,
     public loadingService: LoadingService,
+    public enumService: EnumService,
   )
   {
     this.router.events.subscribe((event: Event) => {

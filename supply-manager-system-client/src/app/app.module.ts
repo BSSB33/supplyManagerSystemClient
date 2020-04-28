@@ -36,6 +36,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSortModule } from '@angular/material/sort'; 
 import { MatProgressBarModule } from '@angular/material/progress-bar'; 
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDividerModule,
     MatSortModule,
     MatProgressBarModule,
+    FlexLayoutModule,
 
   ],
   providers: [
