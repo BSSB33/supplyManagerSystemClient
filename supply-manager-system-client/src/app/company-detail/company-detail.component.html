@@ -27,9 +27,11 @@
             </label>
             <br>
 
-            <h5 *ngIf="authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN'" style="margin-left: 30px;">
-                Users:
-            </h5>
+            <div *ngIf="(authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN')" >
+                <h5 style="margin-left: 30px;">
+                    Users: {{users.length}} <!--TODO make it disappear upon empty list-->
+                </h5>
+            </div>
             <ng-container *ngFor="let user of users">
                 <li style="margin-left: 40px;" *ngIf="user.workplace.id === company.id && 
                 (authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN') && user.enabled">

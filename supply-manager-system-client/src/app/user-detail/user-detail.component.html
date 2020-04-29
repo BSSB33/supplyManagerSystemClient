@@ -2,14 +2,25 @@
 
     <mat-card class="user-card">
         <mat-card-header>
-          <mat-card-title *ngIf="user.username">User: {{user.username}}</mat-card-title>
-          <mat-card-subtitle *ngIf="user.email">Email Address: {{user.email}}</mat-card-subtitle>
+          <mat-card-title *ngIf="user.username; else noUserName">User: {{user.username}}</mat-card-title>
+            <ng-template #noUserName>
+             <mat-card-title>User: Please Add Username!</mat-card-title>
+            </ng-template>
+          <mat-card-subtitle *ngIf="user.email; else noEmail">Email Address: {{user.email}}</mat-card-subtitle>
+            <ng-template #noEmail>
+                <mat-card-subtitle>Email Address: Please Add Email Address!</mat-card-subtitle>
+            </ng-template>
         </mat-card-header>
         <mat-card-content>
           <p>
-            <label class="user-info" *ngIf="user.fullName">Full Name: &nbsp;
+            <label class="user-info" *ngIf="user.fullName; else noFullName">Full Name: &nbsp;
                 <label class="user-info">{{user.fullName}}</label>
             </label>
+            <ng-template #noFullName>
+                <label class="order-info" >Full Name: &nbsp;
+                    <label class="order-info">Please Add Full Name!</label>
+                </label>
+            </ng-template>
             <br>
 
             <label class="user-info" *ngIf="user.enabled; else disabledUser">User Status: &nbsp;
@@ -42,7 +53,14 @@
             </ng-template>
 
             <br>
-            <label class="user-info" *ngIf="user.role">Role Of The User:</label>&nbsp;<label class="user-info">{{this.enumService.getRoleString(user.role)}}</label>
+            <label class="user-info" *ngIf="user.role; else noRole">Role Of The User:&nbsp;
+                <label class="user-info">{{this.enumService.getRoleString(user.role)}}</label>
+            </label>
+            <ng-template #noRole>
+                <label class="order-info" >Role Of The User: &nbsp;
+                    <label class="order-info">Please set role!</label>
+                </label>
+            </ng-template>
             
           </p>
         </mat-card-content>

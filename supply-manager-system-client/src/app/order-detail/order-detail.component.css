@@ -17,3 +17,27 @@
 .backButton{
     margin: 20px;
 }
+
+.order-card {
+    width: 400px;
+    height: 550px;
+    margin: 20px;
+}
+
+.order-info{
+    margin-left: 15px;
+    margin-top: 5px;
+    font-size: medium;
+}
+
+.history-card {
+    width: 600px;
+    height: 200px;
+    margin: 20px;
+}
+
+.history-info{
+    margin-left: 15px;
+    margin-top: 5px;
+    font-size: medium;
+}

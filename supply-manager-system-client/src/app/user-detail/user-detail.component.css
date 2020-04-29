@@ -20,11 +20,12 @@
 
 .user-card {
     width: 400px;
-    height: 350px;
+    height: 430px;
     margin: 20px;
 }
 
 .user-info{
     margin-left: 15px;
+    margin-top: 5px;
     font-size: medium;
 }

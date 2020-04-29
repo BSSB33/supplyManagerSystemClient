@@ -20,11 +20,12 @@
 
 .company-card {
     width: 400px;
-    height: 450px;
+    height: 500px;
     margin: 20px;
 }
 
 .company-info{
     margin-left: 15px;
+    margin-top: 5px;
     font-size: medium;
 }
