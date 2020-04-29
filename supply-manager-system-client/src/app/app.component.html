@@ -5,22 +5,62 @@
   </button>
 
   <div *ngIf="authService.isLoggedIn" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
-    <button mat-button routerLink="/sales">
-      <mat-icon>explore</mat-icon>&nbsp;SMS Client
-    </button>
-    <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
-    <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
-    <button mat-button routerLink="/orders"><mat-icon>fingerprint</mat-icon>&nbsp;All Orders</button>
-    <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Users</button>
-    <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
-    <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
-    <span fxFlex></span>
-    <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
-    <button mat-button *ngIf="!authService.filters && !(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats')" (click)="authService.toggleFilters()">
-      <mat-icon>search</mat-icon>&nbsp;Filter
-    </button>
-    <button mat-flat-button disabled style="color: white;">{{ authService.user.username }} - [{{ this.enumService.getRoleString(authService.user.role) }}]</button>
-    <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
+    <div *ngIf="authService.user.role === 'ROLE_ADMIN'" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
+      <button mat-button routerLink="/orders">
+        <mat-icon>explore</mat-icon>&nbsp;SMS Client
+      </button>
+      <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
+      <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
+      <button mat-button routerLink="/orders"><mat-icon>fingerprint</mat-icon>&nbsp;All Orders</button>
+      <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Users</button>
+      <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+      <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
+      <span fxFlex></span>
+      <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
+      <button mat-button *ngIf="!authService.filters && !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') ||
+        (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" (click)="authService.toggleFilters()">
+        <mat-icon>search</mat-icon>&nbsp;Filter
+      </button>
+      <button mat-flat-button disabled style="color: white;">{{ authService.user.username }} - [{{ this.enumService.getRoleString(authService.user.role) }}]</button>
+      <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
+    </div>
+
+    <!--Director menu-->
+    <div *ngIf="authService.user.role === 'ROLE_DIRECTOR'" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
+      <button mat-button routerLink="/sales">
+        <mat-icon>explore</mat-icon>&nbsp;SMS Client
+      </button>
+      <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
+      <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
+      <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Emplyees</button>
+      <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+      <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
+      <span fxFlex></span>
+      <button mat-button *ngIf="!authService.filters && !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') 
+      ||  (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" (click)="authService.toggleFilters()">
+        <mat-icon>search</mat-icon>&nbsp;Filter
+      </button>
+      <button mat-flat-button disabled style="color: white;">{{ authService.user.username }} - [{{ this.enumService.getRoleString(authService.user.role) }}]</button>
+      <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
+    </div>
+
+    <!--Manager menu-->
+    <div *ngIf="authService.user.role === 'ROLE_MANAGER'" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
+      <button mat-button routerLink="/sales">
+        <mat-icon>explore</mat-icon>&nbsp;SMS Client
+      </button>
+      <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
+      <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
+      <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
+      <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+      <span fxFlex></span>
+      <button mat-button *ngIf="!authService.filters && !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') 
+      ||  (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" (click)="authService.toggleFilters()">
+        <mat-icon>search</mat-icon>&nbsp;Filter
+      </button>
+      <button mat-flat-button disabled style="color: white;">{{ authService.user.username }} - [{{ this.enumService.getRoleString(authService.user.role) }}]</button>
+      <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
+    </div>
   </div>
 
     <!--Login menu-->
@@ -30,26 +70,61 @@
     <button mat-stroked-button routerLink="/login"><mat-icon>power_settings_new</mat-icon>&nbsp;Login</button>
   </div>
   
+  <!--Small Screen Display-->
   <span *ngIf="authService.isLoggedIn" class="fill-space" fxHide="false" fxHide.gt-md></span>
-  <button *ngIf="authService.isLoggedIn" mat-icon-button [matMenuTriggerFor]="menu" fxHide="false" fxHide.gt-md>
+
+  <button mat-button fxHide="false" fxHide.gt-md
+    *ngIf="!authService.filters && 
+    !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') || 
+     (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs') ||
+     (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'login'))" 
+    (click)="authService.toggleFilters()">
+    <mat-icon>search</mat-icon>&nbsp;Filter
+  </button>
+
+  <button *ngIf="authService.isLoggedIn && authService.user.role === 'ROLE_ADMIN'" mat-icon-button [matMenuTriggerFor]="adminMenu" fxHide="false" fxHide.gt-md>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <button *ngIf="authService.isLoggedIn && authService.user.role === 'ROLE_DIRECTOR'" mat-icon-button [matMenuTriggerFor]="directorMenu" fxHide="false" fxHide.gt-md>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <button *ngIf="authService.isLoggedIn && authService.user.role === 'ROLE_MANAGER'" mat-icon-button [matMenuTriggerFor]="managerMenu" fxHide="false" fxHide.gt-md>
     <mat-icon>menu</mat-icon>
   </button>
   
 </mat-toolbar>
 
-
 <!--Progress Bar-->
 <mat-progress-bar
-  *ngIf="this.loadingService.getLoading()" color="warn" mode="indeterminate">
+  *ngIf="this.loadingService.getLoading() && !(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs')" color="warn" mode="indeterminate">
 </mat-progress-bar>
 
-<mat-menu xPosition="before" #menu="matMenu">
+<router-outlet></router-outlet>
+
+<mat-menu xPosition="before" #adminMenu="matMenu">
   <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
   <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
   <button mat-menu-item routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Users</button>
   <button mat-menu-item routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+  <button mat-menu-item routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
   <button mat-menu-item routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
   <button mat-menu-item (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
 </mat-menu>
 
-<router-outlet></router-outlet>
+<mat-menu xPosition="before" #directorMenu="matMenu">
+  <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
+  <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+  <button mat-menu-item routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Employees</button>
+  <button mat-menu-item routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+  <button mat-menu-item routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
+  <button mat-menu-item (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
+</mat-menu>
+
+<mat-menu xPosition="before" #managerMenu="matMenu">
+  <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
+  <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
+  <button mat-menu-item routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
+  <button mat-menu-item routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
+  <button mat-menu-item (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
+</mat-menu>
+

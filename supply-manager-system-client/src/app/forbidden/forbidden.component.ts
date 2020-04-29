@@ -10,18 +10,16 @@ import { MatDialog } from '@angular/material/dialog';
 @Injectable()
 export class ForbiddenComponent implements OnInit {
 
-  constructor(
-    private location: Location,
+  path: string = "/";
 
-  ) { }
-
-
-
-  /*goBack(): void {
+  goBack(): void {
     this.location.back();
-  }*/
+  }
+
+  constructor(
+    private location: Location
+  ) { }
 
   ngOnInit(): void {
   }
-
 }

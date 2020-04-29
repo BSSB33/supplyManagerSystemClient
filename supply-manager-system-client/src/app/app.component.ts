@@ -27,11 +27,11 @@ export class AppComponent {
         loadingService.setLoading(true);
         if(this.router.url == '/login') loadingService.setLoading(false);
         if(this.router.url == '/') loadingService.setLoading(false);
+        if(this.router.url == '/forbidden') loadingService.setLoading(false);
         if(this.router.url == '/logs') loadingService.setLoading(false);
+        if(this.router.url == '/404') loadingService.setLoading(false);
+        
       }
-      /*else if(event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-        this.loading = false;
-      }*/
     });
   }
 
