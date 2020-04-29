@@ -57,6 +57,7 @@ export class CompanyDetailComponent implements OnInit {
     this.switchProgressBar();
   }
 
+  userCount: number = 0;
   getUsers(): void {
     this.userService.getUsers()
       .subscribe(users => {

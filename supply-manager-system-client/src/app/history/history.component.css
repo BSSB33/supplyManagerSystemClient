@@ -1,39 +1,10 @@
-.badge{
-    font-size: large;
-    margin-top: 10px;
-    margin-left: 5px;
-    width: 100%;
+.history-card {
+    width: 600px;
+    height: 260px;
+    margin: 20px;
 }
 
-td, th {
-    width: auto;
-    overflow: hidden;
-  }
- 
-p.block {
-    width: 300px;
-}
-
-.historyTable{
-    width: 60rem; 
-    margin: 20px; 
-    text-align: left; 
-    background-color: beige;
-}
-
-.historyLabel{
-    margin: 5px;
-}
-
-.tableRight{
-    text-align: right;
-}
-
-.tableLeft{
-    text-align: left;
-}
-
-.deleteLink{
-    margin: 5px;
+.history-info{
     margin-left: 15px;
+    font-size: medium;
 }

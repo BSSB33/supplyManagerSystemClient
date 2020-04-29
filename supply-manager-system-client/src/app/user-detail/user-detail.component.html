@@ -2,63 +2,63 @@
 
     <mat-card class="user-card">
         <mat-card-header>
-          <mat-card-title *ngIf="user.username; else noUserName">User: {{user.username}}</mat-card-title>
+          <mat-card-title *ngIf="user.username; else noUserName"><b>User:</b> {{user.username}}</mat-card-title>
             <ng-template #noUserName>
-             <mat-card-title>User: Please Add Username!</mat-card-title>
+             <mat-card-title><b>User:</b> Please Add Username!</mat-card-title>
             </ng-template>
-          <mat-card-subtitle *ngIf="user.email; else noEmail">Email Address: {{user.email}}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="user.email; else noEmail"><b>Email Address:</b> {{user.email}}</mat-card-subtitle>
             <ng-template #noEmail>
-                <mat-card-subtitle>Email Address: Please Add Email Address!</mat-card-subtitle>
+                <mat-card-subtitle><b>Email Address:</b> Please Add Email Address!</mat-card-subtitle>
             </ng-template>
         </mat-card-header>
         <mat-card-content>
           <p>
-            <label class="user-info" *ngIf="user.fullName; else noFullName">Full Name: &nbsp;
-                <label class="user-info">{{user.fullName}}</label>
+            <label class="user-info" *ngIf="user.fullName; else noFullName"><b>Full Name:</b> &nbsp;
+                <label class="user-info" style="padding-left:6.5em">{{user.fullName}}</label>
             </label>
             <ng-template #noFullName>
-                <label class="order-info" >Full Name: &nbsp;
-                    <label class="order-info">Please Add Full Name!</label>
+                <label class="order-info"><b>Full Name:</b> &nbsp;
+                    <label class="order-info" style="padding-left:6.5em">Please Add Full Name!</label>
                 </label>
             </ng-template>
             <br>
 
-            <label class="user-info" *ngIf="user.enabled; else disabledUser">User Status: &nbsp;
-                <label class="user-info" style="color: green;">Enabled</label>
+            <label class="user-info" *ngIf="user.enabled; else disabledUser"><b>User Status:</b> &nbsp;
+                <label class="user-info" style="color: green; padding-left:5.8em">Enabled</label>
             </label>
             <ng-template #disabledUser>
-                <label class="user-info">User Status: &nbsp;
-                    <label class="user-info" style="color: red;">Disabled</label>
+                <label class="user-info"><b>User Status:</b> &nbsp;
+                    <label class="user-info" style="color: red; padding-left:5.8em">Disabled</label>
                 </label>
             </ng-template>
             <br>
 
-            <label class="user-info" *ngIf="user.company; else notadirector">Director At: &nbsp;
-                <label class="user-info" >{{user.company.name}}</label>
+            <label class="user-info" *ngIf="user.company; else notadirector"><b>Director At:</b> &nbsp;
+                <label class="user-info" style="padding-left:6.3em">{{user.company.name}}</label>
             </label>
             <ng-template #notadirector>
-                <label class="user-info">Director At: &nbsp;
-                    <label class="user-info" style="color: orange;">Not a Director</label>
+                <label class="user-info"><b>Director At:</b> &nbsp;
+                    <label class="user-info" style="color: orange;" style="padding-left:6.3em">Not a Director</label>
                 </label>
             </ng-template>
             <br>
 
-            <label class="user-info" *ngIf="user.workplace; else unemployed">Workplace Of The User: &nbsp;
-                <label class="user-info" >{{user.workplace.name}}</label>
+            <label class="user-info" *ngIf="user.workplace; else unemployed"><b>Workplace Of The User:</b> &nbsp;
+                <label class="user-info" style="padding-left:0.7em">{{user.workplace.name}}</label>
             </label>
             <ng-template #unemployed>
                 <label>Workplace Of The User: &nbsp;
-                    <label class="user-info" style="color: orange;">Unemployed</label>
+                    <label class="user-info" style="color: orange;" style="padding-left:0.7em">Unemployed</label>
                 </label>
             </ng-template>
 
             <br>
-            <label class="user-info" *ngIf="user.role; else noRole">Role Of The User:&nbsp;
-                <label class="user-info">{{this.enumService.getRoleString(user.role)}}</label>
+            <label class="user-info" *ngIf="user.role; else noRole"><b>Role Of The User:</b>&nbsp;
+                <label class="user-info" style="padding-left:3.8em">{{this.enumService.getRoleString(user.role)}}</label>
             </label>
             <ng-template #noRole>
-                <label class="order-info" >Role Of The User: &nbsp;
-                    <label class="order-info">Please set role!</label>
+                <label class="order-info"><b>Role Of The User:</b> &nbsp;
+                    <label class="order-info" style="padding-left:3.8em">Please set role!</label>
                 </label>
             </ng-template>
             

@@ -1,102 +1,107 @@
-<div *ngIf="order && loaded" fxFlexFill fxLayoutAlign="center">
+<div fxLayout="center row" fxLayoutAlign="center">
+    <div *ngIf="order && loaded" fxLayout="row wrap" fxLayoutAlign="center">
 
-    <mat-card class="order-card">
-        <mat-card-header>
-          <mat-card-title *ngIf="order.productName; else noName">Order: {{order.productName}}</mat-card-title>
-            <ng-template #noName>
-                <mat-card-title>Please Add Product for this order!</mat-card-title>
-            </ng-template>
-          <mat-card-subtitle *ngIf="order.createdAt">Created At: {{order.createdAt}}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            <label class="order-info" *ngIf="order.price; else noPrice">Product Price: &nbsp;
-                <label class="order-info">{{order.price | number}} Ft</label>
-            </label>
-            <ng-template #noPrice>
-                <label class="order-info" >Product Price: &nbsp;
-                    <label class="order-info">Please Add Price for this order!</label>
+        <mat-card class="order-card">
+            <mat-card-header>
+              <mat-card-title *ngIf="order.productName; else noName"><b>Order:</b> {{order.productName}}</mat-card-title>
+                <ng-template #noName>
+                    <mat-card-title>Please Add Product for this order!</mat-card-title>
+                </ng-template>
+              <mat-card-subtitle *ngIf="order.createdAt"><b>Created At:</b> {{order.createdAt}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                <label class="order-info" *ngIf="order.price; else noPrice" style="padding-left:1em"><b>Product Price:</b> &nbsp;
+                    <label class="order-info">{{order.price | number}} Ft</label>
                 </label>
-            </ng-template>
-            <br>
-
-            <label class="order-info" *ngIf="order.status; else noStatus">Product Status: &nbsp;
-                <label class="order-info">{{this.enumService.getStatusString(order.status)}}</label>
-            </label>
-            <ng-template #noStatus>
-                <label class="order-info">Product Status: &nbsp;
-                    <label class="order-info">Please set a Status for this order!</label>
+                <ng-template #noPrice>
+                    <label class="order-info" ><b>Product Price:</b> &nbsp;
+                        <label class="order-info">Please Add Price for this order!</label>
+                    </label>
+                </ng-template>
+                <br>
+    
+                <label class="order-info" *ngIf="order.status; else noStatus" style="padding-left:0.5em"><b>Product Status:</b> &nbsp;
+                    <label class="order-info">{{this.enumService.getStatusString(order.status)}}</label>
                 </label>
-            </ng-template>
-            <br>
-            <mat-divider></mat-divider>
-            <label class="order-info" *ngIf="order.buyer; else noBuyer">Buyer Company: &nbsp;
-                <label class="order-info">{{order.buyer.name}}</label>
-            </label>
-            <ng-template #noBuyer>
-                <label class="order-info">Buyer Company: &nbsp;
-                    <label class="order-info">Please set buyer company you wish to sell this product to.</label>
+                <ng-template #noStatus>
+                    <label class="order-info"><b>Product Status:</b> &nbsp;
+                        <label class="order-info">Please set a Status for this order!</label>
+                    </label>
+                </ng-template>
+                <br>
+                <mat-divider></mat-divider>
+                <label class="order-info" *ngIf="order.buyer; else noBuyer" style="padding-left:0.1em"><b>Buyer Company:</b> &nbsp;
+                    <label class="order-info">{{order.buyer.name}}</label>
                 </label>
-            </ng-template>
-            <br>
-
-            <label class="order-info" *ngIf="order.buyerManager; else noBuyerManager">Buyer Manager: &nbsp;
-                <label class="order-info">{{order.buyerManager.username}}</label>
-            </label>
-            <ng-template #noBuyerManager>
-                <label class="order-info">Buyer Manager: &nbsp;
-                    <label class="order-info unassigned">UNASSIGNED</label>
+                <ng-template #noBuyer>
+                    <label class="order-info"><b>Buyer Company:</b> &nbsp;
+                        <label class="order-info">Please set buyer company you wish to sell this product to.</label>
+                    </label>
+                </ng-template>
+                <br>
+    
+                <label class="order-info" *ngIf="order.buyerManager; else noBuyerManager" style="padding-left:0.4em"><b>Buyer Manager:</b> &nbsp;
+                    <label class="order-info">{{order.buyerManager.username}}</label>
                 </label>
-            </ng-template>
-            <br>
-            <mat-divider></mat-divider>
-            <label class="order-info" *ngIf="order.seller; else noSeller">Seller Company: &nbsp;
-                <label class="order-info">{{order.seller.name}}</label>
-            </label>
-            <ng-template #noSeller>
-                <label class="order-info">Seller Company: &nbsp;
-                    <label class="order-info">Please set seller company you wish to sell this product</label>
+                <ng-template #noBuyerManager>
+                    <label class="order-info" style="padding-left:0.4em"><b>Buyer Manager:</b> &nbsp;
+                        <label class="order-info unassigned">UNASSIGNED</label>
+                    </label>
+                </ng-template>
+                <br>
+                <mat-divider></mat-divider>
+                <label class="order-info" *ngIf="order.seller; else noSeller" style="padding-left:0.2em"><b>Seller Company:</b> &nbsp;
+                    <label class="order-info">{{order.seller.name}}</label>
                 </label>
-            </ng-template>
-            <br>
-
-            <label class="order-info" *ngIf="order.sellerManager; else noSellerManager">Seller Manager: &nbsp;
-                <label class="order-info">{{order.sellerManager.username}}</label>
-            </label>
-            <ng-template #noSellerManager>
-                <label class="order-info">Seller Manager: &nbsp;
-                    <label class="order-info unassigned">UNASSIGNED</label>
+                <ng-template #noSeller>
+                    <label class="order-info"><b>Seller Company:</b> &nbsp;
+                        <label class="order-info">Please set seller company you wish to sell this product</label>
+                    </label>
+                </ng-template>
+                <br>
+    
+                <label class="order-info" *ngIf="order.sellerManager; else noSellerManager" style="padding-left:0.5em"><b>Seller Manager:</b> &nbsp;
+                    <label class="order-info">{{order.sellerManager.username}}</label>
                 </label>
-            </ng-template>
-            <br>
-            <mat-divider></mat-divider>
-
-            <label class="order-info" *ngIf="order.modifiedAt">Last ModifiedAt At: &nbsp;
-                <label class="order-info">{{order.modifiedAt}}</label>
-            </label>
-
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button [routerLink]="['/orders/edit', order.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
-
-          <button mat-button *ngIf="!addHistory; else cancel" [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Add History</button>
-          <ng-template #cancel>
-              <button mat-button *ngIf="addHistory" #cancel [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Cancel New History</button>
-          </ng-template>
-        </mat-card-actions>
-    </mat-card>
+                <ng-template #noSellerManager>
+                    <label class="order-info"><b>Seller Manager:</b> &nbsp;
+                        <label class="order-info unassigned">UNASSIGNED</label>
+                    </label>
+                </ng-template>
+                <br>
+                <mat-divider></mat-divider>
+    
+                <label class="order-info" *ngIf="order.modifiedAt"><b>Last ModifiedAt At:</b> &nbsp;
+                    <label class="order-info" style="padding-left:2em">{{order.modifiedAt}}</label>
+                </label>
+    
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button [routerLink]="['/orders/edit', order.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
+    
+                <button mat-button *ngIf="!addHistory; else cancel" [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Add History</button>
+                <ng-template #cancel>
+                    <button mat-button *ngIf="addHistory" #cancel [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Cancel New History</button>
+                </ng-template>
+                <div>
+                    <button mat-raised-button color="primary" style="margin-left:20px; margin-bottom:20px;" class="backButton" routerLink='/sales'>Back</button>
+                </div>
+            </mat-card-actions>
+    
+        </mat-card>
+    </div>
+    
+    <div *ngIf="histories && loaded" fxLayout="column">
+        
+        <tr *ngIf="addHistory">
+            <history-form></history-form>
+        
+        </tr>
+        <h3 *ngIf="histories.length !== 0" fxLayout="column" style="margin: 20px;">Histories of Order:</h3>
+        <tr *ngFor="let history of histories">
+            <history [history]="history"></history>
+        </tr>
+    </div>
 </div>
-
-<h3 style="margin: 20px;">Histories of Order:</h3>
-
-<table class="table table-hover" style="color: black; font-size: large;">
-    <tr *ngIf="addHistory">
-        <history-form></history-form>
-    </tr>
-    <tr *ngFor="let history of histories">
-        <history [history]="history"></history>
-    </tr>
-</table>
-
-<div><button mat-raised-button color="primary" class="backButton" routerLink='/sales'>Back</button></div>

@@ -2,40 +2,40 @@
 
     <mat-card class="company-card">
         <mat-card-header>
-          <mat-card-title *ngIf="company.name">Company Name: {{company.name}}</mat-card-title>
-          <mat-card-subtitle *ngIf="company.address">Address: {{company.address}}</mat-card-subtitle>
+          <mat-card-title *ngIf="company.name"><b>Company Name:</b> {{company.name}}</mat-card-title>
+          <mat-card-subtitle *ngIf="company.address"><b>Address:</b> {{company.address}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <p>
-            <label class="company-info" *ngIf="company.active; else disabledCompany">Company Status: &nbsp;
-                <label class="company-info" style="color: green;">Enabled</label>
+            <label class="company-info" *ngIf="company.active; else disabledCompany"><b>Company Status:</b> &nbsp;
+                <label class="company-info" style="color: green; padding-left:2em">Enabled</label>
             </label>
             <ng-template #disabledCompany>
-                <label class="company-info">Company Status: &nbsp;
-                    <label class="company-info" style="color: red;">Disabled</label>
+                <label class="company-info"><b>Company Status:</b> &nbsp;
+                    <label class="company-info" style="color: red; padding-left:2em;">Disabled</label>
                 </label>
             </ng-template>
             <br>
 
-            <label class="company-info" *ngIf="company.taxNumber">Tax Number: &nbsp;
-                <label class="company-info">{{company.taxNumber}}</label>
+            <label class="company-info" *ngIf="company.taxNumber"><b>Tax Number:</b> &nbsp;
+                <label class="company-info" style="padding-left:4em">{{company.taxNumber}}</label>
             </label>
             <br>
 
-            <label class="company-info" *ngIf="company.bankAccountNumber">Bank Account Number: &nbsp;
+            <label class="company-info" *ngIf="company.bankAccountNumber"><b>Bank Account Number:</b> &nbsp;
                 <label class="company-info">{{company.bankAccountNumber}}</label>
             </label>
             <br>
 
-            <div *ngIf="(authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN')" >
+            <div *ngIf="(company.id === this.authService.user.workplace.id || authService.user.role === 'ROLE_ADMIN')" >
                 <h5 style="margin-left: 30px;">
-                    Users: {{users.length}} <!--TODO make it disappear upon empty list-->
+                    Users:
                 </h5>
             </div>
             <ng-container *ngFor="let user of users">
                 <li style="margin-left: 40px;" *ngIf="user.workplace.id === company.id && 
                 (authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN') && user.enabled">
-                    <label>{{user.username}} - {{this.enumService.getRoleString(user.role)}}</label>
+                    <label><b>{{user.username}}</b> - {{this.enumService.getRoleString(user.role)}}</label>
                 </li>
             </ng-container>
 
