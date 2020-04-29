@@ -1,56 +1,47 @@
-<div *ngIf="company && loaded" class="card" style="width: 40rem; margin: 20px;">
+<div *ngIf="company && loaded" fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
 
-    <div *ngIf="company.name; else elseBlock0" class="card-body">
-        <h2 class="font-weight-bold mb-3">Company Name: {{company.name}}</h2>
-    </div>
-    <ng-template #elseBlock0>
-        <div class="card-body">
-            <h2 class="font-weight-bold mb-3">Company Name:&nbsp;<label>Please Set a Name For this Company</label></h2>
-        </div>
-    </ng-template>
-    
-    <li *ngIf="company.address; else elseBlock1" class="list-group-item">
-        <label>Address: {{company.address}}</label></li>
-    <ng-template #elseBlock1>
-        <li class="list-group-item"><label>Address:&nbsp;</label><label>Please Set an Address For this Company</label></li>
-    </ng-template>
+    <mat-card class="company-card">
+        <mat-card-header>
+          <mat-card-title *ngIf="company.name">Company Name: {{company.name}}</mat-card-title>
+          <mat-card-subtitle *ngIf="company.address">Address: {{company.address}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <label class="company-info" *ngIf="company.active; else disabledCompany">Company Status: &nbsp;
+                <label class="company-info" style="color: green;">Enabled</label>
+            </label>
+            <ng-template #disabledCompany>
+                <label class="company-info">Company Status: &nbsp;
+                    <label class="company-info" style="color: red;">Disabled</label>
+                </label>
+            </ng-template>
+            <br>
 
-    <li *ngIf="company.taxNumber; else elseBlock2" class="list-group-item">
-        <label>Tax Number: {{company.taxNumber}}</label></li>
-    <ng-template #elseBlock2>
-        <li class="list-group-item"><label>Tax Number:&nbsp;</label><label>Please Set Tax Number For this Company</label></li>
-    </ng-template>
+            <label class="company-info" *ngIf="company.taxNumber">Tax Number: &nbsp;
+                <label class="company-info">{{company.taxNumber}}</label>
+            </label>
+            <br>
 
-    <li *ngIf="company.bankAccountNumber; else elseBlock3" class="list-group-item">
-        <label>Bank Account Number: {{company.bankAccountNumber}}</label></li>
-    <ng-template #elseBlock3>
-        <li class="list-group-item"><label>Bank Account Number:&nbsp;</label><label>Please Set Bank Account Number For this Company</label></li>
-    </ng-template>
+            <label class="company-info" *ngIf="company.bankAccountNumber">Bank Account Number: &nbsp;
+                <label class="company-info">{{company.bankAccountNumber}}</label>
+            </label>
+            <br>
 
-    <li *ngIf="company.active; else elseBlock4" class="list-group-item">
-        <label>Company Status:&nbsp;<label style="color: green;">Enabled</label></label>
-    </li>
-    <ng-template #elseBlock4>
-        <li class="list-group-item">
-            <label>Company Status:&nbsp;</label><label style="color: red;">Disabled</label>
-        </li>
-    </ng-template>
+            <h5 *ngIf="authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN'" style="margin-left: 30px;">
+                Users:
+            </h5>
+            <ng-container *ngFor="let user of users">
+                <li style="margin-left: 40px;" *ngIf="user.workplace.id === company.id && 
+                (authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN') && user.enabled">
+                    <label>{{user.username}} - {{this.enumService.getRoleString(user.role)}}</label>
+                </li>
+            </ng-container>
 
-    <li class="list-group-item" *ngIf="authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN'">
-        <h4>Users:</h4>
-    </li>
-    <ng-container *ngFor="let user of users">
-        <li class="list-group-item" *ngIf="user.workplace.id === company.id && 
-        (authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN') && user.enabled">
-            <label>{{user.username}} - {{user.role}}</label>
-        </li>
-    </ng-container>
-    
-    <div class="card-body">
-        <a [routerLink]="['/companies/edit', company.id]" class="card-link">Edit Company</a>
-    </div>
+
+          
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button [routerLink]="['/companies/edit', company.id]" style="margin: 20px;">EDIT</button>
+        </mat-card-actions>
+      </mat-card>
 </div>
-
-<ng-template #dontHaveADirector>
-    <td><strong style="color: orange;">Not a Director</strong></td>
-</ng-template>

@@ -1,4 +1,4 @@
-<div *ngIf="loaded">
+<div *ngIf="loaded" fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
     <form [formGroup]="userForm" (submit)="submit()">
         <div style="margin: 20px;">
           <h1>Edit User</h1>
@@ -11,7 +11,7 @@
           <ul class="list-group list-group-flush">
       
             <li class="list-group-item">
-             <label class="whiteLabel" style="padding-left:9em">Username: &nbsp;</label>
+             <label class="whiteLabel" style="padding-left:11em">Username: &nbsp;</label>
              <mat-form-field style="width: 200px;">
                 <input matInput 
                   #username
@@ -30,7 +30,7 @@
             </li>
             
             <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:9em">Full Name: &nbsp;</label>
+                <label class="whiteLabel" style="padding-left:11em">Full Name: &nbsp;</label>
                  <mat-form-field style="width: 200px;">
                      <input matInput 
                        #fullName
@@ -49,7 +49,7 @@
                </li>
     
             <li class="list-group-item">
-            <label class="whiteLabel" style="padding-left:7em">Email Address: &nbsp;</label>
+            <label class="whiteLabel" style="padding-left:9em">Email Address: &nbsp;</label>
                 <mat-form-field style="width: 200px;">
                 <input matInput 
                     #email
@@ -69,7 +69,7 @@
                
             <li class="list-group-item"
             *ngIf="user.id !== authService.user.id">
-             <label class="whiteLabel" style="padding-left:7em">User Status (Enable/Disable): &nbsp;</label>
+             <label class="whiteLabel" style="padding-left:9em">User Status (Enable/Disable): &nbsp;</label>
             <mat-checkbox 
                 type="checkbox" 
                 value="user.enabled"
@@ -79,7 +79,7 @@
             </li>
     
             <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:9em">Password: &nbsp;</label>
+                <label class="whiteLabel" style="padding-left:11em">Password: &nbsp;</label>
                 <mat-form-field style="width: 200px;">
                     <input matInput 
                         #password 
@@ -96,7 +96,7 @@
                 </mat-form-field>
             </li>
             <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:3em">Password Confirmation:&nbsp;</label>
+                <label class="whiteLabel" style="padding-left:5em">Password Confirmation:&nbsp;</label>
                 <mat-form-field style="width: 200px;">
                     <input matInput 
                         #confirmNewPassword 
@@ -113,7 +113,7 @@
             </li>
             <!--TODO errors overfit their containr in heright!-->
             <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN' && authService.user.id !== user.id">
-                <label class="whiteLabel" style="padding-left:9.2em">User Role: &nbsp;</label>
+                <label class="whiteLabel" style="padding-left:11.2em">User Role: &nbsp;</label>
                 <mat-form-field style="width: 200px;">
                     <mat-select
                     #userRole 
@@ -141,7 +141,7 @@
             </li>
     
             <li class="list-group-item" *ngIf="authService.user.role ==='ROLE_ADMIN'">
-                <label class="whiteLabel" style="padding-left:5em">Workplace Of User: &nbsp;</label>
+                <label class="whiteLabel" style="padding-left:7em">Workplace Of User: &nbsp;</label>
                 <mat-form-field style="width: 200px; ">
                     <mat-select
                     #workplace
@@ -170,7 +170,9 @@
           type="submit">Save User</button>
         </div>
       </div>
+      
+    <div>
+        <button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button>
+    </div>
     </form>
-    
-    <div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
 </div>

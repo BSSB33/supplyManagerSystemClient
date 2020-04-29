@@ -1,4 +1,4 @@
-<div *ngIf="loaded">
+<div *ngIf="loaded" fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
   <form [formGroup]="orderForm" (submit)="submit()">
     <div style="margin: 20px;">
       <h1>Edit order</h1>
@@ -292,17 +292,15 @@
           </mat-error>
         </mat-form-field>
       </ng-template>
-  
-  
       </ul>
+      
       <div class="card-body">
         <button [routerLink]="['/orders/edit', order.id]" mat-raised-button [disabled]="!orderForm.valid" color="primary"
         type="submit">Save Order</button>
       </div>
     </div>
   
-  
+    <div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
   </form>
   
-  <div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
 </div>

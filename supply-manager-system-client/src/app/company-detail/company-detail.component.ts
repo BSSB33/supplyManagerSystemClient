@@ -9,6 +9,7 @@ import { CompanyService } from '../services/company.service';
 import { AuthService } from '../services/auth.service';
 import { AppComponent } from '../app.component';
 import { LoadingService } from '../services/loading.service';
+import { EnumService } from '../services/enum.service';
 
 @Component({
   selector: 'app-company-detail',
@@ -39,6 +40,7 @@ export class CompanyDetailComponent implements OnInit {
     public authService: AuthService,
     private companyService: CompanyService,
     private loadingService: LoadingService,
+    public enumService: EnumService,
   ) { }
 
   ngOnInit(): void {

@@ -1,36 +1,38 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div fxLayoutAlign="center" style="margin-top: 40px; margin-left: 5px;">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-  <div class="card justify-content-between justify-content-md-center">
-
-    <ul class="list-group list-group-flush">
-
-      <h2 class="font-weight-bold aligned-with-icon-begin">L</h2>
-      <div>
-        <mat-icon class="aligned-with-icon">explore</mat-icon>
-      </div>
-      <h2 class="font-weight-bold aligned-with-icon-end">gin</h2>
-
-      <div style="margin-top: 30px;">
-        <mat-form-field style="width: 200px;">
-          <input matInput placeholder="Username" formControlName="username" required>
-          <mat-error *ngIf="username.invalid">Username is required</mat-error>
-        </mat-form-field>
-        <br>
-        <mat-form-field style="width: 200px;">
-          <input matInput placeholder="Password" formControlName="password" required
-            [type]="hidePassword ? 'password' : 'text'">
-          <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
-          <mat-error *ngIf="password.invalid">Password is required</mat-error>
-        </mat-form-field>
-        <div *ngIf="message">{{message}}</div>
-        <div style="margin-top: 20px;">
-          <button mat-flat-button type="submit" color="primary" [disabled]="form.invalid">Login</button>
+    <div class="card justify-content-between justify-content-md-center">
+  
+      <ul class="list-group list-group-flush">
+  
+        <h2 class="font-weight-bold aligned-with-icon-begin">L</h2>
+        <div>
+          <mat-icon class="aligned-with-icon">explore</mat-icon>
         </div>
-        
-      </div>
-
-    </ul>
-    
-  </div>
-
-</form>
+        <h2 class="font-weight-bold aligned-with-icon-end">gin</h2>
+  
+        <div style="margin-top: 30px;">
+          <mat-form-field style="width: 200px;">
+            <input matInput placeholder="Username" formControlName="username" required>
+            <mat-error *ngIf="username.invalid">Username is required</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width: 200px;">
+            <input matInput placeholder="Password" formControlName="password" required
+              [type]="hidePassword ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
+            <mat-error *ngIf="password.invalid">Password is required</mat-error>
+          </mat-form-field>
+          <div *ngIf="message">{{message}}</div>
+          <div style="margin-top: 20px;">
+            <button mat-flat-button type="submit" color="primary" [disabled]="form.invalid">Login</button>
+          </div>
+          
+        </div>
+  
+      </ul>
+      
+    </div>
+  
+  </form>
+</div>
