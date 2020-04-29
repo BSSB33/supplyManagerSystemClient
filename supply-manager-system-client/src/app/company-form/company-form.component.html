@@ -1,4 +1,4 @@
-<div *ngIf="loaded">
+<div *ngIf="loaded" fxLayoutAlign="center">
     <form [formGroup]="companyForm" (submit)="submit()">
         <div style="margin: 20px;">
             <h1>Edit Company</h1>
@@ -86,9 +86,8 @@
                 type="submit" color="primary">Save Company</button>
             </div>
         </div>
-    
-    
+        <div>
+            <button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button>
+        </div>
     </form>
-    
-    <div><button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button></div>
 </div>

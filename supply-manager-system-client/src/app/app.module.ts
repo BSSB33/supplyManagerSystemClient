@@ -37,6 +37,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSortModule } from '@angular/material/sort'; 
 import { MatProgressBarModule } from '@angular/material/progress-bar'; 
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatCardModule } from '@angular/material/card'; 
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSortModule,
     MatProgressBarModule,
     FlexLayoutModule,
+    MatCardModule,
 
   ],
   providers: [

@@ -17,3 +17,14 @@
 .backButton{
     margin: 20px;
 }
+
+.user-card {
+    width: 400px;
+    height: 350px;
+    margin: 20px;
+}
+
+.user-info{
+    margin-left: 15px;
+    font-size: medium;
+}
