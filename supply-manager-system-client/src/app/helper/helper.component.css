@@ -1,0 +1,25 @@
+.login-card {
+    width: 380px;
+    height: 110px;
+    margin: 10px;
+    background-color: rgb(48,48,48);
+}
+
+.login-info{
+    margin-left: 15px;
+    margin-top: 5px;
+    font-size: medium;
+}
+
+.helper-card {
+    width: 380px;
+    height: 200px;
+    margin: 10px;
+    background-color: rgb(48,48,48);
+}
+
+.helper-info{
+    margin-left: 15px;
+    margin-top: 5px;
+    font-size: medium;
+}

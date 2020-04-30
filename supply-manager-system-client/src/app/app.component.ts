@@ -14,7 +14,7 @@ export let browserRefresh = false;
 export class AppComponent {
   title = 'Supply Manager System (SMS) Client';
   url:string;
-  disablFilter:boolean;
+  disableFilter:boolean;
 
   constructor(
     public authService: AuthService,
@@ -27,7 +27,7 @@ export class AppComponent {
       this.authService.url = this.router.url;
       this.url = this.router.url;
       //console.log(this.url);
-      this.disablFilter = this.filterStatus();
+      this.disableFilter = this.filterStatus();
       if(event instanceof NavigationStart || browserRefresh) {
         browserRefresh = !router.navigated;
         
@@ -35,9 +35,7 @@ export class AppComponent {
         if(this.router.url == '/login') loadingService.setLoading(false);
         if(this.router.url == '/') loadingService.setLoading(false);
         if(this.router.url == '/forbidden') loadingService.setLoading(false);
-        if(this.router.url == '/logs') loadingService.setLoading(false);
-        if(this.router.url == '/404') loadingService.setLoading(false);
-        
+        if(this.router.url == '/404') loadingService.setLoading(false);        
       }
     });
   }

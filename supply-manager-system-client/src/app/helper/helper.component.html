@@ -1,4 +1,170 @@
-<div>
-    Role: {{this.role}}
-    URL: {{this.url}}
-</div>
+<!--User info-->
+<mat-card class="login-card" *ngIf="this.authService.user">
+    <mat-card-header>
+        <mat-card-title><b>Logged In: </b> {{this.authService.user.username}}</mat-card-title>
+        <mat-card-subtitle>
+            <b>Role:</b> 
+            {{this.enumService.getRoleString(this.role)}}
+            <br>
+            <b>Workplace:</b> 
+            {{this.authService.user.workplace.name}}
+        </mat-card-subtitle>
+    </mat-card-header>
+</mat-card>
+
+<!--Hints Title-->
+<mat-card class="helper-card" style="height: 60px; background-color:rgb(69, 76, 68)">
+    <mat-card-header>
+        <mat-card-title>Hints: `{{this.url}}`</mat-card-title>
+    </mat-card-header>
+</mat-card>
+
+<!--Logs Page info-->
+<mat-card *ngIf="this.url === '/logs'" 
+    class="helper-card" style="height: 160px">
+    <mat-card-header>
+        <mat-card-title>Logs</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        This Admin Tool is used to check and debug communication with the database.
+        Every Service call is recorded here in a session.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/logs'" 
+    class="helper-card" style="height: 160px">
+    <mat-card-header>
+        <mat-card-title>Progress Bar</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The progress bar is always shown on this page as a debug feature.
+    </mat-card-content>
+</mat-card>
+
+<!--Login Page info-->
+<mat-card *ngIf="this.url === '/login'" 
+    class="helper-card" style="height: 160px">
+    <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-subtitle>How to login:</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Enter the Username and Password, then press Login to logon!
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/login'" 
+    class="helper-card" style="height: 210px">
+    <mat-card-header>
+        <mat-card-title>Register Manager</mat-card-title>
+        <mat-card-subtitle>How to Register Manager to your Company:</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Company Directors have the rights to add Managers to their Company,
+        if you are a new manager please contact with your boss,
+        in order to get registered to the system.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/login'" 
+    class="helper-card" style="height: 210px">
+    <mat-card-header>
+        <mat-card-title>Register</mat-card-title>
+        <mat-card-subtitle>How to Register Director or Company:</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Supply Manager System (SMS) is a closed system which means that you need 
+        to connect to an Admin in order to register. For this Please write to an admin:
+        admin@supply.com
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/login'" 
+    class="helper-card" style="height: 210px">
+    <mat-card-header>
+        <mat-card-title>Progress Bar</mat-card-title>
+        <mat-card-subtitle>Progress Bar Functionality:</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The system loads data from Database, so the red Progress bar shows up upon loading data, and the 
+        components will only appear if the data is succesfully loaded.
+    </mat-card-content>
+</mat-card>
+
+<!--Order List Page info for ADMINS-->
+<mat-card *ngIf="this.url === '/orders' && this.role ==='ROLE_ADMIN'" 
+    class="helper-card" style="height: 270px">
+    <mat-card-header>
+        <mat-card-title>Records:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        <i>This page is Admin tool only!</i>
+        Here all the orders can be found in the system.
+        Every order Must have a Product Name, a Price, a Status, 
+        and Buyer, and seller Companies set.
+        Managers can be <b style="color: red;">UNASSIGNED</b> at the beginning, 
+        showing that the Order is possibly <i>New</i> in the system.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/orders' && this.role ==='ROLE_ADMIN'" 
+    class="helper-card" style="height: 220px">
+    <mat-card-header>
+        <mat-card-title>Order Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Admins have the right to modify the orders without regualtions.
+        Admins can modify Buyer and Seller company and their related Managers 
+        in case the creator made a mistake, and wants to sell to an other company.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/orders' && this.role ==='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Deletion:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Admins have the right to delete any of the orders without regualtions.
+        Deleting an order will cause the connected Histories to get removed too.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/orders' && this.role ==='ROLE_ADMIN'" 
+    class="helper-card" style="height: 300px">
+    <mat-card-header>
+        <mat-card-title>Order Filtering:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        To access the filter bar click <b><mat-icon>search</mat-icon>Filter</b>.
+        Companies can have a lot of Orders even <i>Sales</i> or <i>Purchases</i>
+        To make this managable, SMS provides a variety of filters, and 
+        Admins have even more filters to find all the orders.
+        Admins can filter to: Name content, can filter to Buyer and Seller companies,
+        and to make it even more handleable, orders can be filtered by Status too.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/orders' && this.role ==='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Add New Order:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Admins have the right to create new orders without regualtions.
+        This means, that Admins can set way more fields then normal users.
+        For more infommation, click <b>Add Order</b>!
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/orders' && this.role ==='ROLE_ADMIN'" 
+    class="helper-card" style="height: 230px">
+    <mat-card-header>
+        <mat-card-title>Add New Order:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Admins have the right to create new orders without regualtions.
+        This means, that Admins can set way more fields then normal users.
+        Unlike general users, Admins can add and assign Orders to any companies, and to any Managers.
+    </mat-card-content>
+</mat-card>

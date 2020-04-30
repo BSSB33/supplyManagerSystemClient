@@ -17,7 +17,7 @@
       <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
       <span fxFlex></span>
       <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
-      <button mat-button *ngIf="!authService.filters && !disablFilter" (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && !disableFilter" (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
       <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
@@ -36,7 +36,7 @@
       <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
       <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
       <span fxFlex></span>
-      <button mat-button *ngIf="!authService.filters && !disablFilter" (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && !disableFilter" (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
       <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
@@ -54,7 +54,7 @@
       <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
       <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
       <span fxFlex></span>
-      <button mat-button *ngIf="!authService.filters && !disablFilter" (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && !disableFilter" (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
       <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
@@ -79,7 +79,7 @@
   <span *ngIf="authService.isLoggedIn" class="fill-space" fxHide="false" fxHide.gt-md></span>
 
   <button mat-button fxHide="false" fxHide.gt-md
-    *ngIf="!authService.filters && !disablFilter" (click)="authService.toggleFilters()">
+    *ngIf="!authService.filters && !disableFilter" (click)="authService.toggleFilters()">
     <mat-icon>search</mat-icon>&nbsp;Filter
   </button>
 
@@ -104,15 +104,16 @@
 
 <!--Helper Drower and router-outlet (content)-->
 <mat-sidenav-container class="helper-container" hasBackdrop="false">
-  <mat-sidenav #helper mode="side" role="navigation" position="end" class="helper-nav">
-    <helper *ngIf="this.authService.user" [role]="this.authService.user.role" [url]="this.authService.url"></helper>
+  <mat-sidenav #helper mode="side" role="navigation" position="end" class="helper-nav" opened>
+    <helper *ngIf="this.authService.user; else loggedOut" [role]="this.authService.user.role" [url]="this.authService.url"></helper>
+    <ng-template #loggedOut>
+      <helper [role]="" [url]="this.authService.url"></helper>
+    </ng-template>
   </mat-sidenav>
   <mat-sidenav-content>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-
 
 <!--Small Menu-->
 <mat-menu xPosition="before" #adminMenu="matMenu">
