@@ -42,6 +42,19 @@
 </mat-card>
 
 <!--Login Page info-->
+<mat-card *ngIf="this.url === '/login' || this.url === '/logs'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title><mat-icon>warning</mat-icon> Bug Report</mat-card-title>
+        <mat-card-subtitle>Report Bugs!</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        If you find any bug, unusual/strange behaviour, style glitch, 
+        please let me know via this anonym form:
+        <a target="_blank" href="https://forms.gle/dqkFesq5PxeRX19E6">Bug Report Form</a>
+    </mat-card-content>
+</mat-card>
+
 <mat-card *ngIf="this.url === '/login'" 
     class="helper-card" style="height: 160px">
     <mat-card-header>
