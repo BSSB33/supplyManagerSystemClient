@@ -2,9 +2,12 @@
     <form [formGroup]="orderForm" (submit)="submit()">
         <mat-card class="new-order-card">
             <mat-card-content>
-                <h4 *ngIf="this.sales; else purchase" style="margin: 10px;">Give an Offer:</h4>
+                <h4 *ngIf="this.orderService.href === 'sales'; else purchase" style="margin: 10px;">Give an Offer:</h4>
                 <ng-template #purchase>
-                    <h4 style="margin: 10px;">Order from a Company:</h4>
+                    <h4 *ngIf="this.orderService.href === 'purchases'; else order" style="margin: 10px;">Order from a Company:</h4>
+                </ng-template>
+                <ng-template #order>
+                    <h4 style="margin: 10px;">Add New Order:</h4>
                 </ng-template>
                 <div class="column">
                     <label class="new-order-info" >Product Name:

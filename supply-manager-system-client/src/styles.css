@@ -17,3 +17,47 @@ material-app, mat-sidenav-container {
 .whiteLabel{
     color: white;
 }
+
+
+.mat-button.mat-success,
+.mat-stroked-button.mat-success {
+    color: green;
+}
+.mat-button.mat-success:hover,
+.mat-stroked-button.mat-success:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: #f0fff3;
+  background-color: green;
+}
+
+.mat-icon-button.mat-success {
+  color:#155724;
+}
+
+/*=======*/
+.mat-button.mat-accent,
+.mat-stroked-button.mat-accent {
+    color: orange;
+}
+.mat-button.mat-accent:hover,
+.mat-stroked-button.mat-accent:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-accent,
+.mat-flat-button.mat-accent,
+.mat-fab.mat-accent,
+.mat-mini-fab.mat-accent {
+  color: #f0fff3;
+  background-color: orange;
+}
+
+.mat-icon-button.mat-accent {
+  color:#155724;
+}

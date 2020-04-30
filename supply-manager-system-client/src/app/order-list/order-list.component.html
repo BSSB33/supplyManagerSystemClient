@@ -1,5 +1,6 @@
 <div *ngIf="loaded" class="panel panel-default" style="margin: 20px;">
 
+  <!--Order Filter Panel-->
   <div class="filterPanel" *ngIf="authService.filters">
     <mat-form-field class="filterTool">  
       <input matInput 
@@ -38,7 +39,25 @@
     <button mat-button id="closeButton" (click)="closeFilter()">Close Filter</button>
   </div>
 
-  <h2 style="margin-left: 20px;"> {{title}} </h2>
+  <!--Order Title and New Order Button-->
+  <h2 style="margin-left: 20px;"> {{title}} 
+    <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" (click)="this.loadingService.setLoading(true);" mat-raised-button
+    color="primary">
+    <mat-icon>add</mat-icon>&nbsp;Add {{addButtonText}}
+  </button>
+  </h2>
+
+  <ng-template #cancel>
+    <button *ngIf="addOrder" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary">
+      <mat-icon>remove</mat-icon>&nbsp;Cancel New {{addButtonText}}
+    </button>
+  </ng-template>
+
+  <div *ngIf="addOrder">
+    <new-order-form></new-order-form>
+  </div>
+
+  <!--Order List-->
   <table matSort (matSortChange)="sortData($event)" class="table table-hover table-dark table-curved">
     <thead>
         <th scope="col" mat-sort-header="productName">Product Name</th>
@@ -82,19 +101,4 @@
       </tr>
     </tbody>
   </table>
-
-  <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" (click)="this.loadingService.setLoading(true);" mat-raised-button
-    color="primary">
-    <mat-icon>add</mat-icon>&nbsp;Add {{addButtonText}}
-  </button>
-  <ng-template #cancel>
-    <button *ngIf="addOrder" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary">
-      <mat-icon>remove</mat-icon>&nbsp;Cancel New {{addButtonText}}
-    </button>
-  </ng-template>
-
-  <div *ngIf="addOrder">
-    <new-order-form></new-order-form>
-  </div>
-
 </div>

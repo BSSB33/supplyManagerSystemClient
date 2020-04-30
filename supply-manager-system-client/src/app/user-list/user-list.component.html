@@ -27,117 +27,30 @@
         <button mat-button id="closeButton" (click)="closeFilter()">Close Filter</button>
     </div>
 
-    <h2 *ngIf="authService.isAdmin; else directorTitle" style="margin-left: 20px;">Registered Users</h2>
+    <h2 *ngIf="authService.isAdmin; else directorTitle" style="margin-left: 20px;">Registered Users
+        <button *ngIf="!addUser && this.authService.isAdmin; else directorButton" 
+        style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
+            <mat-icon>add</mat-icon>&nbsp;Register New User
+        </button>
+    </h2>
     <ng-template #directorTitle>
-        <h2 *ngIf="authService.isDirector; else managerTitle" style="margin-left: 20px;">Employees</h2>
+        <h2 *ngIf="authService.isDirector; else managerTitle" style="margin-left: 20px;">Employees
+            <button *ngIf="!addUser && this.authService.isAdmin; else directorButton" 
+            style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
+                <mat-icon>add</mat-icon>&nbsp;Register New User
+            </button>
+        </h2>
     </ng-template>
     <ng-template #managerTitle>
-        <h2 *ngIf="authService.isDirector" style="margin-left: 20px;">Colleagues</h2>
+        <h2 *ngIf="authService.isDirector" style="margin-left: 20px;">Colleagues
+            <button *ngIf="!addUser && this.authService.isAdmin; else directorButton" 
+            style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
+                <mat-icon>add</mat-icon>&nbsp;Register New User
+            </button>
+        </h2>
     </ng-template>
-
-    <table matSort (matSortChange)="sortData($event)" class="table table-dark table-hover table-curved">
-        <thead>
-            <tr>
-                <th scope="col" mat-sort-header="username">Username</th>
-                <th scope="col" mat-sort-header="fullName">Full Name</th>
-                <th scope="col" mat-sort-header="email">Email Address</th>
-                <th scope="col" mat-sort-header="status">User Status</th>
-                <th scope="col" mat-sort-header="company">Director At</th>
-                <th scope="col" mat-sort-header="workplace">Workplace</th>
-                <th scope="col" mat-sort-header="role">Role</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Disable/Enable</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let user of filteredUsers | userFilter : term | companyNameFilter: selectedCompanyId">
-                <td *ngIf="user.username; else missing">
-                    <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.username}}</a>
-                </td>
-
-                <td *ngIf="user.fullName; else missing">
-                    <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.fullName}}</a>
-                </td>
-                
-                <td *ngIf="user.email; else missing">
-                    <a [routerLink]="['/users', user.id]" style="color: azure;">{{user.email}}</a>
-                </td>
-
-                <td *ngIf="user.enabled; else disabledUser"><label style="color: green;">Enabled User</label></td>
-                <ng-template #disabledUser>
-                    <td><label style="color: red;">Disabled User</label></td>
-                </ng-template>
-
-                <td *ngIf="user.company; else notADirector">{{user.company.name}}</td>
-                <td *ngIf="user.workplace; else missing">{{user.workplace.name}}</td>
-                <td *ngIf="user.role; else missing">{{this.enumService.getRoleString(user.role)}}</td>
-
-                <td *ngIf="authService.isAdmin; else managerOrDirector">
-                    <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
-                </td>
-                <ng-template #managerOrDirector>
-                    <td *ngIf="authService.isDirector && (authService.user.id === user.id || user.role === 'ROLE_MANAGER'); else manager">
-                        <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
-                    </td>
-                </ng-template>
-                <ng-template #manager>
-                    <td *ngIf="authService.user.id !== user.id; else loggedInManager">
-                        <button mat-raised-button color="primary" disabled><mat-icon>edit</mat-icon>&nbsp;Edit</button>
-                    </td>
-                </ng-template>
-                <ng-template #loggedInManager>
-                    <td>
-                        <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
-                    </td>
-                </ng-template>
-
-                <td *ngIf="user.enabled && (authService.user.id === user.id || authService.isManager || 
-                        (!this.authService.isAdmin && user.role === 'ROLE_ADMIN')); else switchableUser">
-                    <button mat-raised-button color="warn" disabled><mat-icon>remove_circle</mat-icon>&nbsp;Disable</button>
-                </td>
-                <ng-template #switchableUser>
-                    <td *ngIf="user.enabled; else disabledUserButton">
-                        <button mat-raised-button color="warn" (click)="openDisableUserDialog(user, 'disable')">
-                            <mat-icon>remove_circle</mat-icon>
-                            &nbsp;Disable
-                        </button>
-                    </td>
-                </ng-template>
-                <ng-template #disabledUserButton>
-                    <td *ngIf="!(!this.authService.isAdmin && user.role === 'ROLE_ADMIN'); else adminEnabling">
-                        <button mat-raised-button color="warn" (click)="openDisableUserDialog(user, 'enable')">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                            &nbsp;Enable
-                        </button>
-                    </td>
-                </ng-template>
-                <ng-template #adminEnabling>
-                    <td>
-                        <button mat-raised-button color="warn" disabled>
-                            <mat-icon>remove_circle_outline</mat-icon>
-                            &nbsp;Enable
-                        </button>
-                    </td>
-                </ng-template>
-                
-            </tr>
-        </tbody>
-    </table>
-
-    <ng-template #notADirector>
-        <td><strong style="color: orange;">Not a Director</strong></td>
-    </ng-template>
-
-    <ng-template #missing>
-        <td><strong style="color: green;">Please Add Value</strong></td>
-    </ng-template>
-
     
-
-    <button *ngIf="!addUser && this.authService.isAdmin; else directorButton" 
-    style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
-        <mat-icon>add</mat-icon>&nbsp;Register New User
-    </button>
+    <!--Register New User-->
     <ng-template #directorButton>
         <button *ngIf="!addUser && authService.isDirector; else cancel" 
         style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
@@ -146,7 +59,7 @@
     </ng-template>
 
     <ng-template #cancel>
-        <button *ngIf="addUser" style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button color="primary">
+        <button *ngIf="addUser" style="margin-left: 10px;" (click)="toggleAddUser()" mat-raised-button="primary">
             <mat-icon>remove</mat-icon>&nbsp;Cancel Registration
         </button>
     </ng-template>
@@ -155,4 +68,130 @@
         <new-user-form></new-user-form>
     </div>
 
+
+    <div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center grid">
+        <div *ngFor="let user of filteredUsers | userFilter : term | companyNameFilter: selectedCompanyId">
+
+            <mat-card class="user-card">
+                <mat-card-header>
+                <mat-card-title *ngIf="user.username; else noUserName">
+                    <b>User: </b><a [routerLink]="['/users', user.id]" style="color: azure;">{{user.username}}</a>
+                </mat-card-title>
+                    <ng-template #noUserName>
+                    <mat-card-title><b>User:</b> Please Add Username!</mat-card-title>
+                    </ng-template>
+                <mat-card-subtitle *ngIf="user.email; else noEmail"><b>Email Address:</b> {{user.email}}</mat-card-subtitle>
+                    <ng-template #noEmail>
+                        <mat-card-subtitle><b>Email Address:</b> Please Add Email Address!</mat-card-subtitle>
+                    </ng-template>
+                </mat-card-header>
+                <mat-card-content>
+                <p>
+                    <label class="user-info" *ngIf="user.fullName; else noFullName"><b>Full Name:</b> &nbsp;
+                        <label class="user-info" style="padding-left:6.5em">{{user.fullName}}</label>
+                    </label>
+                    <ng-template #noFullName>
+                        <label class="order-info"><b>Full Name:</b> &nbsp;
+                            <label class="order-info" style="padding-left:6.5em">Please Add Full Name!</label>
+                        </label>
+                    </ng-template>
+                    <br>
+        
+                    <label class="user-info" *ngIf="user.enabled; else disabledUser"><b>User Status:</b> &nbsp;
+                        <label class="user-info" style="color: green; padding-left:5.8em">Enabled</label>
+                    </label>
+                    <ng-template #disabledUser>
+                        <label class="user-info"><b>User Status:</b> &nbsp;
+                            <label class="user-info" style="color: red; padding-left:5.8em">Disabled</label>
+                        </label>
+                    </ng-template>
+                    <br>
+        
+                    <label class="user-info" *ngIf="user.company; else notadirector"><b>Director At:</b> &nbsp;
+                        <label class="user-info" style="padding-left:6.3em">{{user.company.name}}</label>
+                    </label>
+                    <ng-template #notadirector>
+                        <label class="user-info"><b>Director At:</b> &nbsp;
+                            <label class="user-info" style="color: orange; padding-left:6.3em">Not a Director</label>
+                        </label>
+                    </ng-template>
+                    <br>
+        
+                    <label class="user-info" *ngIf="user.workplace; else unemployed"><b>Workplace Of The User:</b> &nbsp;
+                        <label class="user-info" style="padding-left:0.7em">{{user.workplace.name}}</label>
+                    </label>
+                    <ng-template #unemployed>
+                        <label>Workplace Of The User: &nbsp;
+                            <label class="user-info" style="color: orange; padding-left:0.7em">Unemployed</label>
+                        </label>
+                    </ng-template>
+        
+                    <br>
+                    <label class="user-info" *ngIf="user.role; else noRole"><b>Role Of The User:</b>&nbsp;
+                        <label class="user-info" style="padding-left:3.8em">{{this.enumService.getRoleString(user.role)}}</label>
+                    </label>
+                    <ng-template #noRole>
+                        <label class="order-info"><b>Role Of The User:</b> &nbsp;
+                            <label class="order-info" style="padding-left:3.8em">Please set role!</label>
+                        </label>
+                    </ng-template>
+                </p>
+                </mat-card-content>
+                <mat-card-actions>
+      
+                <div *ngIf="authService.isAdmin; else managerOrDirector">
+                    <div fxFlex></div><button mat-button color="accent" [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
+                </div>
+                <ng-template #managerOrDirector>
+                    <div *ngIf="authService.isDirector && (authService.user.id === user.id || user.role === 'ROLE_MANAGER'); else manager">
+                        <div fxFlex></div><button mat-button [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
+                    </div>
+                </ng-template>
+                <ng-template #manager>
+                    <div *ngIf="authService.user.id !== user.id; else loggedInManager">
+                        <div fxFlex></div><button mat-button disabled><mat-icon>edit</mat-icon>&nbsp;Edit</button>
+                    </div>
+                </ng-template>
+                <ng-template #loggedInManager>
+                    <div>
+                        <div fxFlex></div><button mat-button [routerLink]="['/users/edit', user.id]"><mat-icon>edit</mat-icon>&nbsp;Edit</button>
+                    </div>
+                </ng-template>
+                <br>
+                <div *ngIf="user.enabled && (authService.user.id === user.id || authService.isManager || 
+                        (!this.authService.isAdmin && user.role === 'ROLE_ADMIN')); else switchableUser">
+                        <div fxFlex></div><button mat-button color="warn" disabled><mat-icon>remove_circle</mat-icon>&nbsp;Disable</button>
+                </div>
+                <ng-template #switchableUser>
+                    <div *ngIf="user.enabled; else disabledUserButton">
+                        <div fxFlex></div>
+                        <button mat-button color="warn" (click)="openDisableUserDialog(user, 'disable')">
+                            <mat-icon>remove_circle</mat-icon>
+                            &nbsp;Disable
+                        </button>
+                    </div>
+                </ng-template>
+                <ng-template #disabledUserButton>
+                    <div *ngIf="!(!this.authService.isAdmin && user.role === 'ROLE_ADMIN'); else adminEnabling">
+                        <div fxFlex></div>
+                        <button mat-button color="success" (click)="openDisableUserDialog(user, 'enable')">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                            &nbsp;Enable
+                        </button>
+                    </div>
+                </ng-template>
+                <ng-template #adminEnabling>
+                    <div>
+                        <div fxFlex></div>
+                        <button mat-button color="success" disabled>
+                            <mat-icon>remove_circle_outline</mat-icon>
+                            &nbsp;Enable
+                        </button>
+                    </div>
+                </ng-template>
+
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
 </div>

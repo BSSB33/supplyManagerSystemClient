@@ -67,16 +67,12 @@ export class UserListComponent implements OnInit {
       this.loadingService.setLoading(false);
     }
   }
-  
-  /*scroll(el: HTMLElement) {
-    el.scrollIntoView();
-  }*/
-
+ 
   getUsers(): void {
     this.userService.getUsers()
       .subscribe(users => {
-        this.users = users;
-        this.filteredUsers = users;
+        this.users = users.sort((a,b) =>{return a.username > b.username ? 1 : -1});
+        this.filteredUsers = users.sort((a,b) =>{return a.username > b.username ? 1 : -1});;
         this.setRoleOptions(users);
         this.switchProgressBar();
       }
@@ -143,45 +139,6 @@ export class UserListComponent implements OnInit {
     this.filteredUsers = this.selectedRole == ''
     ? this.users
     : this.users.filter(user => user.role == this.selectedRole);
-  }
-
-  sortData(sort: Sort) {
-    const data = this.filteredUsers.slice();
-    if (!sort.active || sort.direction === '') {
-      this.filteredUsers = data;
-      return;
-    }
-
-    this.filteredUsers = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'username': return this.compare(a.username, b.username, isAsc);
-        case 'fullName': return this.compare(a.fullName, b.fullName, isAsc);
-        case 'email': return this.compare(a.email, b.email, isAsc);
-        case 'status': return this.compare(a.enabled, b.enabled, isAsc);
-        case 'company': return this.compareCompany(a.company, b.company, isAsc);
-        case 'workplace': return this.compareCompany(a.workplace, b.workplace, isAsc);
-        case 'role': return this.compare(a.role, b.role, isAsc);
-        default: return 0;
-      }
-    });
-  }
-
-  compare(a: number | string | boolean, b: number | string | boolean, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  compareCompany(a: Company, b: Company, isAsc: boolean) {
-    if (a === b) {
-      return 0;
-    }
-    else if(a === null){
-      return 1;
-    }
-    else if(b === null){
-      return 1;
-    }
-    else return (a.name < b.name ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   onCompanyFilterChange(companyId: number){
