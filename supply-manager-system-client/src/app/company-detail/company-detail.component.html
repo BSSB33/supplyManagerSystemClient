@@ -27,14 +27,14 @@
             </label>
             <br>
 
-            <div *ngIf="(company.id === this.authService.user.workplace.id || authService.user.role === 'ROLE_ADMIN')" >
+            <div *ngIf="(company.id === this.authService.user.workplace.id || authService.isAdmin)" >
                 <h5 style="margin-left: 30px;">
                     Users:
                 </h5>
             </div>
             <ng-container *ngFor="let user of users">
                 <li style="margin-left: 40px;" *ngIf="user.workplace.id === company.id && 
-                (authService.user.workplace.id === company.id || authService.user.role === 'ROLE_ADMIN') && user.enabled">
+                (authService.user.workplace.id === company.id || authService.isAdmin) && user.enabled">
                     <label><b>{{user.username}}</b> - {{this.enumService.getRoleString(user.role)}}</label>
                 </li>
             </ng-container>

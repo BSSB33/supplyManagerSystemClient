@@ -23,9 +23,9 @@
                 <th scope="col" mat-sort-header="bankAccountNumber">Bank Account Number</th>
                 <th scope="col" mat-sort-header="status">Company Status</th>
                 <th scope="col"
-                    *ngIf="authService.user.role === 'ROLE_ADMIN' || authService.user.role === 'ROLE_DIRECTOR'">Edit
+                    *ngIf="authService.isAdmin  || authService.isDirector">Edit
                     Company</th>
-                <th scope="col" *ngIf="authService.user.role === 'ROLE_ADMIN'">Disable Company</th>
+                <th scope="col" *ngIf="authService.isAdmin">Disable Company</th>
             </tr>
         </thead>
         <tbody>
@@ -53,34 +53,34 @@
                     </td>
                 </ng-template>
 
-                <td *ngIf="authService.user.role === 'ROLE_ADMIN' else directorEditButtons">
+                <td *ngIf="authService.isAdmin else directorEditButtons">
                     <button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">
                         <mat-icon>edit</mat-icon>&nbsp;Edit Company
                     </button>
                 </td>
                 <ng-template #directorEditButtons>
-                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && authService.user.company.id === company.id else nonDirectorEditButtons">
+                    <td *ngIf="authService.isDirector && authService.user.company.id === company.id else nonDirectorEditButtons">
                         <button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">
                             <mat-icon>edit</mat-icon>&nbsp;Edit Company
                         </button>
                     </td>
                 </ng-template>
                 <ng-template #nonDirectorEditButtons>
-                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && authService.user.company.id !== company.id">
+                    <td *ngIf="authService.isDirector && authService.user.company.id !== company.id">
                         <button mat-raised-button color="primary" disabled>
                             <mat-icon>edit</mat-icon>&nbsp;Edit Company
                         </button>
                     </td>
                 </ng-template>
 
-                <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.workplace.id !== company.id; else usersCompany">
+                <td *ngIf="company.active && authService.isAdmin && authService.user.workplace.id !== company.id; else usersCompany">
                     <button mat-raised-button color="warn"
                         (click)="openDisableOrEnableCompanyDialog(company, 'disable')">
                         <mat-icon>remove_circle</mat-icon>&nbsp;Disable
                     </button>
                 </td>
                 <ng-template #usersCompany>
-                    <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.workplace.id === company.id; else disabledCompany">
+                    <td *ngIf="company.active && authService.isAdmin && authService.user.workplace.id === company.id; else disabledCompany">
                         <button mat-raised-button color="warn"
                             (click)="openDisableOrEnableCompanyDialog(company, 'enable')" disabled>
                             <mat-icon>remove_circle</mat-icon>&nbsp;Disable
@@ -88,7 +88,7 @@
                     </td>
                 </ng-template>
                 <ng-template #disabledCompany>
-                    <td *ngIf="!company.active && authService.user.role === 'ROLE_ADMIN'">
+                    <td *ngIf="!company.active && authService.isAdmin">
                         <button mat-raised-button color="warn"
                             (click)="openDisableOrEnableCompanyDialog(company, 'enable')">
                             <mat-icon>remove_circle_outline</mat-icon>&nbsp;Enable
@@ -107,12 +107,12 @@
         <td><strong style="color: green;">Please Add Name</strong></td>
     </ng-template>
 
-    <button *ngIf="!addCompany && authService.user.role === 'ROLE_ADMIN'; else cancel" style="margin-left: 10px;" (click)="toggleAddCompany()" mat-raised-button
+    <button *ngIf="!addCompany && authService.isAdmin; else cancel" style="margin-left: 10px;" (click)="toggleAddCompany()" mat-raised-button
         color="primary">
         <mat-icon>add</mat-icon>&nbsp;Register New Company
     </button>
     <ng-template #cancel>
-        <button *ngIf="addCompany && authService.user.role === 'ROLE_ADMIN'" style="margin-left: 10px;" (click)="toggleAddCompany()" mat-raised-button
+        <button *ngIf="addCompany && authService.isAdmin" style="margin-left: 10px;" (click)="toggleAddCompany()" mat-raised-button
             color="primary">
             <mat-icon>remove</mat-icon>&nbsp;Cancel New Company
         </button>

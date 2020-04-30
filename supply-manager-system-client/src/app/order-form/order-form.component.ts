@@ -53,7 +53,7 @@ export class OrderFormComponent implements OnInit {
     ) 
     { 
       //Admin page
-      if(this.authService.user.role == "ROLE_ADMIN"){
+      if(this.authService.isAdmin){
         this.orderForm = new FormGroup({
           productName: new FormControl('', [
             Validators.required,
@@ -72,7 +72,7 @@ export class OrderFormComponent implements OnInit {
         });
       }
       //Sales page
-      if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
+      if(this.sales && !this.authService.isAdmin){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
           price: new FormControl('',[
@@ -86,7 +86,7 @@ export class OrderFormComponent implements OnInit {
         });
       }
       //Purchase pages
-      if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
+      if(!this.sales && !this.authService.isAdmin){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
           price: new FormControl('',[
@@ -203,7 +203,7 @@ export class OrderFormComponent implements OnInit {
   }
     
   submit(): void {
-    if(this.authService.user.role == "ROLE_ADMIN"){
+    if(this.authService.isAdmin){
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
       var sellerManagerName = this.orderForm.controls['sellerManager'].value;
       var buyerName = this.orderForm.controls['buyer'].value;
@@ -213,11 +213,11 @@ export class OrderFormComponent implements OnInit {
       this.order.buyer = this.companies.find(copmany => copmany.name == buyerName);
       this.order.seller = this.companies.find(copmany => copmany.name == sellerName);
     }
-    if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
+    if(this.sales && !this.authService.isAdmin){
       var sellerManagerName = this.orderForm.controls['sellerManager'].value;
       this.order.sellerManager = this.managers.find(user => user.username == sellerManagerName);
     }
-    if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
+    if(!this.sales && !this.authService.isAdmin){
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
       this.order.buyerManager = this.managers.find(user => user.username == buyerManagerName);
     }

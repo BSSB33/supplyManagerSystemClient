@@ -42,7 +42,7 @@ export class NewOrderFormComponent implements OnInit {
     public enumService: EnumService,
     private loadingService: LoadingService,
   ) {
-    if (authService.user.role == "ROLE_ADMIN") {
+    if (authService.isAdmin) {
       this.orderForm = new FormGroup({
         productName: new FormControl('', [
           Validators.required,
@@ -61,7 +61,7 @@ export class NewOrderFormComponent implements OnInit {
       });
       
     }
-    if (this.sales && authService.user.role != "ROLE_ADMIN") {
+    if (this.sales && !authService.isAdmin) {
       this.orderForm = new FormGroup({
         productName: new FormControl('', Validators.required),
         productPrice: new FormControl('',[
@@ -76,7 +76,7 @@ export class NewOrderFormComponent implements OnInit {
         buyerManager: new FormControl({ disabled: true }, Validators.required),
       });
     }
-    if (!this.sales && authService.user.role != "ROLE_ADMIN") {
+    if (!this.sales && !authService.isAdmin) {
       this.orderForm = new FormGroup({
         productName: new FormControl('', Validators.required),
         productPrice: new FormControl('',[

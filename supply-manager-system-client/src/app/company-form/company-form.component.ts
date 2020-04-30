@@ -27,7 +27,7 @@ loaded: boolean = false;
     private authService: AuthService,
     private loadingService: LoadingService,
   ){ 
-    if (this.authService.user.role != "ROLE_MANAGER") {
+    if (!this.authService.isManager) {
       this.companyForm = new FormGroup({
         name: new FormControl('', [
           Validators.required,

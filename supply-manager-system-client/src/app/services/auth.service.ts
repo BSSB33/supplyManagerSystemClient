@@ -21,6 +21,9 @@ export class AuthService {
 
   public isLoggedIn: boolean = false;
   public user: User;
+  public isAdmin: boolean = false;
+  public isDirector: boolean = false;
+  public isManager: boolean = false;
   public redirectUrl: string;
   public url;
 
@@ -40,6 +43,7 @@ export class AuthService {
       httpOptions.headers = httpOptions.headers.set('Authorization', `Basic ${token}`);
       this.user = user;
       this.isLoggedIn = true;
+      this.setRole(user.role);
     }
    }
 
@@ -55,6 +59,7 @@ export class AuthService {
         httpOptions.headers = httpOptions.headers.set('Authorization', ``);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        this.removeRoles();
         return;
       }
       //Logged in status
@@ -63,6 +68,7 @@ export class AuthService {
       this.user = user;
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
+      this.setRole(user.role);
       //Logs user login 
       console.log("login() - " + user.username);
       this.log("login() called with user - " + user.username);
@@ -70,6 +76,7 @@ export class AuthService {
     } catch (e) {
       console.log(e);
       this.log("login() failed:" + e);
+      this.removeRoles();
       return Promise.reject();
     }
   }
@@ -82,12 +89,25 @@ export class AuthService {
     //Sets variables
     this.isLoggedIn = false;
     this.user = null;
+    this.removeRoles();
     this.router.navigate(['/login']);
   }
 
   filters: boolean = false;
   toggleFilters(){
     this.filters = !this.filters;
+  }
+
+  private setRole(role){
+    if(role == 'ROLE_ADMIN') this.isAdmin = true;
+    if(role == 'ROLE_DIRECTOR') this.isDirector = true;
+    if(role == 'ROLE_MANAGER') this.isManager = true;
+  }
+
+  private removeRoles(){
+    this.isAdmin = false;
+    this.isDirector = false;
+    this.isManager = false;
   }
 
   //Logger method

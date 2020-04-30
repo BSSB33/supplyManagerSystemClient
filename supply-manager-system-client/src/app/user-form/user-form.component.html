@@ -112,7 +112,7 @@
                 </mat-form-field>
             </li>
             <!--TODO errors overfit their containr in heright!-->
-            <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN' && authService.user.id !== user.id">
+            <li class="list-group-item" *ngIf="authService.isAdmin && authService.user.id !== user.id">
                 <label class="whiteLabel" style="padding-left:11.2em">User Role: &nbsp;</label>
                 <mat-form-field style="width: 200px;">
                     <mat-select
@@ -127,11 +127,11 @@
                         (click)="setSelectedRole('ROLE_ADMIN')">Admin</mat-option>
                         <mat-option value="ROLE_DIRECTOR" 
                         (click)="setSelectedRole('ROLE_DIRECTOR')" 
-                        *ngIf="authService.user.role ==='ROLE_ADMIN'">
+                        *ngIf="authService.isAdmin">
                             Director</mat-option>
                         <mat-option value="ROLE_MANAGER" 
                         (click)="setSelectedRole('ROLE_MANAGER')" 
-                        *ngIf="authService.user.role ==='ROLE_ADMIN' || authService.user.role ==='ROLE_DIRECTOR'">
+                        *ngIf="authService.isAdmin || authService.isDirector">
                             Manager</mat-option>
                     </mat-select>
                     <mat-error>
@@ -140,7 +140,7 @@
                 </mat-form-field>
             </li>
     
-            <li class="list-group-item" *ngIf="authService.user.role ==='ROLE_ADMIN'">
+            <li class="list-group-item" *ngIf="authService.isAdmin">
                 <label class="whiteLabel" style="padding-left:7em">Workplace Of User: &nbsp;</label>
                 <mat-form-field style="width: 200px; ">
                     <mat-select

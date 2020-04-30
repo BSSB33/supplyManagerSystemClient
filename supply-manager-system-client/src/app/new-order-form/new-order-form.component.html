@@ -53,7 +53,7 @@
                     </tr>
 
                     <!--== Admin Page ==-->
-                    <ng-container *ngIf="authService.user.role === 'ROLE_ADMIN'">
+                    <ng-container *ngIf="authService.isAdmin">
                         <strong>Set Buyer and Seller Company:<br><br></strong>
                         <tr>
                             <label>Buyer Company:&nbsp;
@@ -145,7 +145,7 @@
 
                     <!--== Sales ==-->
 
-                    <ng-container *ngIf="orderService.href === 'sales' && authService.user.role !== 'ROLE_ADMIN'">
+                    <ng-container *ngIf="orderService.href === 'sales' && !authService.isAdmin">
                         <strong>Choose who you want to sell to:<br></strong>
                         <tr>
                             <label>Buyer Company:&nbsp;
@@ -205,7 +205,7 @@
 
                     <!--== Purchases ==-->
 
-                    <ng-container *ngIf="orderService.href === 'purchases' && authService.user.role !== 'ROLE_ADMIN'">
+                    <ng-container *ngIf="orderService.href === 'purchases' && !authService.isAdmin">
                         <strong>Choose who you want to order from:<br></strong>
                         <tr>
                             <label>Buyer Company:&nbsp;

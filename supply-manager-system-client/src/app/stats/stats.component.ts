@@ -33,7 +33,7 @@ export class StatsComponent implements OnInit {
     this.initMonthlyIncomeChart(); //this._toolBar is undefinded
     this.initGetSalePartnerStatsChart()
     this.initSalesAndPurchacesChart();
-    if(this.authService.user.role == 'ROLE_ADMIN'){
+    if(this.authService.isAdmin){
       this.mainTitle = "Value of Registered Orders";
       this.initGetOrderCountStats()
     }

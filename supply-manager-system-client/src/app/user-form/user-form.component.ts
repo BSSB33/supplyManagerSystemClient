@@ -118,7 +118,7 @@ export class UserFormComponent implements OnInit {
     if(this.selectedRole == null){
       this.selectedRole = this.user.role;
     }
-    if(this.authService.user.role == "ROLE_ADMIN"){
+    if(this.authService.isAdmin){
       //Setting workplace and company for each user upon modification
       if(this.selectedRole == 'ROLE_DIRECTOR' || this.selectedRole == 'ROLE_ADMIN'){
         this.user.workplace = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
@@ -136,10 +136,10 @@ export class UserFormComponent implements OnInit {
       }
       
     }
-    else if(this.authService.user.role == "ROLE_DIRECTOR" && this.user.role == 'ROLE_DIRECTOR'){
+    else if(this.authService.isDirector && this.user.role == 'ROLE_DIRECTOR'){
       this.user.role = 'ROLE_DIRECTOR';
     }
-    else if(this.authService.user.role == "ROLE_DIRECTOR" && this.user.role == 'ROLE_MANAGER'){
+    else if(this.authService.isDirector && this.user.role == 'ROLE_MANAGER'){
       this.user.role = 'ROLE_MANAGER';
     }
 

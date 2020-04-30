@@ -65,7 +65,7 @@
         </li>
   
         <!-- === Seller === -->
-        <li class="list-group-item" *ngIf="order.seller.id === authService.user.workplace.id && authService.user.role !== 'ROLE_ADMIN'">
+        <li class="list-group-item" *ngIf="order.seller.id === authService.user.workplace.id && !authService.isAdmin">
           <label class="whiteLabel" style="padding-left:7em">Seller Manager: &nbsp;</label>
           <mat-form-field *ngIf="order.sellerManager; else unassignedSeller" style="width: 200px;">
               <mat-select 
@@ -111,7 +111,7 @@
   
   
       <!-- === Buyer === -->
-      <li class="list-group-item" *ngIf="order.buyer.id === authService.user.workplace.id && authService.user.role !== 'ROLE_ADMIN'">
+      <li class="list-group-item" *ngIf="order.buyer.id === authService.user.workplace.id && !authService.isAdmin">
         <label class="whiteLabel" style="padding-left:7em">Buyer Manager: &nbsp;</label>
         <mat-form-field *ngIf="order.buyerManager; else unassignedBuyer" style="width: 200px;">
             <mat-select 
@@ -157,7 +157,7 @@
   
       <!-- === Admin page === -->
   
-      <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
+      <li class="list-group-item" *ngIf="authService.isAdmin">
         <label class="whiteLabel" style="padding-left:6.6em">Seller Company: &nbsp;</label>
         <mat-form-field *ngIf="order.seller" style="width: 200px;">
             <mat-select 
@@ -181,7 +181,7 @@
         </mat-form-field>
       </li>
   
-      <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
+      <li class="list-group-item" *ngIf="authService.isAdmin">
         <label class="whiteLabel" style="padding-left:6.9em">Seller Manager: &nbsp;</label>
         <mat-form-field *ngIf="order.sellerManager; else unassignedSellerAdmin" style="width: 200px;">
             <mat-select 
@@ -225,7 +225,7 @@
         </mat-form-field>
     </ng-template>
   
-      <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'" onload="this.filterUsersOfBuyerCompany(order.buyer.name)">
+      <li class="list-group-item" *ngIf="authService.isAdmin" onload="this.filterUsersOfBuyerCompany(order.buyer.name)">
         <label class="whiteLabel" style="padding-left:6.5em">Buyer Company: &nbsp;</label>
         <mat-form-field *ngIf="order.buyer" style="width: 200px;">
             <mat-select 
@@ -249,7 +249,7 @@
         </mat-form-field>
       </li>
   
-      <li class="list-group-item" *ngIf="authService.user.role === 'ROLE_ADMIN'">
+      <li class="list-group-item" *ngIf="authService.isAdmin">
         <label class="whiteLabel" style="padding-left:6.8em">Buyer Manager: &nbsp;</label>
         <mat-form-field *ngIf="order.buyerManager; else unassignedBuyerAdmin" style="width: 200px;">
             <mat-select 

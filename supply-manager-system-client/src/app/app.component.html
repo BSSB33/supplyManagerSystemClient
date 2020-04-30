@@ -5,7 +5,7 @@
   </button>
 
   <div *ngIf="authService.isLoggedIn" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
-    <div *ngIf="authService.user.role === 'ROLE_ADMIN'" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
+    <div *ngIf="authService.isAdmin" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
       <button mat-button routerLink="/orders">
         <mat-icon>explore</mat-icon>&nbsp;SMS Client
       </button>
@@ -29,7 +29,7 @@
     </div>
 
     <!--Director menu-->
-    <div *ngIf="authService.user.role === 'ROLE_DIRECTOR'" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
+    <div *ngIf="authService.isDirector" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
       <button mat-button routerLink="/sales">
         <mat-icon>explore</mat-icon>&nbsp;SMS Client
       </button>
@@ -51,7 +51,7 @@
     </div>
 
     <!--Manager menu-->
-    <div *ngIf="authService.user.role === 'ROLE_MANAGER'" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
+    <div *ngIf="authService.isManager" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
       <button mat-button routerLink="/sales">
         <mat-icon>explore</mat-icon>&nbsp;SMS Client
       </button>
@@ -98,13 +98,13 @@
   </button>
 
   <button mat-button (click)="helper.toggle()" fxHide="false" fxHide.gt-md><mat-icon>help</mat-icon></button>
-  <button *ngIf="authService.isLoggedIn && authService.user.role === 'ROLE_ADMIN'" mat-icon-button [matMenuTriggerFor]="adminMenu" fxHide="false" fxHide.gt-md>
+  <button *ngIf="authService.isLoggedIn && authService.isAdmin" mat-icon-button [matMenuTriggerFor]="adminMenu" fxHide="false" fxHide.gt-md>
     <mat-icon>menu</mat-icon>
   </button>
-  <button *ngIf="authService.isLoggedIn && authService.user.role === 'ROLE_DIRECTOR'" mat-icon-button [matMenuTriggerFor]="directorMenu" fxHide="false" fxHide.gt-md>
+  <button *ngIf="authService.isLoggedIn && authService.isDirector" mat-icon-button [matMenuTriggerFor]="directorMenu" fxHide="false" fxHide.gt-md>
     <mat-icon>menu</mat-icon>
   </button>
-  <button *ngIf="authService.isLoggedIn && authService.user.role === 'ROLE_MANAGER'" mat-icon-button [matMenuTriggerFor]="managerMenu" fxHide="false" fxHide.gt-md>
+  <button *ngIf="authService.isLoggedIn && authService.isManager" mat-icon-button [matMenuTriggerFor]="managerMenu" fxHide="false" fxHide.gt-md>
     <mat-icon>menu</mat-icon>
   </button>
   
