@@ -1,8 +1,6 @@
 <div fxLayoutAlign="center" style="margin-top: 40px; margin-left: 5px;">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
     <div class="card justify-content-between justify-content-md-center">
-  
       <ul class="list-group list-group-flush">
   
         <h2 class="font-weight-bold aligned-with-icon-begin">L</h2>
@@ -27,12 +25,8 @@
           <div style="margin-top: 20px;">
             <button mat-flat-button type="submit" color="primary" [disabled]="form.invalid">Login</button>
           </div>
-          
         </div>
-  
       </ul>
-      
     </div>
-  
   </form>
 </div>

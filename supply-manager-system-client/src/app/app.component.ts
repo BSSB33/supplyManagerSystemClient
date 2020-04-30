@@ -13,6 +13,7 @@ export let browserRefresh = false;
 })
 export class AppComponent {
   title = 'Supply Manager System (SMS) Client';
+  href = this.router
 
   constructor(
     public authService: AuthService,
@@ -22,8 +23,10 @@ export class AppComponent {
   )
   {
     this.router.events.subscribe((event: Event) => {
+      this.authService.url = this.router.url;
       if(event instanceof NavigationStart || browserRefresh) {
         browserRefresh = !router.navigated;
+        
         loadingService.setLoading(true);
         if(this.router.url == '/login') loadingService.setLoading(false);
         if(this.router.url == '/') loadingService.setLoading(false);

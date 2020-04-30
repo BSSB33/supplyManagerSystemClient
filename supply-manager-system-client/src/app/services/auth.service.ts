@@ -22,6 +22,7 @@ export class AuthService {
   public isLoggedIn: boolean = false;
   public user: User;
   public redirectUrl: string;
+  public url;
 
   private authUrl: string = 'http://localhost:8080/users';
 
@@ -31,6 +32,8 @@ export class AuthService {
     private router: Router,
     
   ) {
+    this.url = this.router.url;
+    console.log(this.url);
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
     if(user != null){

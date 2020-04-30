@@ -17,10 +17,13 @@
       <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
       <span fxFlex></span>
       <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
-      <button mat-button *ngIf="!authService.filters && !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') ||
-        (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && 
+        !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') ||
+        (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" 
+        (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
+      <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
       <button mat-flat-button disabled style="color: white;">{{ authService.user.username }} - [{{ this.enumService.getRoleString(authService.user.role) }}]</button>
       <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
     </div>
@@ -36,10 +39,13 @@
       <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
       <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
       <span fxFlex></span>
-      <button mat-button *ngIf="!authService.filters && !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') 
-      ||  (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && 
+        !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') ||  
+          (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" 
+          (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
+      <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
       <button mat-flat-button disabled style="color: white;">{{ authService.user.username }} - [{{ this.enumService.getRoleString(authService.user.role) }}]</button>
       <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
     </div>
@@ -54,10 +60,13 @@
       <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
       <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
       <span fxFlex></span>
-      <button mat-button *ngIf="!authService.filters && !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') 
-      ||  (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && 
+        !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') ||  
+          (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" 
+          (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
+      <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
       <button mat-flat-button disabled style="color: white;">{{ authService.user.username }} - [{{ this.enumService.getRoleString(authService.user.role) }}]</button>
       <button mat-stroked-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>&nbsp;Logout</button>
     </div>
@@ -67,12 +76,18 @@
   <div *ngIf="!authService.isLoggedIn" fxFlex fxLayout="row">
     <button mat-button><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
     <span fxFlex></span>
+    <button mat-button (click)="helper.toggle()">
+      <mat-icon>
+        help
+      </mat-icon>
+    </button>
     <button mat-stroked-button routerLink="/login"><mat-icon>power_settings_new</mat-icon>&nbsp;Login</button>
   </div>
   
   <!--Small Screen Display-->
   <span *ngIf="authService.isLoggedIn" class="fill-space" fxHide="false" fxHide.gt-md></span>
 
+  <!--TODO remove .lastIndexOf()-->
   <button mat-button fxHide="false" fxHide.gt-md
     *ngIf="!authService.filters && 
     !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') || 
@@ -82,6 +97,7 @@
     <mat-icon>search</mat-icon>&nbsp;Filter
   </button>
 
+  <button mat-button (click)="helper.toggle()" fxHide="false" fxHide.gt-md><mat-icon>help</mat-icon></button>
   <button *ngIf="authService.isLoggedIn && authService.user.role === 'ROLE_ADMIN'" mat-icon-button [matMenuTriggerFor]="adminMenu" fxHide="false" fxHide.gt-md>
     <mat-icon>menu</mat-icon>
   </button>
@@ -99,7 +115,18 @@
   *ngIf="this.loadingService.getLoading() && !(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs')" color="warn" mode="indeterminate">
 </mat-progress-bar>
 
-<router-outlet></router-outlet>
+<!--Helper Drower and router-outlet (content)-->
+<mat-sidenav-container class="helper-container" hasBackdrop="false">
+  <mat-sidenav #helper mode="side" role="navigation" position="end" class="helper-nav">
+    <helper *ngIf="this.authService.user" [role]="this.authService.user.role" [url]="this.authService.url"></helper>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
 
 <mat-menu xPosition="before" #adminMenu="matMenu">
   <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>

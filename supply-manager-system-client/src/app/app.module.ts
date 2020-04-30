@@ -38,6 +38,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatProgressBarModule } from '@angular/material/progress-bar'; 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card'; 
+import { MatSidenavModule } from '@angular/material/sidenav'; 
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { MatCardModule } from '@angular/material/card';
     CompanyFilterPipe,
     CompanyNameFilterPipe,
     OrderBuyerFilterPipe,
-    OrderSellerFilterPipe
+    OrderSellerFilterPipe,
+    HelperComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +98,7 @@ import { MatCardModule } from '@angular/material/card';
     MatProgressBarModule,
     FlexLayoutModule,
     MatCardModule,
+    MatSidenavModule,
 
   ],
   providers: [
@@ -133,6 +136,7 @@ import { CompanyFilterPipe } from './pipes/company-filter.pipe';
 import { CompanyNameFilterPipe } from './pipes/company-name-filter.pipe';
 import { OrderBuyerFilterPipe } from './pipes/order-buyer-filter.pipe';
 import { OrderSellerFilterPipe } from './pipes/order-seller-filter.pipe';
+import { HelperComponent } from './helper/helper.component';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
