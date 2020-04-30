@@ -1,40 +1,9 @@
-.badge{
-    font-size: large;
-    margin-top: 10px;
-    margin-left: 5px;
-    width: 100%;
-}
-
-td, th {
-    width: auto;
-    overflow: hidden;
-  }
- 
-p.block {
-    width: 300px;
-}
-
-.orderTable{
-    width: auto; 
-    margin: 20px; 
-    text-align: left; 
-    background-color: beige;
-}
-
 .whiteLabel{
     color: white;
 }
 
 .historyLabel{
     margin: 10px;
-}
-
-.tableRight{
-    text-align: right;
-}
-
-.tableLeft{
-    text-align: left;
 }
 
 ::ng-deep .mat-form-field-label{
@@ -56,3 +25,19 @@ background-color: white !important;
 ::ng-deep.mat-form-field{
     color: white;
 }
+
+.new-order-card {
+    height: 390px;
+    margin: 10px;
+}
+
+.new-order-info{
+    margin-left: 15px;
+    margin-top: 5px;
+    font-size: medium;
+}
+
+.column {
+    float: left;
+    width: 50%;
+  }

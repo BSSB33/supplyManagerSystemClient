@@ -1,63 +1,65 @@
-<div *ngIf="loaded" class="card fixedContainer orderTable" style="background-color: rgb(33, 37, 41);">
+<div *ngIf="loaded" fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
     <form [formGroup]="orderForm" (submit)="submit()">
-        <div style="margin: 10px;">
-            <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41); margin: 20px">
-                <tbody>
-                    <tr>
-                        <label class="whiteLabel">Product Name:
-                            <mat-form-field style="width: 200px;">
-                                <input matInput 
-                                #productName 
-                                formControlName="productName" 
-                                type="text" 
-                                name="productName"
-                                placeholder="Enter Product Name"
-                                aria-describedby="titleHelp" />
-                                <mat-error>
-                                    Name must be at least 3 characters long!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <label class="whiteLabel">Product Price:
-                            <mat-form-field style="width: 200px;">
-                                <input matInput 
-                                #productPrice 
-                                formControlName="productPrice" 
-                                type="text" 
-                                name="productPrice" 
-                                placeholder="Set Price"
-                                aria-describedby="titleHelp" />
-                                <mat-error>
-                                    Price can only contains numbers (Ft)
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <label>Product Status:&nbsp;
-                            <mat-form-field style="width: 200px;">
-                                <mat-select
-                                #productStatus 
-                                formControlName="productStatus" 
-                                name="productStatus" 
-                                placeholder="Enter Status">
-                                    <mat-option *ngFor="let status of statuses" [value]="status">{{this.enumService.getStatusString(status)}}</mat-option>
-                                </mat-select>
-                                <mat-error>
-                                    Product Status is needed to be set!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-
+        <mat-card class="new-order-card">
+            <mat-card-content>
+                <h4 *ngIf="this.sales; else purchase" style="margin: 10px;">Give an Offer:</h4>
+                <ng-template #purchase>
+                    <h4 style="margin: 10px;">Order from a Company:</h4>
+                </ng-template>
+                <div class="column">
+                    <label class="new-order-info" >Product Name:
+                        <mat-form-field style="width: 200px; padding-left:2em">
+                            <input matInput 
+                            #productName 
+                            formControlName="productName" 
+                            type="text" 
+                            name="productName"
+                            placeholder="Enter Product Name"
+                            aria-describedby="titleHelp" />
+                            <mat-error>
+                                Name must be at least 3 characters long!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <label class="new-order-info">Product Price:
+                        <mat-form-field style="width: 210px; padding-left:2.5em">
+                            <input matInput 
+                            #productPrice 
+                            formControlName="productPrice" 
+                            type="text" 
+                            name="productPrice" 
+                            placeholder="Set Price"
+                            aria-describedby="titleHelp" />
+                            <mat-error>
+                                Price can only contains numbers (Ft)
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <label class="new-order-info">Product Status:&nbsp;
+                        <mat-form-field style="width: 200px; padding-left:1.7em">
+                            <mat-select
+                            #productStatus 
+                            formControlName="productStatus" 
+                            name="productStatus" 
+                            placeholder="Enter Status">
+                                <mat-option *ngFor="let status of statuses" [value]="status">{{this.enumService.getStatusString(status)}}</mat-option>
+                            </mat-select>
+                            <mat-error>
+                                Product Status is needed to be set!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                    
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!orderForm.valid" style="margin: 20px;">Add Order</button>
+                </div>
+                
+                <div class="column">
                     <!--== Admin Page ==-->
-                    <ng-container *ngIf="authService.isAdmin">
-                        <strong>Set Buyer and Seller Company:<br><br></strong>
-                        <tr>
-                            <label>Buyer Company:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                    <ng-container *ngIf="authService.isAdmin">                    
+                            <label class="new-order-info">Buyer Company:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2em">
                                     <mat-select 
                                     #buyer 
                                     formControlName="buyer" 
@@ -66,8 +68,8 @@
                                         <mat-option value="" disabled>Choose a Company</mat-option>
                                         <ng-container *ngFor="let company of selectableCompanyiesForBuyer">
                                             <mat-option *ngIf="company.active"
-                                                 [value]="company.name"
-                                                 (click)="filterUsersOfBuyerCompany(company.name)">{{company.name}}
+                                                    [value]="company.name"
+                                                    (click)="filterUsersOfBuyerCompany(company.name)">{{company.name}}
                                             </mat-option>
                                         </ng-container>
                                     </mat-select>
@@ -76,10 +78,9 @@
                                     </mat-error>
                                 </mat-form-field>
                             </label>
-                        </tr>
-                        <tr>
-                            <label>Buyer Manager:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <br>
+                            <label class="new-order-info">Buyer Manager:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2.3em">
                                     <mat-select 
                                     #buyerManager 
                                     formControlName="buyerManager" 
@@ -97,10 +98,9 @@
                                     </mat-error>
                                 </mat-form-field>
                             </label>
-                        </tr>
-                        <tr>
-                            <label>Seller Company:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <br>
+                            <label class="new-order-info">Seller Company:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2em">
                                     <mat-select 
                                     #seller 
                                     formControlName="seller" 
@@ -119,10 +119,9 @@
                                     </mat-error>
                                 </mat-form-field>
                             </label>
-                        </tr>
-                        <tr>
-                            <label>Seller Manager:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <br>
+                            <label class="new-order-info">Seller Manager:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2.3em">
                                     <mat-select 
                                     #sellerManager 
                                     formControlName="sellerManager" 
@@ -140,16 +139,14 @@
                                     </mat-error>
                                 </mat-form-field>
                             </label>
-                        </tr>
+                        <br>
                     </ng-container>
 
                     <!--== Sales ==-->
-
                     <ng-container *ngIf="orderService.href === 'sales' && !authService.isAdmin">
-                        <strong>Choose who you want to sell to:<br></strong>
-                        <tr>
-                            <label>Buyer Company:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <strong><br>Choose who you want to sell to:<br><br></strong>
+                            <label class="new-order-info">Buyer Company:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2em">
                                     <mat-select 
                                     #buyer 
                                     formControlName="buyer" 
@@ -167,10 +164,9 @@
                                     </mat-error>
                                 </mat-form-field>
                             </label>
-                        </tr>
-                        <tr>
-                            <label>Seller Company:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <br>
+                            <label class="new-order-info">Seller Company:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2.1em">
                                     <input
                                         matInput
                                         #seller 
@@ -179,10 +175,9 @@
                                         placeholder="Select Seller Company">
                                 </mat-form-field>
                             </label>
-                        </tr>
-                        <tr>
-                            <label>Seller Manager:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <br>
+                            <label class="new-order-info">Seller Manager:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2.3em">
                                     <mat-select 
                                     #sellerManager 
                                     formControlName="sellerManager" 
@@ -200,16 +195,15 @@
                                     </mat-error>
                                 </mat-form-field>
                             </label>
-                        </tr>
+                        <br>
                     </ng-container>
 
                     <!--== Purchases ==-->
-
                     <ng-container *ngIf="orderService.href === 'purchases' && !authService.isAdmin">
-                        <strong>Choose who you want to order from:<br></strong>
-                        <tr>
-                            <label>Buyer Company:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <strong><br>Choose who you want to order from:<br><br></strong>
+                        
+                            <label class="new-order-info">Buyer Company:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2em">
                                     <input
                                         matInput
                                         #seller 
@@ -218,10 +212,9 @@
                                         placeholder="Select Buyer Company">
                                 </mat-form-field>
                             </label>
-                        </tr>
-                        <tr>
-                            <label>Buyer Manager:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <br>
+                            <label class="new-order-info">Buyer Manager:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2.3em">
                                     <mat-select 
                                     #buyerManager 
                                     formControlName="buyerManager" 
@@ -239,10 +232,9 @@
                                     </mat-error>
                                 </mat-form-field>
                             </label>
-                        </tr>   
-                        <tr>
-                            <label>Seller Company:&nbsp;
-                                <mat-form-field style="width: 200px;">
+                        <br>   
+                            <label class="new-order-info">Seller Company:&nbsp;
+                                <mat-form-field style="width: 200px; padding-left:2.1em">
                                     <mat-select 
                                     #seller 
                                     formControlName="seller" 
@@ -260,14 +252,10 @@
                                     </mat-error>
                                 </mat-form-field>
                             </label>
-                        </tr>                  
+                        <br>                  
                     </ng-container>
-                    
-                    <tr>
-                        <button mat-raised-button color="primary" type="submit" [disabled]="!orderForm.valid">Add Order</button>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
     </form>
 </div>

@@ -6,6 +6,7 @@
     background-color: rgb(33, 37, 41);
     border-radius: 10px;
     margin-bottom: 10px;
+    min-height: 140px;
     position: relative;
 }
 
