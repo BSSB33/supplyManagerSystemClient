@@ -1,11 +1,11 @@
-<div class="card fixedContainer userTable" style="background-color: rgb(33, 37, 41);">
+<div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
     <form [formGroup]="userForm" (submit)="submit()">
-        <div style="margin: 10px;">
-            <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41); margin: 20px">
-                <tbody>
-                    <tr>
-                        <label class="whiteLabel">Username:
-                            <mat-form-field style="width: 200px;">
+        <mat-card class="new-user-card">
+            <mat-card-content>
+                <h4 style="margin: 10px;">Register a new User:</h4>
+                <div class="column">
+                        <label class="new-user-info">Username:
+                            <mat-form-field style="width: 250px; padding-left:4em">
                                 <input matInput 
                                 #username 
                                 formControlName="username" 
@@ -19,10 +19,9 @@
                                 </mat-error>
                             </mat-form-field>
                         </label>
-                    </tr>
-                    <tr>
-                        <label class="whiteLabel">Full Name:
-                            <mat-form-field style="width: 200px;">
+                    <br>
+                        <label class="new-user-info">Full Name:
+                            <mat-form-field style="width: 250px; padding-left:4em">
                                 <input matInput 
                                 #fullName 
                                 formControlName="fullName" 
@@ -36,10 +35,9 @@
                                 </mat-error>
                             </mat-form-field>
                         </label>
-                    </tr>
-                    <tr>
-                        <label class="whiteLabel">Email Address:
-                            <mat-form-field style="width: 200px;">
+                    <br>
+                        <label class="new-user-info">Email Address:
+                            <mat-form-field style="width: 250px; padding-left:2.1em">
                                 <input matInput 
                                 #email 
                                 formControlName="email" 
@@ -53,10 +51,9 @@
                                 </mat-error>
                             </mat-form-field>
                         </label>
-                    </tr>
-                    <tr>
-                        <label>User Status:&nbsp;
-                            <mat-form-field style="width: 200px;">
+                    <br>
+                        <label class="new-user-info">User Status:&nbsp;
+                            <mat-form-field style="width: 250px; padding-left:3.2em">
                                 <mat-select
                                 #userStatus 
                                 formControlName="userStatus" 
@@ -71,99 +68,93 @@
                                 </mat-error>
                             </mat-form-field>
                         </label>
-                    </tr>
-                    <tr>
-                        <label>Password:&nbsp;
-                            <mat-form-field style="width: 200px;">
-                                <input matInput 
-                                #password 
-                                formControlName="password" 
-                                type="text" 
-                                name="password"
-                                placeholder="Enter Password"
-                                aria-describedby="titleHelp"
-                                [type]="hidePassword ? 'password' : 'text'"/>
-                                <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
-                                <mat-error *ngIf="password.invalid">Password is required</mat-error> 
-                                <mat-error>
-                                    Minimum: 8 characters long and 
-                                    must contain at least one Upper and Lower case letter and a number
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <label>Password Confirmation:&nbsp;
-                            <mat-form-field style="width: 200px;">
-                                <input matInput 
-                                #password_confirmation 
-                                formControlName="password_confirmation" 
-                                type="text" 
-                                name="password_confirmation"
-                                placeholder="Enter Password Again"
-                                aria-describedby="titleHelp"
-                                [type]="hidePassword ? 'password' : 'text'"/>
-                                <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
-                                <mat-error *ngIf="password.invalid">Password is required</mat-error> 
-                                <mat-error *ngIf="password.value != password_confirmation">
-                                    Passwords must Match!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr *ngIf="authService.isAdmin">
-                        <label>User Role:&nbsp;
-                            <mat-form-field style="width: 200px;">
-                                <mat-select
-                                #userRole 
-                                formControlName="userRole" 
-                                name="userRole" 
-                                type="text" 
-                                placeholder="Select Role">
-                                    <mat-option value="ROLE_ADMIN" 
-                                    (click)="setSelectedRole('ROLE_ADMIN')">Admin</mat-option>
-                                    <mat-option value="ROLE_DIRECTOR" 
-                                    (click)="setSelectedRole('ROLE_DIRECTOR')" 
-                                    *ngIf="authService.isAdmin">
-                                        Director</mat-option>
-                                    <mat-option value="ROLE_MANAGER" 
-                                    (click)="setSelectedRole('ROLE_MANAGER')" 
-                                    *ngIf="authService.isAdmin || authService.isDirector">
-                                        Manager</mat-option>
-                                </mat-select>
-                                <mat-error>
-                                    Please Choose a Role!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr *ngIf="authService.isAdmin">
-                        <label>Workplace Of User:&nbsp;
-                            <mat-form-field style="width: 200px;">
-                                <mat-select
-                                #workplace
-                                formControlName="workplace" 
-                                name="workplace" 
-                                type="text" 
-                                placeholder="Select Workplace">
-                                    <mat-option value="" disabled>Choose a Company</mat-option>
-                                    <ng-container *ngFor="let company of this.userList.companies">
-                                        <mat-option *ngIf="company.active" [value]="company.name">
-                                            {{company.name}}
-                                        </mat-option>
-                                    </ng-container>
-                                </mat-select>
-                                <mat-error>
-                                    Please Choose a Company!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">Add Order</button>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                    <button mat-raised-button color="primary" type="submit" style="margin: 20px;" [disabled]="!userForm.valid">Register User</button>
+                </div>
+                <div class="column">
+                    <label class="new-user-info">Password:&nbsp;
+                        <mat-form-field style="width: 360px; padding-left:7.8em">
+                            <input matInput 
+                            #password 
+                            formControlName="password" 
+                            type="text" 
+                            name="password"
+                            placeholder="Enter Password"
+                            aria-describedby="titleHelp"
+                            [type]="hidePassword ? 'password' : 'text'"/>
+                            <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
+                            <mat-error *ngIf="password.invalid">Password is required</mat-error> 
+                            <mat-error>
+                                Minimum: 8 characters long and 
+                                must contain at least one Upper and Lower case letter and a number
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <label class="new-user-info">Password Confirmation:&nbsp;
+                        <mat-form-field style="width: 250px; padding-left:1.8em">
+                            <input matInput 
+                            #password_confirmation 
+                            formControlName="password_confirmation" 
+                            type="text" 
+                            name="password_confirmation"
+                            placeholder="Enter Password Again"
+                            aria-describedby="titleHelp"
+                            [type]="hidePassword ? 'password' : 'text'"/>
+                            <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
+                            <mat-error *ngIf="password.invalid">Password is required</mat-error> 
+                            <mat-error *ngIf="password.value != password_confirmation">
+                                Passwords must Match!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <label *ngIf="authService.isAdmin" class="new-user-info">User Role:&nbsp;
+                        <mat-form-field style="width: 250px; padding-left:8.1em">
+                            <mat-select
+                            #userRole 
+                            formControlName="userRole" 
+                            name="userRole" 
+                            type="text" 
+                            placeholder="Select Role">
+                                <mat-option value="ROLE_ADMIN" 
+                                (click)="setSelectedRole('ROLE_ADMIN')">Admin</mat-option>
+                                <mat-option value="ROLE_DIRECTOR" 
+                                (click)="setSelectedRole('ROLE_DIRECTOR')" 
+                                *ngIf="authService.isAdmin">
+                                    Director</mat-option>
+                                <mat-option value="ROLE_MANAGER" 
+                                (click)="setSelectedRole('ROLE_MANAGER')" 
+                                *ngIf="authService.isAdmin || authService.isDirector">
+                                    Manager</mat-option>
+                            </mat-select>
+                            <mat-error>
+                                Please Choose a Role!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <label *ngIf="authService.isAdmin" class="new-user-info">Workplace Of User:&nbsp;
+                        <mat-form-field style="width: 250px; padding-left:4.1em">
+                            <mat-select
+                            #workplace
+                            formControlName="workplace" 
+                            name="workplace" 
+                            type="text" 
+                            placeholder="Select Workplace">
+                                <mat-option value="" disabled>Choose a Company</mat-option>
+                                <ng-container *ngFor="let company of this.userList.companies">
+                                    <mat-option *ngIf="company.active" [value]="company.name">
+                                        {{company.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                            <mat-error>
+                                Please Choose a Company!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                </div>
+            </mat-card-content>
+        </mat-card>
     </form>
 </div>

@@ -1,0 +1,14 @@
+.new-user-card {
+    height: 470px;
+    margin: 10px;
+}
+
+.new-user-info {
+    margin-left: 15px;
+    font-size: medium;
+}
+
+.column {
+    float: left;
+    width: 50%;
+}

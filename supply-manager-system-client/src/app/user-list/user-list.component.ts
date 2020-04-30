@@ -67,6 +67,10 @@ export class UserListComponent implements OnInit {
       this.loadingService.setLoading(false);
     }
   }
+  
+  /*scroll(el: HTMLElement) {
+    el.scrollIntoView();
+  }*/
 
   getUsers(): void {
     this.userService.getUsers()
