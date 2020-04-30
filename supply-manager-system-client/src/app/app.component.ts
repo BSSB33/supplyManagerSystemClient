@@ -13,7 +13,8 @@ export let browserRefresh = false;
 })
 export class AppComponent {
   title = 'Supply Manager System (SMS) Client';
-  href = this.router
+  url:string;
+  disablFilter:boolean;
 
   constructor(
     public authService: AuthService,
@@ -24,6 +25,9 @@ export class AppComponent {
   {
     this.router.events.subscribe((event: Event) => {
       this.authService.url = this.router.url;
+      this.url = this.router.url;
+      //console.log(this.url);
+      this.disablFilter = this.filterStatus();
       if(event instanceof NavigationStart || browserRefresh) {
         browserRefresh = !router.navigated;
         
@@ -41,5 +45,14 @@ export class AppComponent {
   logout()
   {
     this.authService.logout();
+  }
+
+  filterStatus(){
+    return this.url.includes('/stats') 
+    || this.url.includes('/logs') 
+    || this.url.includes('/login') 
+    || this.url.includes('/orders/')
+    || this.url.includes('/users/')
+    || this.url.includes('/companies/')
   }
 }

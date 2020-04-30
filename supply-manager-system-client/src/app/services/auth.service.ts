@@ -36,7 +36,7 @@ export class AuthService {
     
   ) {
     this.url = this.router.url;
-    console.log(this.url);
+//    console.log(this.url);
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
     if(user != null){

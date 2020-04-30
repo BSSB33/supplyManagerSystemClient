@@ -17,10 +17,7 @@
       <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
       <span fxFlex></span>
       <button mat-button routerLink="/logs"><mat-icon>dvr</mat-icon>&nbsp;Logs</button>
-      <button mat-button *ngIf="!authService.filters && 
-        !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') ||
-        (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" 
-        (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && !disablFilter" (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
       <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
@@ -39,10 +36,7 @@
       <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
       <button mat-button routerLink="/stats"><mat-icon>pie_chart</mat-icon>&nbsp;Statistics</button>
       <span fxFlex></span>
-      <button mat-button *ngIf="!authService.filters && 
-        !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') ||  
-          (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" 
-          (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && !disablFilter" (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
       <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
@@ -60,10 +54,7 @@
       <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
       <button mat-button routerLink="/companies"><mat-icon>apartment</mat-icon>&nbsp;Companies</button>
       <span fxFlex></span>
-      <button mat-button *ngIf="!authService.filters && 
-        !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') ||  
-          (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs'))" 
-          (click)="authService.toggleFilters()">
+      <button mat-button *ngIf="!authService.filters && !disablFilter" (click)="authService.toggleFilters()">
         <mat-icon>search</mat-icon>&nbsp;Filter
       </button>
       <button mat-button (click)="helper.toggle()"><mat-icon>help</mat-icon></button>
@@ -87,17 +78,13 @@
   <!--Small Screen Display-->
   <span *ngIf="authService.isLoggedIn" class="fill-space" fxHide="false" fxHide.gt-md></span>
 
-  <!--TODO remove .lastIndexOf()-->
   <button mat-button fxHide="false" fxHide.gt-md
-    *ngIf="!authService.filters && 
-    !((this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'stats') || 
-     (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs') ||
-     (this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'login'))" 
-    (click)="authService.toggleFilters()">
+    *ngIf="!authService.filters && !disablFilter" (click)="authService.toggleFilters()">
     <mat-icon>search</mat-icon>&nbsp;Filter
   </button>
 
   <button mat-button (click)="helper.toggle()" fxHide="false" fxHide.gt-md><mat-icon>help</mat-icon></button>
+  <button *ngIf="authService.isLoggedIn" mat-flat-button disabled style="color: white;" fxHide="false" fxHide.gt-md>{{ authService.user.username }} - [{{ this.enumService.getRoleString(authService.user.role) }}]</button>
   <button *ngIf="authService.isLoggedIn && authService.isAdmin" mat-icon-button [matMenuTriggerFor]="adminMenu" fxHide="false" fxHide.gt-md>
     <mat-icon>menu</mat-icon>
   </button>
@@ -112,7 +99,7 @@
 
 <!--Progress Bar-->
 <mat-progress-bar
-  *ngIf="this.loadingService.getLoading() && !(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) === 'logs')" color="warn" mode="indeterminate">
+  *ngIf="this.loadingService.getLoading() && !(this.url === 'logs')" color="warn" mode="indeterminate">
 </mat-progress-bar>
 
 <!--Helper Drower and router-outlet (content)-->
@@ -127,7 +114,7 @@
 
 
 
-
+<!--Small Menu-->
 <mat-menu xPosition="before" #adminMenu="matMenu">
   <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
   <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
