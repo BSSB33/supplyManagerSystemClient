@@ -39,6 +39,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card'; 
 import { MatSidenavModule } from '@angular/material/sidenav'; 
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     FlexLayoutModule,
     MatCardModule,
     MatSidenavModule,
+    LeafletModule,
 
   ],
   providers: [
