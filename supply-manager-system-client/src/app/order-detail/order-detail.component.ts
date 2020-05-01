@@ -76,7 +76,7 @@ export class OrderDetailComponent implements OnInit {
     .subscribe();
     this.modifyStatus();
 
-    this.addHistorySystemMessage("Status was modified from " + this.originalStatus + " to " + this.statusForm.controls['status'].value, "STATUS_MODIFIED");
+    this.addHistorySystemMessage("Status was modified from \"" + this.enumService.getStatusString(this.originalStatus) + "\" to \"" + this.enumService.getStatusString(this.statusForm.controls['status'].value) + "\"", "STATUS_MODIFIED");
   }
 
   getStatuses(): void {
@@ -125,7 +125,7 @@ export class OrderDetailComponent implements OnInit {
 
     this.historyService.addHistory(history)
       .subscribe(history => {
-        this.histories.push(history);
+        this.histories.unshift(history);
       });
   }
   

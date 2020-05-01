@@ -223,10 +223,10 @@ export class OrderFormComponent implements OnInit {
     }
     //If Status modified, create a new History card
     if(this.originalStatus != this.orderForm.controls['status'].value){
-      this.addHistorySystemMessage("Status was modified from " + this.originalStatus + " to " + this.orderForm.controls['status'].value, "STATUS_MODIFIED");
+      this.addHistorySystemMessage("Status was modified from \"" + this.originalStatus + "\" to \"" + this.orderForm.controls['status'].value + "\"", "STATUS_MODIFIED");
     }
     if(this.originalName != this.orderForm.controls['productName'].value){
-      this.addHistorySystemMessage("Product Name was modified from " + this.originalName + " to " + this.orderForm.controls['productName'].value, "STATUS_MODIFIED");
+      this.addHistorySystemMessage("Product Name was modified from \"" + this.originalName + "\" to \"" + this.orderForm.controls['productName'].value + "\"", "STATUS_MODIFIED");
     }
     if(this.originalPrice != this.orderForm.controls['price'].value){
       this.addHistorySystemMessage("Product Price was modified from " + this.originalPrice + " Ft to " + this.orderForm.controls['price'].value + " Ft", "STATUS_MODIFIED");
