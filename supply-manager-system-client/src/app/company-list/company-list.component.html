@@ -51,21 +51,11 @@
         </thead>
         <tbody>
             <tr *ngFor="let company of companies | companyFilter : term">
-                
-                <td *ngIf="company.name; else missing">
-                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.name}}</a>
-                </td>
-                <td *ngIf="company.address; else missing">
-                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.address}}</a>
-                </td>
-                <td *ngIf="company.taxNumber; else missing">
-                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.taxNumber}}</a>
-                </td>
-                <td *ngIf="company.bankAccountNumber; else missing">
-                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.bankAccountNumber}}</a>
-                </td>
-
-                <td *ngIf="company.active; else disabledCompanyLabel">
+                <td *ngIf="company.name; else missing" [routerLink]="['/companies', company.id]">{{company.name}}</td>
+                <td *ngIf="company.address; else missing" [routerLink]="['/companies', company.id]">{{company.address}}</td>
+                <td *ngIf="company.taxNumber; else missing" [routerLink]="['/companies', company.id]">{{company.taxNumber}}</td>
+                <td *ngIf="company.bankAccountNumber; else missing" [routerLink]="['/companies', company.id]">{{company.bankAccountNumber}}</td>
+                <td *ngIf="company.active; else disabledCompanyLabel" [routerLink]="['/companies', company.id]">
                     <label style="color: green;">Enabled Company</label>
                 </td>
                 <ng-template #disabledCompanyLabel>

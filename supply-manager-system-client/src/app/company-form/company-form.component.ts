@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { CompanyService } from '../services/company.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Company } from '../classes/company';
 import { AuthService } from '../services/auth.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AppComponent } from '../app.component';
+import { CompanyService } from '../services/company.service';
 import { LoadingService } from '../services/loading.service';
 
 @Component({
