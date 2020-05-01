@@ -10,7 +10,7 @@
               <mat-card-subtitle *ngIf="order.createdAt"><b>Created At:</b> {{order.createdAt}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <p>
+
                 <label class="order-info" *ngIf="order.price; else noPrice" style="padding-left:1em"><b>Product Price:</b> &nbsp;
                     <label class="order-info">{{order.price | number}} Ft</label>
                 </label>
@@ -21,14 +21,28 @@
                 </ng-template>
                 <br>
     
-                <label class="order-info" *ngIf="order.status; else noStatus" style="padding-left:0.5em"><b>Product Status:</b> &nbsp;
-                    <label class="order-info">{{this.enumService.getStatusString(order.status)}}</label>
+                <!--Editable Status-->
+                <label class="order-info" *ngIf="order.status && !editStatus" style="padding-left:0.5em" (click)="modifyStatus()"><b>Product Status:</b> &nbsp;
+                    <label class="order-info">{{this.enumService.getStatusString(order.status)}}</label> <i style="font-size: small; padding-left:2em">Click to Modify</i>
                 </label>
-                <ng-template #noStatus>
-                    <label class="order-info"><b>Product Status:</b> &nbsp;
-                        <label class="order-info">Please set a Status for this order!</label>
+                <form [formGroup]="statusForm" *ngIf="order.status && editStatus">
+                    <label class="order-info" style="padding-left:1em"><b>Product Status: </b> &nbsp;
+                        <mat-form-field style="width: 200px;">
+                            <mat-select #status formControlName="status" 
+                            [(ngModel)] = "order.status" name="status" 
+                            placeholder="Enter Status" required>
+                                <mat-option *ngFor="let status of statuses" [value]="status" 
+                                    (click)="updateStatus()">{{this.enumService.getStatusString(status)}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                Please Select a Status
+                            </mat-error>
+                        </mat-form-field>
                     </label>
-                </ng-template>
+                </form>
+                <!--=============-->
+
                 <br>
                 <mat-divider></mat-divider>
                 <label class="order-info" *ngIf="order.buyer; else noBuyer" style="padding-left:0.1em"><b>Buyer Company:</b> &nbsp;
@@ -75,8 +89,7 @@
                 <label class="order-info" *ngIf="order.modifiedAt"><b>Last ModifiedAt At:</b> &nbsp;
                     <label class="order-info" style="padding-left:2em">{{order.modifiedAt}}</label>
                 </label>
-    
-              </p>
+
             </mat-card-content>
             <mat-card-actions>
                 <button mat-button [routerLink]="['/orders/edit', order.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
