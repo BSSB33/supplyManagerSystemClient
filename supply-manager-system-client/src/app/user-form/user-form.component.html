@@ -1,178 +1,168 @@
-<div *ngIf="loaded" fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
+<div *ngIf="user && loaded" fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
     <form [formGroup]="userForm" (submit)="submit()">
-        <div style="margin: 20px;">
-          <h1>Edit User</h1>
-        </div>
-        <div *ngIf="user" class="card" style="width: 40rem; margin: 20px;">
-          <div class="card-body">
-            <h2 class="font-weight-bold mb-3">User: {{user.fullName}}</h2>
-          </div>
-      
-          <ul class="list-group list-group-flush">
-      
-            <li class="list-group-item">
-             <label class="whiteLabel" style="padding-left:11em">Username: &nbsp;</label>
-             <mat-form-field style="width: 200px;">
-                <input matInput 
-                  #username
-                  formControlName="username" 
-                  [(ngModel)]="user.username"
-                  type="text" 
-                  name="username"
-                  placeholder="Enter Username"
-                  aria-describedby="titleHelp" 
-                  required/>
-                  <mat-error>
-                      Username must be at least 4 characters long
-                      and can only contain letters and numbers!
-                  </mat-error>
-              </mat-form-field>
-            </li>
-            
-            <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:11em">Full Name: &nbsp;</label>
-                 <mat-form-field style="width: 200px;">
-                     <input matInput 
-                       #fullName
-                       formControlName="fullName" 
-                       [(ngModel)]="user.fullName"
-                       type="text" 
-                       name="fullName"
-                       placeholder="Enter Full Name"
-                       aria-describedby="titleHelp" 
-                       required/>
-                       <mat-error>
-                            Full Name must be at least 4 characters long
-                            and can only contain Upper or Lowe case letters and White Spaces!
-                       </mat-error>
-                   </mat-form-field>
-               </li>
-    
-            <li class="list-group-item">
-            <label class="whiteLabel" style="padding-left:9em">Email Address: &nbsp;</label>
-                <mat-form-field style="width: 200px;">
-                <input matInput 
-                    #email
-                    formControlName="email" 
-                    [(ngModel)]="user.email"
-                    type="email" 
-                    name="email"
-                    placeholder="Enter email"
-                    aria-describedby="titleHelp" 
-                    required/>
-                    <mat-error>
-                    Please provide a valid email address!
-                    e.g.: something@gmail.com
-                    </mat-error>
-                </mat-form-field>
-            </li>
-               
-            <li class="list-group-item"
-            *ngIf="user.id !== authService.user.id">
-             <label class="whiteLabel" style="padding-left:9em">User Status (Enable/Disable): &nbsp;</label>
-            <mat-checkbox 
-                type="checkbox" 
-                value="user.enabled"
-                formControlName="userStatus"
-                [(ngModel)]="user.enabled">
-            </mat-checkbox>
-            </li>
-    
-            <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:11em">Password: &nbsp;</label>
-                <mat-form-field style="width: 200px;">
+        <mat-card class="user-card">
+            <mat-card-header>
+                <mat-card-title>Edit User</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+
+                <div class="column">
+                    <label class="user-info" style="padding-left:6em">Username: &nbsp;</label>
+                    <mat-form-field style="width: 200px;">
+                        <input matInput 
+                            #username
+                            formControlName="username" 
+                            [(ngModel)]="user.username"
+                            type="text" 
+                            name="username"
+                            placeholder="Enter Username"
+                            aria-describedby="titleHelp" 
+                            required/>
+                            <mat-error>
+                                Username must be at least 4 characters long
+                                and can only contain letters and numbers!
+                            </mat-error>
+                    </mat-form-field>
+
+                    <label class="user-info" style="padding-left:6em">Full Name: &nbsp;</label>
+                    <mat-form-field style="width: 200px;">
+                        <input matInput 
+                        #fullName
+                        formControlName="fullName" 
+                        [(ngModel)]="user.fullName"
+                        type="text" 
+                        name="fullName"
+                        placeholder="Enter Full Name"
+                        aria-describedby="titleHelp" 
+                        required/>
+                        <mat-error>
+                                Full Name must be at least 4 characters long
+                                and can only contain Upper or Lowe case letters and White Spaces!
+                        </mat-error>
+                    </mat-form-field>
+
+                    <label class="user-info" style="padding-left:4em">Email Address: &nbsp;</label>
+                    <mat-form-field style="width: 200px;">
                     <input matInput 
-                        #password 
-                        formControlName="newPassword" 
-                        name="newPassword"
-                        placeholder="Enter Password"
-                        aria-describedby="titleHelp"
-                        [type]="hidePassword ? 'password' : 'text'"/>
+                        #email
+                        formControlName="email" 
+                        [(ngModel)]="user.email"
+                        type="email" 
+                        name="email"
+                        placeholder="Enter email"
+                        aria-describedby="titleHelp" 
+                        required/>
+                        <mat-error>
+                        Please provide a valid email address!
+                        e.g.: something@gmail.com
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div *ngIf="user.id !== authService.user.id">
+                    <label class="user-info" style="padding-left:4em">User Status (Enable/Disable): &nbsp;</label>
+                    <mat-checkbox 
+                        type="checkbox" 
+                        value="user.enabled"
+                        formControlName="userStatus"
+                        [(ngModel)]="user.enabled">
+                    </mat-checkbox>
+                    </div>
+
+                </div>
+            
+                <div class="column">
+                    <label class="user-info" style="padding-left:6em">Password: &nbsp;</label>
+                    <mat-form-field style="width: 200px;">
+                        <input matInput 
+                            #password 
+                            formControlName="newPassword" 
+                            name="newPassword"
+                            placeholder="Enter Password"
+                            aria-describedby="titleHelp"
+                            [type]="hidePassword ? 'password' : 'text'"/>
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
                         <mat-error> 
                             Minimum: 8 characters long and 
                             must contain at least one Upper and Lower case letter and a number
                         </mat-error> 
-                </mat-form-field>
-            </li>
-            <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:5em">Password Confirmation:&nbsp;</label>
-                <mat-form-field style="width: 200px;">
-                    <input matInput 
-                        #confirmNewPassword 
-                        formControlName="confirmNewPassword" 
-                        name="confirmNewPassword"
-                        placeholder="Enter Password Again"
-                        aria-describedby="titleHelp"
-                        [type]="hidePassword ? 'password' : 'text'"/>
+                    </mat-form-field>
+        
+                    <label class="user-info" style="padding-left:0em">Password Confirmation:&nbsp;</label>
+                    <mat-form-field style="width: 200px;">
+                        <input matInput 
+                            #confirmNewPassword 
+                            formControlName="confirmNewPassword" 
+                            name="confirmNewPassword"
+                            placeholder="Enter Password Again"
+                            aria-describedby="titleHelp"
+                            [type]="hidePassword ? 'password' : 'text'"/>
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
                         <mat-error> 
                             Passwords must Match!
                         </mat-error> 
-                </mat-form-field>
-            </li>
-            <!--TODO errors overfit their containr in heright!-->
-            <li class="list-group-item" *ngIf="authService.isAdmin && authService.user.id !== user.id">
-                <label class="whiteLabel" style="padding-left:11.2em">User Role: &nbsp;</label>
-                <mat-form-field style="width: 200px;">
-                    <mat-select
-                    #userRole 
-                    formControlName="userRole" 
-                    name="userRole" 
-                    type="text" 
-                    placeholder="Select Role"
-                    [(ngModel)]="user.role"
-                    required>
-                    <mat-option value="ROLE_ADMIN" 
-                        (click)="setSelectedRole('ROLE_ADMIN')">Admin</mat-option>
-                        <mat-option value="ROLE_DIRECTOR" 
-                        (click)="setSelectedRole('ROLE_DIRECTOR')" 
-                        *ngIf="authService.isAdmin">
-                            Director</mat-option>
-                        <mat-option value="ROLE_MANAGER" 
-                        (click)="setSelectedRole('ROLE_MANAGER')" 
-                        *ngIf="authService.isAdmin || authService.isDirector">
-                            Manager</mat-option>
-                    </mat-select>
-                    <mat-error>
-                        Please select a role!
-                    </mat-error>
-                </mat-form-field>
-            </li>
-    
-            <li class="list-group-item" *ngIf="authService.isAdmin">
-                <label class="whiteLabel" style="padding-left:7em">Workplace Of User: &nbsp;</label>
-                <mat-form-field style="width: 200px; ">
-                    <mat-select
-                    #workplace
-                    formControlName="workplace" 
-                    name="workplace" 
-                    type="text" 
-                    [(ngModel)]="user.workplace.name"
-                    placeholder="Select Workplace"
-                    required>
-                        <mat-option value="" disabled>Choose a Company</mat-option>
-                        <ng-container *ngFor="let company of companies">
-                            <mat-option *ngIf="company.active" [value]="company.name">
-                                {{company.name}}
-                            </mat-option>
-                        </ng-container>
-                    </mat-select>
-                    <mat-error>
-                        Please select a Workplace!
-                    </mat-error>
-                </mat-form-field>
-            </li>
-            
-        </ul>
-        <div class="card-body">
-          <button [routerLink]="['/users/edit', user.id]" mat-raised-button [disabled]="!userForm.valid" color="primary"
-          type="submit">Save User</button>
-        </div>
-      </div>
-      
-    <div>
-        <button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button>
-    </div>
+                    </mat-form-field>
+        
+                        
+                    <div *ngIf="authService.isAdmin && authService.user.id !== user.id">
+                        <label class="user-info" style="padding-left:6.2em">User Role: &nbsp;</label>
+                        <mat-form-field style="width: 200px;">
+                            <mat-select
+                            #userRole 
+                            formControlName="userRole" 
+                            name="userRole" 
+                            type="text" 
+                            placeholder="Select Role"
+                            [(ngModel)]="user.role"
+                            required>
+                            <mat-option value="ROLE_ADMIN" 
+                                (click)="setSelectedRole('ROLE_ADMIN')">Admin</mat-option>
+                                <mat-option value="ROLE_DIRECTOR" 
+                                (click)="setSelectedRole('ROLE_DIRECTOR')" 
+                                *ngIf="authService.isAdmin">
+                                    Director</mat-option>
+                                <mat-option value="ROLE_MANAGER" 
+                                (click)="setSelectedRole('ROLE_MANAGER')" 
+                                *ngIf="authService.isAdmin || authService.isDirector">
+                                    Manager</mat-option>
+                            </mat-select>
+                            <mat-error>
+                                Please select a role!
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+        
+                    <div *ngIf="authService.isAdmin">
+                        <label class="user-info" style="padding-left:2em">Workplace Of User: &nbsp;</label>
+                        <mat-form-field style="width: 200px; ">
+                            <mat-select
+                            #workplace
+                            formControlName="workplace" 
+                            name="workplace" 
+                            type="text" 
+                            [(ngModel)]="user.workplace.name"
+                            placeholder="Select Workplace"
+                            required>
+                                <mat-option value="" disabled>Choose a Company</mat-option>
+                                <ng-container *ngFor="let company of companies">
+                                    <mat-option *ngIf="company.active" [value]="company.name">
+                                        {{company.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                            <mat-error>
+                                Please select a Workplace!
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </mat-card-content>
+            <mat-card-actions class="user-button">
+                <button mat-raised-button color="primary" [routerLink]="['/users/edit', user.id]" [disabled]="!userForm.valid" 
+                type="submit">Save User</button>
+                <button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button>
+
+            </mat-card-actions>
+        </mat-card>
     </form>
 </div>
