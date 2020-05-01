@@ -1,14 +1,6 @@
-.card-body{
-    color: white;
-    background-color: rgb(33, 37, 41);
-    border-color: darkslategray;
-}
-
-.list-group-item{
-    color: white;
-    font-size: medium;
-    font-weight: bold;
-    background-color: rgb(33, 37, 41);
+.card{
+    color: black;
+    padding-top: 20px;
 }
 
 ::ng-deep .mat-form-field-label{
@@ -37,6 +29,23 @@ background-color: white !important;
     font-weight: bold;
 }
 
-.backButton{
+.new-company-button {
     margin: 20px;
+    align-self: right;
+}
+
+.new-company-card {
+    width: 600px;
+    height: 500px;
+    margin: 20px;
+}
+
+.new-company-info{
+    margin-left: 15px;
+    margin-top: 5px;
+    font-size: medium;
+}
+
+.backButton{
+    margin-left: 20px;
 }

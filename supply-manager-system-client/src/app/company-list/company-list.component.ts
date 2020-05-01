@@ -48,7 +48,7 @@ export class CompanyListComponent implements OnInit {
   getCompanies(): void {
     this.companyService.getCompanies()
         .subscribe(companies => {
-          this.companies = companies
+          this.companies = companies.sort((a,b) =>{return a.name > b.name ? 1 : -1})
           this.loaded = true;
           this.loadingService.setLoading(false);
 

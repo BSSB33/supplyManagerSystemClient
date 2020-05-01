@@ -1,14 +1,12 @@
-<div *ngIf="loaded" fxLayoutAlign="center">
+<div *ngIf="company && loaded && this.authService.user.company && (this.authService.isAdmin || this.authService.user.company.id === company.id); else forbidden"
+    fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
     <form [formGroup]="companyForm" (submit)="submit()">
-        <div style="margin: 20px;">
-            <h1>Edit Company</h1>
-        </div>
-        <div *ngIf="company" class="card" style="width: 40rem; margin: 20px;">
-            <div class="card-body">
-                <h2 class="font-weight-bold mb-3">{{company.name}}</h2>
-            </div>
-            <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:5em">Company Name: &nbsp;
+        <mat-card class="new-company-card">
+            <mat-card-header>
+                <mat-card-title>Edit Company</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <label class="new-company-info" style="padding-left:5em">Company Name: &nbsp;
                     <mat-form-field style="width: 300px;">
                         <input matInput 
                         #companyName 
@@ -24,9 +22,8 @@
                         </mat-error>
                     </mat-form-field>
                 </label>
-            </li>
-            <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:3.9em">Company Address: &nbsp;
+
+                <label class="new-company-info" style="padding-left:3.9em">Company Address: &nbsp;
                     <mat-form-field style="width: 300px;">
                         <input matInput
                         #address 
@@ -42,9 +39,8 @@
                         </mat-error>
                     </mat-form-field>
                 </label>
-            </li>
-            <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:6.8em">Tax Number: &nbsp;
+
+                <label class="new-company-info" style="padding-left:6.7em">Tax Number: &nbsp;
                     <mat-form-field style="width: 300px;">
                         <input matInput
                         #taxNumber 
@@ -61,9 +57,8 @@
                         </mat-error>
                     </mat-form-field>
                 </label>
-            </li>
-            <li class="list-group-item">
-                <label class="whiteLabel" style="padding-left:2em">Bank Account Number: &nbsp;
+
+                <label class="new-company-info" style="padding-left:2em">Bank Account Number: &nbsp;
                     <mat-form-field style="width: 300px;">
                         <input matInput
                         #bankAccountNumber 
@@ -79,15 +74,23 @@
                         </mat-error>
                     </mat-form-field>
                 </label>
-            </li>
-            
-            <div class="card-body">
-                <button mat-raised-button [routerLink]="['/companies/edit', company.id]" [disabled]="!companyForm.valid"
-                type="submit" color="primary">Save Company</button>
-            </div>
-        </div>
-        <div>
-            <button mat-raised-button color="primary" class="backButton" (click)="goBack()">Back</button>
-        </div>
+                
+                <mat-card-actions class="new-company-button">
+                    <button mat-raised-button [routerLink]="['/companies/edit', company.id]" [disabled]="!companyForm.valid"
+                        type="submit" color="primary">Save Company
+                    </button>
+                    <button mat-raised-button color="primary"  (click)="goBack()">Back
+                    </button>
+                </mat-card-actions>
+            </mat-card-content>
+        </mat-card>
     </form>
 </div>
+<ng-template #forbidden>
+    <div fxLayout="row wrap" fxLayoutAlign="center" class="card" style="width: 50rem; margin: 20px;">
+        <h2>FORBIDDEN! - You dont have access for this page!</h2>
+    
+        <p *ngIf="path">You might want to go back to the main page: <a [routerLink]="path">"{{ path }}"</a></p>
+    </div>
+    <button mat-raised-button color="primary" class="backButton" (click)="goBack()">Go back to previous page!</button>
+</ng-template>

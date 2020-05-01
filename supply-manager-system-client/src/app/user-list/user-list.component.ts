@@ -81,10 +81,10 @@ export class UserListComponent implements OnInit {
 
   getCompanies(): void {
     this.companyService.getCompanies()
-        .subscribe(companies => {
-          this.companies = companies
-          this.switchProgressBar();
-        });
+      .subscribe(companies => {
+        this.companies = companies.sort((a,b) =>{return a.name > b.name ? 1 : -1});
+        this.switchProgressBar();
+      });
   }
 
   disableOrEnableUser(user: User){

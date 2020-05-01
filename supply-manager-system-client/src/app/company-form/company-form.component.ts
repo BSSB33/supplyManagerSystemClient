@@ -24,7 +24,7 @@ loaded: boolean = false;
     private location: Location,
     private route: ActivatedRoute,
     public companyService: CompanyService,
-    private authService: AuthService,
+    public authService: AuthService,
     private loadingService: LoadingService,
   ){ 
     if (!this.authService.isManager) {
@@ -70,9 +70,10 @@ loaded: boolean = false;
     this.companyService.updateCompany(this.company)
       .subscribe(() => this.goBack());
   }
-
+  
+  path: string = "/";
   goBack(): void {
     this.location.back();
   }
-  
+
 }
