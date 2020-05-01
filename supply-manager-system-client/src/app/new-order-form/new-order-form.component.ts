@@ -55,9 +55,11 @@ export class NewOrderFormComponent implements OnInit {
         ]),
         productStatus: new FormControl('', Validators.required),
         seller: new FormControl('', Validators.required),
+        archived: new FormControl(),
         buyer: new FormControl('', Validators.required),
         sellerManager: new FormControl('', Validators.required),
         buyerManager: new FormControl('', Validators.required),
+        description: new FormControl(),
       });
       
     }
@@ -70,10 +72,12 @@ export class NewOrderFormComponent implements OnInit {
           Validators.pattern('^[0-9]+')
         ]),
         productStatus: new FormControl('', Validators.required),
+        archived: new FormControl(),
         seller: new FormControl({ value: this.authService.user.workplace.name, disabled: true }, Validators.required),
         buyer: new FormControl('', Validators.required),
         sellerManager: new FormControl('', Validators.required),
         buyerManager: new FormControl({ disabled: true }, Validators.required),
+        description: new FormControl(),
       });
     }
     if (!this.sales && !authService.isAdmin) {
@@ -85,10 +89,12 @@ export class NewOrderFormComponent implements OnInit {
           Validators.pattern('^[0-9]+')
         ]),
         productStatus: new FormControl('', Validators.required),
+        archived: new FormControl(),
         seller: new FormControl('', Validators.required),
         buyer: new FormControl({ value: this.authService.user.workplace.name, disabled: true }, Validators.required),
         sellerManager: new FormControl({ disabled: true }, Validators.required),
         buyerManager: new FormControl('', Validators.required),
+        description: new FormControl(),
       });
     }
   }
@@ -121,15 +127,18 @@ export class NewOrderFormComponent implements OnInit {
       this.orderForm.controls['productName'].value,
       this.orderForm.controls['productPrice'].value,
       this.orderForm.controls['productStatus'].value,
+      this.orderForm.controls['archived'].value,
       this.orderForm.controls['buyer'].value,
       this.orderForm.controls['buyerManager'].value,
       this.orderForm.controls['seller'].value,
-      this.orderForm.controls['sellerManager'].value
+      this.orderForm.controls['sellerManager'].value,
+      this.orderForm.controls['description'].value
     );
   }
 
-  add(productName: String, productPrice: Number, productStatus: String, buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string) {
-    this.orderList.addNewOrder(productName, productPrice, productStatus, buyerName, buyerManagerName, sellerName, sellerManagerName);
+  add(productName: String, productPrice: Number, productStatus: String, archived: boolean, 
+    buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string, description: string) {
+    this.orderList.addNewOrder(productName, productPrice, productStatus, archived, buyerName, buyerManagerName, sellerName, sellerManagerName, description);
     this.orderList.toggleAddOrder();
   }
 

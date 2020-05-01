@@ -73,7 +73,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     CompanyNameFilterPipe,
     OrderBuyerFilterPipe,
     OrderSellerFilterPipe,
-    HelperComponent
+    HelperComponent,
+    ArchivedFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -139,6 +140,7 @@ import { CompanyNameFilterPipe } from './pipes/company-name-filter.pipe';
 import { OrderBuyerFilterPipe } from './pipes/order-buyer-filter.pipe';
 import { OrderSellerFilterPipe } from './pipes/order-seller-filter.pipe';
 import { HelperComponent } from './helper/helper.component';
+import { ArchivedFilterPipe } from './pipes/archived-filter.pipe';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

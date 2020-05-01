@@ -22,8 +22,11 @@
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-button [routerLink]="" (click)="deleteHistory(history)"
+            <button mat-button *ngIf="!this.history.order.archived; else archivedHistory" [routerLink]="" (click)="deleteHistory(history)"
             style="margin-left:20px; margin-bottom:20px;">DELETE</button>
+            <ng-template #archivedHistory>
+                <button mat-button style="margin-left:20px; margin-bottom:20px;" disabled>DELETE</button>
+            </ng-template>
         </mat-card-actions>
     </mat-card>
 </div>

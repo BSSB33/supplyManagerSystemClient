@@ -30,6 +30,7 @@ export class OrderListComponent implements OnInit {
   title = "Orders";
   addButtonText = "Order";
   addOrder: Boolean = false;
+  hideArchived: boolean = true;
   companies: Company[];
   companiesFromOrders: Set<String> = new Set();
   selectedBuyerCompanyName: string;
@@ -70,7 +71,7 @@ export class OrderListComponent implements OnInit {
     this.filter();
   }
 
-  private filter(): void {
+  filter(): void {
     this.filteredOrders = this.selectedStatus == ''
     ? this.orders
     : this.orders.filter(order => order.status == this.selectedStatus);
@@ -99,8 +100,9 @@ export class OrderListComponent implements OnInit {
         .subscribe(companies => this.companies = companies);
   }
 
-  addNewOrder(productName: String, price: Number, status: String,
-    buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string): void {
+  addNewOrder(productName: String, price: Number, status: String, archived: boolean,
+    buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string,
+    description: string): void {
     productName = productName.trim();
     price = Number(price);
     status = status.trim();
@@ -109,7 +111,7 @@ export class OrderListComponent implements OnInit {
     var sellerManager = this.users.find(user => user.username == sellerManagerName);
     var buyerManager = this.users.find(user => user.username == buyerManagerName);
         
-    var order : Order = new Order(productName, price, status, buyer, buyerManager, seller, sellerManager);
+    var order : Order = new Order(productName, price, status, archived, buyer, buyerManager, seller, sellerManager, description);
 
     this.orderService.addOrder(order)
       .subscribe(order => {
@@ -134,7 +136,6 @@ export class OrderListComponent implements OnInit {
           this.orders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
           this.filteredOrders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
           this.setStatusOptions(orders);
-
           let workplaces: Set<String> = new Set();
           if(this.orderService.href == "sales" || this.orderService.href == "orders"){
             orders.forEach(order => {
@@ -208,6 +209,7 @@ export class OrderListComponent implements OnInit {
         case 'productName': return this.compare(a.productName, b.productName, isAsc);
         case 'price': return this.compare(a.price, b.price, isAsc);
         case 'status': return this.compare(a.status, b.status, isAsc);
+        case 'archived': return this.compare(a.archived, b.archived, isAsc);
         case 'buyer': return this.compare(a.buyer.name, b.buyer.name, isAsc);
         case 'buyerManager': return this.compareManagers(a.buyerManager, b.buyerManager, isAsc);
         case 'seller': return this.compare(a.seller.name, b.seller.name, isAsc);
@@ -233,7 +235,7 @@ export class OrderListComponent implements OnInit {
     }
   }
 
-  compare(a: Number | String, b: Number | String, isAsc: boolean) {
+  compare(a: Number | String | Boolean, b: Number | String | Boolean, isAsc: boolean) {
       return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
@@ -250,4 +252,8 @@ export class OrderListComponent implements OnInit {
     this.messageService.add(`OrderList: ${message}`);
   }
 
+  activateOrder(order: Order){
+    order.archived = false;
+    this.orderService.updateOrder(order).subscribe();
+  }
 }

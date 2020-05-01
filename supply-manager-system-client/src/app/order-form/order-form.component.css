@@ -40,12 +40,12 @@ background-color: white !important;
 
 .backButton{
     margin: 20px;
-    margin-left: 20px;
+    margin-left: 400px;
 }
 
 .order-card {
     width: 625px;
-    max-height: 1000px;
+    max-height: 1150px;
     /*min-height: 200px;*/
     margin: 20px;
 }

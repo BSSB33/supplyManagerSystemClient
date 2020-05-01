@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../services/order.service';
@@ -15,6 +15,7 @@ import { stringify } from 'querystring';
 import { MessageService } from '../services/message.service';
 import { EnumService } from '../services/enum.service';
 import { LoadingService } from '../services/loading.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'order-form',
@@ -50,6 +51,7 @@ export class OrderFormComponent implements OnInit {
     public authService: AuthService,
     public enumService: EnumService,
     private loadingService: LoadingService,
+    private cdRef: ChangeDetectorRef,
     ) 
     { 
       //Admin page
@@ -65,10 +67,12 @@ export class OrderFormComponent implements OnInit {
             Validators.pattern('^[0-9]+')
           ]),
           status: new FormControl(),
+          archived: new FormControl(),
           seller: new FormControl(Validators.required),
           buyer: new FormControl(Validators.required),
           sellerManager: new FormControl(Validators.required),
           buyerManager: new FormControl(Validators.required),
+          description: new FormControl(),
         });
       }
       //Sales page
@@ -81,8 +85,10 @@ export class OrderFormComponent implements OnInit {
             Validators.pattern('^[0-9]+')
           ]),
           status: new FormControl(),
+          archived: new FormControl(),
           sellerManager: new FormControl(Validators.required),
           buyerManager: new FormControl(),
+          description: new FormControl(),
         });
       }
       //Purchase pages
@@ -95,15 +101,22 @@ export class OrderFormComponent implements OnInit {
             Validators.pattern('^[0-9]+')
           ]),
           status: new FormControl(),
+          archived: new FormControl(),
           buyerManager: new FormControl(Validators.required),
           sellerManager: new FormControl(),
+          description: new FormControl(),
         });
       }
     }
+
+  ngAfterViewChecked() {
+    
+    this.cdRef.detectChanges();
+  }
    
   ngOnInit(): void {
-    this.getOrderById();
     this.getManagersOfUser();
+    this.getOrderById();
     this.getCompanies();
     this.setUpNewStatusChangeHistory();
     this.getStatuses();
@@ -139,17 +152,55 @@ export class OrderFormComponent implements OnInit {
       .subscribe(
         order => {
         this.order = order;
+        this.disableArchivedForm(order);
         this.originalStatus = order.status;
         this.originalName = order.productName;
         this.originalPrice = order.price;
         this.companyService.getCompanies()
           .subscribe(companies => {
             this.companies = companies;
+            delay(300);
             this.initFilterUsersOfBuyerCompany(order.buyer.name, companies);
             this.initFilterUsersOfSellerCompany(order.seller.name, companies);
             this.switchProgressBar();
           });
       });
+  }
+
+  disableArchivedForm(order: Order){
+    if(order.archived){
+      this.orderForm.controls['productName'].disable();
+      this.orderForm.controls['price'].disable();
+      this.orderForm.controls['status'].disable();
+      this.orderForm.controls['seller'].disable();
+      this.orderForm.controls['buyer'].disable();
+      this.orderForm.controls['buyerManager'].disable();
+      this.orderForm.controls['sellerManager'].disable();
+      this.orderForm.controls['description'].disable();
+    }
+  }
+
+  disableOrEnableArchivedForm(order: Order){
+    if(!order.archived){
+      this.orderForm.controls['productName'].disable();
+      this.orderForm.controls['price'].disable();
+      this.orderForm.controls['status'].disable();
+      this.orderForm.controls['seller'].disable();
+      this.orderForm.controls['buyer'].disable();
+      this.orderForm.controls['buyerManager'].disable();
+      this.orderForm.controls['sellerManager'].disable();
+      this.orderForm.controls['description'].disable();
+    }
+    if(order.archived){
+      this.orderForm.controls['productName'].enable();
+      this.orderForm.controls['price'].enable();
+      this.orderForm.controls['status'].enable();
+      this.orderForm.controls['seller'].enable();
+      this.orderForm.controls['buyer'].enable();
+      this.orderForm.controls['buyerManager'].enable();
+      this.orderForm.controls['sellerManager'].enable();
+      this.orderForm.controls['description'].enable();
+    }
   }
 
   getManagersOfUser(): void{

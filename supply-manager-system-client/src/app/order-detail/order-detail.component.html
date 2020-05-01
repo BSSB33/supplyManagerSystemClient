@@ -43,6 +43,15 @@
                 </form>
                 <!--=============-->
 
+                <label class="order-info" *ngIf="!order.archived; else archived" style="padding-left:4em"><b>Archive:</b> &nbsp;
+                    <label class="order-info"><label style="color: green;">Active</label></label>
+                </label>
+                <ng-template #archived>
+                    <label class="order-info"><b>Archive:</b> &nbsp;
+                        <label class="order-info"><label style="color: brown;">Archived</label></label>
+                    </label>
+                </ng-template>
+
                 <br>
                 <mat-divider></mat-divider>
                 <label class="order-info" *ngIf="order.buyer; else noBuyer" style="padding-left:0.1em"><b>Buyer Company:</b> &nbsp;
@@ -59,8 +68,8 @@
                     <label class="order-info">{{order.buyerManager.username}}</label>
                 </label>
                 <ng-template #noBuyerManager>
-                    <label class="order-info" style="padding-left:0.4em"><b>Buyer Manager:</b> &nbsp;
-                        <label class="order-info unassigned">UNASSIGNED</label>
+                    <label class="order-info" style="padding-left:0.6em"><b>Buyer Manager:</b> &nbsp;
+                        <label class="order-info" style="color:red">UNASSIGNED</label>
                     </label>
                 </ng-template>
                 <br>
@@ -79,28 +88,47 @@
                     <label class="order-info">{{order.sellerManager.username}}</label>
                 </label>
                 <ng-template #noSellerManager>
-                    <label class="order-info"><b>Seller Manager:</b> &nbsp;
-                        <label class="order-info unassigned">UNASSIGNED</label>
+                    <label class="order-info" style="padding-left:0.6em"><b>Seller Manager:</b> &nbsp;
+                        <label class="order-info" style="color:red">UNASSIGNED</label>
                     </label>
                 </ng-template>
                 <br>
                 <mat-divider></mat-divider>
     
                 <label class="order-info" *ngIf="order.modifiedAt"><b>Last ModifiedAt At:</b> &nbsp;
-                    <label class="order-info" style="padding-left:2em">{{order.modifiedAt}}</label>
+                    <label class="order-info" style="padding-left:2em">{{order.modifiedAt | date :  "yyyy. MM. dd."}}</label>
                 </label>
+
+                
+                <label class="order-info" *ngIf="order.description; else noDescription" style="padding-left:0em"><b>Product Description:</b> &nbsp;
+                    <label class="order-info">{{order.description}}</label>
+                </label>
+                <ng-template #noDescription>
+                    <label class="order-info" style="padding-left:0em"><b>Product Description:</b> &nbsp;
+                        <label class="order-info"><a style="color: peru;" [routerLink]="['/orders/edit', order.id]">Click here to add description</a></label>
+                    </label>
+                </ng-template>
+                <mat-divider></mat-divider>
 
             </mat-card-content>
             <mat-card-actions>
-                <button mat-button [routerLink]="['/orders/edit', order.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
-    
-                <button mat-button *ngIf="!addHistory; else cancel" [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Add History</button>
-                <ng-template #cancel>
-                    <button mat-button *ngIf="addHistory" #cancel [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Cancel New History</button>
-                </ng-template>
-                <div>
-                    <button mat-raised-button color="primary" style="margin-left:20px; margin-bottom:20px;" class="backButton" routerLink='/sales'>Back</button>
+                
+                <div *ngIf="!order.archived; else archivedOrder">
+                    <button mat-button [routerLink]="['/orders/edit', order.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
+
+                    <button mat-button *ngIf="!addHistory; else cancel" [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Add History</button>
+                    <ng-template #cancel>
+                        <button mat-button *ngIf="addHistory" #cancel [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Cancel New History</button>
+                    </ng-template>
+                    <div>
+                        <button mat-raised-button color="primary" style="margin-left:20px; margin-bottom:20px;" class="backButton" routerLink='/sales'>Back</button>
+                    </div>
                 </div>
+                <ng-template #archivedOrder>
+                    <button mat-button [routerLink]="['/orders/edit', order.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
+                    <button mat-button style="margin-left:20px; margin-bottom:20px;" disabled>Add History</button>
+                </ng-template>
+
             </mat-card-actions>
     
         </mat-card>
