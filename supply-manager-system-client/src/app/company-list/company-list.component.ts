@@ -9,8 +9,9 @@ import { ForbiddenDialogComponent } from '../forbidden-dialog/forbidden-dialog.c
 import { Sort } from '@angular/material/sort';
 import { AppComponent } from '../app.component';
 import { LoadingService } from '../services/loading.service';
-import { tileLayer, latLng, marker, icon, polyline } from 'leaflet';
 import * as $ from 'jquery';
+import { LayerGroup } from 'leaflet';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-company-list',
@@ -35,11 +36,13 @@ export class CompanyListComponent implements OnInit {
     private loadingService: LoadingService,
   ) {
     this.authService.filters = false;
+
    }
 
   ngOnInit(): void {
     this.getCompanies();
     this.term = "";
+    
   }
   
   getCompanies(): void {
@@ -49,7 +52,7 @@ export class CompanyListComponent implements OnInit {
           this.loaded = true;
           this.loadingService.setLoading(false);
 
-          let coordinates = [];
+          /*let coordinates = [];
 
           companies.forEach(company => {
             $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q='+ company.address, function(data){
@@ -57,8 +60,7 @@ export class CompanyListComponent implements OnInit {
                 coordinates.push(data[0]);
               })
             })
-          this.coordinates = coordinates;
-          console.log(this.coordinates);
+          this.getMap(coordinates);*/
         });
   }
 
@@ -150,43 +152,26 @@ export class CompanyListComponent implements OnInit {
   }
 
 
-  //Leaflet map
-  
-  // Define our base layers so we can reference them multiple times
-  streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    detectRetina: true,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  });
+  //Leaflet map  
+  getMap(coordinates){
 
-  wMaps = tileLayer('http://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
-    detectRetina: true,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  });
-  
-  summit = marker([ 46.8523, -121.7603 ], {
-    icon: icon({
-      iconSize: [ 25, 41 ],
-      iconAnchor: [ 13, 41 ],
-      iconUrl: 'leaflet/marker-icon.png',
-      shadowUrl: 'leaflet/marker-shadow.png'
-    })
-  });
+    var mymap = L.map('mapid').setView([47.497913, 19.040236], 13);
 
-  // Layers control object with our two base layers and the three overlay layers
-  layersControl = {
-    baseLayers: {
-      'Street Maps': this.streetMaps,
-      'Wikimedia Maps': this.wMaps
-    },
-    overlays: {
-      'Mt. Rainier Summit': this.summit,
-      //'Mt. Rainier Paradise Start': this.paradise,
-    }
-  };
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYnNzYjMzIiwiYSI6ImNrOW85cTUxMzA3eTMzZG1ydmwyYzhhaHEifQ.NdZf9IMNO1ZNiKJxTZbTTw',
+    {
+      maxZoom: 18,
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1
+    }).addTo(mymap);
 
-  options = {
-    layers: [ this.streetMaps, this.summit ],
-    zoom: 11,
-    center: latLng([ 47.497913, 19.040236 ]),
-  };
+    console.log(coordinates); //.lat + ", " + coordinate.lon
+    
+
+    L.marker([47.497913, 19.040236]).addTo(mymap)
+      .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+    }    
 }
