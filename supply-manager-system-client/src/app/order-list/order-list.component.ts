@@ -43,6 +43,10 @@ export class OrderListComponent implements OnInit {
   term: string = "";
   statuses: Set<String> = new Set();
 
+  page: number = 1;
+  pageSize: number = 10;
+  collectionSize: number;
+
   constructor(
     public orderService: OrderService,
     public messageService: MessageService,
@@ -131,25 +135,25 @@ export class OrderListComponent implements OnInit {
 
   getOrders(): void {
     this.orderService.getOrders()
-        .subscribe(
-          orders => {
-          this.orders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
-          this.filteredOrders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
-          this.setStatusOptions(orders);
-          let workplaces: Set<String> = new Set();
-          if(this.orderService.href == "sales" || this.orderService.href == "orders"){
-            orders.forEach(order => {
-              workplaces.add(order.buyer.name);
-            })
-          }
-          else if(this.orderService.href == "purchases" || this.orderService.href == "orders"){
-            orders.forEach(order => {
-              workplaces.add(order.seller.name);
-            })
-          }
-          this.companiesFromOrders = workplaces;
-          this.switchProgressBar();
-        });
+      .subscribe(
+        orders => {
+        this.orders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
+        this.filteredOrders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
+        this.setStatusOptions(orders);
+        let workplaces: Set<String> = new Set();
+        if(this.orderService.href == "sales" || this.orderService.href == "orders"){
+          orders.forEach(order => {
+            workplaces.add(order.buyer.name);
+          })
+        }
+        else if(this.orderService.href == "purchases" || this.orderService.href == "orders"){
+          orders.forEach(order => {
+            workplaces.add(order.seller.name);
+          })
+        }
+        this.companiesFromOrders = workplaces;
+        this.switchProgressBar();
+      });
   }
 
   onBuyerCompanyFilterChange(companyName: string){

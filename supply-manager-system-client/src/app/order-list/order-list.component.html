@@ -80,7 +80,7 @@
         <th scope="col">Delete</th>
     </thead>
     <tbody>
-      <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName | archivedFilter : hideArchived">
+      <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName | archivedFilter : hideArchived | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
         <td *ngIf="order.productName; else missing" [routerLink]="['/orders', order.id]">{{order.productName | uppercase}}</td>
         <td *ngIf="order.price; else missing" [routerLink]="['/orders', order.id]">{{order.price | number}} Ft</td>
         <td *ngIf="order.status; else missing" [routerLink]="['/orders', order.id]">{{this.enumService.getStatusString(order.status)}}</td>
@@ -99,7 +99,7 @@
 
         <ng-template #archivedEdit>
           <td><button mat-raised-button color="primary" (click)="this.activateOrder(order)">
-            <mat-icon>remove_circle_outline</mat-icon>&nbsp;Activate Order
+            <mat-icon>remove_circle_outline</mat-icon>&nbsp;ReOpen
           </button></td>
         </ng-template>
 
@@ -123,4 +123,13 @@
       </tr>
     </tbody>
   </table>
+  <ngb-pagination fxFlexFill fxLayout="row wrap" fxLayoutAlign="end" 
+    [(page)]="page" [pageSize]="pageSize" [collectionSize]="filteredOrders.length">
+    <ng-template ngbPaginationFirst>First</ng-template>
+    <ng-template ngbPaginationLast>Last</ng-template>
+    <ng-template ngbPaginationPrevious>Prev</ng-template>
+    <ng-template ngbPaginationNext>Next</ng-template>
+    <ng-template ngbPaginationEllipsis>...</ng-template>
+    <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+  </ngb-pagination>
 </div>

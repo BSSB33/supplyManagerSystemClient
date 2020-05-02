@@ -10,7 +10,6 @@ import { Sort } from '@angular/material/sort';
 import { LoadingService } from '../services/loading.service';
 import * as $ from 'jquery';
 import * as L from 'leaflet';
-import 'proj4leaflet';
 
 @Component({
   selector: 'app-company-list',

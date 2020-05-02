@@ -21,7 +21,7 @@
     right: 5px;
 }
 
-mat-drawer-content {
+.mat-drawer-content {
     padding: 12px;
     display: flex;
     flex-direction: column;
@@ -34,4 +34,18 @@ mat-drawer-content {
     margin: 12px;
 }
 
+::ng-deep .pagination .page-item .page-link {
+    border-radius: 1 !important;
+}
   
+/*::ng-deep .pagination .page-link {
+    border-style: none !important;
+    background-color: white !important;
+    color: black !important;
+}
+
+::ng-deep .pagination .page-item.active {
+    color: rgb(66, 65, 65);
+    background-color: rgb(66, 65, 65);
+    border-color: darkgrey;
+}*/

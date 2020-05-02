@@ -9,7 +9,6 @@ import { Company } from '../classes/company';
 import { httpOptions } from './auth.service';
 import * as $ from 'jquery';
 import * as L from 'leaflet';
-import 'proj4leaflet';
 
 @Injectable({
   providedIn: 'root'
