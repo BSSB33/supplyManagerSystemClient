@@ -7,11 +7,10 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MessageService } from '../services/message.service';
 import { ForbiddenDialogComponent } from '../forbidden-dialog/forbidden-dialog.component';
 import { Sort } from '@angular/material/sort';
-import { AppComponent } from '../app.component';
 import { LoadingService } from '../services/loading.service';
 import * as $ from 'jquery';
-import { LayerGroup } from 'leaflet';
 import * as L from 'leaflet';
+import 'proj4leaflet';
 
 @Component({
   selector: 'app-company-list',
@@ -42,26 +41,16 @@ export class CompanyListComponent implements OnInit {
   ngOnInit(): void {
     this.getCompanies();
     this.term = "";
-    
   }
   
   getCompanies(): void {
     this.companyService.getCompanies()
-        .subscribe(companies => {
-          this.companies = companies.sort((a,b) =>{return a.name > b.name ? 1 : -1})
-          this.loaded = true;
-          this.loadingService.setLoading(false);
-
-          /*let coordinates = [];
-
-          companies.forEach(company => {
-            $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q='+ company.address, function(data){
-              //console.log(data[0].lat, data[0].lon);
-                coordinates.push(data[0]);
-              })
-            })
-          this.getMap(coordinates);*/
-        });
+      .subscribe(companies => {
+        this.companies = companies.sort((a,b) =>{return a.name > b.name ? 1 : -1})
+        this.loaded = true;
+        this.loadingService.setLoading(false);
+        this.companyService.getMap(companies);
+      });
   }
 
   disableOrEnableCompany(copmany: Company): void {
@@ -152,26 +141,4 @@ export class CompanyListComponent implements OnInit {
   }
 
 
-  //Leaflet map  
-  getMap(coordinates){
-
-    var mymap = L.map('mapid').setView([47.497913, 19.040236], 13);
-
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYnNzYjMzIiwiYSI6ImNrOW85cTUxMzA3eTMzZG1ydmwyYzhhaHEifQ.NdZf9IMNO1ZNiKJxTZbTTw',
-    {
-      maxZoom: 18,
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1
-    }).addTo(mymap);
-
-    console.log(coordinates); //.lat + ", " + coordinate.lon
-    
-
-    L.marker([47.497913, 19.040236]).addTo(mymap)
-      .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-    }    
 }
