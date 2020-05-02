@@ -16,6 +16,8 @@ import { FilterPipe } from '../pipes/filter.pipe';
 import { Sort } from '@angular/material/sort';
 import { MatSortHeader } from '@angular/material/sort';
 import { EnumService } from '../services/enum.service';
+import { AppComponent } from '../app.component';
+import { LoadingService } from '../services/loading.service';
 
 
 @Component({
@@ -28,6 +30,7 @@ export class OrderListComponent implements OnInit {
   title = "Orders";
   addButtonText = "Order";
   addOrder: Boolean = false;
+  hideArchived: boolean = true;
   companies: Company[];
   companiesFromOrders: Set<String> = new Set();
   selectedBuyerCompanyName: string;
@@ -48,6 +51,7 @@ export class OrderListComponent implements OnInit {
     public authService: AuthService,
     private companyService: CompanyService,
     private userService: UserService,
+    public loadingService: LoadingService,
   ) { 
     this.authService.filters = false;
   }
@@ -67,7 +71,7 @@ export class OrderListComponent implements OnInit {
     this.filter();
   }
 
-  private filter(): void {
+  filter(): void {
     this.filteredOrders = this.selectedStatus == ''
     ? this.orders
     : this.orders.filter(order => order.status == this.selectedStatus);
@@ -80,13 +84,25 @@ export class OrderListComponent implements OnInit {
     }
   }
 
+  toLoad: number = 0;
+  loaded: boolean = false;
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 2){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
+
   getCompanies(): void {
     this.companyService.getCompanies()
         .subscribe(companies => this.companies = companies);
   }
 
-  addNewOrder(productName: String, price: Number, status: String,
-    buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string): void {
+  addNewOrder(productName: String, price: Number, status: String, archived: boolean,
+    buyerName: string, buyerManagerName: string, sellerName: string, sellerManagerName: string,
+    description: string): void {
     productName = productName.trim();
     price = Number(price);
     status = status.trim();
@@ -95,7 +111,7 @@ export class OrderListComponent implements OnInit {
     var sellerManager = this.users.find(user => user.username == sellerManagerName);
     var buyerManager = this.users.find(user => user.username == buyerManagerName);
         
-    var order : Order = new Order(productName, price, status, buyer, buyerManager, seller, sellerManager);
+    var order : Order = new Order(productName, price, status, archived, buyer, buyerManager, seller, sellerManager, description);
 
     this.orderService.addOrder(order)
       .subscribe(order => {
@@ -115,11 +131,11 @@ export class OrderListComponent implements OnInit {
 
   getOrders(): void {
     this.orderService.getOrders()
-        .subscribe(orders => {
-          this.orders = orders;
-          this.filteredOrders = orders;
+        .subscribe(
+          orders => {
+          this.orders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
+          this.filteredOrders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
           this.setStatusOptions(orders);
-
           let workplaces: Set<String> = new Set();
           if(this.orderService.href == "sales" || this.orderService.href == "orders"){
             orders.forEach(order => {
@@ -132,6 +148,7 @@ export class OrderListComponent implements OnInit {
             })
           }
           this.companiesFromOrders = workplaces;
+          this.switchProgressBar();
         });
   }
 
@@ -145,11 +162,13 @@ export class OrderListComponent implements OnInit {
 
   getUsers(): void{
     this.userService.getUsers()
-      .subscribe(users => this.users = users);
+      .subscribe(users => {
+        this.users = users
+        this.switchProgressBar();
+      });
   }
 
   deleteOrder(order: Order): void {
-    console.log(order.id);
     this.orders = this.orders.filter(h => h !== order);
     this.filter();
     this.orderService.deleteOrder(order).subscribe();
@@ -190,6 +209,7 @@ export class OrderListComponent implements OnInit {
         case 'productName': return this.compare(a.productName, b.productName, isAsc);
         case 'price': return this.compare(a.price, b.price, isAsc);
         case 'status': return this.compare(a.status, b.status, isAsc);
+        case 'archived': return this.compare(a.archived, b.archived, isAsc);
         case 'buyer': return this.compare(a.buyer.name, b.buyer.name, isAsc);
         case 'buyerManager': return this.compareManagers(a.buyerManager, b.buyerManager, isAsc);
         case 'seller': return this.compare(a.seller.name, b.seller.name, isAsc);
@@ -215,7 +235,7 @@ export class OrderListComponent implements OnInit {
     }
   }
 
-  compare(a: Number | String, b: Number | String, isAsc: boolean) {
+  compare(a: Number | String | Boolean, b: Number | String | Boolean, isAsc: boolean) {
       return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
@@ -232,4 +252,8 @@ export class OrderListComponent implements OnInit {
     this.messageService.add(`OrderList: ${message}`);
   }
 
+  activateOrder(order: Order){
+    order.archived = false;
+    this.orderService.updateOrder(order).subscribe();
+  }
 }

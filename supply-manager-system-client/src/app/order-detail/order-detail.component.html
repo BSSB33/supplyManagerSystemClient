@@ -1,83 +1,148 @@
-<div *ngIf="order" class="card" style="width: 40rem; margin: 20px;">
+<div fxLayout="center row" fxLayoutAlign="center">
+    <div *ngIf="order && loaded" fxLayout="row wrap" fxLayoutAlign="center">
 
-    <div *ngIf="order.price; else elseBlock0" class="card-body">
-        <h2 class="font-weight-bold mb-3">Order: {{order.productName}}</h2>
+        <mat-card class="order-card">
+            <mat-card-header>
+              <mat-card-title *ngIf="order.productName; else noName"><b>Order:</b> {{order.productName}}</mat-card-title>
+                <ng-template #noName>
+                    <mat-card-title>Please Add Product for this order!</mat-card-title>
+                </ng-template>
+              <mat-card-subtitle *ngIf="order.createdAt"><b>Created At:</b> {{order.createdAt}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+
+                <label class="order-info" *ngIf="order.price; else noPrice" style="padding-left:1em"><b>Product Price:</b> &nbsp;
+                    <label class="order-info">{{order.price | number}} Ft</label>
+                </label>
+                <ng-template #noPrice>
+                    <label class="order-info" ><b>Product Price:</b> &nbsp;
+                        <label class="order-info">Please Add Price for this order!</label>
+                    </label>
+                </ng-template>
+                <br>
+    
+                <!--Editable Status-->
+                <label class="order-info" *ngIf="order.status && !editStatus" style="padding-left:0.5em" (click)="modifyStatus()"><b>Product Status:</b> &nbsp;
+                    <label class="order-info">{{this.enumService.getStatusString(order.status)}}</label> <i style="font-size: small; padding-left:2em">Click to Modify</i>
+                </label>
+                <form [formGroup]="statusForm" *ngIf="order.status && editStatus">
+                    <label class="order-info" style="padding-left:1em"><b>Product Status: </b> &nbsp;
+                        <mat-form-field style="width: 200px;">
+                            <mat-select #status formControlName="status" 
+                            [(ngModel)] = "order.status" name="status" 
+                            placeholder="Enter Status" required>
+                                <mat-option *ngFor="let status of statuses" [value]="status" 
+                                    (click)="updateStatus()">{{this.enumService.getStatusString(status)}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                Please Select a Status
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                </form>
+                <!--=============-->
+
+                <label class="order-info" *ngIf="!order.archived; else archived" style="padding-left:4em"><b>Archive:</b> &nbsp;
+                    <label class="order-info"><label style="color: green;">Active</label></label>
+                </label>
+                <ng-template #archived>
+                    <label class="order-info"><b>Archive:</b> &nbsp;
+                        <label class="order-info"><label style="color: brown;">Archived</label></label>
+                    </label>
+                </ng-template>
+
+                <br>
+                <mat-divider></mat-divider>
+                <label class="order-info" *ngIf="order.buyer; else noBuyer" style="padding-left:0.1em"><b>Buyer Company:</b> &nbsp;
+                    <label class="order-info">{{order.buyer.name}}</label>
+                </label>
+                <ng-template #noBuyer>
+                    <label class="order-info"><b>Buyer Company:</b> &nbsp;
+                        <label class="order-info">Please set buyer company you wish to sell this product to.</label>
+                    </label>
+                </ng-template>
+                <br>
+    
+                <label class="order-info" *ngIf="order.buyerManager; else noBuyerManager" style="padding-left:0.4em"><b>Buyer Manager:</b> &nbsp;
+                    <label class="order-info">{{order.buyerManager.username}}</label>
+                </label>
+                <ng-template #noBuyerManager>
+                    <label class="order-info" style="padding-left:0.6em"><b>Buyer Manager:</b> &nbsp;
+                        <label class="order-info" style="color:red">UNASSIGNED</label>
+                    </label>
+                </ng-template>
+                <br>
+                <mat-divider></mat-divider>
+                <label class="order-info" *ngIf="order.seller; else noSeller" style="padding-left:0.2em"><b>Seller Company:</b> &nbsp;
+                    <label class="order-info">{{order.seller.name}}</label>
+                </label>
+                <ng-template #noSeller>
+                    <label class="order-info"><b>Seller Company:</b> &nbsp;
+                        <label class="order-info">Please set seller company you wish to sell this product</label>
+                    </label>
+                </ng-template>
+                <br>
+    
+                <label class="order-info" *ngIf="order.sellerManager; else noSellerManager" style="padding-left:0.5em"><b>Seller Manager:</b> &nbsp;
+                    <label class="order-info">{{order.sellerManager.username}}</label>
+                </label>
+                <ng-template #noSellerManager>
+                    <label class="order-info" style="padding-left:0.6em"><b>Seller Manager:</b> &nbsp;
+                        <label class="order-info" style="color:red">UNASSIGNED</label>
+                    </label>
+                </ng-template>
+                <br>
+                <mat-divider></mat-divider>
+    
+                <label class="order-info" *ngIf="order.modifiedAt"><b>Last ModifiedAt At:</b> &nbsp;
+                    <label class="order-info" style="padding-left:2em">{{order.modifiedAt | date :  "yyyy. MM. dd."}}</label>
+                </label>
+
+                
+                <label class="order-info" *ngIf="order.description; else noDescription" style="padding-left:0em"><b>Product Description:</b> &nbsp;
+                    <label class="order-info">{{order.description}}</label>
+                </label>
+                <ng-template #noDescription>
+                    <label class="order-info" style="padding-left:0em"><b>Product Description:</b> &nbsp;
+                        <label class="order-info"><a style="color: peru;" [routerLink]="['/orders/edit', order.id]">Click here to add description</a></label>
+                    </label>
+                </ng-template>
+                <mat-divider></mat-divider>
+
+            </mat-card-content>
+            <mat-card-actions>
+                
+                <div *ngIf="!order.archived; else archivedOrder">
+                    <button mat-button [routerLink]="['/orders/edit', order.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
+
+                    <button mat-button *ngIf="!addHistory; else cancel" [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Add History</button>
+                    <ng-template #cancel>
+                        <button mat-button *ngIf="addHistory" #cancel [routerLink]="" style="margin-left:20px; margin-bottom:20px;" (click)="toggleAddHistory()">Cancel New History</button>
+                    </ng-template>
+                    <div>
+                        <button mat-raised-button color="primary" style="margin-left:20px; margin-bottom:20px;" class="backButton" routerLink='/sales'>Back</button>
+                    </div>
+                </div>
+                <ng-template #archivedOrder>
+                    <button mat-button [routerLink]="['/orders/edit', order.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
+                    <button mat-button style="margin-left:20px; margin-bottom:20px;" disabled>Add History</button>
+                </ng-template>
+
+            </mat-card-actions>
+    
+        </mat-card>
     </div>
-    <ng-template #elseBlock0>
-        <div class="card-body">
-            <h2 class="font-weight-bold mb-3">Order:&nbsp;<label>Please Add Product for this order</label></h2>
-        </div>
-    </ng-template>
-
-    <ul class="list-group list-group-flush">
-        <li *ngIf="order.price; else elseBlock1" class="list-group-item">
-            <label>Product Price: {{order.price | number}} Ft</label></li>
-        <ng-template #elseBlock1>
-            <li class="list-group-item"><label>Product Price:&nbsp;</label><label class="unassigned"> Please Add a Price
-                    for this order</label></li>
-        </ng-template>
-
-        <li *ngIf="order.status; else elseBlock2" class="list-group-item">
-            <label>Product Status: {{this.enumService.getStatusString(order.status)}}</label></li>
-        <ng-template #elseBlock2>
-            <li class="list-group-item"><label>Product Status:&nbsp;</label><label class="unassigned"> Please Add a
-                    Status for this order</label></li>
-        </ng-template>
-
-        <li *ngIf="order.buyer; else elseBlock3" class="list-group-item">
-            <label>Buyer Company: {{order.buyer.name}}</label></li>
-        <ng-template #elseBlock3>
-            <li class="list-group-item"><label>Buyer Company:&nbsp;</label><label class="unassigned">Please set buyer
-                    company you wish to sell this product</label></li>
-        </ng-template>
-
-        <li *ngIf="order.buyerManager; else elseBlock4" class="list-group-item">
-            <label>Buyer Manager: {{order.buyerManager.username}}</label></li>
-        <ng-template #elseBlock4>
-            <li class="list-group-item"><label>Buyer Manager:&nbsp;</label><label class="unassigned"> UNASSIGNED</label>
-            </li>
-        </ng-template>
-
-        <li *ngIf="order.seller; else elseBlock5" class="list-group-item">
-            <label>Seller Companys: {{order.seller.name}}</label></li>
-        <ng-template #elseBlock5>
-            <li class="list-group-item"><label>Seller Companys:&nbsp;</label><label class="unassigned"> ISSUE </label>
-            </li>
-        </ng-template>
-
-        <li *ngIf="order.sellerManager; else elseBlock6" class="list-group-item">
-            <label>Seller Manager: {{order.sellerManager.username}}</label></li>
-        <ng-template #elseBlock6>
-            <li class="list-group-item"><label>Seller Manager:&nbsp;</label><label class="unassigned">
-                    UNASSIGNED</label></li>
-        </ng-template>
-
-        <li class="list-group-item">
-            <label>Created At: {{order.createdAt}}</label>
-        </li>
-
-        <li class="list-group-item">
-            <label>Last ModifiedAt At: {{order.modifiedAt}}</label>
-        </li>
-
-    </ul>
-    <div class="card-body">
-        <a [routerLink]="['/orders/edit', order.id]" class="card-link">Edit Order</a>
-        <a *ngIf="!addHistory; else cancel" [routerLink]="" class="card-link" (click)="toggleAddHistory()">Add History</a>
-        <ng-template #cancel>
-            <a *ngIf="addHistory" #cancel [routerLink]="" class="card-link" (click)="toggleAddHistory()">Cancel New History</a>
-        </ng-template>
+    
+    <div *ngIf="histories && loaded" fxLayout="column">
+        
+        <tr *ngIf="addHistory">
+            <history-form></history-form>
+        
+        </tr>
+        <h3 *ngIf="histories.length !== 0" fxLayout="column" style="margin: 20px;">Histories of Order:</h3>
+        <tr *ngFor="let history of histories">
+            <history [history]="history"></history>
+        </tr>
     </div>
 </div>
-
-<h3 style="margin: 20px;">Histories of Order:</h3>
-<table class="table table-hover" style="color: black; font-size: large;">
-    <tr *ngIf="addHistory">
-        <history-form></history-form>
-    </tr>
-    <tr *ngFor="let history of histories">
-        <history [history]="history"></history>
-    </tr>
-</table>
-
-<div><button mat-raised-button color="primary" class="backButton" routerLink='/sales'>Back</button></div>

@@ -1,5 +1,6 @@
-<div class="panel panel-default" style="margin: 20px;">
+<div *ngIf="loaded" class="panel panel-default" style="margin: 20px;">
 
+  <!--Order Filter Panel-->
   <div class="filterPanel" *ngIf="authService.filters">
     <mat-form-field class="filterTool">  
       <input matInput 
@@ -10,7 +11,7 @@
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <mat-form-field class="filterTool" *ngIf="this.orderService.href === 'sales' || this.orderService.href === 'orders'">
+    <mat-form-field class="filterTool" style="width: 200px;" *ngIf="this.orderService.href === 'sales' || this.orderService.href === 'orders'">
       <mat-label>Select Buyer Company:</mat-label>
       <mat-select>
           <mat-option value="" (click)="onBuyerCompanyFilterChange('')">
@@ -21,7 +22,7 @@
           </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="filterTool" *ngIf="this.orderService.href === 'purchases' || this.orderService.href === 'orders'">
+    <mat-form-field class="filterTool" style="width: 200px;" *ngIf="this.orderService.href === 'purchases' || this.orderService.href === 'orders'">
       <mat-label>Select Seller Company:</mat-label>
       <mat-select>
           <mat-option value="" (click)="onSellerCompanyFilterChange('')">
@@ -34,16 +35,42 @@
     </mat-form-field>
 
     <order-status-filter class="filterTool" [status]="selectedStatus" [statuses]="statuses" (onChange)="onFilterChange($event)"></order-status-filter>
-    
+    <br>
+    <label class="filterTool">Hide Archived: &nbsp;</label>
+    <mat-checkbox 
+        type="checkbox" 
+        value="hideArchived"
+        [(ngModel)]="hideArchived">
+    </mat-checkbox>
+
     <button mat-button id="closeButton" (click)="closeFilter()">Close Filter</button>
   </div>
 
-  <h2 style="margin-left: 20px;"> {{title}} </h2>
+  <!--Order Title and New Order Button-->
+  <h2 style="margin-left: 20px;"> {{title}} 
+    <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" (click)="this.loadingService.setLoading(true);" mat-raised-button
+    color="primary">
+    <mat-icon>add</mat-icon>&nbsp;Add {{addButtonText}}
+  </button>
+  </h2>
+
+  <ng-template #cancel>
+    <button *ngIf="addOrder" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary">
+      <mat-icon>remove</mat-icon>&nbsp;Cancel New {{addButtonText}}
+    </button>
+  </ng-template>
+
+  <div *ngIf="addOrder">
+    <new-order-form></new-order-form>
+  </div>
+
+  <!--Order List-->
   <table matSort (matSortChange)="sortData($event)" class="table table-hover table-dark table-curved">
     <thead>
         <th scope="col" mat-sort-header="productName">Product Name</th>
         <th scope="col" mat-sort-header="price">Price</th>
         <th scope="col" mat-sort-header="status">Status</th>
+        <th scope="col" mat-sort-header="archived">Archived</th>
         <th scope="col" mat-sort-header="buyer">Buyer Company</th>
         <th scope="col" mat-sort-header="buyerManager">Buyer Manager</th>
         <th scope="col" mat-sort-header="seller">Seller Company</th>
@@ -53,58 +80,47 @@
         <th scope="col">Delete</th>
     </thead>
     <tbody>
-      <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName">
-        <td *ngIf="order.buyer; else missing">
-          <a [routerLink]="['/orders', order.id]" style="color: azure;">{{order.productName | uppercase}}</a></td>
-        <td *ngIf="order.buyer; else missing">{{order.price | number}} Ft</td>
-        <td *ngIf="order.buyer; else missing">{{this.enumService.getStatusString(order.status)}}</td>
-        <td *ngIf="order.buyer; else unassigned">{{order.buyer.name}}</td>
-        <td *ngIf="order.buyerManager; else unassigned">{{order.buyerManager.username}}</td>
-        <td *ngIf="order.seller; else unassigned">{{order.seller.name}}</td>
-        <td *ngIf="order.sellerManager; else unassigned">{{order.sellerManager.username}}</td>
-        <td *ngIf="order.buyer; else missing">{{order.createdAt | date :  "yyyy. MM. dd."}}</td>
-        <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
+      <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName | archivedFilter : hideArchived">
+        <td *ngIf="order.productName; else missing" [routerLink]="['/orders', order.id]">{{order.productName | uppercase}}</td>
+        <td *ngIf="order.price; else missing" [routerLink]="['/orders', order.id]">{{order.price | number}} Ft</td>
+        <td *ngIf="order.status; else missing" [routerLink]="['/orders', order.id]">{{this.enumService.getStatusString(order.status)}}</td>
+        <td *ngIf="!order.archived; else archivedOrder" [routerLink]="['/orders', order.id]"><label style="color: green;">Active</label></td>
+        <td *ngIf="order.buyer; else unassigned" [routerLink]="['/orders', order.id]">{{order.buyer.name}}</td>
+        <td *ngIf="order.buyerManager; else unassigned" [routerLink]="['/orders', order.id]">{{order.buyerManager.username}}</td>
+        <td *ngIf="order.seller; else unassigned" [routerLink]="['/orders', order.id]">{{order.seller.name}}</td>
+        <td *ngIf="order.sellerManager; else unassigned" [routerLink]="['/orders', order.id]">{{order.sellerManager.username}}</td>
+        <td *ngIf="order.createdAt; else missing" [routerLink]="['/orders', order.id]">{{order.createdAt | date :  "yyyy. MM. dd."}}</td>
+        <td *ngIf="!order.archived; else archivedEdit"><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
             <mat-icon>edit</mat-icon>&nbsp;Edit
           </button></td>
         <td><button mat-raised-button color="warn" (click)="openDeleteOrderDialog(order)">
             <mat-icon>delete</mat-icon>&nbsp;Delete
           </button></td>
 
+        <ng-template #archivedEdit>
+          <td><button mat-raised-button color="primary" (click)="this.activateOrder(order)">
+            <mat-icon>remove_circle_outline</mat-icon>&nbsp;Activate Order
+          </button></td>
+        </ng-template>
+
         <ng-template #unassigned>
-          <td>
-            <strong><a style="color: orangered;">UNASSIGNED</a></strong>
+          <td [routerLink]="['/orders', order.id]" >
+            <label style="color: orangered;">UNASSIGNED</label>
+          </td>
+        </ng-template>
+
+        <ng-template #archivedOrder>
+          <td [routerLink]="['/orders', order.id]" >
+            <label style="color: brown;">Archived</label>
           </td>
         </ng-template>
 
         <ng-template #missing>
-          <td><strong style="color: green;">Please Add Value</strong></td>
+          <td [routerLink]="['/orders', order.id]" >
+            <label style="color: green;">Please Add Value</label>
+          </td>
         </ng-template>
       </tr>
     </tbody>
   </table>
-
-  <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button
-    color="primary">
-    <mat-icon>add</mat-icon>&nbsp;Add {{addButtonText}}
-  </button>
-  <ng-template #cancel>
-    <button *ngIf="addOrder" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary">
-      <mat-icon>remove</mat-icon>&nbsp;Cancel new {{addButtonText}}
-    </button>
-  </ng-template>
-
-  <div *ngIf="addOrder">
-    <h4 *ngIf="addButtonText === 'Sale'; else purchase" style="margin: 10px;">Give an Offer:</h4>
-    <ng-template #purchase>
-      <h4 style="margin: 10px;">Order from a Company:</h4>
-    </ng-template>
-
-    <new-order-form></new-order-form>
-  </div>
-
 </div>
-
-<!--<footer>
-  <mat-divider style="width: 100%;"></mat-divider>
-  <p class="dividerText">&copy; All rights reserved for <i>SupplyManagerSystem</i> 2020<br>Page hints</p>
-</footer>-->

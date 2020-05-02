@@ -9,6 +9,7 @@ import { Company } from '../classes/company';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-user-form',
@@ -31,6 +32,7 @@ export class UserFormComponent implements OnInit {
     private userService: UserService,
     public authService: AuthService,
     private dialog: MatDialog,
+    private loadingService: LoadingService,
   ) {
     this.userForm = new FormGroup({
       username: new FormControl('', [
@@ -77,10 +79,24 @@ export class UserFormComponent implements OnInit {
     };
   }
 
+  toLoad: number = 0;
+  loaded: boolean = false;
+  
+  //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 2){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
   
   getCompanies(): void {
     this.companyService.getCompanies()
-      .subscribe(companies => this.companies = companies);
+      .subscribe(companies => {
+        this.companies = companies
+        this.switchProgressBar();
+      });
   }
 
   getUserById(): void {
@@ -89,6 +105,7 @@ export class UserFormComponent implements OnInit {
       .subscribe(user => {
         this.user = user;
         this.originalUsername = user.username;
+        this.switchProgressBar();
       });
   }
 
@@ -101,7 +118,7 @@ export class UserFormComponent implements OnInit {
     if(this.selectedRole == null){
       this.selectedRole = this.user.role;
     }
-    if(this.authService.user.role == "ROLE_ADMIN"){
+    if(this.authService.isAdmin){
       //Setting workplace and company for each user upon modification
       if(this.selectedRole == 'ROLE_DIRECTOR' || this.selectedRole == 'ROLE_ADMIN'){
         this.user.workplace = this.companies.find(company => company.name == this.userForm.controls['workplace'].value);
@@ -119,10 +136,10 @@ export class UserFormComponent implements OnInit {
       }
       
     }
-    else if(this.authService.user.role == "ROLE_DIRECTOR" && this.user.role == 'ROLE_DIRECTOR'){
+    else if(this.authService.isDirector && this.user.role == 'ROLE_DIRECTOR'){
       this.user.role = 'ROLE_DIRECTOR';
     }
-    else if(this.authService.user.role == "ROLE_DIRECTOR" && this.user.role == 'ROLE_MANAGER'){
+    else if(this.authService.isDirector && this.user.role == 'ROLE_MANAGER'){
       this.user.role = 'ROLE_MANAGER';
     }
 

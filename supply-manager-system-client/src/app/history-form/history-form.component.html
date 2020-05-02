@@ -1,37 +1,38 @@
-<div class="card fixedContainer historyTable" style="background-color: #8D6142;">
+<div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
     <form #historyForm="ngForm">
-        <div style="margin: 20px;">
-            <table class="table table-sm ellipsis" style="background-color: #8D6142;">
-                <tbody>
-                    <tr>
-                        <label class="whiteLabel">Select type :
-                            <mat-form-field style="width: 200px;">
-                                <mat-select #historyType placeholder="Select Type" name="type" [formControl]="historyControl">
-                                    <mat-option *ngFor="let historyType of historyTypes" [value]="historyType" >{{this.enumService.getHistoryTypeString(historyType)}}</mat-option>
-                                    <mat-option value="STATUS_MODIFIED" disabled>Status Modified</mat-option>
-                                </mat-select>
-                                <mat-error >
-                                    Please choose a Status
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <label class="whiteLabel">Add note:
-                            <mat-form-field style="width: 200px;">
-                                <input matInput #historyNote type="text" name="price" placeholder="Enter Note"
-                                    aria-describedby="titleHelp"/>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <button [routerLink]="" mat-flat-button [disabled]="historyNote.empty || historyType.empty" color="primary"
-                            (click)="add(historyNote.value, historyType.value); historyType.value=''; historyNote.value='';">Save
-                            Order
-                        </button>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <mat-card class="history-card">
+            <mat-card-header>
+                <mat-card-title>
+                    Add New Histotory
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+
+                <label style="padding-left:2em">Select type: &nbsp;</label>
+                <mat-form-field style="width: 200px;">
+                    <mat-select #historyType placeholder="Select Type" name="type" [formControl]="historyControl">
+                        <mat-option *ngFor="let historyType of historyTypes" [value]="historyType" >{{this.enumService.getHistoryTypeString(historyType)}}</mat-option>
+                        <mat-option value="STATUS_MODIFIED" disabled>Status Modified</mat-option>
+                    </mat-select>
+                    <mat-error>
+                        Please choose a Status
+                    </mat-error>
+                </mat-form-field>
+                    <br>
+                <label style="padding-left:3em">Add note: &nbsp;</label>
+                <mat-form-field style="width: 400px;">
+                    <input matInput #historyNote type="text" name="price" placeholder="Enter Note"
+                        aria-describedby="titleHelp"/>
+                </mat-form-field>
+
+            </mat-card-content>
+            <mat-card-actions>
+                <button style="margin-left:20px; margin-bottom:20px;"
+                mat-raised-button [disabled]="historyNote.empty || historyType.empty" color="primary"
+                (click)="add(historyNote.value, historyType.value); historyType.value=''; historyNote.value='';">
+                SAVE
+            </button>
+            </mat-card-actions>
+        </mat-card>
     </form>
 </div>

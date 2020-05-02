@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Order } from '../classes/order';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { History } from '../classes/history';
@@ -35,11 +35,55 @@ export class OrderService {
     if(this.href != "orders") url = this.sales_purchasesUrl;
     return this.http.get<Order[]>(url, httpOptions)
       .pipe(
+        //delay(2000),
         tap(_ => this.log('Fetched Orders')),
         catchError(this.handleError<Order[]>('getOrders', []))
       );
   }
 
+  getOrder(id: number): Observable<Order> {
+    const url = `${this.ordersUrl}/${id}`;
+    return this.http.get<Order>(url, httpOptions).pipe(
+      //delay(2000),
+      tap(_ => this.log(`Fetched Order ID=${id}`)),
+      catchError(this.handleError<Order>(`getOrder ID=${id}`))
+    );
+  }
+
+  getHistoriesOfOrder(id: number): Observable<History[]> {
+    const url = `${this.ordersUrl}/${id}/histories`;
+    return this.http.get<History[]>(url, httpOptions)
+      .pipe(
+        tap(_ => this.log('Fetched Histories of order: ' + id)),
+        catchError(this.handleError<History[]>('getHistoriesOfOrder', []))
+      );
+  }
+
+  updateOrder (order: Order): Observable<any> {
+    const url = `${this.ordersUrl}/${order.id}`;
+    return this.http.put(url, order, httpOptions).pipe(
+      tap(_ => this.log(`Updated Order ID=${order.id}`)),
+      catchError(this.handleError<any>('updateOrder'))
+    );
+  }
+
+  addOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(this.ordersUrl, order, httpOptions).pipe(
+      tap((order: Order) => this.log(`added Order w/ id=${order.id}`)),
+      catchError(this.handleError<Order>('addOrder'))
+    );
+  }
+
+  deleteOrder (order: Order | number): Observable<Order> {
+    const id = typeof order === 'number' ? order : order.id;
+    const url = `${this.ordersUrl}/${id}`;
+    return this.http.delete<Order>(url, httpOptions).pipe(
+      tap(_ => this.log(`Deleted Order ID=${id}`)),
+      catchError(this.handleError<Order>('deleteOrder'))
+    );
+  }
+
+  
   async getMonthlyIncomeStats(): Promise<any> {
     return this.http.get<any>(this.ordersUrl + '/stats/monthlyIncome', httpOptions)
       .pipe(
@@ -78,47 +122,6 @@ export class OrderService {
         tap(_ => this.log('Fetched Stats')),
         catchError(this.handleError<any>('getUserCountStats', []))
       ).toPromise();
-  }
-
-  getOrder(id: number): Observable<Order> {
-    const url = `${this.ordersUrl}/${id}`;
-    return this.http.get<Order>(url, httpOptions).pipe(
-      tap(_ => this.log(`Fetched Order ID=${id}`)),
-      catchError(this.handleError<Order>(`getOrder ID=${id}`))
-    );
-  }
-
-  getHistoriesOfOrder(id: number): Observable<History[]> {
-    const url = `${this.ordersUrl}/${id}/histories`;
-    return this.http.get<History[]>(url, httpOptions)
-      .pipe(
-        tap(_ => this.log('Fetched Histories of order: ' + id)),
-        catchError(this.handleError<History[]>('getHistoriesOfOrder', []))
-      );
-  }
-
-  updateOrder (order: Order): Observable<any> {
-    const url = `${this.ordersUrl}/${order.id}`;
-    return this.http.put(url, order, httpOptions).pipe(
-      tap(_ => this.log(`Updated Order ID=${order.id}`)),
-      catchError(this.handleError<any>('updateOrder'))
-    );
-  }
-
-  addOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(this.ordersUrl, order, httpOptions).pipe(
-      tap((order: Order) => this.log(`added Order w/ id=${order.id}`)),
-      catchError(this.handleError<Order>('addOrder'))
-    );
-  }
-
-  deleteOrder (order: Order | number): Observable<Order> {
-    const id = typeof order === 'number' ? order : order.id;
-    const url = `${this.ordersUrl}/${id}`;
-    return this.http.delete<Order>(url, httpOptions).pipe(
-      tap(_ => this.log(`Deleted Order ID=${id}`)),
-      catchError(this.handleError<Order>('deleteOrder'))
-    );
   }
 
   /**

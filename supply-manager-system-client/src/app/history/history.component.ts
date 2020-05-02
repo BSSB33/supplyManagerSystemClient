@@ -21,7 +21,6 @@ export class HistoryComponent implements OnInit {
     this.orderDetailComponent.deleteHistory(history);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }

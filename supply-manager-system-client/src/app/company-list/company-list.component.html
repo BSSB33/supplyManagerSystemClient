@@ -1,5 +1,6 @@
-<div class="panel panel-default" style="margin: 20px; width: 1200px;">
+<div *ngIf="loaded" class="panel panel-default" style="margin: 20px">
 
+    <!--Company Filter-->
     <div class="filterPanel" *ngIf="authService.filters">
         <mat-form-field class="filterTool">  
           <input matInput 
@@ -13,7 +14,27 @@
         <button mat-button id="closeButton" (click)="closeFilter()">Close Filter</button>
     </div>
 
-    <h2 style="margin-left: 20px;">Registered Companies</h2>
+    <!--Register Title and New Button-->
+    <h2 style="margin-left: 20px;">Registered Companies
+        <button *ngIf="!addCompany && authService.isAdmin; else cancel" style="margin-left: 10px;" (click)="toggleAddCompany()" mat-raised-button
+            color="primary">
+            <mat-icon>add</mat-icon>&nbsp;Register New Company
+        </button>
+    </h2>
+    
+    <ng-template #cancel>
+        <button *ngIf="addCompany && authService.isAdmin" style="margin-left: 10px;" (click)="toggleAddCompany()" mat-raised-button
+            color="primary">
+            <mat-icon>remove</mat-icon>&nbsp;Cancel New Company
+        </button>
+    </ng-template>
+
+    <div *ngIf="addCompany">
+        <h4 style="margin: 10px;">Register a New Copmany:</h4>
+        <new-company-form></new-company-form>
+    </div>
+
+    <!--Company List Table-->
     <table matSort (matSortChange)="sortData($event)" class="table table-dark table-hover table-curved">
         <thead>
             <tr>
@@ -23,28 +44,18 @@
                 <th scope="col" mat-sort-header="bankAccountNumber">Bank Account Number</th>
                 <th scope="col" mat-sort-header="status">Company Status</th>
                 <th scope="col"
-                    *ngIf="authService.user.role === 'ROLE_ADMIN' || authService.user.role === 'ROLE_DIRECTOR'">Edit
+                    *ngIf="authService.isAdmin  || authService.isDirector">Edit
                     Company</th>
-                <th scope="col" *ngIf="authService.user.role === 'ROLE_ADMIN'">Disable Company</th>
+                <th scope="col" *ngIf="authService.isAdmin">Disable Company</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let company of companies | companyFilter : term">
-                
-                <td *ngIf="company.name; else missing">
-                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.name}}</a>
-                </td>
-                <td *ngIf="company.address; else missing">
-                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.address}}</a>
-                </td>
-                <td *ngIf="company.taxNumber; else missing">
-                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.taxNumber}}</a>
-                </td>
-                <td *ngIf="company.bankAccountNumber; else missing">
-                    <a [routerLink]="['/companies', company.id]" style="color: azure;">{{company.bankAccountNumber}}</a>
-                </td>
-
-                <td *ngIf="company.active; else disabledCompanyLabel">
+                <td *ngIf="company.name; else missing" [routerLink]="['/companies', company.id]">{{company.name}}</td>
+                <td *ngIf="company.address; else missing" [routerLink]="['/companies', company.id]">{{company.address}}</td>
+                <td *ngIf="company.taxNumber; else missing" [routerLink]="['/companies', company.id]">{{company.taxNumber}}</td>
+                <td *ngIf="company.bankAccountNumber; else missing" [routerLink]="['/companies', company.id]">{{company.bankAccountNumber}}</td>
+                <td *ngIf="company.active; else disabledCompanyLabel" [routerLink]="['/companies', company.id]">
                     <label style="color: green;">Enabled Company</label>
                 </td>
                 <ng-template #disabledCompanyLabel>
@@ -53,34 +64,34 @@
                     </td>
                 </ng-template>
 
-                <td *ngIf="authService.user.role === 'ROLE_ADMIN' else directorEditButtons">
+                <td *ngIf="authService.isAdmin else directorEditButtons">
                     <button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">
                         <mat-icon>edit</mat-icon>&nbsp;Edit Company
                     </button>
                 </td>
                 <ng-template #directorEditButtons>
-                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && authService.user.company.id === company.id else nonDirectorEditButtons">
+                    <td *ngIf="authService.isDirector && authService.user.company.id === company.id else nonDirectorEditButtons">
                         <button mat-raised-button color="primary" [routerLink]="['/companies/edit', company.id]">
                             <mat-icon>edit</mat-icon>&nbsp;Edit Company
                         </button>
                     </td>
                 </ng-template>
                 <ng-template #nonDirectorEditButtons>
-                    <td *ngIf="authService.user.role === 'ROLE_DIRECTOR' && authService.user.company.id !== company.id">
+                    <td *ngIf="authService.isDirector && authService.user.company.id !== company.id">
                         <button mat-raised-button color="primary" disabled>
                             <mat-icon>edit</mat-icon>&nbsp;Edit Company
                         </button>
                     </td>
                 </ng-template>
 
-                <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.workplace.id !== company.id; else usersCompany">
+                <td *ngIf="company.active && authService.isAdmin && authService.user.workplace.id !== company.id; else usersCompany">
                     <button mat-raised-button color="warn"
                         (click)="openDisableOrEnableCompanyDialog(company, 'disable')">
                         <mat-icon>remove_circle</mat-icon>&nbsp;Disable
                     </button>
                 </td>
                 <ng-template #usersCompany>
-                    <td *ngIf="company.active && authService.user.role === 'ROLE_ADMIN' && authService.user.workplace.id === company.id; else disabledCompany">
+                    <td *ngIf="company.active && authService.isAdmin && authService.user.workplace.id === company.id; else disabledCompany">
                         <button mat-raised-button color="warn"
                             (click)="openDisableOrEnableCompanyDialog(company, 'enable')" disabled>
                             <mat-icon>remove_circle</mat-icon>&nbsp;Disable
@@ -88,7 +99,7 @@
                     </td>
                 </ng-template>
                 <ng-template #disabledCompany>
-                    <td *ngIf="!company.active && authService.user.role === 'ROLE_ADMIN'">
+                    <td *ngIf="!company.active && authService.isAdmin">
                         <button mat-raised-button color="warn"
                             (click)="openDisableOrEnableCompanyDialog(company, 'enable')">
                             <mat-icon>remove_circle_outline</mat-icon>&nbsp;Enable
@@ -107,19 +118,10 @@
         <td><strong style="color: green;">Please Add Name</strong></td>
     </ng-template>
 
-    <button *ngIf="!addCompany && authService.user.role === 'ROLE_ADMIN'; else cancel" style="margin-left: 10px;" (click)="toggleAddCompany()" mat-raised-button
-        color="primary">
-        <mat-icon>add</mat-icon>&nbsp;Register New Company
-    </button>
-    <ng-template #cancel>
-        <button *ngIf="addCompany && authService.user.role === 'ROLE_ADMIN'" style="margin-left: 10px;" (click)="toggleAddCompany()" mat-raised-button
-            color="primary">
-            <mat-icon>remove</mat-icon>&nbsp;Cancel New Company
-        </button>
-    </ng-template>
+</div>
 
-    <div *ngIf="addCompany">
-        <h4 style="margin: 10px;">Register a New Copmany:</h4>
-        <new-company-form></new-company-form>
-    </div>
+<div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
+    <mat-card style="width: 1000px; height: 600px">
+        <div id="mapid" style="width: 970px; height: 570px;"></div>
+    </mat-card>
 </div>

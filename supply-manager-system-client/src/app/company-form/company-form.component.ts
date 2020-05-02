@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { CompanyService } from '../services/company.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Company } from '../classes/company';
 import { AuthService } from '../services/auth.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CompanyService } from '../services/company.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-company-form',
@@ -15,14 +16,17 @@ export class CompanyFormComponent implements OnInit {
 
 companyForm: FormGroup;
 @Input() company: Company;
+toLoad: number = 0;
+loaded: boolean = false;
 
   constructor(
     private location: Location,
     private route: ActivatedRoute,
     public companyService: CompanyService,
-    private authService: AuthService,
+    public authService: AuthService,
+    private loadingService: LoadingService,
   ){ 
-    if (this.authService.user.role != "ROLE_MANAGER") {
+    if (!this.authService.isManager) {
       this.companyForm = new FormGroup({
         name: new FormControl('', [
           Validators.required,
@@ -53,7 +57,11 @@ companyForm: FormGroup;
   getCompanyById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.companyService.getCompany(id)
-      .subscribe(company => this.company = company);
+      .subscribe(company => {
+        this.company = company;
+        this.loaded = true;
+        this.loadingService.setLoading(false);
+      });
   }
 
 
@@ -61,9 +69,10 @@ companyForm: FormGroup;
     this.companyService.updateCompany(this.company)
       .subscribe(() => this.goBack());
   }
-
+  
+  path: string = "/";
   goBack(): void {
     this.location.back();
   }
-  
+
 }

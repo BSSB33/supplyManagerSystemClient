@@ -40,7 +40,23 @@ export class NewCompanyFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submit(): void {
+
+  async submit(): Promise<void> {
+    let lat: string;
+    let lon: string;
+    await $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q='+ this.companyForm.controls['address'].value, function(data){
+      if(data != null && data.latlog != null){
+        //console.log("New company at: " + data[0].lat + ", " + data[0].lon)
+        lat = data[0].lat;
+        lon = data[0].lon;
+      }
+      else{
+        //console.log("Not recognised Address");
+        lat = "0";
+        lon = "0";
+      }
+    })
+    
     this.companyList.addNewCompany(
       new Company(
         this.companyForm.controls['companyName'].value.trim(), 
@@ -48,6 +64,9 @@ export class NewCompanyFormComponent implements OnInit {
         this.companyForm.controls['address'].value,
         this.companyForm.controls['taxNumber'].value,
         this.companyForm.controls['bankAccountNumber'].value,
+        lat, lon
       ));
-  }
+
+      this.companyService.getCompanies().subscribe(companies => this.companyService.getMap(companies));
+    }
 }

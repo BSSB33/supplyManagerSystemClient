@@ -16,7 +16,6 @@ export class NewUserFormComponent implements OnInit {
   
   userForm: FormGroup;
   hidePassword: boolean = true;
-  companies: Company[];
   setUserAsDirector: boolean = false;
   selectedRole: string;
 
@@ -28,7 +27,7 @@ export class NewUserFormComponent implements OnInit {
     public authService: AuthService,
     public userList: UserListComponent,
   ) {
-    if (this.authService.user.role == "ROLE_ADMIN") {
+    if (this.authService.isAdmin) {
       this.userForm = new FormGroup({
         username: new FormControl('', [
           Validators.required,
@@ -58,7 +57,7 @@ export class NewUserFormComponent implements OnInit {
         userRole: new FormControl('', Validators.required),
       });
     }
-    if (this.authService.user.role == "ROLE_DIRECTOR") {
+    if (this.authService.isDirector) {
       this.userForm = new FormGroup({
         username: new FormControl('', [
           Validators.required,
@@ -104,7 +103,7 @@ export class NewUserFormComponent implements OnInit {
 
   submit(): void {
     var workplace: Company, company: Company, role: string;
-    if(this.authService.user.role == "ROLE_ADMIN"){
+    if(this.authService.isAdmin){
       if(this.selectedRole == 'ROLE_DIRECTOR' || this.selectedRole == 'ROLE_ADMIN'){
         company = this.userList.companies.find(company => company.name == this.userForm.controls['workplace'].value);
       }
@@ -113,7 +112,7 @@ export class NewUserFormComponent implements OnInit {
       role = this.userForm.controls['userRole'].value;
       
     }
-    if(this.authService.user.role == "ROLE_DIRECTOR"){
+    if(this.authService.isDirector){
       var workplace = this.authService.user.company;
       role = 'ROLE_MANAGER';
       company = null;

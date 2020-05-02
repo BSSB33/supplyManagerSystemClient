@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../services/message.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-logs',
@@ -10,17 +11,17 @@ export class LogsComponent implements OnInit {
 
   messages: string[] = [];
 
-  add(message: string) {
-    this.messages.push(message);
-  }
-
   clear() {
-    this.messages = [];
+    this.messageService.clear();
   }
 
-  constructor(public messageService: MessageService) { }
+  constructor(
+    public messageService: MessageService,
+    public loadingService: LoadingService,
+    ) { }
 
   ngOnInit(): void {
+    this.messages = this.messageService.messages;
   }
 
 }

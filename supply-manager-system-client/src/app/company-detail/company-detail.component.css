@@ -17,3 +17,16 @@
 .backButton{
     margin: 20px;
 }
+
+.company-card {
+    width: 400px;    
+    max-height: 500px;
+    min-height: 300px;
+    margin: 20px;
+}
+
+.company-info{
+    margin-left: 15px;
+    margin-top: 5px;
+    font-size: medium;
+}

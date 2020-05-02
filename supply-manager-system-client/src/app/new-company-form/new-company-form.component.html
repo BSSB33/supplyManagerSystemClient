@@ -1,78 +1,71 @@
-<div class="card fixedContainer orderTable" style="background-color: rgb(33, 37, 41);">
+<div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
     <form [formGroup]="companyForm" (submit)="submit()">
-        <div style="margin: 20px;">
-            <table class="table table-sm ellipsis" style="background-color: rgb(33, 37, 41); margin: 20px">
-                <tbody>
-                    <tr>
-                        <label class="whiteLabel">Company Name:
-                            <mat-form-field style="width: 200px;">
-                                <input matInput 
-                                #companyName 
-                                formControlName="companyName" 
-                                type="text" 
-                                name="companyName"
-                                placeholder="Enter Company Name"
-                                aria-describedby="titleHelp" />
-                                <mat-error>
-                                    Name must be at least 4 characters long!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <label class="whiteLabel">Company Address:
-                            <mat-form-field style="width: 200px;">
-                                <input matInput 
-                                #address
-                                formControlName="address" 
-                                type="text" 
-                                name="address"
-                                placeholder="Enter Company Address"
-                                aria-describedby="titleHelp" />
-                                <mat-error>
-                                    Name must be at least 4 characters long!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <label class="whiteLabel">Company Tax Number:
-                            <mat-form-field style="width: 200px;">
-                                <input matInput 
-                                #taxNumber 
-                                formControlName="taxNumber" 
-                                type="text" 
-                                name="taxNumber"
-                                placeholder="Enter Tax Number Name"
-                                aria-describedby="titleHelp" />
-                                <mat-error>
-                                    Tax Number must be at least 10 characters long
-                                    and can only contains numbers and '-' signs!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <label class="whiteLabel">Bank Account Number:
-                            <mat-form-field style="width: 200px;">
-                                <input matInput 
-                                #bankAccountNumber 
-                                formControlName="bankAccountNumber" 
-                                type="text" 
-                                name="bankAccountNumber"
-                                placeholder="Enter Bank Account Number"
-                                aria-describedby="titleHelp" />
-                                <mat-error>
-                                    Bank Account Number must be at least 12 characters long!
-                                </mat-error>
-                            </mat-form-field>
-                        </label>
-                    </tr>
-                    <tr>
-                        <button mat-raised-button color="primary" type="submit" [disabled]="!companyForm.valid">Register Company</button>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <mat-card class="new-company-card">
+            <mat-card-content>
+                <h4 style="margin: 10px;">Register a New Company:</h4>
+                    <label class="new-company-info">Company Name:
+                        <mat-form-field style="width: 340px; padding-left:4.5em">
+                            <input matInput 
+                            #companyName 
+                            formControlName="companyName" 
+                            type="text" 
+                            name="companyName"
+                            placeholder="Enter Company Name"
+                            aria-describedby="titleHelp" />
+                            <mat-error>
+                                Name must be at least 4 characters long!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <label class="new-company-info">Company Address:
+                        <mat-form-field style="width: 320px; padding-left:3.5em">
+                            <input matInput 
+                            #address
+                            formControlName="address" 
+                            type="text" 
+                            name="address"
+                            placeholder="Enter Company Address"
+                            aria-describedby="titleHelp" />
+                            <mat-error>
+                                Name must be at least 4 characters long!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <label class="new-company-info">Company Tax Number:
+                        <mat-form-field style="width: 300px; padding-left:2em">
+                            <input matInput 
+                            #taxNumber 
+                            formControlName="taxNumber" 
+                            type="text" 
+                            name="taxNumber"
+                            placeholder="Enter Tax Number Name"
+                            aria-describedby="titleHelp" />
+                            <mat-error>
+                                Tax Number must be at least 10 characters long
+                                and can only contains numbers and '-' signs!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <label class="new-company-info">Bank Account Number:
+                        <mat-form-field style="width: 300px; padding-left:2em">
+                            <input matInput 
+                            #bankAccountNumber 
+                            formControlName="bankAccountNumber" 
+                            type="text" 
+                            name="bankAccountNumber"
+                            placeholder="Enter Bank Account Number"
+                            aria-describedby="titleHelp" />
+                            <mat-error>
+                                Bank Account Number must be at least 12 characters long!
+                            </mat-error>
+                        </mat-form-field>
+                    </label>
+                <br>
+                    <button mat-raised-button color="primary" type="submit" style="margin: 20px" [disabled]="!companyForm.valid">Register Company</button>
+            </mat-card-content>
+        </mat-card>
     </form>
 </div>

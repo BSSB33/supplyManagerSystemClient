@@ -19,3 +19,9 @@
     top: 5px;
     right: 5px;
 }
+
+.map {
+    width: 600px;
+    height: 400px;
+    padding: 0;
+  }

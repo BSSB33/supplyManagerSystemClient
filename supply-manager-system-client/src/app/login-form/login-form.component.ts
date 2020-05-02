@@ -1,8 +1,7 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import { AuthService, httpOptions } from '../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Validators, FormBuilder } from '@angular/forms';
-import { User } from '../classes/user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -26,7 +25,7 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) { 
     if(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) == "login"){
       this.router.navigate(['/']);

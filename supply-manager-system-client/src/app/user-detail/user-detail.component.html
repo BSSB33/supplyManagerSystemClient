@@ -1,58 +1,72 @@
-<div *ngIf="user" class="card" style="width: 40rem; margin: 20px;">
+<div *ngIf="user && loaded" fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
 
-    <div *ngIf="user.username; else elseBlock0" class="card-body">
-        <h2 class="font-weight-bold mb-3">User: {{user.username}}</h2>
-    </div>
-    <ng-template #elseBlock0>
-        <div class="card-body">
-            <h2 class="font-weight-bold mb-3">User:&nbsp;<label>Please Set a Username For this user</label></h2>
-        </div>
-    </ng-template>
+    <mat-card class="user-card">
+        <mat-card-header>
+          <mat-card-title *ngIf="user.username; else noUserName"><b>User:</b> {{user.username}}</mat-card-title>
+            <ng-template #noUserName>
+             <mat-card-title><b>User:</b> Please Add Username!</mat-card-title>
+            </ng-template>
+          <mat-card-subtitle *ngIf="user.email; else noEmail"><b>Email Address:</b> {{user.email}}</mat-card-subtitle>
+            <ng-template #noEmail>
+                <mat-card-subtitle><b>Email Address:</b> Please Add Email Address!</mat-card-subtitle>
+            </ng-template>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <label class="user-info" *ngIf="user.fullName; else noFullName"><b>Full Name:</b> &nbsp;
+                <label class="user-info" style="padding-left:6.5em">{{user.fullName}}</label>
+            </label>
+            <ng-template #noFullName>
+                <label class="order-info"><b>Full Name:</b> &nbsp;
+                    <label class="order-info" style="padding-left:6.5em">Please Add Full Name!</label>
+                </label>
+            </ng-template>
+            <br>
 
-    <ul class="list-group list-group-flush">
+            <label class="user-info" *ngIf="user.enabled; else disabledUser"><b>User Status:</b> &nbsp;
+                <label class="user-info" style="color: green; padding-left:5.8em">Enabled</label>
+            </label>
+            <ng-template #disabledUser>
+                <label class="user-info"><b>User Status:</b> &nbsp;
+                    <label class="user-info" style="color: red; padding-left:5.8em">Disabled</label>
+                </label>
+            </ng-template>
+            <br>
 
-        <li *ngIf="user.fullName; else elseBlock5" class="list-group-item">
-            <label>Full Name: {{user.fullName}}</label></li>
-        <ng-template #elseBlock5>
-            <li class="list-group-item"><label>Full Name:&nbsp;</label><label>Full Name Should Be Added</label></li>
-        </ng-template>
+            <label class="user-info" *ngIf="user.company; else notadirector"><b>Director At:</b> &nbsp;
+                <label class="user-info" style="padding-left:6.3em">{{user.company.name}}</label>
+            </label>
+            <ng-template #notadirector>
+                <label class="user-info"><b>Director At:</b> &nbsp;
+                    <label class="user-info" style="color: orange; padding-left:6.3em">Not a Director</label>
+                </label>
+            </ng-template>
+            <br>
 
-        <li *ngIf="user.email; else elseBlock6" class="list-group-item">
-            <label>Email Address: {{user.email}}</label></li>
-        <ng-template #elseBlock6>
-            <li class="list-group-item"><label>Email Address:&nbsp;</label><label>Email Address Should Be Added</label></li>
-        </ng-template>
+            <label class="user-info" *ngIf="user.workplace; else unemployed"><b>Workplace Of The User:</b> &nbsp;
+                <label class="user-info" style="padding-left:0.7em">{{user.workplace.name}}</label>
+            </label>
+            <ng-template #unemployed>
+                <label>Workplace Of The User: &nbsp;
+                    <label class="user-info" style="color: orange; padding-left:0.7em">Unemployed</label>
+                </label>
+            </ng-template>
 
-        <li *ngIf="user.enabled; else elseBlock1" class="list-group-item">
-            <label>Status:&nbsp;<label style="color: green;">Enabled</label></label></li>
-        <ng-template #elseBlock1>
-            <li class="list-group-item"><label>User Status:&nbsp;</label><label style="color: red;">Disabled</label></li>
-        </ng-template>
-
-        <li *ngIf="user.company; else elseBlock2" class="list-group-item">
-            <label>Director At: {{user.company.name}}</label></li>
-        <ng-template #elseBlock2>
-            <li class="list-group-item"><label>Company Of The User:&nbsp;</label><label style="color: orange;"> Not a Director</label></li>
-        </ng-template>
-
-        <li *ngIf="user.workplace; else elseBlock3" class="list-group-item">
-            <label>Workplace Of The User: {{user.workplace.name}}</label></li>
-        <ng-template #elseBlock3>
-            <li class="list-group-item"><label>Workplace Of The User:&nbsp;</label><label style="color: orange;">Unemployed</label></li>
-        </ng-template>
-
-        <li *ngIf="user.role; else elseBlock4" class="list-group-item">
-            <label>Role Of The User: {{this.enumService.getRoleString(user.role)}}</label></li>
-        <ng-template #elseBlock4>
-            <li class="list-group-item"><label>Role Of The User:&nbsp;</label><label style="color: orange;">Role Should Be added</label></li>
-        </ng-template>
-
-    </ul>
-    <div class="card-body">
-        <a [routerLink]="['/users/edit', user.id]" class="card-link">Edit User</a>
-    </div>
+            <br>
+            <label class="user-info" *ngIf="user.role; else noRole"><b>Role Of The User:</b>&nbsp;
+                <label class="user-info" style="padding-left:3.8em">{{this.enumService.getRoleString(user.role)}}</label>
+            </label>
+            <ng-template #noRole>
+                <label class="order-info"><b>Role Of The User:</b> &nbsp;
+                    <label class="order-info" style="padding-left:3.8em">Please set role!</label>
+                </label>
+            </ng-template>
+            
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button [routerLink]="['/users/edit', user.id]" style="margin-left:20px; margin-bottom:20px;">EDIT</button>
+        </mat-card-actions>
+      </mat-card>
 </div>
 
-<ng-template #notADirector>
-    <td><strong style="color: orange;">Not a Director</strong></td>
-</ng-template>

@@ -3,12 +3,10 @@
    flex: 1 1 auto;
  }
 
-.lex-div{
-   display: flex;
+.helper-container{
+   min-height: calc(100% - 64px);
 }
 
-.ideMenu{
-   width: 2000px;
-   flex: 1;
-
+.helper-nav{
+   width: 410px;
 }

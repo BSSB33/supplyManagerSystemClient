@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../services/order.service';
@@ -14,6 +14,8 @@ import { History } from '../classes/history';
 import { stringify } from 'querystring';
 import { MessageService } from '../services/message.service';
 import { EnumService } from '../services/enum.service';
+import { LoadingService } from '../services/loading.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'order-form',
@@ -31,6 +33,8 @@ export class OrderFormComponent implements OnInit {
   selectedBuyerCompany: Company;
   selectedSellerCompany: Company;
   originalStatus: String;
+  originalName: String;
+  originalPrice: Number;
   statuses: String[];
   selectableCompanyiesForBuyer: Company[];
   selectableCompanyiesForSeller: Company[];
@@ -46,10 +50,12 @@ export class OrderFormComponent implements OnInit {
     private userService: UserService,
     public authService: AuthService,
     public enumService: EnumService,
+    private loadingService: LoadingService,
+    private cdRef: ChangeDetectorRef,
     ) 
     { 
       //Admin page
-      if(this.authService.user.role == "ROLE_ADMIN"){
+      if(this.authService.isAdmin){
         this.orderForm = new FormGroup({
           productName: new FormControl('', [
             Validators.required,
@@ -61,14 +67,16 @@ export class OrderFormComponent implements OnInit {
             Validators.pattern('^[0-9]+')
           ]),
           status: new FormControl(),
+          archived: new FormControl(),
           seller: new FormControl(Validators.required),
           buyer: new FormControl(Validators.required),
           sellerManager: new FormControl(Validators.required),
           buyerManager: new FormControl(Validators.required),
+          description: new FormControl(),
         });
       }
       //Sales page
-      if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
+      if(this.sales && !this.authService.isAdmin){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
           price: new FormControl('',[
@@ -77,12 +85,14 @@ export class OrderFormComponent implements OnInit {
             Validators.pattern('^[0-9]+')
           ]),
           status: new FormControl(),
+          archived: new FormControl(),
           sellerManager: new FormControl(Validators.required),
           buyerManager: new FormControl(),
+          description: new FormControl(),
         });
       }
       //Purchase pages
-      if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
+      if(!this.sales && !this.authService.isAdmin){
         this.orderForm = new FormGroup({
           productName: new FormControl(Validators.required),
           price: new FormControl('',[
@@ -91,27 +101,49 @@ export class OrderFormComponent implements OnInit {
             Validators.pattern('^[0-9]+')
           ]),
           status: new FormControl(),
+          archived: new FormControl(),
           buyerManager: new FormControl(Validators.required),
           sellerManager: new FormControl(),
+          description: new FormControl(),
         });
       }
     }
+
+  ngAfterViewChecked() {
+    
+    this.cdRef.detectChanges();
+  }
    
   ngOnInit(): void {
-    this.getOrderById();
     this.getManagersOfUser();
+    this.getOrderById();
     this.getCompanies();
     this.setUpNewStatusChangeHistory();
     this.getStatuses();
   }
 
+  toLoad: number = 0;
+  loaded: boolean = false;
+    //Checks if all the requests has returned
+  switchProgressBar(){
+    this.toLoad++;
+    if(this.toLoad == 5){
+      this.loaded = true;
+      this.loadingService.setLoading(false);
+    }
+  }
+
   getStatuses(): void {
     this.statuses = this.enumService.getStatuses();
+    this.switchProgressBar();
   }
 
   getCompanies(): void {
     this.companyService.getCompanies()
-      .subscribe(companies => this.companies = companies);
+      .subscribe(companies => {
+        this.companies = companies;
+        this.switchProgressBar();
+      });
   }
 
   getOrderById(): void {
@@ -119,15 +151,56 @@ export class OrderFormComponent implements OnInit {
     this.orderService.getOrder(id)
       .subscribe(
         order => {
-        this.order = order
-        this.originalStatus = order.status
+        this.order = order;
+        this.disableArchivedForm(order);
+        this.originalStatus = order.status;
+        this.originalName = order.productName;
+        this.originalPrice = order.price;
         this.companyService.getCompanies()
           .subscribe(companies => {
-            this.companies = companies
-            this.initFilterUsersOfBuyerCompany(order.buyer.name, companies)
-            this.initFilterUsersOfSellerCompany(order.seller.name, companies)
+            this.companies = companies;
+            delay(300);
+            this.initFilterUsersOfBuyerCompany(order.buyer.name, companies);
+            this.initFilterUsersOfSellerCompany(order.seller.name, companies);
+            this.switchProgressBar();
           });
       });
+  }
+
+  disableArchivedForm(order: Order){
+    if(order.archived){
+      this.orderForm.controls['productName'].disable();
+      this.orderForm.controls['price'].disable();
+      this.orderForm.controls['status'].disable();
+      this.orderForm.controls['seller'].disable();
+      this.orderForm.controls['buyer'].disable();
+      this.orderForm.controls['buyerManager'].disable();
+      this.orderForm.controls['sellerManager'].disable();
+      this.orderForm.controls['description'].disable();
+    }
+  }
+
+  disableOrEnableArchivedForm(order: Order){
+    if(!order.archived){
+      this.orderForm.controls['productName'].disable();
+      this.orderForm.controls['price'].disable();
+      this.orderForm.controls['status'].disable();
+      this.orderForm.controls['seller'].disable();
+      this.orderForm.controls['buyer'].disable();
+      this.orderForm.controls['buyerManager'].disable();
+      this.orderForm.controls['sellerManager'].disable();
+      this.orderForm.controls['description'].disable();
+    }
+    if(order.archived){
+      this.orderForm.controls['productName'].enable();
+      this.orderForm.controls['price'].enable();
+      this.orderForm.controls['status'].enable();
+      this.orderForm.controls['seller'].enable();
+      this.orderForm.controls['buyer'].enable();
+      this.orderForm.controls['buyerManager'].enable();
+      this.orderForm.controls['sellerManager'].enable();
+      this.orderForm.controls['description'].enable();
+    }
   }
 
   getManagersOfUser(): void{
@@ -136,6 +209,7 @@ export class OrderFormComponent implements OnInit {
         this.managers = managers
         this.usersOfSellerCompany = managers;
         this.usersOfBuyerCompany = managers;
+        this.switchProgressBar();
       });
   }
 
@@ -146,7 +220,10 @@ export class OrderFormComponent implements OnInit {
     let orderId = +this.route.snapshot.paramMap.get('id');
 
     this.orderService.getOrder(orderId)
-      .subscribe(order => this._order = order );
+      .subscribe(order => {
+        this._order = order
+        this.switchProgressBar();
+      });
   }
 
   addHistoryToOrder(note: string, historyType: string): void {
@@ -177,7 +254,7 @@ export class OrderFormComponent implements OnInit {
   }
     
   submit(): void {
-    if(this.authService.user.role == "ROLE_ADMIN"){
+    if(this.authService.isAdmin){
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
       var sellerManagerName = this.orderForm.controls['sellerManager'].value;
       var buyerName = this.orderForm.controls['buyer'].value;
@@ -187,17 +264,23 @@ export class OrderFormComponent implements OnInit {
       this.order.buyer = this.companies.find(copmany => copmany.name == buyerName);
       this.order.seller = this.companies.find(copmany => copmany.name == sellerName);
     }
-    if(this.sales && this.authService.user.role != "ROLE_ADMIN"){
+    if(this.sales && !this.authService.isAdmin){
       var sellerManagerName = this.orderForm.controls['sellerManager'].value;
       this.order.sellerManager = this.managers.find(user => user.username == sellerManagerName);
     }
-    if(!this.sales && this.authService.user.role != "ROLE_ADMIN"){
+    if(!this.sales && !this.authService.isAdmin){
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
       this.order.buyerManager = this.managers.find(user => user.username == buyerManagerName);
     }
     //If Status modified, create a new History card
     if(this.originalStatus != this.orderForm.controls['status'].value){
-      this.addHistorySystemMessage("Status Modified from " + this.originalStatus + " to " + this.orderForm.controls['status'].value, "STATUS_MODIFIED");
+      this.addHistorySystemMessage("Status was modified from \"" + this.originalStatus + "\" to \"" + this.orderForm.controls['status'].value + "\"", "STATUS_MODIFIED");
+    }
+    if(this.originalName != this.orderForm.controls['productName'].value){
+      this.addHistorySystemMessage("Product Name was modified from \"" + this.originalName + "\" to \"" + this.orderForm.controls['productName'].value + "\"", "STATUS_MODIFIED");
+    }
+    if(this.originalPrice != this.orderForm.controls['price'].value){
+      this.addHistorySystemMessage("Product Price was modified from " + this.originalPrice + " Ft to " + this.orderForm.controls['price'].value + " Ft", "STATUS_MODIFIED");
     }
     
     this.orderService.updateOrder(this.order)

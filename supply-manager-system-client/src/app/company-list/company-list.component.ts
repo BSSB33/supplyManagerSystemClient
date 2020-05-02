@@ -7,7 +7,10 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MessageService } from '../services/message.service';
 import { ForbiddenDialogComponent } from '../forbidden-dialog/forbidden-dialog.component';
 import { Sort } from '@angular/material/sort';
-
+import { LoadingService } from '../services/loading.service';
+import * as $ from 'jquery';
+import * as L from 'leaflet';
+import 'proj4leaflet';
 
 @Component({
   selector: 'app-company-list',
@@ -20,24 +23,34 @@ export class CompanyListComponent implements OnInit {
   filteredCompanies: Company[];
   addCompany: Boolean = false;
   term = "";
-
+  toLoad: number = 0;
+  loaded: boolean = false;
+  coordinates = [];
+  
   constructor(
     private companyService: CompanyService,
     public authService: AuthService,
     private messageService: MessageService,
     private dialog: MatDialog,
+    private loadingService: LoadingService,
   ) {
     this.authService.filters = false;
+
    }
 
   ngOnInit(): void {
     this.getCompanies();
     this.term = "";
   }
-
+  
   getCompanies(): void {
     this.companyService.getCompanies()
-        .subscribe(companies => this.companies = companies);
+      .subscribe(companies => {
+        this.companies = companies.sort((a,b) =>{return a.name > b.name ? 1 : -1})
+        this.loaded = true;
+        this.loadingService.setLoading(false);
+        this.companyService.getMap(companies);
+      });
   }
 
   disableOrEnableCompany(copmany: Company): void {
@@ -103,7 +116,7 @@ export class CompanyListComponent implements OnInit {
 
     this.companies = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
-      switch (sort.active) {//TODO filter
+      switch (sort.active) {
         case 'name': return this.compare(a.name, b.name, isAsc);
         case 'address': return this.compare(a.address, b.address, isAsc);
         case 'taxNumber': return this.compare(a.taxNumber, b.taxNumber, isAsc);
@@ -126,4 +139,6 @@ export class CompanyListComponent implements OnInit {
   private log(message: string) {
     this.messageService.add(`CompanyList: ${message}`);
   }
+
+
 }

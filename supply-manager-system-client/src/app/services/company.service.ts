@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { Company } from '../classes/company';
 import { httpOptions } from './auth.service';
+import * as $ from 'jquery';
+import * as L from 'leaflet';
+import 'proj4leaflet';
 
 @Injectable({
   providedIn: 'root'
@@ -95,5 +98,31 @@ export class CompanyService {
 
   private log(message: string) {
     this.messageService.add(`CompanyService: ${message}`);
+  }
+
+  //Leaflet map  
+  mymap;
+  getMap(companies){
+
+    if(this.mymap != null) this.mymap.remove();
+    this.mymap = L.map('mapid').setView([47.497913, 19.040236], 12);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYnNzYjMzIiwiYSI6ImNrOW85cTUxMzA3eTMzZG1ydmwyYzhhaHEifQ.NdZf9IMNO1ZNiKJxTZbTTw',
+    {
+      maxZoom: 18,
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1
+    }).addTo(this.mymap);
+
+    companies.forEach(company => {
+      if(companies.lat != null || company.lon != null || companies.lat != "0" || company.lon != "0"){
+        //console.log(company.lat + " - " +  company.lon);
+        L.marker([company.lat, company.lon]).bindPopup(company.name).addTo(this.mymap);
+      }
+    }); 
   }
 }

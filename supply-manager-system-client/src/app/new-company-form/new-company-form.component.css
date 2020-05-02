@@ -1,0 +1,10 @@
+.new-company-card {
+    height: 450px;
+    width: 550px;
+    margin: 10px;
+}
+
+.new-company-info {
+    margin-left: 15px;
+    font-size: medium;
+}
