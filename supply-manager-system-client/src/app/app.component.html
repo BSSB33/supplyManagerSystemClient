@@ -5,6 +5,7 @@
   </button>
 
   <div *ngIf="authService.isLoggedIn" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
+    <!--Admin menu-->
     <div *ngIf="authService.isAdmin" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
       <button mat-button routerLink="/orders">
         <mat-icon>explore</mat-icon>&nbsp;SMS Client
@@ -65,13 +66,17 @@
 
     <!--Login menu-->
   <div *ngIf="!authService.isLoggedIn" fxFlex fxLayout="row">
-    <button mat-button><mat-icon>explore</mat-icon>&nbsp;Supply Manager System (SMS) Client</button>
-    <span fxFlex></span>
-    <button mat-button (click)="helper.toggle()">
-      <mat-icon>
-        help
-      </mat-icon>
+    <button mat-button>
+      <mat-icon>explore</mat-icon>
+      &nbsp;Supply Manager System (SMS) Client
     </button>
+
+    <span fxFlex></span>
+
+    <button mat-button (click)="helper.toggle()" fxShow="false" fxShow.gt-md>
+      <mat-icon>help</mat-icon>
+    </button>
+
     <button mat-stroked-button routerLink="/login"><mat-icon>power_settings_new</mat-icon>&nbsp;Login</button>
   </div>
   

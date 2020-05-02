@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,6 +14,7 @@ export class LoginFormComponent implements OnInit {
 
   message: string;
   hidePassword = true;
+  loaded: boolean = false;
 
   form = this.fb.group({
     username: ['', [ Validators.required ]],
@@ -26,6 +28,7 @@ export class LoginFormComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
+    private loadingService: LoadingService,
   ) { 
     if(this.router.url.substring(this.router.url.lastIndexOf('/') + 1) == "login"){
       this.router.navigate(['/']);
@@ -40,9 +43,11 @@ export class LoginFormComponent implements OnInit {
   }
 
   async onSubmit() {
+    this.loadingService.setLoading(true);
     try {
       this.message = null;
       await this.authService.login(this.username.value, this.password.value);
+      this.loadingService.setLoading(false);
       if (this.authService.redirectUrl) {
         this.router.navigate([this.authService.redirectUrl]);
       } else {
@@ -54,4 +59,5 @@ export class LoginFormComponent implements OnInit {
       this.message = 'Cannot log in!';
     }
   }
+ 
 }
