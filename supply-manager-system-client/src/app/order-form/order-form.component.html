@@ -63,7 +63,7 @@
               (click)="this.disableOrEnableArchivedForm(order)">
           </mat-checkbox>
 
-          <!-- === Seller === -->
+        <!-- === Seller === -->
         <div *ngIf="order.seller.id === authService.user.workplace.id && !authService.isAdmin">
           <label class="order-info" style="padding-left:7em">Seller Manager: &nbsp;</label>
           <mat-form-field *ngIf="order.sellerManager; else unassignedSeller" style="width: 200px;">
@@ -222,7 +222,7 @@
           </mat-form-field>
         </ng-template>
 
-        <div *ngIf="authService.isAdmin" onload="this.filterUsersOfBuyerCompany(order.buyer.name)">
+        <div *ngIf="authService.isAdmin">
           <label class="order-info" style="padding-left:6.5em">Buyer Company: &nbsp;</label>
           <mat-form-field *ngIf="order.buyer" style="width: 200px;">
               <mat-select 
@@ -266,29 +266,6 @@
                 <mat-error>
                   Please Select a Manager
                 </mat-error>
-              </mat-form-field>
-            </div>
-
-            <div *ngIf="authService.isAdmin">
-              <label class="order-info" style="padding-left:6.8em">Buyer Manager: &nbsp;</label>
-              <mat-form-field *ngIf="order.buyerManager; else unassignedBuyerAdmin" style="width: 200px;">
-                  <mat-select 
-                    #buyerManager
-                    formControlName="buyerManager" 
-                    name="buyerManager" 
-                    placeholder="Select Buyer Manager"
-                    [(ngModel)]="order.buyerManager.username"
-                    required>
-                      <mat-option value="" disabled>Choose a Manager</mat-option>
-                      <ng-container *ngFor="let manager of usersOfBuyerCompany">
-                        <mat-option *ngIf="manager.enabled"
-                          [value]="manager.username">{{manager.username}}
-                        </mat-option>
-                      </ng-container>
-                  </mat-select>
-                  <mat-error>
-                    Please Select a Manager
-                  </mat-error>
               </mat-form-field>
             </div>
 

@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { History } from '../classes/history';
-import { httpOptions } from './auth.service';
+import { httpOptions, mainURL } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class HistoryService {
     private messageService: MessageService
   ) { }
 
-  private historiesUrl = 'http://localhost:8080/histories';
+  private historiesUrl = mainURL.URL + '/histories';
 
   addHistory(history: History): Observable<History> {
     return this.http.post<History>(this.historiesUrl, history, httpOptions).pipe(

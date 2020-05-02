@@ -26,7 +26,7 @@ import { LoadingService } from '../services/loading.service';
   styleUrls: ['./order-list.component.css']
 })
 export class OrderListComponent implements OnInit {
-  
+
   title = "Orders";
   addButtonText = "Order";
   addOrder: Boolean = false;

@@ -6,7 +6,7 @@ import { catchError, map, tap, delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { User } from '../classes/user';
-import { httpOptions } from './auth.service';
+import { httpOptions, mainURL } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class UserService {
     private messageService: MessageService
   ) { }
 
-  private usersUrl = 'http://localhost:8080/users';
+  private usersUrl = mainURL.URL + '/users';
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl, httpOptions).pipe(

@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { Company } from '../classes/company';
-import { httpOptions } from './auth.service';
+import { httpOptions, mainURL } from './auth.service';
 import * as $ from 'jquery';
 import * as L from 'leaflet';
 
@@ -20,7 +20,7 @@ export class CompanyService {
     private messageService: MessageService
   ) { }
 
-  private companiesUrl = 'http://localhost:8080/companies';
+  private companiesUrl = mainURL.URL + '/companies';
 
 
   getCompany(id: number): Observable<Company> {

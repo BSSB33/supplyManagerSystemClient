@@ -6,7 +6,7 @@ import { catchError, map, tap, delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { History } from '../classes/history';
-import { httpOptions, AuthService } from './auth.service';
+import { httpOptions, AuthService, mainURL } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,8 @@ export class OrderService {
   ) {}
 
   public href: string = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
-  private sales_purchasesUrl = 'http://localhost:8080/orders/' + this.href;
-  private ordersUrl = 'http://localhost:8080/orders';
+  private sales_purchasesUrl = mainURL.URL + '/orders/' + this.href;
+  private ordersUrl = mainURL.URL + '/orders';
 
   setHref(){
     this.href = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
