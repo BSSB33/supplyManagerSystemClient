@@ -77,8 +77,8 @@ export class OrderListComponent implements OnInit {
 
   filter(): void {
     this.filteredOrders = this.selectedStatus == ''
-    ? this.orders
-    : this.orders.filter(order => order.status == this.selectedStatus);
+    ? this.orders.sort((a,b) =>{return a.createdAt > b.createdAt ? 1 : -1})
+    : this.orders.filter(order => order.status == this.selectedStatus).sort((a,b) =>{return a.createdAt > b.createdAt ? 1 : -1});
   }
 
   toggleAddOrder(): void{
@@ -137,8 +137,8 @@ export class OrderListComponent implements OnInit {
     this.orderService.getOrders()
       .subscribe(
         orders => {
-        this.orders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
-        this.filteredOrders = orders.sort((a,b) =>{return a.productName > b.productName ? 1 : -1});
+        this.orders = orders.sort((a,b) =>{return a.createdAt > b.createdAt ? 1 : -1});
+        this.filteredOrders = orders.sort((a,b) =>{return a.createdAt > b.createdAt ? 1 : -1});
         this.setStatusOptions(orders);
         let workplaces: Set<String> = new Set();
         if(this.orderService.href == "sales" || this.orderService.href == "orders"){

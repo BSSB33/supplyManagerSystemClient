@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingService } from '../services/loading.service';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'app-user-form',
@@ -147,7 +148,12 @@ export class UserFormComponent implements OnInit {
     if(this.userForm.controls['newPassword'].value == "") {
       this.user.password = null;
     }
-    else this.user.password = this.userForm.controls['newPassword'].value;
+    else {
+      //hashin password to protect information
+      const salt = bcrypt.genSaltSync(10);
+      let hashedPw = bcrypt.hashSync(this.userForm.controls['newPassword'].value, salt);
+      this.user.password = hashedPw;
+    }
 
     //Warns user and asks for confirmation if profile is modified
     if( this.user.id == this.authService.user.id){ // && (this.user.password != null || this.userForm.controls['username'].value != this.originalUsername)
