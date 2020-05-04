@@ -159,10 +159,8 @@ export class AuthInterceptor implements HttpInterceptor {
       if (err.status === 401){
         //Unauthorized
         //window.location.href = '/login';
-        localStorage.setItem('loginMessage', "Unauthorized!");
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        console.log(err.error)
         return of(err.message);
       }
       if (err.status === 404){

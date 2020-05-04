@@ -10,14 +10,13 @@ import { OrderListComponent } from '../order-list/order-list.component';
 export const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    //'Access-Control-Allow-Origin': '*',
     'Authorization': ''
   })
 };
 
 export const mainURL = {
-  URL: "https://supply-manager-system-backend.herokuapp.com"
-  //URL: "http://localhost:8080"
+  //URL: "https://supply-manager-system-backend.herokuapp.com"
+  URL: "http://localhost:8080"
 };
 
 @Injectable({
@@ -42,52 +41,60 @@ export class AuthService {
     
   ) {
     this.url = this.router.url;
-//    console.log(this.url);
     const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
-    if(user != null){
-      httpOptions.headers = httpOptions.headers.set('Authorization', `Basic ${token}`);
-      this.user = user;
-      this.isLoggedIn = true;
-      this.setRole(user.role);
-    }
+    
+    try{
+      const user = JSON.parse(localStorage.getItem('user'));
+      if(user != null){
+        httpOptions.headers = httpOptions.headers.set('Authorization', `Basic ${token}`);
+        this.user = user;
+        this.isLoggedIn = true;
+        this.setRole(user.role);
+      }
+    }catch(e){}
+    
    }
 
   async login(username: string, password: string): Promise<User> {
+
+    //Generates acces token
+    const token = btoa(`${username}:${password}`);
+    //Sets token
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Basic ${token}`);
+    //Login
+    const user = await this.http.post<User>(`${this.authUrl}/login`, {}, httpOptions).toPromise();
+
     try {
-      //Generates acces token
-      const token = btoa(`${username}:${password}`);
-      //Sets token
-      httpOptions.headers = httpOptions.headers.set('Authorization', `Basic ${token}`);
-      //Login
-      const user = await this.http.post<User>(`${this.authUrl}/login`, {}, httpOptions).toPromise();
-      if(user == undefined || !user.enabled){
-        httpOptions.headers = httpOptions.headers.set('Authorization', ``);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        this.removeRoles();
-        return;
-      }
-      //Logged in status
-      this.isLoggedIn = true;
-      //Stores the logged in user
-      this.user = user;
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', token);
-      this.setRole(user.role);
-      //Logs user login 
-      console.log("login() - " + user.username);
-      this.log("login() called with user - " + user.username);
-      return Promise.resolve(this.user);
-    } catch (e) {
-      console.log(e);
-      this.log("login() failed:" + e);
-      this.removeRoles();
-      return Promise.reject();
+      JSON.parse(JSON.stringify(user));
+      console.log("Succesfully Logged in!");
+    } catch (error) {
+      console.log("Login Failed");
+      return;
     }
+
+    //Logged in status
+    this.isLoggedIn = true;
+    //Stores the logged in user
+    this.user = user;
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    this.setRole(user.role);
+    //Logs user login 
+    console.log("login() - " + user.username);
+    this.log("login() called with user - " + user.username);
+    return Promise.resolve(this.user);
   }
   
-  logout() {
+  async logout() {
+
+
+    try {
+      await this.http.post<User>(`${this.authUrl}/logout`, {}, httpOptions).toPromise();
+      console.log("Succesfully Logged Out!");
+    } catch (error) {
+      console.log("Logout Failed");
+      return;
+    }
     //Sets token to empty
     httpOptions.headers = httpOptions.headers.set('Authorization', ``);
     localStorage.removeItem('user');

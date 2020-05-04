@@ -44,20 +44,25 @@ export class LoginFormComponent implements OnInit {
 
   async onSubmit() {
     this.loadingService.setLoading(true);
+
+    this.message = null;
+    const respone = await this.authService.login(this.username.value, this.password.value);
     try {
-      this.message = null;
-      await this.authService.login(this.username.value, this.password.value);
+      JSON.parse(JSON.stringify(respone));
+      this.message = 'Logged in!';
       this.loadingService.setLoading(false);
       if (this.authService.redirectUrl) {
         this.router.navigate([this.authService.redirectUrl]);
       } else {
         this.router.navigate(['/']);
-        this.message = localStorage.getItem('loginMessage');
         localStorage.removeItem('loginMessage');
       }
-    } catch (e) {
+    } catch (error) {
       this.message = 'Cannot log in!';
+      this.loadingService.setLoading(false);
+      return;
     }
+
   }
  
 }

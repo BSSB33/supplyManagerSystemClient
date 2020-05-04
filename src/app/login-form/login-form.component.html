@@ -21,7 +21,7 @@
             <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
             <mat-error *ngIf="password.invalid">Password is required</mat-error>
           </mat-form-field>
-          <div *ngIf="message">{{message}}</div>
+          <div *ngIf="this.message">{{this.message}}</div>
           <div style="margin-top: 20px;">
             <button mat-flat-button type="submit" color="primary" [disabled]="form.invalid">Login</button>
           </div>
