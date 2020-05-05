@@ -61,3 +61,7 @@ material-app, mat-sidenav-container {
 .mat-icon-button.mat-accent {
   color:#155724;
 }
+/*Mat-Select*/
+.mat-option.mat-selected {
+  color: rgb(250, 101, 101) !important;
+}

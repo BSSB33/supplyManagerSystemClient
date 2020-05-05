@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../services/order.service';
 import { Order } from '../classes/order';
 import { Company } from '../classes/company';
@@ -44,6 +44,7 @@ export class OrderFormComponent implements OnInit {
   constructor(    
     private location: Location,
     private route: ActivatedRoute,
+    private router: Router,
     private orderService: OrderService,
     private historyService: HistoryService,
     private companyService: CompanyService,
@@ -172,8 +173,10 @@ export class OrderFormComponent implements OnInit {
       this.orderForm.controls['productName'].disable();
       this.orderForm.controls['price'].disable();
       this.orderForm.controls['status'].disable();
-      this.orderForm.controls['seller'].disable();
-      this.orderForm.controls['buyer'].disable();
+      if(this.authService.isAdmin){
+        this.orderForm.controls['seller'].disable();
+        this.orderForm.controls['buyer'].disable();
+      }
       this.orderForm.controls['buyerManager'].disable();
       this.orderForm.controls['sellerManager'].disable();
       this.orderForm.controls['description'].disable();
@@ -185,8 +188,10 @@ export class OrderFormComponent implements OnInit {
       this.orderForm.controls['productName'].disable();
       this.orderForm.controls['price'].disable();
       this.orderForm.controls['status'].disable();
-      this.orderForm.controls['seller'].disable();
-      this.orderForm.controls['buyer'].disable();
+      if(this.authService.isAdmin){
+        this.orderForm.controls['seller'].disable();
+        this.orderForm.controls['buyer'].disable();
+      }
       this.orderForm.controls['buyerManager'].disable();
       this.orderForm.controls['sellerManager'].disable();
       this.orderForm.controls['description'].disable();
@@ -195,15 +200,17 @@ export class OrderFormComponent implements OnInit {
       this.orderForm.controls['productName'].enable();
       this.orderForm.controls['price'].enable();
       this.orderForm.controls['status'].enable();
-      this.orderForm.controls['seller'].enable();
-      this.orderForm.controls['buyer'].enable();
+      if(this.authService.isAdmin){
+        this.orderForm.controls['seller'].enable();
+        this.orderForm.controls['buyer'].enable();
+      }
       this.orderForm.controls['buyerManager'].enable();
       this.orderForm.controls['sellerManager'].enable();
       this.orderForm.controls['description'].enable();
     }
   }
 
-  getManagersOfUser(): void{
+  getManagersOfUser(): void{ //TODO async
     this.userService.getUsers()
       .subscribe(managers => {
         this.managers = managers
@@ -290,7 +297,7 @@ export class OrderFormComponent implements OnInit {
   initFilterUsersOfBuyerCompany(companyName: string, companies: Company[]){
     this.selectedBuyerCompany = companies.find(company => company.name == companyName);
     this.selectableCompanyiesForSeller = companies.filter(company => company.name != companyName);
-    this.usersOfBuyerCompany = this.managers.filter(user => user.workplace.name == companyName);
+    this.usersOfBuyerCompany = this.managers.filter(user => user.workplace.name == companyName); //TODO BUG: sometimes it doesn't load fast enough
   }
 
   initFilterUsersOfSellerCompany(companyName: string, companies: Company[]){
@@ -312,7 +319,8 @@ export class OrderFormComponent implements OnInit {
   }
 
   goBack(): void {
-    this.location.back();
+    if(this.sales) this.router.navigate(['/sales']);
+    else if(!this.sales) this.router.navigate(['/purchases']);
   }
 
 }

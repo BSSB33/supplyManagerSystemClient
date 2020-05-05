@@ -1,5 +1,7 @@
-<h2 class="logs">Logs</h2>
+<h2 class="logs">Logs And Progress Bar Test</h2>
 <div *ngIf="messageService.messages.length" class="logs">
     <div *ngFor='let message of messageService.messages'> {{message}} </div>  
 </div>
 <button style="margin: 20px;" mat-raised-button color="primary" (click)="messageService.clear()">Clear logs</button>
+<br><br>
+<i style="margin: 20px;">Version: Supply Manager System Client - v1.1.0</i>

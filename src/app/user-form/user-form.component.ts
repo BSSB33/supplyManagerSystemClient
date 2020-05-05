@@ -1,12 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../classes/user';
-import { Location } from '@angular/common';
 import { CompanyService } from '../services/company.service';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Company } from '../classes/company';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingService } from '../services/loading.service';
@@ -27,7 +26,7 @@ export class UserFormComponent implements OnInit {
   selectedRole: string;
 
   constructor(
-    private location: Location,
+    private router: Router,
     private route: ActivatedRoute,
     private companyService: CompanyService,
     private userService: UserService,
@@ -183,7 +182,7 @@ export class UserFormComponent implements OnInit {
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/users']);
   }
 
 }

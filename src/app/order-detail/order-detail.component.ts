@@ -101,7 +101,7 @@ export class OrderDetailComponent implements OnInit {
   getHistoriesOfOrder(id: number): void {
     this.orderService.getHistoriesOfOrder(id)
         .subscribe(histories => {
-          this.histories = histories.sort((a,b) =>{return a.createdAt < b.createdAt ? 1 : -1})
+          this.histories = histories.sort((a,b) =>{return a.createdAt < b.createdAt ? 1 : -1});
           this.switchProgressBar();
         });
   }

@@ -77,8 +77,8 @@ export class OrderListComponent implements OnInit {
 
   filter(): void {
     this.filteredOrders = this.selectedStatus == ''
-    ? this.orders.sort((a,b) =>{return a.createdAt > b.createdAt ? 1 : -1})
-    : this.orders.filter(order => order.status == this.selectedStatus).sort((a,b) =>{return a.createdAt > b.createdAt ? 1 : -1});
+    ? this.orders.sort((a,b) =>{return a.createdAt < b.createdAt ? 1 : -1})
+    : this.orders.filter(order => order.status == this.selectedStatus).sort((a,b) =>{return a.createdAt < b.createdAt ? 1 : -1});
   }
 
   toggleAddOrder(): void{
@@ -260,4 +260,28 @@ export class OrderListComponent implements OnInit {
     order.archived = false;
     this.orderService.updateOrder(order).subscribe();
   }
+
+  archiveOrder(order: Order){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
+      data:{
+        message: 'Are you sure, you want to archive this Order?',
+        buttonText: {
+          ok: 'Archive',
+          cancel: 'Cancel'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.log("OrderArchivation: Option: ARCHIVE");
+        order.archived = true;
+        this.orderService.updateOrder(order).subscribe();
+      }
+      else {
+        this.log("OrderArchivation: Option: CANCEL");
+      }
+    });
+  }
+  
 }

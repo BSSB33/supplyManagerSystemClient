@@ -3,7 +3,7 @@
     <!--Company Filter-->
     <div class="filterPanel" *ngIf="authService.filters">
         <mat-form-field class="filterTool">  
-          <input matInput 
+          <input matInput autofocus 
           name="term"
           [(ngModel)]="term"
           type="text"

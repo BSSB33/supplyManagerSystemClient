@@ -47,7 +47,7 @@
                     <label class="order-info"><label style="color: green;">Active</label></label>
                 </label>
                 <ng-template #archived>
-                    <label class="order-info"><b>Archive:</b> &nbsp;
+                    <label class="order-info" style="padding-left:4em"><b>Archive:</b> &nbsp;
                         <label class="order-info"><label style="color: brown;">Archived</label></label>
                     </label>
                 </ng-template>
@@ -138,7 +138,6 @@
         
         <tr *ngIf="addHistory">
             <history-form></history-form>
-        
         </tr>
         <h3 *ngIf="histories.length !== 0" fxLayout="column" style="margin: 20px;">Histories of Order:</h3>
         <tr *ngFor="let history of histories">

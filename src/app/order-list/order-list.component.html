@@ -3,7 +3,7 @@
   <!--Order Filter Panel-->
   <div class="filterPanel" *ngIf="authService.filters">
     <mat-form-field class="filterTool">  
-      <input matInput 
+      <input matInput autofocus
       name="term"
       [(ngModel)]="term"
       type="text"
@@ -80,7 +80,7 @@
         <th scope="col">Delete</th>
     </thead>
     <tbody>
-      <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName | archivedFilter : hideArchived | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+      <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize | archivedFilter : hideArchived ">
         <td *ngIf="order.productName; else missing" [routerLink]="['/orders', order.id]">{{order.productName | uppercase}}</td>
         <td *ngIf="order.price; else missing" [routerLink]="['/orders', order.id]">{{order.price | number}} Ft</td>
         <td *ngIf="order.status; else missing" [routerLink]="['/orders', order.id]">{{this.enumService.getStatusString(order.status)}}</td>
@@ -90,17 +90,29 @@
         <td *ngIf="order.seller; else unassigned" [routerLink]="['/orders', order.id]">{{order.seller.name}}</td>
         <td *ngIf="order.sellerManager; else unassigned" [routerLink]="['/orders', order.id]">{{order.sellerManager.username}}</td>
         <td *ngIf="order.createdAt; else missing" [routerLink]="['/orders', order.id]">{{order.createdAt | date :  "yyyy. MM. dd."}}</td>
-        <td *ngIf="!order.archived; else archivedEdit"><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
+        <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
             <mat-icon>edit</mat-icon>&nbsp;Edit
-          </button></td>
-        <td><button mat-raised-button color="warn" (click)="openDeleteOrderDialog(order)">
+          </button>
+        </td>
+        <td *ngIf="this.authService.isAdmin; else archiveButton"><button mat-raised-button color="warn" (click)="openDeleteOrderDialog(order)">
             <mat-icon>delete</mat-icon>&nbsp;Delete
-          </button></td>
+          </button>
+        </td>
 
-        <ng-template #archivedEdit>
-          <td><button mat-raised-button color="primary" (click)="this.activateOrder(order)">
-            <mat-icon>remove_circle_outline</mat-icon>&nbsp;ReOpen
-          </button></td>
+        <ng-template #archiveButton>
+          <td *ngIf="!order.archived; else enableOrder">
+            <button mat-raised-button color="warn" (click)="this.archiveOrder(order)">
+              <mat-icon>remove_circle</mat-icon>&nbsp;Archive
+            </button>
+          </td>
+        </ng-template>
+
+        <ng-template #enableOrder>
+          <td>
+            <button mat-raised-button color="warn" (click)="this.activateOrder(order)">
+              <mat-icon>remove_circle_outline</mat-icon>&nbsp;Activate
+            </button>
+         </td>
         </ng-template>
 
         <ng-template #unassigned>

@@ -55,3 +55,8 @@ background-color: white !important;
     margin-top: 50px;
     font-size: medium;
 }
+
+.description-card{
+    height: 110px;
+    background-color: rgb(39, 43, 48);
+}

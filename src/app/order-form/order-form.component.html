@@ -54,15 +54,6 @@
               </mat-error>
           </mat-form-field>
 
-          <label class="order-info" style="padding-left:9.7em">Archived: &nbsp;</label>
-          <mat-checkbox 
-              type="checkbox" 
-              value="order.archived"
-              formControlName="archived"
-              [(ngModel)]="order.archived"
-              (click)="this.disableOrEnableArchivedForm(order)">
-          </mat-checkbox>
-
         <!-- === Seller === -->
         <div *ngIf="order.seller.id === authService.user.workplace.id && !authService.isAdmin">
           <label class="order-info" style="padding-left:7em">Seller Manager: &nbsp;</label>
@@ -290,6 +281,16 @@
               </mat-form-field>
             </ng-template>
 
+            
+            <label class="order-info" style="padding-left:9.7em">Archived: &nbsp;</label>
+            <mat-checkbox 
+                type="checkbox" 
+                value="order.archived"
+                formControlName="archived"
+                [(ngModel)]="order.archived"
+                (click)="this.disableOrEnableArchivedForm(order)">
+            </mat-checkbox>
+
             <mat-card-actions>
               <div class="backButton">
                 <button mat-raised-button [routerLink]="['/orders/edit', order.id]" [disabled]="!orderForm.valid" color="primary"
@@ -298,17 +299,19 @@
               </div>
             </mat-card-actions>
 
-            <label class="order-info" style="padding-left:2.2em">Description: &nbsp;</label>
-            <mat-form-field style="width: 400px; height: 400px">
-              <textarea matInput 
-                #description
-                formControlName="description" 
-                [(ngModel)] = "order.description"
-                type="textarea" 
-                name="description"
-                placeholder="Add Description">
-              </textarea>
-            </mat-form-field>
+            <mat-card class="description-card">
+              <label class="order-info" style="padding-left:1em">Description: &nbsp;</label>
+              <mat-form-field style="width: 400px; height: 400px">
+                <textarea matInput 
+                  #description
+                  formControlName="description" 
+                  [(ngModel)] = "order.description"
+                  type="textarea" 
+                  name="description"
+                  placeholder="Add Description">
+                </textarea>
+              </mat-form-field>
+            </mat-card>
 
         </mat-card-content>
 
