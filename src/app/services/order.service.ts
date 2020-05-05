@@ -41,13 +41,13 @@ export class OrderService {
       );
   }
 
-  getOrder(id: number): Observable<Order> {
+  async getOrder(id: number): Promise<Order> {
     const url = `${this.ordersUrl}/${id}`;
     return this.http.get<Order>(url, httpOptions).pipe(
       //delay(2000),
       tap(_ => this.log(`Fetched Order ID=${id}`)),
       catchError(this.handleError<Order>(`getOrder ID=${id}`))
-    );
+    ).toPromise();
   }
 
   getHistoriesOfOrder(id: number): Observable<History[]> {

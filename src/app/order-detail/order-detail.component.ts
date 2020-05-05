@@ -86,7 +86,7 @@ export class OrderDetailComponent implements OnInit {
   getOrderById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderService.getOrder(id)
-      .subscribe(order => {
+      .then(order => {
         this.order = order;
         this.originalStatus = this.order.status;
         this.switchProgressBar();
@@ -112,7 +112,7 @@ export class OrderDetailComponent implements OnInit {
     this._creator = this.authService.user;
   
     this.orderService.getOrder(+this.route.snapshot.paramMap.get('id'))
-    .subscribe(order => {
+    .then(order => {
       this._order = order;
       this.switchProgressBar();
     });

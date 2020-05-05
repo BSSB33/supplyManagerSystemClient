@@ -147,10 +147,10 @@ export class OrderFormComponent implements OnInit {
       });
   }
 
-  getOrderById(): void {
+  async getOrderById() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.orderService.getOrder(id)
-      .subscribe(
+    await this.orderService.getOrder(id)
+      .then(
         order => {
         this.order = order;
         this.disableArchivedForm(order);
@@ -227,7 +227,7 @@ export class OrderFormComponent implements OnInit {
     let orderId = +this.route.snapshot.paramMap.get('id');
 
     this.orderService.getOrder(orderId)
-      .subscribe(order => {
+      .then(order => {
         this._order = order
         this.switchProgressBar();
       });
