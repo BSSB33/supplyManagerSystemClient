@@ -6,7 +6,7 @@
           </mat-card-header>
           <mat-card-content>
 
-          <label class="order-info" style="padding-left:7.2em">Product Name: &nbsp;</label>
+          <label class="order-info" style="padding-left:10em">Product: &nbsp;</label>
           <mat-form-field style="width: 200px;">
             <input matInput 
               #productName
@@ -14,7 +14,7 @@
               [(ngModel)] = "order.productName"
               type="text" 
               name="productName"
-              placeholder="Enter Product Name"
+              placeholder="Enter Product"
               aria-describedby="titleHelp" 
               required/>
             <mat-error>

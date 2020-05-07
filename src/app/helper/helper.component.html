@@ -113,7 +113,7 @@
     <mat-card-content class="helper-info">
         <i>This page is Admin tool only!</i>
         Here all the orders can be found in the system.
-        Every order Must have a Product Name, a Price, a Status, 
+        Every order must have a Product, a Price, a Status, 
         and Buyer, and seller Companies set.
         Managers can be <b style="color: red;">UNASSIGNED</b> at the beginning, 
         showing that the Order is possibly <i>New</i> in the system.
@@ -181,3 +181,177 @@
         Unlike general users, Admins can add and assign Orders to any companies, and to any Managers.
     </mat-card-content>
 </mat-card>
+
+<!--Sales List Page info-->
+<mat-card *ngIf="this.url === '/sales' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 250px">
+    <mat-card-header>
+        <mat-card-title>Records:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Here all the sales can be found of your company.
+        Every order must have a Product, a Price, a Status, 
+        and Buyer, and seller Companies set.
+        Managers can be <b style="color: red;">UNASSIGNED</b> at the beginning, 
+        showing that the Order is possibly <i>New</i> in the system.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/sales' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As you are the seller of this product, beyond the Product, the Price, and the Status, and descritpion
+        you can modify the Seller Manager only. (Beyond archiving the order)
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="(this.url === '/sales' || this.url === '/purchases' )&& this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Archivation:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The best way to mark an Order as a completed one (besides setting the status) is to archive it.
+        Archived orders cannot be modified and won't appear in the order list afterwards.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/sales' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Deletion:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Deleting an order will cause the connected Histories to get removed too, 
+        so if you want to delete the complete order, please contact with an admin.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/sales' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 250px">
+    <mat-card-header>
+        <mat-card-title>Sale Filtering:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        To access the filter bar click <b><mat-icon>search</mat-icon>Filter</b>.
+        To manage large amount of data, SMS provides many filters, 
+        like filtering to buyer company, or to filter to Order status.
+        Enetually you can sort the tables by pressing the arrow sign 
+        next to the header of the tables.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/sales' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Give an Offer:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        You have the ability, to give an offer! For this, click <b>Give an Offer</b>! 
+        At the form at the top, besides the basic fields you can set the company, you want to sell to,
+        and you have to select one of your colleague to manage this order.
+    </mat-card-content>
+</mat-card>
+
+<!--Purchases List Page info-->
+<mat-card *ngIf="this.url === '/purchases' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 250px">
+    <mat-card-header>
+        <mat-card-title>Records:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Here all the purchases can be found of your company.
+        Every order must have a Product, a Price, a Status, 
+        and Buyer, and seller Companies set.
+        Managers can be <b style="color: red;">UNASSIGNED</b> at the beginning, 
+        showing that the Order is possibly <i>New</i> in the system.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/purchases' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As you are the buyer of this product, beyond the Product, the Price, and the Status, and descritpion
+        you can modify the Buyer Manager only. (Beyond archiving the order)
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/purchases' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Deletion:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Deleting an order will cause the connected Histories to get removed too, 
+        so if you want to delete the complete order, please contact with an admin.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/purchases' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 250px">
+    <mat-card-header>
+        <mat-card-title>Sale Filtering:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        To access the filter bar click <b><mat-icon>search</mat-icon>Filter</b>.
+        To manage large amount of data, SMS provides many filters, 
+        like filtering to buyer company, or to filter to Order status.
+        Enetually you can sort the tables by pressing the arrow sign 
+        next to the header of the tables.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/purchases' && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Request from an other company:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        You have the ability, to request an offer! For this, click <b>Give an Offer</b>! 
+        At the form at the top, besides the basic fields you can set the company, you want to request from,
+        and you have to select one of your colleague to manage this order.
+    </mat-card-content>
+</mat-card>
+
+<!--Order Editing-->
+<mat-card *ngIf="this.url.includes('/orders/edit') && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Editing as Seller:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        If you are the seller of this product, beyond the Product, the Price, and the Status, and Descritpion
+        you can modify the Seller Manager only. (Beyond archiving the order)
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/orders/edit') && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Editing as Buyer:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        If you are the buyer of this product, beyond the Product, the Price, and the Status, and Descritpion
+        you can modify the Buyer Manager only. (Beyond archiving the order)
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/orders/edit') && this.role !=='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Archiving Order:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The best way to mark an Order as a completed one (besides setting the status) is to archive it.
+        Archived orders cannot be modified and won't appear in the order list afterwards.
+    </mat-card-content>
+</mat-card>
+
+<!--Order details & History Page info-->
+<!--TODO: add my orders page where one of the managers is the logged in user-->

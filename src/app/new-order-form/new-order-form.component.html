@@ -4,20 +4,20 @@
             <mat-card-content>
                 <h4 *ngIf="this.orderService.href === 'sales'; else purchase" style="margin: 10px;">Give an Offer:</h4>
                 <ng-template #purchase>
-                    <h4 *ngIf="this.orderService.href === 'purchases'; else order" style="margin: 10px;">Order from a Company:</h4>
+                    <h4 *ngIf="this.orderService.href === 'purchases'; else order" style="margin: 10px;">Request from a Company:</h4>
                 </ng-template>
                 <ng-template #order>
                     <h4 style="margin: 10px;">Add New Order:</h4>
                 </ng-template>
                 <div class="column">
-                    <label class="new-order-info" >Product Name:
-                        <mat-form-field style="width: 200px; padding-left:2em">
+                    <label class="new-order-info" >Product:
+                        <mat-form-field style="width: 250px; padding-left:5em">
                             <input matInput 
                             #productName 
                             formControlName="productName" 
                             type="text" 
                             name="productName"
-                            placeholder="Enter Product Name"
+                            placeholder="Enter Product"
                             aria-describedby="titleHelp" />
                             <mat-error>
                                 Name must be at least 3 characters long!

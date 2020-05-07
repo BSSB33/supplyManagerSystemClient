@@ -7,7 +7,7 @@
       name="term"
       [(ngModel)]="term"
       type="text"
-      placeholder="Search by Product Name">
+      placeholder="Search by Product">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
@@ -50,13 +50,13 @@
   <h2 style="margin-left: 20px;"> {{title}} 
     <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" (click)="this.loadingService.setLoading(true);" mat-raised-button
     color="primary">
-    <mat-icon>add</mat-icon>&nbsp;Add {{addButtonText}}
+    <mat-icon>add</mat-icon>&nbsp;{{addButtonText}}
   </button>
   </h2>
 
   <ng-template #cancel>
     <button *ngIf="addOrder" style="margin-left: 10px;" (click)="toggleAddOrder()" mat-raised-button color="primary">
-      <mat-icon>remove</mat-icon>&nbsp;Cancel New {{addButtonText}}
+      <mat-icon>remove</mat-icon>&nbsp;Cancel New Order
     </button>
   </ng-template>
 
@@ -67,7 +67,7 @@
   <!--Order List-->
   <table matSort (matSortChange)="sortData($event)" class="table table-hover table-dark table-curved">
     <thead>
-        <th scope="col" mat-sort-header="productName">Product Name</th>
+        <th scope="col" mat-sort-header="productName">Product</th>
         <th scope="col" mat-sort-header="price">Price</th>
         <th scope="col" mat-sort-header="status">Status</th>
         <th scope="col" mat-sort-header="archived">Archived</th>
