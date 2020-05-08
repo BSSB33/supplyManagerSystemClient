@@ -214,7 +214,6 @@ export class OrderListComponent implements OnInit {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'productName': return this.compare(a.productName, b.productName, isAsc);
-        case 'price': return this.compare(a.price, b.price, isAsc);
         case 'status': return this.compare(a.status, b.status, isAsc);
         case 'archived': return this.compare(a.archived, b.archived, isAsc);
         case 'buyer': return this.compare(a.buyer.name, b.buyer.name, isAsc);

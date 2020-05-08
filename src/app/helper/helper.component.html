@@ -245,7 +245,7 @@
 </mat-card>
 
 <mat-card *ngIf="this.url === '/sales'" 
-    class="helper-card" style="height: 200px">
+    class="helper-card" style="height: 240px">
     <mat-card-header>
         <mat-card-title>Give an Offer:</mat-card-title>
     </mat-card-header>
@@ -282,7 +282,7 @@
     </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="this.url === '/purchases'" 
+<mat-card *ngIf="this.url === '/purchases' || this.url === '/myorders'" 
     class="helper-card" style="height: 200px">
     <mat-card-header>
         <mat-card-title>Order Deletion:</mat-card-title>
@@ -308,7 +308,7 @@
 </mat-card>
 
 <mat-card *ngIf="this.url === '/purchases'" 
-    class="helper-card" style="height: 200px">
+    class="helper-card" style="height: 230px">
     <mat-card-header>
         <mat-card-title>Request from an other company:</mat-card-title>
     </mat-card-header>
@@ -320,6 +320,18 @@
 </mat-card>
 
 <!--Order Editing-->
+<mat-card *ngIf="this.url.includes('/orders/edit') && this.role ==='ROLE_ADMIN'" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Editing as Buyer:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As an Admin user, you have the option to mofidy not only the basic properties of an Order, 
+        but to reassign it to different company, or manager. On the other hand, 
+        Andims have only the right to delete an Order .
+    </mat-card-content>
+</mat-card>
+
 <mat-card *ngIf="this.url.includes('/orders/edit') && this.role !=='ROLE_ADMIN'" 
     class="helper-card" style="height: 200px">
     <mat-card-header>
@@ -342,6 +354,27 @@
     </mat-card-content>
 </mat-card>
 
+<mat-card *ngIf="this.url.includes('/orders/edit')" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order Status:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Status is represented with the actual state of the order. It indicates the process.
+        It can indicate the lifespan of the order, like: NEW... UNDER_PRODUCTION... UNDER_SHIPPING... SUCCESFULLY_COMPLETED.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/orders/edit')" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Description:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Description is an optional field. Feel free to modify the description, to help other's work.
+    </mat-card-content>
+</mat-card>
+
 <mat-card *ngIf="this.url.includes('/orders/edit') && this.role !=='ROLE_ADMIN'" 
     class="helper-card" style="height: 200px">
     <mat-card-header>
@@ -354,4 +387,424 @@
 </mat-card>
 
 <!--Order details & History Page info-->
-<!--TODO: add my orders page where one of the managers is the logged in user-->
+<mat-card *ngIf="this.url.includes('/orders/')" 
+    class="helper-card" style="height: 210px">
+    <mat-card-header>
+        <mat-card-title>Order:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        <i>Welcome to the Order detail page!</i>
+        Here all the details can be checked like status, modification date, and description.
+        Besides these, every order can have a number of histories indicating, the process of the case.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/orders/')" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Histories:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Histories are indicating, the process of the case. Histories can be simple notes or can store 
+        important data of the Order, or the wish of the partner company.
+        You can add a history by clicking at the "Add History" button.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/orders/')" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Behaviour of Histories:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Manually added Histories are private and, are only available to the company, who issued it.
+        This way, companies can handle the process, privately.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/orders/')" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>System Histories:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Upon modification of importatn aspect of an Order, like the Product itself, the price, 
+        or the Status, the system generates a new history, logging the progress of the Order.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/orders/')" 
+    class="helper-card" style="height: 140px">
+    <mat-card-header>
+        <mat-card-title>Quick status modification:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        You can modify the status of the order simply by clicking on the "Product Status" field.
+    </mat-card-content>
+</mat-card>
+
+<!--My Orders Page Info-->
+<mat-card *ngIf="this.url === '/myorders'" 
+    class="helper-card" style="height: 170px">
+    <mat-card-header>
+        <mat-card-title>My Orders Page:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        <i>Welcome to the SMS Client!</i> 
+        At this landing page you will see all the orders assigned to you. 
+        You can easily open an Order by clicking on it.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/sales' || this.url === '/purchases' || this.url === '/myorders'"
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Archiving Order:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The best way to mark an Order as a completed one (besides setting the status) is to archive it.
+        Archived orders cannot be modified and won't appear in the order list afterwards.
+    </mat-card-content>
+</mat-card>
+
+<!--Users Page Info-->
+<mat-card *ngIf="this.url === '/users' && this.authService.isAdmin" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Users:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As an Admin user you are allowed to see all the Users registered to the System.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isAdmin" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>User editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As an Admin user you are allowed to modify all the user accounts in the system.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isAdmin" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Disabling/Enabling:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As an Admin user you are allowed to desable or enable any of the user accounts in the system. 
+        Disabling an account will remove the right of the user to login to the system.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isDirector" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Employees:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As a Director user you are allowed to see all the Users working at your company.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isDirector" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Profile Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As a Director user you are allowed to modify all your employees.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isDirector" 
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Disabling/Enabling:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As a Director user you are allowed to desable or enable the accounts of your emplyees.
+        Disabling an account will remove the right of the user to login to the system.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isManager" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Colleagues:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As a Manager user you are allowed to see all the Users working at your company.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isManager" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Profile Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As a Manager user you are only allowed to modify your profile only.
+    </mat-card-content>
+</mat-card>
+
+<!--New User info-->
+
+<!--User editing Page Info-->
+<mat-card *ngIf="this.url.includes('/users/edit') && this.authService.isAdmin" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>User Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As an Admin user you are allowed to modify any of the fields of a User.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/users/edit') && this.authService.isDirector" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>User Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As a Director user you are allowed to modify your employees, but their role cannot be modified.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/users/edit') && this.authService.isManager" 
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Profile Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As a Manager user you are only allowed to modify your profile. You can reset your password.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/users/edit')" 
+    class="helper-card" style="height: 180px">
+    <mat-card-header>
+        <mat-card-title>New Password:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        You can reset your password by typing it in to the password boxes.
+        Leaving those boxes empty, will couse your password to remain the old one.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/users/edit')" 
+    class="helper-card" style="height: 160px">
+    <mat-card-header>
+        <mat-card-title>Modificating your own account:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Modifying your account, will warn you, that you will be logged out!
+        After the modification, you will be asked to re-login.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isAdmin"
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Registering new User:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Admins have the option to register New users with any role. 
+        They can also set the workplace of any users, beyond basic data like, name, or email address.
+        (Every field is required).
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/users' && this.authService.isDirector"
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Registering new User:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Directors have the right to add a new Manager to the company where he is registered.
+        Later, Directors can easily modify their employees.
+    </mat-card-content>
+</mat-card>
+
+<!--Company List Page info-->
+<mat-card *ngIf="this.url === '/companies' && this.authService.isAdmin"
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Registering new Company:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Registering a new Company is simple, but only Admin users have the roght to do so.
+        Click "Register New Company" next to the title, and fill the form.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/companies' && this.authService.isAdmin"
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Company List:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        All the companies are listed here registerd to the system.
+        Admins have the right to edit all the companies.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/companies' && this.authService.isAdmin"
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Company Disabling:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As an Admin you can Disable Companies!
+        Disabling a company will disable all the users working at the company.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/companies'"
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Company List:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        All the companies are listed here registerd to the system. 
+        You can easily access all the information about each company, 
+        which can be required to be used durring shipping or communication.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/companies'"
+    class="helper-card" style="height: 170px">
+    <mat-card-header>
+        <mat-card-title>Company Map:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        Under the list, all the companies with valid address given, are shown on the map.
+        This makes management even more easier.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/companies' && this.authService.isDirector"
+    class="helper-card" style="height: 170px">
+    <mat-card-header>
+        <mat-card-title>Company Modification:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        In case you renamed your company, you can edit your Company's profile.
+        All the data in the form is required to be up to date.
+    </mat-card-content>
+</mat-card>
+
+<!--Company Edit form info-->
+<mat-card *ngIf="this.url.includes('/companies/edit') && this.authService.isAdmin"
+    class="helper-card" style="height: 170px">
+    <mat-card-header>
+        <mat-card-title>Company Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As an Admin user you can edit any of the company's profile.
+        All the data in the form is required to be up to date.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/companies/edit') && this.authService.isDirector"
+    class="helper-card" style="height: 170px">
+    <mat-card-header>
+        <mat-card-title>Company Editing:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        In case you renamed your company, you can edit your Company's profile.
+        All the data in the form is required to be up to date.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url.includes('/companies/edit')"
+    class="helper-card" style="height: 170px">
+    <mat-card-header>
+        <mat-card-title>Company Adress:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+       <b>WARNING!</b> It is recommended to add a well formatted adress, so the company can appear on the map.
+    </mat-card-content>
+</mat-card>
+
+<!--Statistics Page info-->
+<mat-card *ngIf="this.url === '/stats' && this.authService.isDirector"
+    class="helper-card" style="height: 170px">
+    <mat-card-header>
+        <mat-card-title>Company Statistics:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        As a Director of your company, you can find real time, useful statistics about your company.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/stats' && this.authService.isDirector"
+    class="helper-card" style="height: 250px">
+    <mat-card-header>
+        <mat-card-title>Monthly Income/Expense:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        These charts are indicating the money flow listed by month.
+        The bottom parts of the columns are the open orders, but the 
+        part appearing at the top of the columns, are the closed orders, indicating 
+        that your company has already recieved the money.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/stats' && (this.authService.isDirector || this.authService.isAdmin)"
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Business Partners:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The Pyramid is indicating your partners, you have the most orders with.
+        It is recommended to keep a healthy business with the top ones.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/stats' && this.authService.isDirector"
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order counts:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The Circle is divided into four segments.
+        Active/Closed Sales and 
+        Active/Closed Purchases, giving you the possibility to estimate and retink your strategy.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/stats' && this.authService.isAdmin"
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Registerd Users:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The donut is divided into 3 parts, indicating the registred usres by role, 
+        giving admins a feedback about the usage of roles.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/stats' && this.authService.isAdmin"
+    class="helper-card" style="height: 150px">
+    <mat-card-header>
+        <mat-card-title>Value of Orders:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        This chart shows the amount of money moved with the help of SMS.
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="this.url === '/stats' && this.authService.isAdmin"
+    class="helper-card" style="height: 200px">
+    <mat-card-header>
+        <mat-card-title>Order counts:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="helper-info">
+        The Circle is divided into four segments.
+        Active/Closed Sales and Active/Closed Purchases, 
+        this shows ALL the orders in the system, givin developers a feedback, about the usage of SMS.
+    </mat-card-content>
+</mat-card>

@@ -196,7 +196,7 @@ export class StatsComponent implements OnInit {
           data: [{
             type: "pyramid",
             indexLabelFontSize: 16,
-            indexLabel: "{label}({y} order)",
+            indexLabel: "{label} ({y} order)",
             indexLabelPlacement: "inside",
             dataPoints: dict,
           }]

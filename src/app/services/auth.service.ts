@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import { User } from '../classes/user';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { MessageService } from './message.service';
-import { Observable, of } from 'rxjs';
-import { Router } from '@angular/router';
-import { stringify } from 'querystring';
-import { OrderListComponent } from '../order-list/order-list.component';
 
+import { Router } from '@angular/router';
 export const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -86,8 +83,6 @@ export class AuthService {
   }
   
   async logout() {
-
-
     try {
       await this.http.post<User>(`${this.authUrl}/logout`, {}, httpOptions).toPromise();
       console.log("Succesfully Logged Out!");

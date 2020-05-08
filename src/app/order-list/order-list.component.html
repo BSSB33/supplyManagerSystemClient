@@ -68,9 +68,8 @@
   <table matSort (matSortChange)="sortData($event)" class="table table-hover table-dark table-curved">
     <thead>
         <th scope="col" mat-sort-header="productName">Product</th>
-        <th scope="col" mat-sort-header="price">Price</th>
         <th scope="col" mat-sort-header="status">Status</th>
-        <th scope="col" mat-sort-header="archived">Archived</th>
+        <th scope="col" mat-sort-header="archived">Active</th>
         <th scope="col" mat-sort-header="buyer">Buyer Company</th>
         <th scope="col" mat-sort-header="buyerManager">Buyer Manager</th>
         <th scope="col" mat-sort-header="seller">Seller Company</th>
@@ -85,9 +84,8 @@
     <tbody>
       <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize | archivedFilter : hideArchived ">
         <td *ngIf="order.productName; else missing" [routerLink]="['/orders', order.id]">{{order.productName | uppercase}}</td>
-        <td *ngIf="order.price; else missing" [routerLink]="['/orders', order.id]">{{order.price | number}} Ft</td>
         <td *ngIf="order.status; else missing" [routerLink]="['/orders', order.id]">{{this.enumService.getStatusString(order.status)}}</td>
-        <td *ngIf="!order.archived; else archivedOrder" [routerLink]="['/orders', order.id]"><label style="color: green;">Active</label></td>
+        <td *ngIf="!order.archived; else archivedOrder" [routerLink]="['/orders', order.id]"><label style="color: green;"><mat-icon>done</mat-icon></label></td>
         <td *ngIf="order.buyer; else unassigned" [routerLink]="['/orders', order.id]">{{order.buyer.name}}</td>
         <td *ngIf="order.buyerManager; else unassigned" [routerLink]="['/orders', order.id]">{{order.buyerManager.username}}</td>
         <td *ngIf="order.seller; else unassigned" [routerLink]="['/orders', order.id]">{{order.seller.name}}</td>
@@ -126,7 +124,7 @@
 
         <ng-template #archivedOrder>
           <td [routerLink]="['/orders', order.id]" >
-            <label style="color: brown;">Archived</label>
+            <label style="color: brown;"><mat-icon>clear</mat-icon></label>
           </td>
         </ng-template>
 
