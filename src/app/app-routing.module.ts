@@ -20,7 +20,7 @@ import { StatsComponent } from './stats/stats.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/sales',
+    redirectTo: '/myorders',
     pathMatch: 'full'
   },
   {
@@ -30,6 +30,11 @@ const routes: Routes = [
   },
   {
     path: 'purchases',
+    component: OrderListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'myorders',
     component: OrderListComponent,
     canActivate: [AuthGuard]
   },

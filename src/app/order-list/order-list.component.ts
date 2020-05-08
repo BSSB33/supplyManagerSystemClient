@@ -67,12 +67,10 @@ export class OrderListComponent implements OnInit {
     this.term = "";
     this.filter();
     this.title = this.orderService.href.charAt(0).toUpperCase() + this.orderService.href.slice(1) + " Of My Company";
-    if(this.authService.url == '/sales'){
-      this.addButtonText = "Give an Offer";
-    }
-    else if(this.authService.url == '/purchases'){
-      this.addButtonText = "Request from an other company";
-    }
+    if(this.authService.url == '/myorders') this.title="My Orders";
+    if(this.authService.url == '/sales') this.addButtonText = "Give an Offer";
+    else if(this.authService.url == '/purchases') this.addButtonText = "Request from an other company";
+    
   }
 
   onFilterChange(status: string): void {

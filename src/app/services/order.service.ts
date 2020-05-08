@@ -23,6 +23,7 @@ export class OrderService {
   public href: string = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
   private sales_purchasesUrl = mainURL.URL + '/orders/' + this.href;
   private ordersUrl = mainURL.URL + '/orders';
+  private myOrdersUrl = mainURL.URL + '/orders/myorders';
 
   setHref(){
     this.href = this.router.url.substring(this.router.url.lastIndexOf('/') + 1);
@@ -33,9 +34,9 @@ export class OrderService {
     this.setHref();
     var url = this.ordersUrl;
     if(this.href != "orders") url = this.sales_purchasesUrl;
+    if(this.href == "myorders") url = this.myOrdersUrl;
     return this.http.get<Order[]>(url, httpOptions)
       .pipe(
-        //delay(2000),
         tap(_ => this.log('Fetched Orders')),
         catchError(this.handleError<Order[]>('getOrders', []))
       );

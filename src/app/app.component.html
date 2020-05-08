@@ -10,6 +10,7 @@
       <button mat-button routerLink="/orders">
         <mat-icon>explore</mat-icon>&nbsp;SMS Client
       </button>
+      <button mat-button routerLink="/myorders"><mat-icon>dashboard</mat-icon>&nbsp;My Orders</button>
       <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
       <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
       <button mat-button routerLink="/orders"><mat-icon>fingerprint</mat-icon>&nbsp;All Orders</button>
@@ -28,9 +29,10 @@
 
     <!--Director menu-->
     <div *ngIf="authService.isDirector" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
-      <button mat-button routerLink="/sales">
+      <button mat-button routerLink="/myorders">
         <mat-icon>explore</mat-icon>&nbsp;SMS Client
       </button>
+      <button mat-button routerLink="/myorders"><mat-icon>dashboard</mat-icon>&nbsp;My Orders</button>
       <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
       <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
       <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Emplyees</button>
@@ -47,9 +49,10 @@
 
     <!--Manager menu-->
     <div *ngIf="authService.isManager" fxFlex fxLayout="row" fxShow="false" fxShow.gt-md>
-      <button mat-button routerLink="/sales">
+      <button mat-button routerLink="/myorders">
         <mat-icon>explore</mat-icon>&nbsp;SMS Client
       </button>
+      <button mat-button routerLink="/myorders"><mat-icon>dashboard</mat-icon>&nbsp;My Orders</button>
       <button mat-button routerLink="/sales"><mat-icon>all_out</mat-icon>&nbsp;Sales</button>
       <button mat-button routerLink="/purchases"><mat-icon>all_inbox</mat-icon>&nbsp;Purchases</button>
       <button mat-button routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>
@@ -122,6 +125,7 @@
 
 <!--Small Menu-->
 <mat-menu xPosition="before" #adminMenu="matMenu">
+  <button mat-button routerLink="/myorders"><mat-icon>dashboard</mat-icon>&nbsp;My Orders</button>
   <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
   <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
   <button mat-menu-item routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Users</button>
@@ -132,6 +136,7 @@
 </mat-menu>
 
 <mat-menu xPosition="before" #directorMenu="matMenu">
+  <button mat-button routerLink="/myorders"><mat-icon>dashboard</mat-icon>&nbsp;My Orders</button>
   <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
   <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
   <button mat-menu-item routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Employees</button>
@@ -141,6 +146,7 @@
 </mat-menu>
 
 <mat-menu xPosition="before" #managerMenu="matMenu">
+  <button mat-button routerLink="/myorders"><mat-icon>dashboard</mat-icon>&nbsp;My Orders</button>
   <button mat-menu-item routerLink="/sales"><mat-icon>all_inbox</mat-icon>&nbsp;Sales</button>
   <button mat-menu-item routerLink="/purchases"><mat-icon>all_out</mat-icon>&nbsp;Purchases</button>
   <button mat-menu-item routerLink="/users"><mat-icon>person</mat-icon>&nbsp;Colleagues</button>

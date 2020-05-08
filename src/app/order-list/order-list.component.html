@@ -48,7 +48,7 @@
 
   <!--Order Title and New Order Button-->
   <h2 style="margin-left: 20px;"> {{title}} 
-    <button *ngIf="!addOrder; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" (click)="this.loadingService.setLoading(true);" mat-raised-button
+    <button *ngIf="!addOrder && this.authService.url != '/myorders'; else cancel" style="margin-left: 10px;" (click)="toggleAddOrder()" (click)="this.loadingService.setLoading(true);" mat-raised-button
     color="primary">
     <mat-icon>add</mat-icon>&nbsp;{{addButtonText}}
   </button>
@@ -77,7 +77,10 @@
         <th scope="col" mat-sort-header="sellerManager">Seller Manager</th>
         <th scope="col" mat-sort-header="createdAt">Creation</th>
         <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
+        <th *ngIf="!this.authService.isAdmin; else adminDeleteTh" scope="col">Archive</th>
+        <ng-template #adminDeleteTh>
+          <th scope="col">Delete</th>
+        </ng-template>
     </thead>
     <tbody>
       <tr *ngFor="let order of filteredOrders | filter : term | orderBuyerFilter : selectedBuyerCompanyName | orderSellerFilter : selectedSellerCompanyName | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize | archivedFilter : hideArchived ">
