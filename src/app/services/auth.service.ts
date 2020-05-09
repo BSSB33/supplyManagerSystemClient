@@ -12,8 +12,8 @@ export const httpOptions = {
 };
 
 export const mainURL = {
-  //URL: "https://supply-manager-system-backend.herokuapp.com"
-  URL: "http://localhost:8080"
+  URL: "https://supply-api.herokuapp.com"
+  //URL: "http://localhost:8080"
 };
 
 @Injectable({
