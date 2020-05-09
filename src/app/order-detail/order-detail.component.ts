@@ -14,6 +14,8 @@ import { EnumService } from '../services/enum.service';
 import { LoadingService } from '../services/loading.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { OrderFormComponent } from '../order-form/order-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-order-detail',
@@ -48,8 +50,10 @@ export class OrderDetailComponent implements OnInit {
     private historyService: HistoryService,
     private location: Location,
     public router: Router,
+    private dialog: MatDialog,
     private authService: AuthService,
     public loadingService: LoadingService,
+    private messageService: MessageService
   ) { 
     this.statusForm = new FormGroup({
       status: new FormControl()
@@ -94,9 +98,27 @@ export class OrderDetailComponent implements OnInit {
   }
   
   deleteHistory(history: History): void {
-    this.histories = this.histories.filter(h => h !== history);
-    this.historyService.deleteHistory(history).subscribe();
-  }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
+        data:{
+          message: 'Are you sure, you want to delte this History?',
+          buttonText: {
+            ok: 'Delete',
+            cancel: 'Cancel'
+          }
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.log("History Deletion: Option: DELETE");
+          this.histories = this.histories.filter(h => h !== history);
+          this.historyService.deleteHistory(history).subscribe();
+        }
+        else {
+          this.log("HistoryDeletion: Option: CANCEL");
+        }
+      });
+    }
 
   getHistoriesOfOrder(id: number): void {
     this.orderService.getHistoriesOfOrder(id)
@@ -155,5 +177,10 @@ export class OrderDetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  private log(message: string) {
+    this.messageService.add(`CompanyList: ${message}`);
+  }
+
 
 }

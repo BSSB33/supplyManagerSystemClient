@@ -137,8 +137,8 @@ export class UserListComponent implements OnInit {
 
   private filter(): void {
     this.filteredUsers = this.selectedRole == ''
-    ? this.users
-    : this.users.filter(user => user.role == this.selectedRole);
+    ? this.users.sort((a,b) =>{return a.username > b.username ? 1 : -1})
+    : this.users.filter(user => user.role == this.selectedRole).sort((a,b) =>{return a.username > b.username ? 1 : -1});
   }
 
   onCompanyFilterChange(companyId: number){

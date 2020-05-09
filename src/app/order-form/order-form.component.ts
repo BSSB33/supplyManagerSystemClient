@@ -297,12 +297,14 @@ export class OrderFormComponent implements OnInit {
   initFilterUsersOfBuyerCompany(companyName: string, companies: Company[]){
     this.selectedBuyerCompany = companies.find(company => company.name == companyName);
     this.selectableCompanyiesForSeller = companies.filter(company => company.name != companyName);
+    if(this.managers == undefined) window.location.reload();
     this.usersOfBuyerCompany = this.managers.filter(user => user.workplace.name == companyName); //TODO BUG: sometimes it doesn't load fast enough
   }
 
   initFilterUsersOfSellerCompany(companyName: string, companies: Company[]){
     this.selectedSellerCompany = companies.find(company => company.name == companyName);
     this.selectableCompanyiesForBuyer = companies.filter(company => company.name != companyName);
+    if(this.managers == undefined) window.location.reload();
     this.usersOfSellerCompany = this.managers.filter(user => user.workplace.name == companyName);
   }
 
