@@ -70,7 +70,6 @@ export class OrderListComponent implements OnInit {
     if(this.authService.url == '/myorders') this.title="My Orders";
     if(this.authService.url == '/sales') this.addButtonText = "Give an Offer";
     else if(this.authService.url == '/purchases') this.addButtonText = "Request from an other company";
-    
   }
 
   onFilterChange(status: string): void {
@@ -80,8 +79,8 @@ export class OrderListComponent implements OnInit {
 
   filter(): void {
     this.filteredOrders = this.selectedStatus == ''
-    ? this.orders.sort((a,b) =>{return a.createdAt < b.createdAt ? 1 : -1})
-    : this.orders.filter(order => order.status == this.selectedStatus).sort((a,b) =>{return a.createdAt < b.createdAt ? 1 : -1});
+    ? this.orders
+    : this.orders.filter(order => order.status == this.selectedStatus);
   }
 
   toggleAddOrder(): void{

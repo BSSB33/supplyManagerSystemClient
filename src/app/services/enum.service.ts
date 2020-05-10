@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class EnumService {
 
-  private statuses: String[] = ["UNDER_PRODUCTION", "UNDER_ASSEMBLY", "IN_STOCK", "UNDER_SHIPPING", "SUCCESSFULLY_COMPLETED", "CLOSED", "ISSUE", "NEW", "OFFER"];
+  private statuses: String[] = ["UNDER_PRODUCTION", "UNDER_ASSEMBLY", "IN_STOCK", "UNDER_SHIPPING", "SUCCESSFULLY_COMPLETED", "CLOSED", "ISSUE", "NEW", "OFFER", "FAILED"];
   private historyTypes: String[] = ["PHONE_CALL", "EMAIL_SENT", "MADE_AN_OFFER", "DISCUSSION", "STARTED_SHIPPING", "PAID", "ORDER", "OFFER", "NOTE", "SHIPPED"];
   constructor() { }
 
@@ -37,6 +37,8 @@ export class EnumService {
         return "New";
       case 'OFFER':
         return "Offer";
+      case 'FAILED':
+        return "Failed";
     }
   }
 

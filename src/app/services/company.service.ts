@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
 import { Company } from '../classes/company';
@@ -103,7 +103,11 @@ export class CompanyService {
   mymap;
   getMap(companies){
 
-    if(this.mymap != null) this.mymap.remove();
+    if(this.mymap != null) {
+      this.mymap.off();
+      this.mymap.remove();
+      
+    }
     this.mymap = L.map('mapid').setView([47.497913, 19.040236], 12);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYnNzYjMzIiwiYSI6ImNrOW85cTUxMzA3eTMzZG1ydmwyYzhhaHEifQ.NdZf9IMNO1ZNiKJxTZbTTw',
@@ -118,9 +122,12 @@ export class CompanyService {
     }).addTo(this.mymap);
 
     companies.forEach(company => {
-      if(companies.lat != null || company.lon != null || companies.lat != "0" || company.lon != "0"){
+      if(companies.lat != "0" || company.lon != "0" || companies.lat != null || company.lon != null){
         //console.log(company.lat + " - " +  company.lon);
-        L.marker([company.lat, company.lon]).bindPopup(company.name).addTo(this.mymap);
+        var marker = L.marker([company.lat, company.lon]).bindPopup(company.name);
+        if(marker.getLatLng() != null){
+          marker.addTo(this.mymap);
+        }
       }
     }); 
   }

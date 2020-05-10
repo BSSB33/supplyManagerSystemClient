@@ -45,13 +45,13 @@ export class NewCompanyFormComponent implements OnInit {
     let lat: string;
     let lon: string;
     await $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q='+ this.companyForm.controls['address'].value, function(data){
-      if(data != null && data.latlog != null){
-        //console.log("New company at: " + data[0].lat + ", " + data[0].lon)
+      if(data != null && data[0] != undefined){ // && data.latlog != null
+        console.log("New company at: " + data[0].lat + ", " + data[0].lon)
         lat = data[0].lat;
         lon = data[0].lon;
       }
       else{
-        //console.log("Not recognised Address");
+        console.log("Not recognised Address");
         lat = "0";
         lon = "0";
       }
@@ -65,7 +65,8 @@ export class NewCompanyFormComponent implements OnInit {
         this.companyForm.controls['taxNumber'].value,
         this.companyForm.controls['bankAccountNumber'].value,
         lat, lon
-      ));
+        )
+      );
 
       this.companyService.getCompanies().subscribe(companies => this.companyService.getMap(companies));
     }
