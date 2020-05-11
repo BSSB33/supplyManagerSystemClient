@@ -115,12 +115,27 @@ export class UserListComponent implements OnInit {
   }
 
   registerUser(newUser: User){
-    this.userService.registerUser(newUser)
+    let userNames = this.users.map(user => user.username);
+    if(!userNames.includes(newUser.username))
+    {
+      this.userService.registerUser(newUser)
       .subscribe(user => {
         this.users.push(user);
         this.setRoleOptions(this.users);
         this.filter();
       })
+    }
+    else
+    {
+      this.dialog.open(ForbiddenDialogComponent,{
+        data:{
+          message: 'Username Already Taken!',
+          buttonText: {
+            cancel: 'OK'
+          }
+        },
+      });
+    }
   }
 
   toggleAddUser(): void{
