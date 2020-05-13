@@ -65,7 +65,7 @@ export class OrderFormComponent implements OnInit {
           price: new FormControl('',[
             Validators.required,
             Validators.minLength(2),
-            Validators.pattern('^[0-9]+')
+            Validators.pattern('[0-9]{1,13}(\.[0-9]*)?')
           ]),
           status: new FormControl(),
           archived: new FormControl(),
@@ -83,7 +83,7 @@ export class OrderFormComponent implements OnInit {
           price: new FormControl('',[
             Validators.required,
             Validators.minLength(2),
-            Validators.pattern('^[0-9]+')
+            Validators.pattern('[0-9]{1,13}(\.[0-9]*)?')
           ]),
           status: new FormControl(),
           archived: new FormControl(),
@@ -99,7 +99,7 @@ export class OrderFormComponent implements OnInit {
           price: new FormControl('',[
             Validators.required,
             Validators.minLength(2),
-            Validators.pattern('^[0-9]+')
+            Validators.pattern('[0-9]{1,13}(\.[0-9]*)?')
           ]),
           status: new FormControl(),
           archived: new FormControl(),

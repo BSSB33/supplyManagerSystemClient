@@ -31,16 +31,6 @@
     </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="this.url === '/logs'" 
-    class="helper-card" style="height: 160px">
-    <mat-card-header>
-        <mat-card-title>Progress Bar</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="helper-info">
-        The progress bar is always shown on this page as a debug feature.
-    </mat-card-content>
-</mat-card>
-
 <!--Login Page info-->
 <mat-card *ngIf="this.url === '/login' || this.url === '/logs'" 
     class="helper-card" style="height: 200px">
@@ -606,7 +596,7 @@
 </mat-card>
 
 <mat-card *ngIf="this.url === '/users' && this.authService.isAdmin"
-    class="helper-card" style="height: 150px">
+    class="helper-card" style="height: 180px">
     <mat-card-header>
         <mat-card-title>Registering new User:</mat-card-title>
     </mat-card-header>
@@ -618,7 +608,7 @@
 </mat-card>
 
 <mat-card *ngIf="this.url === '/users' && this.authService.isDirector"
-    class="helper-card" style="height: 150px">
+    class="helper-card" style="height: 220px">
     <mat-card-header>
         <mat-card-title>Registering new User:</mat-card-title>
     </mat-card-header>
@@ -630,7 +620,7 @@
 
 <!--Company List Page info-->
 <mat-card *ngIf="this.url === '/companies' && this.authService.isAdmin"
-    class="helper-card" style="height: 200px">
+    class="helper-card" style="height: 220px">
     <mat-card-header>
         <mat-card-title>Registering new Company:</mat-card-title>
     </mat-card-header>

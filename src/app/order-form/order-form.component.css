@@ -60,3 +60,7 @@ background-color: white !important;
     height: 110px;
     background-color: rgb(39, 43, 48);
 }
+
+.description{
+    resize: none;
+}

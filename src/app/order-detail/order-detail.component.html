@@ -28,7 +28,7 @@
                 <form [formGroup]="statusForm" *ngIf="order.status && editStatus">
                     <label class="order-info" style="padding-left:1em"><b>Product Status: </b> &nbsp;
                         <mat-form-field style="width: 200px;">
-                            <mat-select #status formControlName="status" 
+                            <mat-select #status formControlName="status"
                             [(ngModel)] = "order.status" name="status" 
                             placeholder="Enter Status" required>
                                 <mat-option *ngFor="let status of statuses" [value]="status" 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { OrderService } from '../services/order.service';
@@ -76,11 +76,12 @@ export class OrderDetailComponent implements OnInit {
   }
 
   updateStatus(){
-    this.orderService.updateOrder(this.order)
-    .subscribe();
+    if(this.originalStatus != this.statusForm.controls['status'].value){
+      this.orderService.updateOrder(this.order).subscribe();
+      this.addHistorySystemMessage("Status was modified from \"" + this.enumService.getStatusString(this.originalStatus) + "\" to \"" + this.enumService.getStatusString(this.statusForm.controls['status'].value) + "\"", "STATUS_MODIFIED");
+      this.originalStatus = this.statusForm.controls['status'].value;
+    }
     this.modifyStatus();
-
-    this.addHistorySystemMessage("Status was modified from \"" + this.enumService.getStatusString(this.originalStatus) + "\" to \"" + this.enumService.getStatusString(this.statusForm.controls['status'].value) + "\"", "STATUS_MODIFIED");
   }
 
   getStatuses(): void {
