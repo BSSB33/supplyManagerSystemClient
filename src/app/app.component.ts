@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router'
 import { OrderService } from './services/order.service';
@@ -52,5 +52,12 @@ export class AppComponent {
     || this.url.includes('/orders/')
     || this.url.includes('/users/')
     || this.url.includes('/companies/')
+  }
+
+  //Calls logout(), upon closing window
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    alert("Window closed - logout()")
+    this.logout();
   }
 }

@@ -107,7 +107,7 @@
 
 <!--Progress Bar-->
 <mat-progress-bar
-  *ngIf="this.loadingService.getLoading() && !(this.url === 'logs')" color="warn" mode="indeterminate">
+  *ngIf="this.loadingService.getLoading() && !(this.url == '/logs')" color="warn" mode="indeterminate">
 </mat-progress-bar>
 
 <!--Helper Drower and router-outlet (content)-->

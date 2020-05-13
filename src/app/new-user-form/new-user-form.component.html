@@ -5,7 +5,7 @@
                 <h4 style="margin: 10px;">Register a new User:</h4>
                 <div class="column">
                         <label class="new-user-info">Username:
-                            <mat-form-field style="width: 250px; padding-left:4em">
+                            <mat-form-field style="width: 300px; padding-left:4em">
                                 <input matInput 
                                 #username 
                                 formControlName="username" 
@@ -14,14 +14,14 @@
                                 placeholder="Enter Username"
                                 aria-describedby="titleHelp" />
                                 <mat-error>
-                                    Username must be at least 4 characters long
+                                    Must be at least 4 characters long
                                     and can only contain letters and numbers!
                                 </mat-error>
                             </mat-form-field>
                         </label>
                     <br>
                         <label class="new-user-info">Full Name:
-                            <mat-form-field style="width: 250px; padding-left:4em">
+                            <mat-form-field style="width: 300px; padding-left:4em">
                                 <input matInput 
                                 #fullName 
                                 formControlName="fullName" 
@@ -30,14 +30,14 @@
                                 placeholder="Enter Full Name"
                                 aria-describedby="titleHelp" />
                                 <mat-error>
-                                    Full Name must be at least 4 characters long
-                                    and can only contain Upper or Lowe case letters and White Spaces!
+                                    Must be 4 characters long and can only 
+                                    contain Upper/Lower case letters!
                                 </mat-error>
                             </mat-form-field>
                         </label>
                     <br>
                         <label class="new-user-info">Email Address:
-                            <mat-form-field style="width: 250px; padding-left:2.1em">
+                            <mat-form-field style="width: 270px; padding-left:2.1em">
                                 <input matInput 
                                 #email 
                                 formControlName="email" 
@@ -84,8 +84,8 @@
                             <mat-icon matSuffix (click)="hidePassword = !hidePassword">lock</mat-icon>
                             <mat-error *ngIf="password.invalid">Password is required</mat-error> 
                             <mat-error>
-                                Minimum: 8 characters long and 
-                                must contain at least one Upper and Lower case letter and a number
+                                Min.: 8 characters and 
+                                must contain a number and Upper/Lower case letters 
                             </mat-error>
                         </mat-form-field>
                     </label>

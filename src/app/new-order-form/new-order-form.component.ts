@@ -51,7 +51,7 @@ export class NewOrderFormComponent implements OnInit {
         productPrice: new FormControl('',[
           Validators.required,
           Validators.minLength(2),
-          Validators.pattern('^[0-9]+')
+          Validators.pattern('[0-9]{1,13}(\.[0-9]*)?')
         ]),
         productStatus: new FormControl('', Validators.required),
         seller: new FormControl('', Validators.required),
@@ -69,7 +69,7 @@ export class NewOrderFormComponent implements OnInit {
         productPrice: new FormControl('',[
           Validators.required,
           Validators.minLength(2),
-          Validators.pattern('^[0-9]+')
+          Validators.pattern('[0-9]{1,13}(\.[0-9]*)?')
         ]),
         productStatus: new FormControl('', Validators.required),
         archived: new FormControl(),
@@ -86,7 +86,7 @@ export class NewOrderFormComponent implements OnInit {
         productPrice: new FormControl('',[
           Validators.required,
           Validators.minLength(2),
-          Validators.pattern('^[0-9]+')
+          Validators.pattern('[0-9]{1,13}(\.[0-9]*)?')
         ]),
         productStatus: new FormControl('', Validators.required),
         archived: new FormControl(),

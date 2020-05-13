@@ -17,11 +17,10 @@ export class LogsComponent implements OnInit {
 
   constructor(
     public messageService: MessageService,
-    public loadingService: LoadingService,
     ) { }
 
   ngOnInit(): void {
-    this.messages = this.messageService.messages;
+    this.messages = this.messageService.messages.reverse();
   }
 
 }

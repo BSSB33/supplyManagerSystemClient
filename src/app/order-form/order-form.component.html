@@ -7,7 +7,7 @@
           <mat-card-content>
 
           <label class="order-info" style="padding-left:10em">Product: &nbsp;</label>
-          <mat-form-field style="width: 200px;">
+          <mat-form-field style="width: 250px;">
             <input matInput 
               #productName
               formControlName="productName" 
@@ -23,7 +23,7 @@
           </mat-form-field>
 
           <label class="order-info" style="padding-left:7.5em">Product Price: &nbsp;</label>
-          <mat-form-field style="width: 200px;">
+          <mat-form-field style="width: 250px;">
               <input matInput 
                 #price 
                 formControlName="price" 
@@ -39,7 +39,7 @@
           </mat-form-field>
 
           <label class="order-info" style="padding-left:7em">Product Status: &nbsp;</label>
-          <mat-form-field style="width: 200px;">
+          <mat-form-field style="width: 250px;">
               <mat-select
                 #productStatus 
                 formControlName="status" 
@@ -302,7 +302,7 @@
             <mat-card class="description-card">
               <label class="order-info" style="padding-left:1em">Description: &nbsp;</label>
               <mat-form-field style="width: 400px; height: 400px">
-                <textarea matInput 
+                <textarea matInput class="description"
                   #description
                   formControlName="description" 
                   [(ngModel)] = "order.description"
