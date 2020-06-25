@@ -75,7 +75,7 @@
         <th scope="col" mat-sort-header="seller">Seller Company</th>
         <th scope="col" mat-sort-header="sellerManager">Seller Manager</th>
         <th scope="col" mat-sort-header="createdAt">Creation</th>
-        <th scope="col">Edit</th>
+        <th *ngIf="authService.url != '/myorders'" scope="col">Edit</th>
         <th *ngIf="!this.authService.isAdmin; else adminDeleteTh" scope="col">Archive</th>
         <ng-template #adminDeleteTh>
           <th scope="col">Delete</th>
@@ -91,7 +91,7 @@
         <td *ngIf="order.seller; else unassigned" [routerLink]="['/orders', order.id]">{{order.seller.name}}</td>
         <td *ngIf="order.sellerManager; else unassigned" [routerLink]="['/orders', order.id]">{{order.sellerManager.username}}</td>
         <td *ngIf="order.createdAt; else missing" [routerLink]="['/orders', order.id]">{{order.createdAt | date :  "yyyy. MM. dd."}}</td>
-        <td><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
+        <td *ngIf="authService.url != '/myorders'"><button mat-raised-button color="primary" [routerLink]="['/orders/edit', order.id]">
             <mat-icon>edit</mat-icon>&nbsp;Edit
           </button>
         </td>
