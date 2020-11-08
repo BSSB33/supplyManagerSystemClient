@@ -108,6 +108,22 @@ export class OrderFormComponent implements OnInit {
           description: new FormControl(),
         });
       }
+      //Myorders pages
+      if(this.orderService.href == 'myorders' && !this.authService.isAdmin){
+        this.orderForm = new FormGroup({
+          productName: new FormControl(Validators.required),
+          price: new FormControl('',[
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('[0-9]{1,13}(\.[0-9]*)?')
+          ]),
+          status: new FormControl(),
+          archived: new FormControl(),
+          buyerManager: new FormControl(Validators.required),
+          sellerManager: new FormControl(),
+          description: new FormControl(),
+        });
+      }
     }
 
   ngAfterViewChecked() {
@@ -279,6 +295,7 @@ export class OrderFormComponent implements OnInit {
       var buyerManagerName = this.orderForm.controls['buyerManager'].value;
       this.order.buyerManager = this.managers.find(user => user.username == buyerManagerName);
     }
+    //TODO missing myorders branch
     //If Status modified, create a new History card
     if(this.originalStatus != this.orderForm.controls['status'].value){
       this.addHistorySystemMessage("Status was modified from \"" + this.originalStatus + "\" to \"" + this.orderForm.controls['status'].value + "\"", "STATUS_MODIFIED");
